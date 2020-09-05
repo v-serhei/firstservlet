@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(urlPatterns = "/controller")
-public class FirstServlet extends HttpServlet {
+public class Task1Servlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //объект request - мапа, где ключи - это name элементов на странице
         //a value - это значение атрибута value у этого элемента
@@ -20,10 +20,7 @@ public class FirstServlet extends HttpServlet {
         request.setAttribute("result", sec);
         String button = request.getParameter("submit");
         request.setAttribute("button", button );
-
         request.getRequestDispatcher("/pages/result.jsp").forward(request, response);
-
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

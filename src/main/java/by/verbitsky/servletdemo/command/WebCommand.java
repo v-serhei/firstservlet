@@ -1,5 +1,7 @@
 package by.verbitsky.servletdemo.command;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface WebCommand {
-    void execute();
+    String execute(HttpServletRequest request);
 }

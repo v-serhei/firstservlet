@@ -1,23 +1,21 @@
-package by.verbitsky.servletdemo.factory;
+package by.verbitsky.servletdemo.command;
 
-import by.verbitsky.servletdemo.command.WebCommand;
 import by.verbitsky.servletdemo.command.impl.EmptyCommand;
 import by.verbitsky.servletdemo.commandtype.WebCommandType;
 
-public class WebCommandFactory {
-    private static final String COMMAND = "command";
-
+public class CommandProvider {
     public static WebCommand defineCommand(String requestCommand) {
         if (requestCommand.isEmpty() || requestCommand == null) {
             return new EmptyCommand();
         }
         WebCommandType cmdType;
-        WebCommand command = null;
+        WebCommand command;
         try {
             cmdType = WebCommandType.valueOf(requestCommand.toUpperCase());
             command = cmdType.getCommand();
         } catch (IllegalArgumentException exception) {
-            //todo подумать как вернуть в реквест ошибку
+            //todo подумать как вернуть в реквест ошибку, возможно обернуть в Optional
+            command = new EmptyCommand();
         }
         return command;
     }

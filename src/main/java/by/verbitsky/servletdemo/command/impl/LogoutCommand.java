@@ -4,12 +4,16 @@ import by.verbitsky.servletdemo.command.WebCommand;
 import by.verbitsky.servletdemo.service.AuthService;
 import by.verbitsky.servletdemo.service.impl.UserService;
 
-public class LogoutCommand implements WebCommand {
+import javax.servlet.http.HttpServletRequest;
 
-    private AuthService service = new UserService ();
+public class LogoutCommand implements WebCommand {
+    private static final String USER_NAME = "username";
+    private AuthService service = new UserService();
+
     @Override
-    public void execute() {
-        //todo release this
-        service.logout("");
+    public String execute(HttpServletRequest request) {
+        service.logout(request.getParameter(USER_NAME));
+        request.setAttribute(USER_NAME, "guest");
+        return "/main";
     }
 }
