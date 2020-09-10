@@ -65,7 +65,6 @@ public class ConnectionPoolImpl {
             e.printStackTrace();
         }
         poolSize = Integer.parseInt(properties.getProperty(PROPERTY_POOL_SIZE));
-
         freePool = new ArrayBlockingQueue<>(poolSize);
         activePool = new ArrayBlockingQueue<>(poolSize);
         List<Connection> connectionList = createConnections();
@@ -76,22 +75,23 @@ public class ConnectionPoolImpl {
     }
 
     public Connection getConnection() {
-        int count = activePool.size() + freePool.size();
+        int count = freePool.size() + freePool.size();
         Connection connection = null;
         if (freePool.size() > 0) {
-            connection = verifyConnection(activePool.poll());
+            connection = verifyConnection(freePool.poll());
         } else {
             if (count < poolSize) {
                 connection = createConnection();
             } else {
                 try {
-                    connection = verifyConnection(activePool.take());
+                    connection = verifyConnection(freePool.take());
                 } catch (InterruptedException e) {
                     //todo log this
                     e.printStackTrace();
                 }
             }
         }
+        activePool.add(connection);
         return connection;
     }
 
@@ -108,6 +108,7 @@ public class ConnectionPoolImpl {
                     }
                     result = true;
                 } catch (SQLException throwables) {
+                    //log
                     throwables.printStackTrace();
                 }
             } else {
@@ -115,6 +116,33 @@ public class ConnectionPoolImpl {
             }
         }
         return result;
+    }
+
+    public synchronized void shutdownConnections() {
+        for (Connection connection : activePool) {
+            try {
+                if (connection.getAutoCommit()) {
+                    connection.rollback();
+                }
+                connection.close();
+            } catch (SQLException throwables) {
+                //ignore this or log...
+            }
+        }
+        for (Connection connection : freePool) {
+            try {
+                if (connection.getAutoCommit()) {
+                    connection.rollback();
+                }
+                connection.close();
+            } catch (SQLException throwables) {
+                //ignore this or log...
+            }
+        }
+    }
+
+    public boolean isPoolInitializationState() {
+        return poolInitializationState;
     }
 
     private Connection verifyConnection(Connection connection) {
@@ -126,7 +154,6 @@ public class ConnectionPoolImpl {
         }
         return result;
     }
-
 
     private List<Connection> createConnections() {
         List<Connection> connections = new ArrayList<>();
@@ -153,9 +180,5 @@ public class ConnectionPoolImpl {
             }
         }
         return connection;
-    }
-
-    public boolean isPoolInitializationState() {
-        return poolInitializationState;
     }
 }
