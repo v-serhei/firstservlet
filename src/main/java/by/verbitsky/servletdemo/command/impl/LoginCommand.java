@@ -1,12 +1,12 @@
 package by.verbitsky.servletdemo.command.impl;
 
-import by.verbitsky.servletdemo.command.WebCommand;
+import by.verbitsky.servletdemo.command.Command;
 import by.verbitsky.servletdemo.service.AuthService;
 import by.verbitsky.servletdemo.service.impl.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class LoginCommand implements WebCommand {
+public class LoginCommand implements Command {
     private static final String USER_NAME = "username";
     private static final String USER_PASSWORD = "password";
 

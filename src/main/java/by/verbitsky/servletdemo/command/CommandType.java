@@ -1,10 +1,9 @@
-package by.verbitsky.servletdemo.commandtype;
+package by.verbitsky.servletdemo.command;
 
-import by.verbitsky.servletdemo.command.WebCommand;
 import by.verbitsky.servletdemo.command.impl.LoginCommand;
 import by.verbitsky.servletdemo.command.impl.LogoutCommand;
 
-public enum WebCommandType {
+public enum CommandType {
     LOGIN {
         {
             this.command = new LoginCommand();
@@ -15,9 +14,9 @@ public enum WebCommandType {
         }
     };
 
-    WebCommand command;
+    Command command;
 
-    public WebCommand getCommand() {
+    public Command getCommand() {
         return command;
     }
 }
