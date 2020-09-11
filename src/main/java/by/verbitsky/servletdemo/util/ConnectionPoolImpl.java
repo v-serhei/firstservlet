@@ -19,6 +19,7 @@ public class ConnectionPoolImpl {
     //db connection path in properties
     private static final String PROPERTY_DB_URL = "db.url";
     private static final String PROPERTY_POOL_SIZE = "poolSize";
+    //time in seconds
     private static final int DEFAULT_CONNECTION_VALIDATION_TIME = 1;
     private static final String SQL_VERIFY_QUERY = "select 1";
     private final Properties properties = new Properties();
