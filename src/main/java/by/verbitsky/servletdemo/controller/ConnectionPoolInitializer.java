@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServlet;
 
 @WebServlet("/pool")
 public class ConnectionPoolInitializer extends HttpServlet {
-    private static final String DB_PROPERTIES_FILE = "db/dbconnection.properties";
-
     @Override
     public void init() {
         ConnectionPoolImpl.getInstance().initConnectionPool();
