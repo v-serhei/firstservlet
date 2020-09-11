@@ -1,5 +1,9 @@
 package by.verbitsky.servletdemo.util;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -14,6 +18,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPoolImpl {
     private static volatile ConnectionPoolImpl instance;
+    private final Logger logger = LogManager.getLogger();
     //path to property resource
     private static final String DB_PROPERTIES_FILE = "db/dbconnection.properties";
     //db connection path in properties
@@ -30,8 +35,6 @@ public class ConnectionPoolImpl {
     private BlockingQueue<Connection> activePool;
 
     private ConnectionPoolImpl() {
-        //todo дописать логи
-        System.out.println("Start init poll");
     }
 
     public static ConnectionPoolImpl getInstance() {
@@ -49,20 +52,22 @@ public class ConnectionPoolImpl {
     }
 
     public void initConnectionPool() {
+      logger.log(Level.INFO, "Connection pool initializing");
         if (!initialized) {
             InputStream propertyFileInputStream = getClass().getClassLoader().getResourceAsStream(DB_PROPERTIES_FILE);
             try {
                 properties.load(propertyFileInputStream);
+                Class.forName("com.mysql.cj.jdbc.Driver");
                 maxPoolSize = Integer.parseInt(properties.getProperty(PROPERTY_POOL_SIZE));
                 freePool = new ArrayBlockingQueue<>(maxPoolSize);
                 activePool = new ArrayBlockingQueue<>(maxPoolSize);
                 List<Connection> connections = createConnections();
                 freePool.addAll(connections);
                 initialized = true;
-            } catch (IOException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 initialized = false;
-                //todo заменить на вызов страницы с ошибкой
-                e.printStackTrace();
+                //todo вызов страницы с ошибкой
+                logger.log(Level.ERROR, "Error while connection pool initializing.", e);
             }
         }
     }

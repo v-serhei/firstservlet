@@ -1,8 +1,8 @@
 package by.verbitsky.servletdemo.service.impl;
 
-import by.verbitsky.servletdemo.service.AuthService;
+import by.verbitsky.servletdemo.service.AuthorizationService;
 
-public class UserService implements AuthService {
+public class UserService implements AuthorizationService {
     //stub for DAO
     private static final String USER_NAME = "admin";
     private static final String USER_PASSWORD = "admin";

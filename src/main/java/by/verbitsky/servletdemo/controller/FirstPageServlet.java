@@ -10,6 +10,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/index.jsp")
 public class FirstPageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        getServletContext().getRequestDispatcher("/systemServlet_poolInitServlet").include(request , response);
         response.sendRedirect("main");
     }
 }

@@ -5,7 +5,7 @@ import by.verbitsky.servletdemo.util.ConnectionPoolImpl;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
-@WebServlet("/pool")
+@WebServlet ("/systemServlet_poolInitServlet")
 public class ConnectionPoolInitializer extends HttpServlet {
     @Override
     public void init() {

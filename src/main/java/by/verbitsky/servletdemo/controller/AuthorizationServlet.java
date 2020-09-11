@@ -12,10 +12,10 @@ import java.io.IOException;
 
 @WebServlet("/auth-action")
 public class AuthorizationServlet extends HttpServlet {
-    private static final String FORM_ACTION_PARAMETER = "action";
+    private static final String FORM_ACTION_PARAMETER_NAME = "action";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String cmd = request.getParameter(FORM_ACTION_PARAMETER);
+        String cmd = request.getParameter(FORM_ACTION_PARAMETER_NAME);
         Command command = CommandProvider.defineCommand(cmd);
         if (command == null) {
             response.sendRedirect("main");
