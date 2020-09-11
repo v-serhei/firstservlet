@@ -4,7 +4,6 @@ import by.verbitsky.servletdemo.util.ConnectionPoolImpl;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
-import java.io.InputStream;
 
 @WebServlet("/pool")
 public class ConnectionPoolInitializer extends HttpServlet {
@@ -12,8 +11,6 @@ public class ConnectionPoolInitializer extends HttpServlet {
 
     @Override
     public void init() {
-        ConnectionPoolImpl pool = ConnectionPoolImpl.getInstance();
-        InputStream propertyFileInputStream = getClass().getClassLoader().getResourceAsStream(DB_PROPERTIES_FILE);
-        pool.initConnectionPool(propertyFileInputStream);
+        ConnectionPoolImpl.getInstance().initConnectionPool();
     }
 }

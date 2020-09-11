@@ -14,29 +14,18 @@ import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPoolImpl {
     private static volatile ConnectionPoolImpl instance;
-    private static final Properties properties = new Properties();
+    //path to property resource
+    private static final String DB_PROPERTIES_FILE = "db/dbconnection.properties";
+    //db connection path in properties
     private static final String PROPERTY_DB_URL = "db.url";
     private static final String PROPERTY_POOL_SIZE = "poolSize";
     private static final int DEFAULT_CONNECTION_VALIDATION_TIME = 1;
     private static final String SQL_VERIFY_QUERY = "select 1";
-    private boolean poolInitializationState;
-    private int poolSize;
+    private final Properties properties = new Properties();
+    private final Object MONITOR = new Object();
+    private int maxPoolSize;
     private BlockingQueue<Connection> freePool;
     private BlockingQueue<Connection> activePool;
-    /*
-
-    db.driver=com.mysql.cj.jdbc.Driver
-    db.url = jdbc:mysql://localhost:3306/web_application
-    encoding = UTF-8
-    useJDBCCompliantTimezoneShift = true
-    password = webroot
-    poolSize = 32
-    serverTimezone = UTC
-    useLegacyDatetimeCode = false
-    user = webapp
-    useUnicode = true
-    * */
-
 
     private ConnectionPoolImpl() {
         //todo дописать логи
@@ -57,30 +46,29 @@ public class ConnectionPoolImpl {
         return localPool;
     }
 
-    public void initConnectionPool(InputStream stream) {
+    public void initConnectionPool() {
+        InputStream propertyFileInputStream = getClass().getClassLoader().getResourceAsStream(DB_PROPERTIES_FILE);
         try {
-            properties.load(stream);
+            properties.load(propertyFileInputStream);
+            System.out.println("db url:" + (properties.getProperty(PROPERTY_DB_URL)));
+            maxPoolSize = Integer.parseInt(properties.getProperty(PROPERTY_POOL_SIZE));
+            freePool = new ArrayBlockingQueue<>(maxPoolSize);
+            activePool = new ArrayBlockingQueue<>(maxPoolSize);
+            List<Connection> connections = createConnections();
+            freePool.addAll(connections);
         } catch (IOException e) {
             //todo заменить на вызов страницы с ошибкой
             e.printStackTrace();
         }
-        poolSize = Integer.parseInt(properties.getProperty(PROPERTY_POOL_SIZE));
-        freePool = new ArrayBlockingQueue<>(poolSize);
-        activePool = new ArrayBlockingQueue<>(poolSize);
-        List<Connection> connectionList = createConnections();
-        if (connectionList != null) {
-            freePool.addAll(createConnections());
-            poolInitializationState = true;
-        }
     }
 
     public Connection getConnection() {
-        int count = freePool.size() + freePool.size();
         Connection connection = null;
+        int count = freePool.size() + activePool.size();
         if (freePool.size() > 0) {
             connection = verifyConnection(freePool.poll());
         } else {
-            if (count < poolSize) {
+            if (count < maxPoolSize) {
                 connection = createConnection();
             } else {
                 try {
@@ -95,8 +83,7 @@ public class ConnectionPoolImpl {
         return connection;
     }
 
-    public boolean releaseConnection(Connection connection) {
-        boolean result = false;
+    public void releaseConnection(Connection connection) {
         if (connection != null) {
             if (activePool.remove(connection)) {
                 try {
@@ -106,7 +93,6 @@ public class ConnectionPoolImpl {
                         Connection updatedConnection = createConnection();
                         freePool.add(updatedConnection);
                     }
-                    result = true;
                 } catch (SQLException throwables) {
                     //log
                     throwables.printStackTrace();
@@ -115,42 +101,80 @@ public class ConnectionPoolImpl {
                 //todo log this
             }
         }
-        return result;
     }
 
-    public synchronized void shutdownConnections() {
+    public void rebuildPoolConnections() {
+        synchronized (MONITOR) {
+            shutdownAllConnections();
+            List<Connection> connections = createConnections();
+            freePool.addAll(connections);
+        }
+    }
+
+    private void shutdownAllConnections() {
         for (Connection connection : activePool) {
             try {
-                if (connection.getAutoCommit()) {
-                    connection.rollback();
+                if (connection != null) {
+                    if (connection.getAutoCommit()) {
+                        connection.rollback();
+                    }
+                    connection.close();
                 }
-                connection.close();
             } catch (SQLException throwables) {
                 //ignore this or log...
             }
         }
         for (Connection connection : freePool) {
-            try {
-                if (connection.getAutoCommit()) {
-                    connection.rollback();
+            if (connection != null) {
+                try {
+                    if (connection.getAutoCommit()) {
+                        connection.rollback();
+                    }
+                    connection.close();
+                } catch (SQLException throwables) {
+                    //ignore this or log...
                 }
-                connection.close();
-            } catch (SQLException throwables) {
-                //ignore this or log...
+            }
+        }
+        activePool.clear();
+        freePool.clear();
+    }
+
+    private void shutdownConnection(Connection connection) {
+        synchronized (MONITOR) {
+            if (freePool.remove(connection)) {
+                try {
+                    if (connection.getAutoCommit()) {
+                        connection.rollback();
+                    }
+                    connection.close();
+                } catch (SQLException throwables) {
+                    //ignore this or log...
+                }
+                try {
+                    if (connection.getAutoCommit()) {
+                        connection.rollback();
+                    }
+                    connection.close();
+                } catch (SQLException throwables) {
+                    //ignore this or log...
+                }
             }
         }
     }
 
-    public boolean isPoolInitializationState() {
-        return poolInitializationState;
-    }
-
     private Connection verifyConnection(Connection connection) {
-        Connection result = connection;
-        try (Statement st = connection.createStatement()) {
-            st.executeQuery(SQL_VERIFY_QUERY);
-        } catch (SQLException e) {
+        Connection result;
+        if (connection == null) {
             result = createConnection();
+        } else {
+            try (Statement testStatement = connection.createStatement()) {
+                testStatement.executeQuery(SQL_VERIFY_QUERY);
+                result = connection;
+            } catch (SQLException e) {
+                shutdownConnection(connection);
+                result = createConnection();
+            }
         }
         return result;
     }
@@ -158,10 +182,10 @@ public class ConnectionPoolImpl {
     private List<Connection> createConnections() {
         List<Connection> connections = new ArrayList<>();
         int count;
-        if (poolSize < 10) {
-            count = poolSize;
+        if (maxPoolSize < 10) {
+            count = maxPoolSize;
         } else {
-            count = poolSize / 2;
+            count = maxPoolSize / 2;
         }
         for (int i = 0; i < count; i++) {
             connections.add(createConnection());
@@ -171,13 +195,11 @@ public class ConnectionPoolImpl {
 
     private Connection createConnection() {
         Connection connection = null;
-        if (isPoolInitializationState()) {
-            try {
-                connection = DriverManager.getConnection(properties.getProperty(PROPERTY_DB_URL), properties);
-            } catch (SQLException throwables) {
-                //todo log this
-                throwables.printStackTrace();
-            }
+        try {
+            connection = DriverManager.getConnection(properties.getProperty(PROPERTY_DB_URL), properties);
+        } catch (SQLException throwables) {
+            //todo log this
+            throwables.printStackTrace();
         }
         return connection;
     }
