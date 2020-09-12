@@ -1,0 +1,93 @@
+body {
+    font: 10pt Arial, Helvetica, sans-serif; /* Шрифт на веб-странице */
+    background: #e1dfb9; /* Цвет фона */
+}
+
+h2 {
+    font-size: 1.1em; /* Размер шрифта */
+    color: #800040; /* Цвет текста */
+    margin-top: 0; /* Отступ сверху */
+}
+
+h3 {
+    text-align: center;
+}
+
+#container {
+    width: 80%; /* Ширина слоя */
+    height: 900px;
+    margin: 0 auto; /* Выравнивание по центру */
+    background: #f0f0f0; /* Цвет фона левой колонки */
+
+}
+
+#header {
+    font-size: 2.2em; /* Размер текста */
+    text-align: center; /* Выравнивание по центру */
+    padding: 5px; /* Отступы вокруг текста */
+    background: #8fa09b; /* Цвет фона шапки */
+    color: #ffe; /* Цвет текста */
+}
+
+#sidebar {
+    margin-top: 10px;
+    width: 150px; /* Ширина слоя */
+    padding: 0 10px; /* Отступы вокруг текста */
+    float: left; /* Обтекание по правому краю */
+}
+#loginblock, #logoutblock {
+    margin-top: 70px;
+    padding: 0 10px;
+    width: 80px;
+}
+#loginbtn, #registerbtn, #logoutbtn {
+    border-radius: 4px;
+    font-size: small;
+    alignment: center;
+}
+
+#content {
+    margin-left: 180px; /* Отступ слева */
+    padding: 10px; /* Поля вокруг текста */
+    background: #fff; /* Цвет фона правой колонки */
+}
+
+#footer {
+    width: 80%;
+    margin: 0 auto;
+    background: #8fa09b; /* Цвет фона подвала */
+    color: #fff; /* Цвет текста */
+    clear: left; /* Отменяем действие float */
+}
+#registerheader, #loginheader {
+    width: 30%; /* Ширина слоя */
+    height: 40px;
+    margin-top: 10px;
+    padding-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#regdivelements, #regformdiv {
+    display: block;
+    text-align: center;
+    width: 30%; /* Ширина слоя */
+    height: 300px;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#usernamefield, #pass1field, #pass2field, #emailfield, #usernamefield{
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    width: 80%;
+}
+
+#registerbtn, #loginbtn {
+    box-sizing: border-box;
+    margin-top: 25px;
+    font-size: 12px;
+    width: 50%;
+}
+
+
+

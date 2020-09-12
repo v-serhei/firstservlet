@@ -14,23 +14,35 @@ public class MainPageServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+       /*
         String userName = (String) request.getAttribute(USER_NAME);
         if (userName.equals(DEFAULT_USER_NAME)) {
             doGet(request, response);
         }
         request.getRequestDispatcher("/pages/main.jsp").forward(request, response);
         //todo подменить ссылку через javascript
+
+        */
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //todo посмотреть как сделать через session and cookies
+       /*
         String errorVisible = (String) request.getAttribute("errorVisible");
+        //обработать сессию
+        getServletContext().getRequestDispatcher("/system_session_processor").include(request, response);
+
         if (errorVisible == null) {
             request.setAttribute("errorVisible", "none"); //лучше передать через атрибут сессии
         }
         request.setAttribute("username", "guest");
         request.setAttribute("authBlockVisible", "block"); //лучше передать через атрибут сессии
         request.setAttribute("logoutBlockVisible", "none");
+
+        */
         request.getRequestDispatcher("/pages/main.jsp").forward(request, response);
+
+
     }
 }

@@ -20,7 +20,7 @@ public class Task1Servlet extends HttpServlet {
         request.setAttribute("result", sec);
         String button = request.getParameter("submit");
         request.setAttribute("button", button );
-        request.getRequestDispatcher("/pages/result.jsp").forward(request, response);
+        request.getRequestDispatcher("/pages/registration.jsp").forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
