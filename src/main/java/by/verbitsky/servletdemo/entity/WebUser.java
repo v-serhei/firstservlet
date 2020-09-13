@@ -6,11 +6,29 @@ public class WebUser {
     private HttpSession session;
     private String userName;
     private String email;
+    private String userPassword;
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
 
     public WebUser(HttpSession session, String userName, String email) {
         this.session = session;
         this.userName = userName;
         this.email = email;
+    }
+    public WebUser(String userName, String email) {
+        this.userName = userName;
+        this.email = email;
+    }
+    public WebUser(String userName, String password, String email) {
+        this.userName = userName;
+        this.email = email;
+        this.userPassword = password;
     }
 
     public HttpSession getSession() {

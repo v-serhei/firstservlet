@@ -3,6 +3,7 @@ package by.verbitsky.servletdemo.command.impl;
 import by.verbitsky.servletdemo.command.Command;
 import by.verbitsky.servletdemo.command.CommandResult;
 import by.verbitsky.servletdemo.command.RegisterResult;
+import by.verbitsky.servletdemo.entity.WebUser;
 import by.verbitsky.servletdemo.service.impl.UserService;
 import by.verbitsky.servletdemo.util.WebResourcesManager;
 
@@ -72,6 +73,8 @@ public class RegisterCommand implements Command {
             return result;
         }
         String page = WebResourcesManager.getInstance().getProperty(LOGIN_PAGE);
+        WebUser user = new WebUser(request.getSession(false),userName, email);
+        UserService.INSTANCE.addRegisteredUser(user, firstPassword);
         result.setResultUrl(page);
         return result;
     }

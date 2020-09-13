@@ -1,5 +1,7 @@
 package by.verbitsky.servletdemo.service;
 
+import by.verbitsky.servletdemo.entity.WebUser;
+
 import javax.servlet.http.HttpSession;
 
 public interface AuthorizationService {
@@ -11,5 +13,7 @@ public interface AuthorizationService {
 
     boolean existUserEmail(String email);
 
-    boolean existUserName(String email);
+    boolean existUserName(String userName);
+
+    boolean addRegisteredUser (WebUser user, String password);
 }
