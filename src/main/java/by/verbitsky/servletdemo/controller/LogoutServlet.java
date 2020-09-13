@@ -21,11 +21,10 @@ public class LogoutServlet extends HttpServlet {
     private static final String RESULT_PAGE = "attr.result.page";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("словили ду пост в логауте");
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("словили ду гет в логауте");
         String commandParameter = WebResourcesManager.getInstance().getProperty(FORM_ACTION);
         String cmd = request.getParameter(commandParameter);
         Command command = CommandProvider.defineCommand(cmd);
@@ -38,7 +37,6 @@ public class LogoutServlet extends HttpServlet {
         UserService.INSTANCE.processNewSession(request.getSession(true));
         //addRequestParams(result, request);
         String page = result.getAttribute(resultPageParam);
-        System.out.println("Перенаправляем на страницу: "+page);
         request.getRequestDispatcher(page).forward(request, response);
     }
     private void addRequestParams (CommandResult result, HttpServletRequest request) {
