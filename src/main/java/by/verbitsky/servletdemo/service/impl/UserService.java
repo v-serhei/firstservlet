@@ -4,6 +4,7 @@ import by.verbitsky.servletdemo.entity.WebUser;
 import by.verbitsky.servletdemo.service.AuthorizationService;
 import by.verbitsky.servletdemo.service.SessionService;
 import by.verbitsky.servletdemo.util.WebResourcesManager;
+import org.apache.commons.validator.routines.EmailValidator;
 
 import javax.servlet.http.HttpSession;
 
@@ -44,22 +45,42 @@ public enum UserService implements AuthorizationService, SessionService {
         userSession.invalidate();
     }
 
+    @Override
+    public boolean validateUserEmail(String email) {
+        boolean result = EmailValidator.getInstance().isValid(email);
+        return result;
+    }
+
+    @Override
+    public boolean existUserEmail(String email) {
+        //todo logic
+        return false;
+    }
+
+
+    @Override
+    public boolean existUserName(String email) {
+        //todo logic
+        return false;
+    }
 
     @Override
     public void processNewSession(HttpSession session) {
-        if (session.isNew()) {
-            session.setMaxInactiveInterval(DEFAULT_SESSION_LIVE_TIME);
-            String attrName = WebResourcesManager.getInstance().getProperty(ATTR_SESSION_USER);
-            WebUser user = new WebUser(session, DEFAULT_USER_NAME, DEFAULT_USER_EMAIL);
-            session.setAttribute(attrName, user);
-            attrName = WebResourcesManager.getInstance().getProperty(ATTR_SESSION_LOGIN_RESULT);
-            session.setAttribute(attrName, DEFAULT_LOGIN_RESULT);
-            attrName = WebResourcesManager.getInstance().getProperty(LOGIN_BLOCK);
-            session.setAttribute(attrName, DISPLAY_VALUE_TRUE);
-            attrName= WebResourcesManager.getInstance().getProperty(LOGOUT_BLOCK);
-            session.setAttribute(attrName, DISPLAY_VALUE_FALSE);
-            attrName= WebResourcesManager.getInstance().getProperty(USER_GREETING);
-            session.setAttribute(attrName, HELLO_MESSAGE.concat(user.getUserName()));
+        if (session != null) {
+            if (session.isNew()) {
+                session.setMaxInactiveInterval(DEFAULT_SESSION_LIVE_TIME);
+                String attrName = WebResourcesManager.getInstance().getProperty(ATTR_SESSION_USER);
+                WebUser user = new WebUser(session, DEFAULT_USER_NAME, DEFAULT_USER_EMAIL);
+                session.setAttribute(attrName, user);
+                attrName = WebResourcesManager.getInstance().getProperty(ATTR_SESSION_LOGIN_RESULT);
+                session.setAttribute(attrName, DEFAULT_LOGIN_RESULT);
+                attrName = WebResourcesManager.getInstance().getProperty(LOGIN_BLOCK);
+                session.setAttribute(attrName, DISPLAY_VALUE_TRUE);
+                attrName= WebResourcesManager.getInstance().getProperty(LOGOUT_BLOCK);
+                session.setAttribute(attrName, DISPLAY_VALUE_FALSE);
+                attrName= WebResourcesManager.getInstance().getProperty(USER_GREETING);
+                session.setAttribute(attrName, HELLO_MESSAGE.concat(user.getUserName()));
+            }
         }
     }
 

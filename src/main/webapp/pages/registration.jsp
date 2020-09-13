@@ -10,7 +10,7 @@
 <body>
 <div id="container">
     <div>
-        <form action="controller" method="post">
+        <form action="registration" method="post">
             <div id="registerheader">
                 <h3>Регистрация нового пользователя</h3>
             </div>
@@ -35,7 +35,8 @@
                 <br/>
                 <input id="registerbtn" type="submit" name="action" value="Register">
                 <br/>
-                <span id="errorlabel"> ${registrationErrorMessage} </span>
+                <br/>
+                <span id="errorlabel" style="margin-top: 10px"> ${registrationErrorMessage} </span>
             </div>
         </form>
     </div>

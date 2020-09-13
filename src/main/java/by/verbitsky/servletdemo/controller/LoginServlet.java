@@ -17,14 +17,14 @@ import java.util.Set;
 
 @WebServlet(urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
-    private static final String FORM_ACTION_PARAMETER_NAME = "param.jsp.commandtype";
-    private static final String RESULT_PAGE_PARAMETER_NAME = "attr.result.page";
+    private static final String FORM_ACTION = "param.jsp.commandtype";
+    private static final String RESULT_PAGE = "attr.result.page";
     private static final String LOGIN_PAGE_PATH = "pages.jsp.login";
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserService.INSTANCE.processNewSession(request.getSession(true));
-        String commandParameter = WebResourcesManager.getInstance().getProperty(FORM_ACTION_PARAMETER_NAME);
+        String commandParameter = WebResourcesManager.getInstance().getProperty(FORM_ACTION);
         String cmd = request.getParameter(commandParameter);
         Command command = CommandProvider.defineCommand(cmd);
         /*
@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet {
             //todo redirect to error page
         }*/
         CommandResult result = command.execute(request);
-        String resultPageParam = WebResourcesManager.getInstance().getProperty(RESULT_PAGE_PARAMETER_NAME);
+        String resultPageParam = WebResourcesManager.getInstance().getProperty(RESULT_PAGE);
         addRequestParams(result, request);
         String page = result.getAttribute(resultPageParam);
         request.getRequestDispatcher(page).forward(request, response);
