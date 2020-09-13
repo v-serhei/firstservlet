@@ -10,20 +10,20 @@
 <body>
 <div id="container">
     <div id="sidebar">
-        <h4> ${usergreeting} </h4>
-        <div id="loginblock" style="display:${displaylogindiv}">
+        <h4> ${userGreetings} </h4>
+        <div id="loginblock" style="display:${displayLoginDiv}">
             <form action="login" method="get">
-                <input type="submit" style="margin: 0 auto" id="login" value="Login">
+                <input type="submit" style="margin: 0 auto" id="login" name="action" value="Login">
             </form>
             <span style="alignment: center"> Or </span>
             <form action="registration" method="get">
-                <input type="submit" id="register" value="Registration">
+                <input type="submit" id="register" name="action" value="Registration">
             </form>
             <br/>
         </div>
-        <div id="logoutblock" style="display:${displaylogoutdiv}">
+        <div id="logoutblock" style="display:${displayLogoutDiv}">
             <form action="" method="get">
-                <input type="submit" id="logout" value="Logout">
+                <input type="submit" id="logout" name="action" value="Logout">
             </form>
         </div>
     </div>

@@ -2,23 +2,23 @@ package by.verbitsky.servletdemo.util;
 
 import java.util.ResourceBundle;
 
-public class ProjectManager {
-    private static volatile ProjectManager instance;
+public class WebResourcesManager {
+    private static volatile WebResourcesManager instance;
     private static ResourceBundle bundle;
     private static final String RESOURCE_NAME = "jsp/config";
 
 
-    private ProjectManager() {
+    private WebResourcesManager() {
         bundle = ResourceBundle.getBundle(RESOURCE_NAME);
     }
 
-    public static ProjectManager getInstance() {
-        ProjectManager localManager = ProjectManager.instance;
+    public static WebResourcesManager getInstance() {
+        WebResourcesManager localManager = WebResourcesManager.instance;
         if (instance == null) {
-            synchronized (ProjectManager.class) {
+            synchronized (WebResourcesManager.class) {
                 localManager = instance;
                 if (localManager == null) {
-                    instance = new ProjectManager();
+                    instance = new WebResourcesManager();
                     localManager = instance;
                 }
             }

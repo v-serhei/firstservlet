@@ -21,21 +21,21 @@
                 <br/>
                 <label for="pass1field">Пароль</label>
                 <br/>
-                <input id="pass1field" type="password" name="fieldName">
+                <input id="pass1field" type="password" name="fieldPassword">
                 <br/>
                 <label for="pass2field">Повторите пароль</label>
                 <br/>
-                <input id="pass2field" type="password" name="fieldName">
+                <input id="pass2field" type="password" name="fieldPassword2">
                 <br/>
                 <label for="emailfield">Почта</label>
                 <br/>
-                <input id="emailfield" type="text" name="fieldName">
+                <input id="emailfield" type="text" name="fieldEmail">
                 <br/>
                 <br/>
                 <br/>
-                <input id="registerbtn" type="submit" name="registerbtn" value="Register">
+                <input id="registerbtn" type="submit" name="action" value="Register">
                 <br/>
-                <label id="errorlabel"> ${registrationerrormessage} </label>
+                <span id="errorlabel"> ${registrationErrorMessage} </span>
             </div>
         </form>
     </div>

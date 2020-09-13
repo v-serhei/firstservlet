@@ -1,6 +1,6 @@
 package by.verbitsky.servletdemo.controller;
 
-import by.verbitsky.servletdemo.util.ProjectManager;
+import by.verbitsky.servletdemo.util.WebResourcesManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,13 +14,13 @@ public class RegistrationServlet extends HttpServlet {
     private static final String REGISTRATION_PAGE_PASS = "pages.jsp.registration";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String mainJsp = ProjectManager.getInstance().getProperty(REGISTRATION_PAGE_PASS);
+        String mainJsp = WebResourcesManager.getInstance().getProperty(REGISTRATION_PAGE_PASS);
         //todo registration logic
         request.getRequestDispatcher(mainJsp).forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String mainJsp = ProjectManager.getInstance().getProperty(REGISTRATION_PAGE_PASS);
+        String mainJsp = WebResourcesManager.getInstance().getProperty(REGISTRATION_PAGE_PASS);
         //todo registration logic
         request.getRequestDispatcher(mainJsp).forward(request, response);
     }

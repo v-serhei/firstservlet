@@ -2,6 +2,7 @@ package by.verbitsky.servletdemo.command;
 
 import by.verbitsky.servletdemo.command.impl.LoginCommand;
 import by.verbitsky.servletdemo.command.impl.LogoutCommand;
+import by.verbitsky.servletdemo.command.impl.RegisterCommand;
 
 public enum CommandType {
     LOGIN {
@@ -11,6 +12,10 @@ public enum CommandType {
     }, LOGOUT {
         {
             this.command = new LogoutCommand();
+        }
+    }, REGISTER {
+        {
+            this.command = new RegisterCommand();
         }
     };
 

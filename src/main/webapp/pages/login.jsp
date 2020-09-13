@@ -7,7 +7,7 @@
 <body>
 <div id="container">
     <div>
-        <form action="controller" method="post">
+        <form action="login" method="post">
             <div id="loginheader">
                 <h3>Вход</h3>
             </div>
@@ -18,13 +18,14 @@
                 <br/>
                 <label for="pass1field" style="align-self: center">Пароль</label>
                 <br/>
-                <input id="pass1field" type="password" name="fieldName">
+                <input id="pass1field" type="password" name="fieldPassword">
                 <br/>
-                <input type="submit" name="loginbtn" value="Login">
+                <input type="submit" name="action" value="Login">
+                <br/>
+                <br/>
+                <span id="errorlabel"> ${loginErrorMessage} </span>
             </div>
-
         </form>
-        <label id="errorlabel"> ${loginerrormessage} </label>
     </div>
 </div>
 </body>

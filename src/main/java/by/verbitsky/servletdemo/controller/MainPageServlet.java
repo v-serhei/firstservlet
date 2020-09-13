@@ -23,7 +23,7 @@ public class MainPageServlet extends HttpServlet {
         //todo подменить ссылку через javascript
 
         */
-
+        System.out.println("main page do post");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,7 +42,7 @@ public class MainPageServlet extends HttpServlet {
 
         */
         request.getRequestDispatcher("/pages/main.jsp").forward(request, response);
-
+        System.out.println("main page do get");
 
     }
 }
