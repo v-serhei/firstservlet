@@ -12,7 +12,6 @@ public abstract class CommandResult {
     }
 
     public void addAttribute(String name, String value) {
-        System.out.println("добавляем атрибут, name= "+name+" value="+value);
         results.put(name, value);
     }
 

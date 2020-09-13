@@ -10,8 +10,8 @@
 <body>
 <div id="container">
     <div id="sidebar">
-        <h4> ${userGreetings} </h4>
-        <div id="loginblock" style="display:${displayLoginDiv}">
+        <h4> ${sessionScope.userGreetings} </h4>
+        <div id="loginblock" style="display:${sessionScope.displayLoginDiv}">
             <form action="login" method="get">
                 <input type="submit" style="margin: 0 auto" id="login" name="action" value="Login">
             </form>
@@ -21,8 +21,8 @@
             </form>
             <br/>
         </div>
-        <div id="logoutblock" style="display:${displayLogoutDiv}">
-            <form action="" method="get">
+        <div id="logoutblock" style="display:${sessionScope.displayLogoutDiv}">
+            <form action="logout" method="get">
                 <input type="submit" id="logout" name="action" value="Logout">
             </form>
         </div>
@@ -32,6 +32,13 @@
         <h3 style="align-content: center">Hello, Servlet World!</h3>
     </div>
 </div>
-<div id="footer">подвал</div>
+<div id="footer">подвал
+
+${sessionScope.userGreetings}
+${sessionScope.displayLogoutDiv}
+${sessionScope.displayLoginDiv}
+${sessionScope.loginResult}
+
+</div>
 </body>
 </html>

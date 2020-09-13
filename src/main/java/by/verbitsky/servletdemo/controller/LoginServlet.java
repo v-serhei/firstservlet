@@ -3,6 +3,7 @@ package by.verbitsky.servletdemo.controller;
 import by.verbitsky.servletdemo.command.Command;
 import by.verbitsky.servletdemo.command.CommandProvider;
 import by.verbitsky.servletdemo.command.CommandResult;
+import by.verbitsky.servletdemo.service.impl.UserService;
 import by.verbitsky.servletdemo.util.WebResourcesManager;
 
 import javax.servlet.ServletException;
@@ -22,7 +23,7 @@ public class LoginServlet extends HttpServlet {
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("login page do post");
+        UserService.INSTANCE.processNewSession(request.getSession(true));
         String commandParameter = WebResourcesManager.getInstance().getProperty(FORM_ACTION_PARAMETER_NAME);
         String cmd = request.getParameter(commandParameter);
         Command command = CommandProvider.defineCommand(cmd);
@@ -39,7 +40,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("login page do get");
+        UserService.INSTANCE.processNewSession(request.getSession(true));
         String page = WebResourcesManager.getInstance().getProperty(LOGIN_PAGE_PATH);
         request.getRequestDispatcher(page).forward(request, response);
     }

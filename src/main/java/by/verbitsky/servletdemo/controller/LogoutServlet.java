@@ -3,6 +3,7 @@ package by.verbitsky.servletdemo.controller;
 import by.verbitsky.servletdemo.command.Command;
 import by.verbitsky.servletdemo.command.CommandProvider;
 import by.verbitsky.servletdemo.command.CommandResult;
+import by.verbitsky.servletdemo.service.impl.UserService;
 import by.verbitsky.servletdemo.util.WebResourcesManager;
 
 import javax.servlet.ServletException;
@@ -16,15 +17,16 @@ import java.util.Set;
 
 @WebServlet(urlPatterns = "/logout")
 public class LogoutServlet extends HttpServlet {
-    private static final String FORM_ACTION_PARAMETER_NAME = "param.jsp.commandtype";
-    private static final String RESULT_PAGE_PARAMETER_NAME = "attr.result.page";
+    private static final String FORM_ACTION = "param.jsp.commandtype";
+    private static final String RESULT_PAGE = "attr.result.page";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        System.out.println("словили ду пост в логауте");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String commandParameter = WebResourcesManager.getInstance().getProperty(FORM_ACTION_PARAMETER_NAME);
+        System.out.println("словили ду гет в логауте");
+        String commandParameter = WebResourcesManager.getInstance().getProperty(FORM_ACTION);
         String cmd = request.getParameter(commandParameter);
         Command command = CommandProvider.defineCommand(cmd);
         /*
@@ -32,9 +34,11 @@ public class LogoutServlet extends HttpServlet {
             //todo redirect to error page
         }*/
         CommandResult result = command.execute(request);
-        String resultPageParam = WebResourcesManager.getInstance().getProperty(RESULT_PAGE_PARAMETER_NAME);
-        addRequestParams(result, request);
+        String resultPageParam = WebResourcesManager.getInstance().getProperty(RESULT_PAGE);
+        UserService.INSTANCE.processNewSession(request.getSession(true));
+        //addRequestParams(result, request);
         String page = result.getAttribute(resultPageParam);
+        System.out.println("Перенаправляем на страницу: "+page);
         request.getRequestDispatcher(page).forward(request, response);
     }
     private void addRequestParams (CommandResult result, HttpServletRequest request) {

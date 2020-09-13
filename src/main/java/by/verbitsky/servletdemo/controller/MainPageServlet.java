@@ -1,5 +1,8 @@
 package by.verbitsky.servletdemo.controller;
 
+import by.verbitsky.servletdemo.service.impl.UserService;
+import by.verbitsky.servletdemo.util.WebResourcesManager;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,40 +12,16 @@ import java.io.IOException;
 
 @WebServlet("/main")
 public class MainPageServlet extends HttpServlet {
-    private static final String USER_NAME = "username";
-    private static final String DEFAULT_USER_NAME = "guest";
+    private static final String MAIN_PAGE_URL = "pages.jsp.main";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       /*
-        String userName = (String) request.getAttribute(USER_NAME);
-        if (userName.equals(DEFAULT_USER_NAME)) {
-            doGet(request, response);
-        }
-        request.getRequestDispatcher("/pages/main.jsp").forward(request, response);
-        //todo подменить ссылку через javascript
 
-        */
-        System.out.println("main page do post");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //todo посмотреть как сделать через session and cookies
-       /*
-        String errorVisible = (String) request.getAttribute("errorVisible");
-        //обработать сессию
-        getServletContext().getRequestDispatcher("/system_session_processor").include(request, response);
-
-        if (errorVisible == null) {
-            request.setAttribute("errorVisible", "none"); //лучше передать через атрибут сессии
-        }
-        request.setAttribute("username", "guest");
-        request.setAttribute("authBlockVisible", "block"); //лучше передать через атрибут сессии
-        request.setAttribute("logoutBlockVisible", "none");
-
-        */
-        request.getRequestDispatcher("/pages/main.jsp").forward(request, response);
-        System.out.println("main page do get");
-
+        UserService.INSTANCE.processNewSession(request.getSession(true));
+        String page = WebResourcesManager.getInstance().getProperty(MAIN_PAGE_URL);
+        request.getRequestDispatcher(page).forward(request, response);
     }
 }
