@@ -8,7 +8,7 @@ import by.verbitsky.servletdemo.pool.impl.ConnectionPool;
 import by.verbitsky.servletdemo.pool.impl.ProxyConnection;
 import by.verbitsky.servletdemo.service.AuthorizationService;
 import by.verbitsky.servletdemo.service.SessionService;
-import by.verbitsky.servletdemo.util.WebResourcesManager;
+import by.verbitsky.servletdemo.service.WebResourcesManager;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.logging.log4j.LogManager;
@@ -191,7 +191,7 @@ public enum UserService implements AuthorizationService, SessionService {
             pool.releaseConnection(connection);
         } catch (PoolException e) {
             //todo создать результат перенаправления на страницу ошибки
-            e.printStackTrace();
+            //todo log this and throw exception
         }
         boolean result = false;
         if (user != null) {
@@ -214,7 +214,7 @@ public enum UserService implements AuthorizationService, SessionService {
             pool.releaseConnection(connection);
         } catch (PoolException e) {
             //todo создать результат перенаправления на страницу ошибки
-            e.printStackTrace();
+            //todo log this and throw exception
         }
         return result;
     }
@@ -228,7 +228,7 @@ public enum UserService implements AuthorizationService, SessionService {
             result = userDAO.existUserName(userName.toLowerCase());
             pool.releaseConnection(connection);
         } catch (PoolException e) {
-            e.printStackTrace();
+            //todo log this and throw exception
         }
         return result;
     }
@@ -247,7 +247,7 @@ public enum UserService implements AuthorizationService, SessionService {
             result = userDAO.addNewUser(user, hashedPassword);
             pool.releaseConnection(connection);
         } catch (PoolException e) {
-            //todo log
+            //todo log this and throw exception
         }
         return result;
     }

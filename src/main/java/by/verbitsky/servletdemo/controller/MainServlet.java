@@ -6,7 +6,7 @@ import by.verbitsky.servletdemo.pool.impl.ConnectionPool;
 import by.verbitsky.servletdemo.pool.impl.ProxyConnectionCreator;
 import by.verbitsky.servletdemo.service.SessionService;
 import by.verbitsky.servletdemo.service.impl.UserService;
-import by.verbitsky.servletdemo.util.WebResourcesManager;
+import by.verbitsky.servletdemo.service.WebResourcesManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

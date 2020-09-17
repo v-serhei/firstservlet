@@ -41,9 +41,8 @@ public class UserDAO extends BaseDAO <WebUser, Long>{
                 result.add(user);
             }
         } catch (SQLException throwables) {
-            //todo log this
+            //todo log this and throw DAO exception
         }
-        //todo log this
         return result;
     }
 
@@ -60,9 +59,9 @@ public class UserDAO extends BaseDAO <WebUser, Long>{
                 user = new WebUser(name, password, email);
             }
         } catch (SQLException throwables) {
-            //todo log this
+            //todo log this and throw DAO exception
         }
-        //todo log this
+
         return user;
     }
 
@@ -80,13 +79,13 @@ public class UserDAO extends BaseDAO <WebUser, Long>{
                 result = true;
             }
         } catch (SQLException throwables) {
-            //todo log this
+            //todo log this and throw DAO exception
         } finally {
             if (statement != null) {
                 try {
                     statement.close();
                 } catch (SQLException throwables) {
-                    //todo log this
+                    //todo log this and throw DAO exception
                 }
             }
         }
@@ -107,13 +106,13 @@ public class UserDAO extends BaseDAO <WebUser, Long>{
                 result = true;
             }
         } catch (SQLException throwables) {
-            //todo log this
+            //todo log this and throw DAO exception
         } finally {
             if (statement != null) {
                 try {
                     statement.close();
                 } catch (SQLException throwables) {
-                    //todo log this
+                    //todo log this and throw DAO exception
                 }
             }
         }
@@ -136,13 +135,13 @@ public class UserDAO extends BaseDAO <WebUser, Long>{
                 user = new WebUser(userName, password, email);
             }
         } catch (SQLException throwables) {
-            //todo log this
+            //todo log this and throw DAO exception
         } finally {
             if (statement != null) {
                 try {
                     statement.close();
                 } catch (SQLException throwables) {
-                    //todo log this
+                    //todo log this and throw DAO exception
                 }
             }
         }
@@ -164,9 +163,9 @@ public class UserDAO extends BaseDAO <WebUser, Long>{
             result = true;
         } catch (SQLException throwables) {
             result = false;
-            //todo log this
+            //todo log this and throw DAO exception
         }
-        //todo log this
+        //todo log this and throw DAO exception
         return result;
     }
 
@@ -193,13 +192,13 @@ public class UserDAO extends BaseDAO <WebUser, Long>{
                 result = true;
             } catch (SQLException throwables) {
                 result = false;
-                //todo log this
+                //todo log this and throw DAO exception
             } finally {
                 if (statement != null) {
                     try {
                         statement.close();
                     } catch (SQLException throwables) {
-                        //todo log this
+                        //todo log this and throw DAO exception
                     }
                 }
             }

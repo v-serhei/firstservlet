@@ -1,4 +1,4 @@
-package by.verbitsky.servletdemo.util;
+package by.verbitsky.servletdemo.service;
 
 import java.util.ResourceBundle;
 
