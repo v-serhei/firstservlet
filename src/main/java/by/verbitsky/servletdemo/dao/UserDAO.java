@@ -29,7 +29,7 @@ public class UserDAO extends BaseDAO <WebUser, Long>{
     }
 
     @Override
-    public List<WebUser> getAll() {
+    public List<WebUser> findAll() {
         List<WebUser> result = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(GET_ALL_USERS)) {
             ResultSet set = statement.executeQuery();
@@ -47,7 +47,7 @@ public class UserDAO extends BaseDAO <WebUser, Long>{
     }
 
     @Override
-    public WebUser getEntityById(Long id) {
+    public WebUser findEntityById(Long id) {
         long userId = (Long) id;
         WebUser user = null;
         try (PreparedStatement statement = connection.prepareStatement(GET_USER_BY_ID.concat(String.valueOf(userId)))) {
