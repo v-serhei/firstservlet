@@ -52,7 +52,8 @@ public enum UserService implements AuthorizationService, SessionService {
     private static final int DEFAULT_SESSION_LIVE_TIME = 3600;
     private final Logger logger = LogManager.getLogger();
     private static ConnectionPool pool = ConnectionPool.getInstance();
-    private static UserDAO userDAO = new UserDAO();
+    //todo сделать дао переменной метода
+    private UserDAO userDAO = new UserDAO();
 
 /*
     public void updateLoginAttributes(String userName) {
