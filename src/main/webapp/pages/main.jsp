@@ -22,7 +22,7 @@
             <br/>
         </div>
         <div id="logoutblock" style="display:${sessionScope.displayLogoutDiv}">
-            <form action="logout" method="get">
+            <form action="logout" method="post">
                 <input type="submit" id="logout" name="action" value="Logout">
             </form>
         </div>
@@ -33,7 +33,7 @@
     </div>
 </div>
 <div id="footer">подвал
-
+<!-- test block -->
 ${sessionScope.userGreetings}
 ${sessionScope.displayLogoutDiv}
 ${sessionScope.displayLoginDiv}

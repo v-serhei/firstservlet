@@ -5,15 +5,20 @@ import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 import java.util.HashMap;
 
-class SessionRequestContent {
+public class SessionRequestContent {
     private final HashMap<String, Object> requestAttributes;
     private final HashMap<String, String> requestParameters;
     private final HashMap<String, Object> sessionAttributes;
+    private final HttpSession session;
 
-    public SessionRequestContent() {
+    public SessionRequestContent(HttpServletRequest request) {
         requestAttributes = new HashMap<>();
         requestParameters = new HashMap<>();
         sessionAttributes = new HashMap<>();
+        extractParametersFromRequest(request);
+        extractAttributesFromRequest(request);
+        extractAttributesFromSession(request);
+        session = request.getSession(false);
     }
 
     public void addSessionAttribute(String attName, Object value) {
@@ -49,16 +54,20 @@ class SessionRequestContent {
         }
     }
 
-    public void extractAllParametersFromRequest(HttpServletRequest request) {
+    public void extractParametersFromRequest(HttpServletRequest request) {
         Enumeration<String> parameterNames = request.getParameterNames();
         while (parameterNames.hasMoreElements()) {
             String paramName = parameterNames.nextElement();
-            requestAttributes.put(paramName, request.getParameter(paramName));
+            requestParameters.put(paramName, request.getParameter(paramName));
         }
     }
 
     public void pushAttributesToRequest(HttpServletRequest request) {
-        requestAttributes.forEach((request::setAttribute));
+        requestAttributes.forEach(request::setAttribute);
+    }
+
+    public void pushAttributesToSession(HttpServletRequest request) {
+       sessionAttributes.forEach(session::setAttribute);
     }
 
     public String getRequestParameter(String parameterName) {
@@ -73,4 +82,7 @@ class SessionRequestContent {
         return requestAttributes.get(parameterName);
     }
 
+    public HttpSession getSession() {
+        return session;
+    }
 }

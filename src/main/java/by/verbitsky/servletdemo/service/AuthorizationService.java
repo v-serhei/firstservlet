@@ -1,19 +1,11 @@
 package by.verbitsky.servletdemo.service;
 
-import by.verbitsky.servletdemo.entity.WebUser;
-
-import javax.servlet.http.HttpSession;
+import by.verbitsky.servletdemo.controller.SessionRequestContent;
 
 public interface AuthorizationService {
-    boolean checkLogin(String username, String password);
+    void processLogin(SessionRequestContent content);
 
-    void logout(HttpSession userSession);
+    void processLogout(SessionRequestContent content);
 
-    boolean validateUserEmail(String email);
-
-    boolean existUserEmail(String email);
-
-    boolean existUserName(String userName);
-
-    boolean addRegisteredUser (WebUser user, String password);
+    void processRegistration(SessionRequestContent content);
 }

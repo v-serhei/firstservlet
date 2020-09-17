@@ -1,7 +1,7 @@
 package by.verbitsky.servletdemo.command;
 
-import javax.servlet.http.HttpServletRequest;
+import by.verbitsky.servletdemo.controller.SessionRequestContent;
 
 public interface Command {
-    CommandResult execute(HttpServletRequest request);
+    void execute(SessionRequestContent request);
 }
