@@ -109,10 +109,12 @@ public class ConnectionPool implements IConnectionPool<ProxyConnection> {
                 WORK_LOCK.lock();
                 if (activeConnections.contains(connection)) {
                     activeConnections.remove(connection);
-                    freeConnections.add(connection);
+                    freeConnections.put(connection);
                 } else {
                     throw new PoolException("Received connection doesn't belong current pool");
                 }
+            } catch (InterruptedException e) {
+                //todo log this
             } finally {
                 WORK_LOCK.unlock();
             }
