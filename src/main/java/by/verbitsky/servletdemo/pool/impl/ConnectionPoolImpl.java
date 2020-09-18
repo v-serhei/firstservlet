@@ -139,7 +139,7 @@ public class ConnectionPoolImpl implements ConnectionPool<ProxyConnection> {
     private void fillFreeConnectionsQueue() throws PoolException {
         for (int i = 0; i < maxPoolSize; i++) {
             ProxyConnection connection = ProxyConnectionCreator.INSTANCE.createConnection();
-            activeConnections.add(connection);
+            freeConnections.add(connection);
         }
     }
 }

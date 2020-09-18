@@ -9,6 +9,7 @@ import by.verbitsky.servletdemo.pool.impl.ProxyConnection;
 import by.verbitsky.servletdemo.service.WebResourcesManager;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -75,7 +76,7 @@ public enum UserService{
         String userName = content.getRequestParameter(paramName);
         String paramPassword = resourcesManager.getProperty(PASSWORD);
         String password = content.getRequestParameter(paramPassword);
-        boolean checkLogin = UserService.INSTANCE.checkLogin(userName, password);
+        boolean checkLogin = checkLogin(userName, password);
         String resultPage;
         if (checkLogin) {
             content.addSessionAttribute(resourcesManager.getProperty(LOGIN_BLOCK), DISPLAY_VALUE_FALSE);
@@ -188,6 +189,7 @@ public enum UserService{
         } catch (PoolException e) {
             //todo создать результат перенаправления на страницу ошибки
             //todo log this and throw exception
+            logger.log(Level.WARN, "");
         }
         boolean result = false;
         if (user != null) {
