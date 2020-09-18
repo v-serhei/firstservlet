@@ -4,10 +4,8 @@ import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.dao.UserDAO;
 import by.verbitsky.servletdemo.entity.WebUser;
 import by.verbitsky.servletdemo.exception.PoolException;
-import by.verbitsky.servletdemo.pool.impl.ConnectionPool;
+import by.verbitsky.servletdemo.pool.impl.ConnectionPoolImpl;
 import by.verbitsky.servletdemo.pool.impl.ProxyConnection;
-import by.verbitsky.servletdemo.service.AuthorizationService;
-import by.verbitsky.servletdemo.service.SessionService;
 import by.verbitsky.servletdemo.service.WebResourcesManager;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -16,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpSession;
 
-public enum UserService implements AuthorizationService, SessionService {
+public enum UserService{
     INSTANCE;
     private static final String ATTR_SESSION_LOGIN_RESULT = "attr.session.loginresult";
     private static final String ATTR_SESSION_USER = "attr.session.user";
@@ -51,65 +49,62 @@ public enum UserService implements AuthorizationService, SessionService {
 
     private static final int DEFAULT_SESSION_LIVE_TIME = 3600;
     private final Logger logger = LogManager.getLogger();
-    private static ConnectionPool pool = ConnectionPool.getInstance();
-    //todo сделать дао переменной метода
-    private UserDAO userDAO = new UserDAO();
+    private final ConnectionPoolImpl pool = ConnectionPoolImpl.getInstance();
+    private WebResourcesManager resourcesManager = WebResourcesManager.getInstance();
 
 /*
     public void updateLoginAttributes(String userName) {
         if (session != null && userName != null) {
-            String attrName = WebResourcesManager.getInstance().getProperty(ATTR_SESSION_USER);
+            String attrName = resourcesManager.getProperty(ATTR_SESSION_USER);
             WebUser user = (WebUser) session.getAttribute(attrName);
             user.setUserName(userName);
-            attrName = WebResourcesManager.getInstance().getProperty(ATTR_SESSION_LOGIN_RESULT);
+            attrName = resourcesManager.getProperty(ATTR_SESSION_LOGIN_RESULT);
             session.setAttribute(attrName, TRUE_LOGIN_RESULT);
-            attrName = WebResourcesManager.getInstance().getProperty(LOGIN_BLOCK);
+            attrName = resourcesManager.getProperty(LOGIN_BLOCK);
             session.setAttribute(attrName, DISPLAY_VALUE_FALSE);
-            attrName = WebResourcesManager.getInstance().getProperty(LOGOUT_BLOCK);
+            attrName = resourcesManager.getProperty(LOGOUT_BLOCK);
             session.setAttribute(attrName, DISPLAY_VALUE_TRUE);
-            attrName = WebResourcesManager.getInstance().getProperty(USER_GREETING);
+            attrName = resourcesManager.getProperty(USER_GREETING);
             session.setAttribute(attrName, HELLO_MESSAGE.concat(user.getUserName()));
         }
     }
 */
-    @Override
+
     public void processLogin(SessionRequestContent content) {
-        String paramName = WebResourcesManager.getInstance().getProperty(USER_NAME);
+        String paramName = resourcesManager.getProperty(USER_NAME);
         String userName = content.getRequestParameter(paramName);
-        String paramPassword = WebResourcesManager.getInstance().getProperty(PASSWORD);
+        String paramPassword = resourcesManager.getProperty(PASSWORD);
         String password = content.getRequestParameter(paramPassword);
         boolean checkLogin = UserService.INSTANCE.checkLogin(userName, password);
         String resultPage;
         if (checkLogin) {
-            content.addSessionAttribute(WebResourcesManager.getInstance().getProperty(LOGIN_BLOCK), DISPLAY_VALUE_FALSE);
-            content.addSessionAttribute(WebResourcesManager.getInstance().getProperty(LOGOUT_BLOCK), DISPLAY_VALUE_TRUE);
-            content.addSessionAttribute(WebResourcesManager.getInstance().getProperty(USER_GREETING), HELLO_MESSAGE.concat(userName));
-            content.addSessionAttribute(WebResourcesManager.getInstance().getProperty(ATTR_SESSION_LOGIN_RESULT), POSITIVE_LOGIN_RESULT);
-            content.addRequestAttribute(WebResourcesManager.getInstance().getProperty(LOGIN_ERROR), EMPTY_LOGIN_ERROR_MESSAGE);
-            resultPage = WebResourcesManager.getInstance().getProperty(MAIN_PAGE);
-            content.addRequestAttribute(WebResourcesManager.getInstance().getProperty(RESULT_PAGE), resultPage);
+            content.addSessionAttribute(resourcesManager.getProperty(LOGIN_BLOCK), DISPLAY_VALUE_FALSE);
+            content.addSessionAttribute(resourcesManager.getProperty(LOGOUT_BLOCK), DISPLAY_VALUE_TRUE);
+            content.addSessionAttribute(resourcesManager.getProperty(USER_GREETING), HELLO_MESSAGE.concat(userName));
+            content.addSessionAttribute(resourcesManager.getProperty(ATTR_SESSION_LOGIN_RESULT), POSITIVE_LOGIN_RESULT);
+            content.addRequestAttribute(resourcesManager.getProperty(LOGIN_ERROR), EMPTY_LOGIN_ERROR_MESSAGE);
+            resultPage = resourcesManager.getProperty(MAIN_PAGE);
+            content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPage);
         } else {
-            content.addSessionAttribute(WebResourcesManager.getInstance().getProperty(LOGIN_BLOCK), DISPLAY_VALUE_TRUE);
-            content.addSessionAttribute(WebResourcesManager.getInstance().getProperty(LOGOUT_BLOCK), DISPLAY_VALUE_FALSE);
-            content.addSessionAttribute(WebResourcesManager.getInstance().getProperty(USER_GREETING), DEFAULT_GREETINGS);
-            content.addRequestAttribute(WebResourcesManager.getInstance().getProperty(LOGIN_ERROR), LOGIN_ERROR_MESSAGE);
-            resultPage = WebResourcesManager.getInstance().getProperty(LOGIN_PAGE);
-            content.addRequestAttribute(WebResourcesManager.getInstance().getProperty(RESULT_PAGE), resultPage);
+            content.addSessionAttribute(resourcesManager.getProperty(LOGIN_BLOCK), DISPLAY_VALUE_TRUE);
+            content.addSessionAttribute(resourcesManager.getProperty(LOGOUT_BLOCK), DISPLAY_VALUE_FALSE);
+            content.addSessionAttribute(resourcesManager.getProperty(USER_GREETING), DEFAULT_GREETINGS);
+            content.addRequestAttribute(resourcesManager.getProperty(LOGIN_ERROR), LOGIN_ERROR_MESSAGE);
+            resultPage = resourcesManager.getProperty(LOGIN_PAGE);
+            content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPage);
         }
     }
 
-    @Override
     public void processLogout(SessionRequestContent content) {
-        content.addSessionAttribute(WebResourcesManager.getInstance().getProperty(LOGIN_BLOCK), DISPLAY_VALUE_TRUE);
-        content.addSessionAttribute(WebResourcesManager.getInstance().getProperty(LOGOUT_BLOCK), DISPLAY_VALUE_FALSE);
-        content.addSessionAttribute(WebResourcesManager.getInstance().getProperty(USER_GREETING), DEFAULT_GREETINGS);
-        String resultPageUrl = WebResourcesManager.getInstance().getProperty(MAIN_PAGE);
-        content.addRequestAttribute(WebResourcesManager.getInstance().getProperty(RESULT_PAGE), resultPageUrl);
+        content.addSessionAttribute(resourcesManager.getProperty(LOGIN_BLOCK), DISPLAY_VALUE_TRUE);
+        content.addSessionAttribute(resourcesManager.getProperty(LOGOUT_BLOCK), DISPLAY_VALUE_FALSE);
+        content.addSessionAttribute(resourcesManager.getProperty(USER_GREETING), DEFAULT_GREETINGS);
+        String resultPageUrl = resourcesManager.getProperty(MAIN_PAGE);
+        content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPageUrl);
     }
 
-    @Override
     public void processRegistration(SessionRequestContent content) {
-        String paramName = WebResourcesManager.getInstance().getProperty(USER_NAME);
+        String paramName = resourcesManager.getProperty(USER_NAME);
         String userName = content.getRequestParameter(paramName);
         if (userName == null || userName.isEmpty()) {
             setWrongRegistrationResult(content, REGISTER_ERROR_WRONG_USER_NAME);
@@ -119,9 +114,9 @@ public enum UserService implements AuthorizationService, SessionService {
             setWrongRegistrationResult(content, REGISTER_ERROR_EXIST_USER);
             return;
         }
-        paramName = WebResourcesManager.getInstance().getProperty(PASSWORD);
+        paramName = resourcesManager.getProperty(PASSWORD);
         String firstPassword = content.getRequestParameter(paramName);
-        paramName = WebResourcesManager.getInstance().getProperty(PASSWORD_SECOND);
+        paramName = resourcesManager.getProperty(PASSWORD_SECOND);
         String secondPassword = content.getRequestParameter(paramName);
         if (firstPassword == null || firstPassword.isEmpty() || secondPassword == null || secondPassword.isEmpty()) {
             setWrongRegistrationResult(content, REGISTER_ERROR_EMPTY_PASSWORD);
@@ -131,7 +126,7 @@ public enum UserService implements AuthorizationService, SessionService {
             setWrongRegistrationResult(content, REGISTER_ERROR_DIFFERENT_PASSWORDS);
             return;
         }
-        paramName = WebResourcesManager.getInstance().getProperty(EMAIL);
+        paramName = resourcesManager.getProperty(EMAIL);
         String email = content.getRequestParameter(paramName);
         if (!validateUserEmail(email)) {
             setWrongRegistrationResult(content, REGISTER_ERROR_WRONG_EMAIL);
@@ -141,37 +136,36 @@ public enum UserService implements AuthorizationService, SessionService {
             setWrongRegistrationResult(content, REGISTER_ERROR_EXIST_EMAIL);
             return;
         }
-        String resultPage = WebResourcesManager.getInstance().getProperty(LOGIN_PAGE);
+        String resultPage = resourcesManager.getProperty(LOGIN_PAGE);
         WebUser user = new WebUser(content.getSession(), userName, email);
         addRegisteredUser(user, firstPassword);
-        content.addRequestAttribute(WebResourcesManager.getInstance().getProperty(RESULT_PAGE), resultPage);
+        content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPage);
 
     }
 
-    @Override
     public void processNewSession(HttpSession session) {
         if (session != null) {
             if (session.isNew()) {
                 session.setMaxInactiveInterval(DEFAULT_SESSION_LIVE_TIME);
-                String attrName = WebResourcesManager.getInstance().getProperty(ATTR_SESSION_USER);
+                String attrName = resourcesManager.getProperty(ATTR_SESSION_USER);
                 WebUser user = new WebUser(session, DEFAULT_USER_NAME, DEFAULT_USER_EMAIL);
                 session.setAttribute(attrName, user);
-                attrName = WebResourcesManager.getInstance().getProperty(ATTR_SESSION_LOGIN_RESULT);
+                attrName = resourcesManager.getProperty(ATTR_SESSION_LOGIN_RESULT);
                 session.setAttribute(attrName, NEGATIVE_LOGIN_RESULT);
-                attrName = WebResourcesManager.getInstance().getProperty(LOGIN_BLOCK);
+                attrName = resourcesManager.getProperty(LOGIN_BLOCK);
                 session.setAttribute(attrName, DISPLAY_VALUE_TRUE);
-                attrName = WebResourcesManager.getInstance().getProperty(LOGOUT_BLOCK);
+                attrName = resourcesManager.getProperty(LOGOUT_BLOCK);
                 session.setAttribute(attrName, DISPLAY_VALUE_FALSE);
-                attrName = WebResourcesManager.getInstance().getProperty(USER_GREETING);
+                attrName = resourcesManager.getProperty(USER_GREETING);
                 session.setAttribute(attrName, HELLO_MESSAGE.concat(user.getUserName()));
             }
         }
     }
 
     private void setWrongRegistrationResult(SessionRequestContent content, String error) {
-        String resultPageUrl = WebResourcesManager.getInstance().getProperty(REGISTER_PAGE);
-        content.addRequestAttribute(WebResourcesManager.getInstance().getProperty(RESULT_PAGE), resultPageUrl);
-        content.addRequestAttribute(WebResourcesManager.getInstance().getProperty(LOGIN_ERROR_MESSAGE), error);
+        String resultPageUrl = resourcesManager.getProperty(REGISTER_PAGE);
+        content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPageUrl);
+        content.addRequestAttribute(resourcesManager.getProperty(LOGIN_ERROR_MESSAGE), error);
     }
 
     private String getHashedPassword(String password) {
@@ -183,6 +177,7 @@ public enum UserService implements AuthorizationService, SessionService {
         if (username.isEmpty() || username == null || password.isEmpty() || password == null) {
             return false;
         }
+        UserDAO userDAO = new UserDAO();
         ProxyConnection connection;
         WebUser user = null;
         try {
@@ -208,6 +203,7 @@ public enum UserService implements AuthorizationService, SessionService {
     private boolean existUserEmail(String email) {
         ProxyConnection connection;
         boolean result = true;
+        UserDAO userDAO = new UserDAO();
         try {
             connection = pool.getConnection();
             userDAO.setConnection(connection);
@@ -223,6 +219,7 @@ public enum UserService implements AuthorizationService, SessionService {
     private boolean existUserName(String userName) {
         ProxyConnection connection;
         boolean result = true;
+        UserDAO userDAO = new UserDAO();
         try {
             connection = pool.getConnection();
             userDAO.setConnection(connection);
@@ -241,6 +238,7 @@ public enum UserService implements AuthorizationService, SessionService {
     private boolean addRegisteredUser(WebUser user, String password) {
         ProxyConnection connection;
         String hashedPassword = getHashedPassword(password);
+        UserDAO userDAO = new UserDAO();
         boolean result = false;
         try {
             connection = pool.getConnection();

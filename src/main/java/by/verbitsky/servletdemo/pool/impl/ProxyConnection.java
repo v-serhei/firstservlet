@@ -25,7 +25,7 @@ public class ProxyConnection implements Connection {
     @Override
     public void close() {
         try {
-            ConnectionPool.getInstance().releaseConnection(this);
+            ConnectionPoolImpl.getInstance().releaseConnection(this);
         } catch (PoolException e) {
             logger.log(Level.WARN, "Error while returning connection in pool");
         }
