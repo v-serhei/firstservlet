@@ -1,21 +1,21 @@
 package by.verbitsky.servletdemo.service.impl;
 
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
-import by.verbitsky.servletdemo.dao.UserDAO;
-import by.verbitsky.servletdemo.entity.WebUser;
+import by.verbitsky.servletdemo.dao.UserDao;
+import by.verbitsky.servletdemo.entity.User;
+import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.exception.PoolException;
 import by.verbitsky.servletdemo.pool.impl.ConnectionPoolImpl;
 import by.verbitsky.servletdemo.pool.impl.ProxyConnection;
 import by.verbitsky.servletdemo.service.WebResourcesManager;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.validator.routines.EmailValidator;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpSession;
 
-public enum UserService{
+public enum UserService {
     INSTANCE;
     private static final String ATTR_SESSION_LOGIN_RESULT = "attr.session.loginresult";
     private static final String ATTR_SESSION_USER = "attr.session.user";
@@ -37,12 +37,13 @@ public enum UserService{
     private static final String PASSWORD = "attr.password";
     private static final String PASSWORD_SECOND = "attr.password.second";
     private static final String POSITIVE_LOGIN_RESULT = "true";
-    private static final String REGISTER_ERROR_DIFFERENT_PASSWORDS = "Different passwords";
-    private static final String REGISTER_ERROR_EMPTY_PASSWORD = "Empty password field";
-    private static final String REGISTER_ERROR_EXIST_EMAIL = "Email already used";
-    private static final String REGISTER_ERROR_EXIST_USER = "User already exists";
-    private static final String REGISTER_ERROR_WRONG_EMAIL = "Wrong user email";
-    private static final String REGISTER_ERROR_WRONG_USER_NAME = "Wrong user name";
+    private static final String REGISTER_ERROR_ATTRIBUTE = "attr.reg.error";
+    private static final String REGISTER_ERROR_MESSAGE_DIFFERENT_PASSWORDS = "Different passwords";
+    private static final String REGISTER_ERROR_MESSAGE_EMPTY_PASSWORD = "Empty password field";
+    private static final String REGISTER_ERROR_MESSAGE_EXIST_EMAIL = "Email already used";
+    private static final String REGISTER_ERROR_MESSAGE_EXIST_USER = "User already exists";
+    private static final String REGISTER_ERROR_MESSAGE_WRONG_EMAIL = "Wrong user email";
+    private static final String REGISTER_ERROR_MESSAGE_WRONG_USER_NAME = "Wrong user name";
     private static final String REGISTER_PAGE = "pages.jsp.registration";
     private static final String RESULT_PAGE = "attr.result.page";
     private static final String USER_GREETING = "attr.usergreeting";
@@ -76,7 +77,12 @@ public enum UserService{
         String userName = content.getRequestParameter(paramName);
         String paramPassword = resourcesManager.getProperty(PASSWORD);
         String password = content.getRequestParameter(paramPassword);
-        boolean checkLogin = checkLogin(userName, password);
+        boolean checkLogin = false;
+        try {
+            checkLogin = checkLogin(userName, password);
+        } catch (PoolException | DaoException e) {
+            //todo generate error page
+        }
         String resultPage;
         if (checkLogin) {
             content.addSessionAttribute(resourcesManager.getProperty(LOGIN_BLOCK), DISPLAY_VALUE_FALSE);
@@ -107,39 +113,54 @@ public enum UserService{
     public void processRegistration(SessionRequestContent content) {
         String paramName = resourcesManager.getProperty(USER_NAME);
         String userName = content.getRequestParameter(paramName);
+        User user = new User();
         if (userName == null || userName.isEmpty()) {
-            setWrongRegistrationResult(content, REGISTER_ERROR_WRONG_USER_NAME);
+            setWrongRegistrationResult(content, REGISTER_ERROR_MESSAGE_WRONG_USER_NAME);
             return;
         }
-        if (existUserName(userName)) {
-            setWrongRegistrationResult(content, REGISTER_ERROR_EXIST_USER);
-            return;
+        try {
+            if (existUserName(userName)) {
+                setWrongRegistrationResult(content, REGISTER_ERROR_MESSAGE_EXIST_USER);
+                return;
+            }
+        } catch (PoolException | DaoException e) {
+            //todo generate error page
         }
+        user.setUserName(userName);
         paramName = resourcesManager.getProperty(PASSWORD);
         String firstPassword = content.getRequestParameter(paramName);
         paramName = resourcesManager.getProperty(PASSWORD_SECOND);
         String secondPassword = content.getRequestParameter(paramName);
         if (firstPassword == null || firstPassword.isEmpty() || secondPassword == null || secondPassword.isEmpty()) {
-            setWrongRegistrationResult(content, REGISTER_ERROR_EMPTY_PASSWORD);
+            setWrongRegistrationResult(content, REGISTER_ERROR_MESSAGE_EMPTY_PASSWORD);
             return;
         }
         if (!firstPassword.equals(secondPassword)) {
-            setWrongRegistrationResult(content, REGISTER_ERROR_DIFFERENT_PASSWORDS);
+            setWrongRegistrationResult(content, REGISTER_ERROR_MESSAGE_DIFFERENT_PASSWORDS);
             return;
         }
+        user.setUserPassword(getHashedPassword(firstPassword));
         paramName = resourcesManager.getProperty(EMAIL);
         String email = content.getRequestParameter(paramName);
         if (!validateUserEmail(email)) {
-            setWrongRegistrationResult(content, REGISTER_ERROR_WRONG_EMAIL);
+            setWrongRegistrationResult(content, REGISTER_ERROR_MESSAGE_WRONG_EMAIL);
             return;
         }
-        if (existUserEmail(email)) {
-            setWrongRegistrationResult(content, REGISTER_ERROR_EXIST_EMAIL);
-            return;
+        try {
+            if (existUserEmail(email)) {
+                setWrongRegistrationResult(content, REGISTER_ERROR_MESSAGE_EXIST_EMAIL);
+                return;
+            }
+        } catch (PoolException | DaoException e) {
+            //todo generate error page
         }
+        user.setEmail(email);
         String resultPage = resourcesManager.getProperty(LOGIN_PAGE);
-        WebUser user = new WebUser(content.getSession(), userName, email);
-        addRegisteredUser(user, firstPassword);
+        try {
+            addRegisteredUser(user);
+        } catch (PoolException | DaoException e) {
+            // todo generate error page
+        }
         content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPage);
 
     }
@@ -149,7 +170,7 @@ public enum UserService{
             if (session.isNew()) {
                 session.setMaxInactiveInterval(DEFAULT_SESSION_LIVE_TIME);
                 String attrName = resourcesManager.getProperty(ATTR_SESSION_USER);
-                WebUser user = new WebUser(session, DEFAULT_USER_NAME, DEFAULT_USER_EMAIL);
+                User user = new User(session, DEFAULT_USER_NAME, DEFAULT_USER_EMAIL);
                 session.setAttribute(attrName, user);
                 attrName = resourcesManager.getProperty(ATTR_SESSION_LOGIN_RESULT);
                 session.setAttribute(attrName, NEGATIVE_LOGIN_RESULT);
@@ -166,7 +187,7 @@ public enum UserService{
     private void setWrongRegistrationResult(SessionRequestContent content, String error) {
         String resultPageUrl = resourcesManager.getProperty(REGISTER_PAGE);
         content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPageUrl);
-        content.addRequestAttribute(resourcesManager.getProperty(LOGIN_ERROR_MESSAGE), error);
+        content.addRequestAttribute(resourcesManager.getProperty(REGISTER_ERROR_ATTRIBUTE), error);
     }
 
     private String getHashedPassword(String password) {
@@ -174,23 +195,15 @@ public enum UserService{
         return DigestUtils.sha512Hex(salt.concat(password));
     }
 
-    private boolean checkLogin(String username, String password) {
+    private boolean checkLogin(String username, String password) throws PoolException, DaoException {
         if (username.isEmpty() || username == null || password.isEmpty() || password == null) {
             return false;
         }
-        UserDAO userDAO = new UserDAO();
-        ProxyConnection connection;
-        WebUser user = null;
-        try {
-            connection = pool.getConnection();
-            userDAO.setConnection(connection);
-            user = userDAO.getUserByName(username);
-            pool.releaseConnection(connection);
-        } catch (PoolException e) {
-            //todo создать результат перенаправления на страницу ошибки
-            //todo log this and throw exception
-            logger.log(Level.WARN, "");
-        }
+        UserDao userDAO = new UserDao();
+        ProxyConnection connection = pool.getConnection();
+        userDAO.setConnection(connection);
+        User user = userDAO.findUserByName(username);
+        pool.releaseConnection(connection);
         boolean result = false;
         if (user != null) {
             String userPassword = getHashedPassword(password);
@@ -202,54 +215,34 @@ public enum UserService{
         return result;
     }
 
-    private boolean existUserEmail(String email) {
-        ProxyConnection connection;
-        boolean result = true;
-        UserDAO userDAO = new UserDAO();
-        try {
-            connection = pool.getConnection();
-            userDAO.setConnection(connection);
-            result = userDAO.existUserEmail(email.toLowerCase());
-            pool.releaseConnection(connection);
-        } catch (PoolException e) {
-            //todo создать результат перенаправления на страницу ошибки
-            //todo log this and throw exception
-        }
-        return result;
+    private boolean existUserEmail(String email) throws PoolException, DaoException {
+        UserDao userDAO = new UserDao();
+        ProxyConnection connection = pool.getConnection();
+        userDAO.setConnection(connection);
+        User result = userDAO.findByEmail(email.toLowerCase());
+        pool.releaseConnection(connection);
+        return (result != null);
     }
 
-    private boolean existUserName(String userName) {
-        ProxyConnection connection;
-        boolean result = true;
-        UserDAO userDAO = new UserDAO();
-        try {
-            connection = pool.getConnection();
-            userDAO.setConnection(connection);
-            result = userDAO.existUserName(userName.toLowerCase());
-            pool.releaseConnection(connection);
-        } catch (PoolException e) {
-            //todo log this and throw exception
-        }
-        return result;
+    private boolean existUserName(String userName) throws PoolException, DaoException {
+        UserDao userDAO = new UserDao();
+        ProxyConnection connection = pool.getConnection();
+        userDAO.setConnection(connection);
+        User user = userDAO.findUserByName(userName.toLowerCase());
+        pool.releaseConnection(connection);
+        return (user != null);
     }
 
     private boolean validateUserEmail(String email) {
         return EmailValidator.getInstance().isValid(email);
     }
 
-    private boolean addRegisteredUser(WebUser user, String password) {
-        ProxyConnection connection;
-        String hashedPassword = getHashedPassword(password);
-        UserDAO userDAO = new UserDAO();
-        boolean result = false;
-        try {
-            connection = pool.getConnection();
-            userDAO.setConnection(connection);
-            result = userDAO.addNewUser(user, hashedPassword);
-            pool.releaseConnection(connection);
-        } catch (PoolException e) {
-            //todo log this and throw exception
-        }
+    private boolean addRegisteredUser(User user) throws PoolException, DaoException {
+        UserDao userDAO = new UserDao();
+        ProxyConnection connection = pool.getConnection();
+        userDAO.setConnection(connection);
+        boolean result = userDAO.addNewUser(user);
+        pool.releaseConnection(connection);
         return result;
     }
 }

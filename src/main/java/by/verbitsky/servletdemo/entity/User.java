@@ -2,7 +2,7 @@ package by.verbitsky.servletdemo.entity;
 
 import javax.servlet.http.HttpSession;
 
-public class WebUser {
+public class User {
     private HttpSession session;
     private String userName;
     private String email;
@@ -16,16 +16,19 @@ public class WebUser {
         this.userPassword = userPassword;
     }
 
-    public WebUser(HttpSession session, String userName, String email) {
+    public User() {
+    }
+
+    public User(HttpSession session, String userName, String email) {
         this.session = session;
         this.userName = userName;
         this.email = email;
     }
-    public WebUser(String userName, String email) {
+    public User(String userName, String email) {
         this.userName = userName;
         this.email = email;
     }
-    public WebUser(String userName, String password, String email) {
+    public User(String userName, String password, String email) {
         this.userName = userName;
         this.email = email;
         this.userPassword = password;
@@ -58,12 +61,12 @@ public class WebUser {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof WebUser)) return false;
+        if (!(o instanceof User)) return false;
 
-        WebUser webUser = (WebUser) o;
+        User user = (User) o;
 
-        if (session != null ? !session.equals(webUser.session) : webUser.session != null) return false;
-        return userName != null ? userName.equals(webUser.userName) : webUser.userName == null;
+        if (session != null ? !session.equals(user.session) : user.session != null) return false;
+        return userName != null ? userName.equals(user.userName) : user.userName == null;
     }
 
     @Override
