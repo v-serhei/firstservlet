@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession;
 
 public enum UserService {
     INSTANCE;
+    //todo вынести в ресурсы
+
     private static final String ATTR_SESSION_LOGIN_RESULT = "attr.session.loginresult";
     private static final String ATTR_SESSION_USER = "attr.session.user";
     private static final String DEFAULT_GREETINGS = "Hello, guest";
@@ -52,7 +54,7 @@ public enum UserService {
     private static final int DEFAULT_SESSION_LIVE_TIME = 3600;
     private final Logger logger = LogManager.getLogger();
     private final ConnectionPoolImpl pool = ConnectionPoolImpl.getInstance();
-    private WebResourcesManager resourcesManager = WebResourcesManager.getInstance();
+    private final WebResourcesManager resourcesManager = WebResourcesManager.getInstance();
 
 /*
     public void updateLoginAttributes(String userName) {

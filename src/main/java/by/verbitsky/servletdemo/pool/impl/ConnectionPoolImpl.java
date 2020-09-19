@@ -14,10 +14,10 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPoolImpl implements ConnectionPool<ProxyConnection> {
     private static ConnectionPoolImpl instance;
+    private static final String PROPERTY_POOL_SIZE = "poolSize";
     private boolean isInitialized;
     private static Lock WORK_LOCK = new ReentrantLock();
     private static Lock SHUTDOWN_LOCK = new ReentrantLock();
-    private static final String PROPERTY_POOL_SIZE = "poolSize";
     private static final int DEFAULT_POOL_SIZE = 32;
     private int maxPoolSize;
     private BlockingQueue<ProxyConnection> freeConnections;
@@ -132,8 +132,8 @@ public class ConnectionPoolImpl implements ConnectionPool<ProxyConnection> {
         } finally {
             SHUTDOWN_LOCK.unlock();
         }
-        isInitialized = false;
         ProxyConnectionCreator.INSTANCE.deregisterDBDriver();
+        isInitialized = false;
     }
 
     private void fillFreeConnectionsQueue() throws PoolException {
