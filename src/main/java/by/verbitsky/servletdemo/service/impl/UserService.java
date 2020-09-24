@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpSession;
+import java.util.Locale;
 
 public enum UserService {
     INSTANCE;
@@ -51,7 +52,11 @@ public enum UserService {
     private static final String USER_GREETING = "attr.usergreeting";
     private static final String USER_NAME = "attr.user.name";
 
+    private static final String MESSAGE_PARAMETER = "message";
+
     private static final int DEFAULT_SESSION_LIVE_TIME = 3600;
+    private static final String DELIMITER = "\n";
+    public static final String LOCALE = "locale";
     private final Logger logger = LogManager.getLogger();
     private final ConnectionPoolImpl pool = ConnectionPoolImpl.getInstance();
     private final WebResourcesManager resourcesManager = WebResourcesManager.getInstance();
@@ -73,6 +78,29 @@ public enum UserService {
         }
     }
 */
+
+  /*
+    public void processLanguageSwitch(SessionRequestContent content) {
+        System.out.println("process language");
+        InputClientMessage message = (InputClientMessage) content.getRequestAttribute(MESSAGE_PARAMETER);
+        Locale locale;
+        System.out.println();
+        switch (message.getMessage().toLowerCase()) {
+            case "en": {
+                locale = new Locale("en", "US");
+                break;
+            }
+            case "ru": {
+                locale = new Locale("ru", "RU");
+                break;
+            }
+            default:
+                locale = Locale.getDefault();
+        }
+        content.addSessionAttribute(LOCALE, locale);
+        String resultPage = resourcesManager.getProperty(MAIN_PAGE);
+        content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPage);
+    }*/
 
     public void processLogin(SessionRequestContent content) {
         String paramName = resourcesManager.getProperty(USER_NAME);
@@ -182,6 +210,11 @@ public enum UserService {
                 session.setAttribute(attrName, DISPLAY_VALUE_FALSE);
                 attrName = resourcesManager.getProperty(USER_GREETING);
                 session.setAttribute(attrName, HELLO_MESSAGE.concat(user.getUserName()));
+                //todo change this
+                Object locale = session.getAttribute("locale");
+                if (locale == null) {
+                    session.setAttribute("locale", Locale.getDefault());
+                }
             }
         }
     }

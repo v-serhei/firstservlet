@@ -17,7 +17,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name = "MainServlet",
-        urlPatterns = {"", "/index.jsp", "/controller", "/login", "/logout", "/main", "/registration"})
+        urlPatterns = {"", "/index.jsp", "/controller", "/login", "/logout", "/main", "/registration",
+})
 
 public class MainServlet extends HttpServlet {
     private final UserService userService = UserService.INSTANCE;
@@ -50,6 +51,7 @@ public class MainServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("do get:"+request.getRequestURI());
         HttpSession session = request.getSession(true);
         UserService.INSTANCE.processNewSession(session);
         String reqPage = request.getRequestURI();

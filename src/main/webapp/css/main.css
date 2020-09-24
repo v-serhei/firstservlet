@@ -1,89 +1,54 @@
-body {
-    font: 10pt Arial, Helvetica, sans-serif; /* Шрифт на веб-странице */
-    background: #e1dfb9; /* Цвет фона */
-}
-
-h2 {
-    font-size: 1.1em; /* Размер шрифта */
-    color: #800040; /* Цвет текста */
-    margin-top: 0; /* Отступ сверху */
-}
-
-h3 {
-    text-align: center;
-}
-
-#container {
-    width: 80%; /* Ширина слоя */
-    height: 900px;
+.top-div-gradient, .bottom-div-gradient {
+    height: 20px;
     margin: 0 auto; /* Выравнивание по центру */
-    background: #f0f0f0; /* Цвет фона левой колонки */
+    background: #f0e8cb; /* Цвет фона левой колонки */
 }
-
-#header {
-    font-size: 2.2em; /* Размер текста */
-    text-align: center; /* Выравнивание по центру */
-    padding: 5px; /* Отступы вокруг текста */
-    background: #8fa09b; /* Цвет фона шапки */
-    color: #ffe; /* Цвет текста */
+/*top part*/
+#top-body-container, #bottom-body-container {
+    background: #f0e8cb;
 }
-
-#sidebar {
-    margin-top: 10px;
-    width: 150px; /* Ширина слоя */
-    padding: 0 10px; /* Отступы вокруг текста */
-    float: left; /* Обтекание по правому краю */
-}
-#loginblock, #logoutblock {
-    margin-top: 70px;
-    padding: 0 10px;
-    width: 80px;
-}
-#loginbtn, #registerbtn, #logoutbtn {
-    border-radius: 4px;
-    font-size: small;
-    alignment: center;
-}
-
-#content {
-    margin-left: 180px; /* Отступ слева */
-    padding: 10px; /* Поля вокруг текста */
-    background: #fff; /* Цвет фона правой колонки */
-}
-
-#footer {
-    width: 80%;
+#top-menu-div, #footer-container, #body-container {
     margin: 0 auto;
-    background: #8fa09b; /* Цвет фона подвала */
-    color: #fff; /* Цвет текста */
-    clear: left; /* Отменяем действие float */
-}
-#registerheader, #loginheader {
-    width: 30%; /* Ширина слоя */
-    height: 40px;
-    margin-top: 10px;
-    padding-top: 50px;
-    margin-left: auto;
-    margin-right: auto;
-}
-#regdivelements, #regformdiv {
-    display: block;
-    text-align: center;
-    width: 30%; /* Ширина слоя */
-    height: 300px;
-    margin-top: 30px;
-    margin-left: auto;
-    margin-right: auto;
-}
-#usernamefield, #pass1field, #pass2field, #emailfield, #usernamefield{
-    box-sizing: border-box;
-    margin-bottom: 5px;
     width: 80%;
 }
+/* middle part*/
+#main-body-container {
+    margin: 0 auto;
+    background: #f0e8cb;
+}
+#body-container {
+    height: 800px;
+    display: flex;
+    flex-direction: row;
+    background: #e2d5aa;
+}
 
-#registerbtn, #loginbtn {
-    box-sizing: border-box;
-    margin-top: 25px;
-    font-size: 12px;
-    width: 50%;
+#content-div {
+    width: 80%;
+    margin: 5px;
+    height: 98%;
+    flex-grow: 2;
+    flex-shrink: 3;
+}
+
+#right-menu-div {
+    height: 98%;
+    flex-basis: 350px;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #e9e2c3;
+    flex-shrink: 1;
+}
+/*bottom part*/
+#footer-div {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+}
+#footer-span {
+    font-size: 12pt;
+    color: whitesmoke;
 }

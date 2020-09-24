@@ -10,6 +10,7 @@ public class SessionRequestContent {
     private final HashMap<String, String> requestParameters;
     private final HashMap<String, Object> sessionAttributes;
     private final HttpSession session;
+    private final HttpServletRequest request;
 
     public SessionRequestContent(HttpServletRequest request) {
         requestAttributes = new HashMap<>();
@@ -19,6 +20,7 @@ public class SessionRequestContent {
         extractAttributesFromRequest(request);
         extractAttributesFromSession(request);
         session = request.getSession(false);
+        this.request = request;
     }
 
     public void addSessionAttribute(String attName, Object value) {
@@ -84,5 +86,9 @@ public class SessionRequestContent {
 
     public HttpSession getSession() {
         return session;
+    }
+
+    public HttpServletRequest getRequest() {
+        return request;
     }
 }
