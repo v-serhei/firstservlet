@@ -1,32 +1,40 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="language/jsp"/>
+<!DOCTYPE html>
 <html>
-<head>
-    <title>Login</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
-</head>
+<c:import url="jsptemplate/header.jsp"/>
 <body>
-<div id="container">
-    <div>
-        <form action="login" method="post">
-            <div id="loginheader">
-                <h3>Вход</h3>
+<div id="login-main-container">
+    <div id="login-controls-group">
+        <div id="login-input-items">
+            <h4 id="login-label"><fmt:message key="login.mainlabel"/></h4>
+            <div class="form-group">
+                <label for="fieldUsername"><fmt:message key="login.label.name"/></label>
+                <input type="text" class="form-control" id="fieldUsername"
+                       name="fieldName" placeholder="<fmt:message key="login.placeholder.name"/>">
             </div>
-            <div id="regformdiv">
-                <label for="usernamefield" style="align-self: center">Имя пользователья</label>
-                <br/>
-                <input id="usernamefield" type="text" name="fieldName">
-                <br/>
-                <label for="pass1field" style="align-self: center">Пароль</label>
-                <br/>
-                <input id="pass1field" type="password" name="fieldPassword">
-                <br/>
-                <input type="submit" name="action" value="Login">
-                <br/>
-                <br/>
-                <span id="errorlabel"> ${loginErrorMessage} </span>
+            <div class="form-group">
+                <label for="fieldUserPassword"><fmt:message key="login.label.password"/></label>
+                <input type="password" class="form-control" id="fieldUserPassword"
+                       name="fieldPassword" placeholder="<fmt:message key="login.placeholder.password"/>">
             </div>
-        </form>
+        </div>
+        <div id="login-error-div">
+            <span id="login-error-span"><fmt:message key="login.error.message"/></span>
+        </div>
+        <div id="login-submit">
+            <form action="login" method="post">
+                <input type="submit" class="btn btn-light" name="action" value="<fmt:message key="login.confirm.button"/>"/>
+            </form>
+        </div>
     </div>
 </div>
+<script type="text/javascript">
+    <c:import url="/js/jquery-3.5.1.min.js"/>
+    <c:import url="/css/bootstrap/js/bootstrap.min.js"/>
+</script>
 </body>
 </html>

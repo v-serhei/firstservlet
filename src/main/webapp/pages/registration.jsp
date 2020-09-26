@@ -1,45 +1,51 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Registration</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css"/>
-</head>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="language/jsp"/>
+<!DOCTYPE html>
+<html>
+<c:import url="jsptemplate/header.jsp"/>
 <body>
-<div id="container">
-    <div>
-        <form action="registration" method="post">
-            <div id="registerheader">
-                <h3>Регистрация нового пользователя</h3>
+<div id="reg-main-container">
+    <div id="reg-controls-group">
+        <div id="reg-input-items">
+            <h4 id="reg-label"><fmt:message key="reg.mainlabel"/> </h4>
+            <div class="form-group">
+                <label for="fieldUsername"><fmt:message key="reg.label.name"/></label>
+                <input type="text" class="form-control" id="fieldUsername"
+                       name="fieldName" placeholder="<fmt:message key="reg.placeholder.name"/>"/>
             </div>
-            <div id="regdivelements">
-                <label for="usernamefield">Имя пользователья</label>
-                <br/>
-                <input id="usernamefield" type="text" name="fieldName">
-                <br/>
-                <label for="pass1field">Пароль</label>
-                <br/>
-                <input id="pass1field" type="password" name="fieldPassword">
-                <br/>
-                <label for="pass2field">Повторите пароль</label>
-                <br/>
-                <input id="pass2field" type="password" name="fieldPassword2">
-                <br/>
-                <label for="emailfield">Почта</label>
-                <br/>
-                <input id="emailfield" type="text" name="fieldEmail">
-                <br/>
-                <br/>
-                <br/>
-                <input id="registerbtn" type="submit" name="action" value="Register">
-                <br/>
-                <br/>
-                <span id="errorlabel" style="margin-top: 10px"> ${registrationErrorMessage} </span>
+            <div class="form-group">
+                <label for="fieldPassword"><fmt:message key="reg.label.password"/></label>
+                <input type="password" class="form-control" id="fieldPassword"
+                       name="fieldPassword" placeholder="<fmt:message key="reg.placeholder.password"/>"/>
             </div>
-        </form>
+            <div class="form-group">
+                <label for="fieldPassword2"><fmt:message key="reg.label.password2"/></label>
+                <input type="password" class="form-control" id="fieldPassword2"
+                       name="fieldPassword"/>
+            </div>
+
+            <div class="form-group">
+                <label for="fieldEmail"><fmt:message key="reg.label.email"/></label>
+                <input type="text" class="form-control" id="fieldEmail"
+                       name="fieldName" placeholder="<fmt:message key="reg.placeholder.email"/>"/>
+            </div>
+        </div>
+        <div id="reg-error-div">
+            <span id="reg-error-span">какой-то вариант ошибки</span>
+        </div>
+        <div id="reg-submit">
+            <form action="registration" method="post">
+                <input type="submit" class="btn btn-light" name="action" value="<fmt:message key="reg.confirm.button"/>"/>
+            </form>
+        </div>
     </div>
 </div>
+<script type="text/javascript">
+    <c:import url="/js/jquery-3.5.1.min.js"/>
+    <c:import url="/css/bootstrap/js/bootstrap.min.js"/>
+</script>
 </body>
 </html>

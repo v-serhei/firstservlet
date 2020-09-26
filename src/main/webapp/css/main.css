@@ -22,7 +22,6 @@
     flex-direction: row;
     background: #e2d5aa;
 }
-
 #content-div {
     width: 80%;
     margin: 5px;
@@ -30,7 +29,6 @@
     flex-grow: 2;
     flex-shrink: 3;
 }
-
 #right-menu-div {
     height: 98%;
     flex-basis: 350px;
@@ -51,4 +49,61 @@
 #footer-span {
     font-size: 12pt;
     color: whitesmoke;
+}
+#user-menu-group {
+    margin-right: 10px;
+}
+#lang-menu {
+    display: initial;
+    margin-left: initial;
+}
+/*login page*/
+#login-main-container, #reg-main-container {
+    height: 980px;
+    width: 100%;
+    background: #f0e8cb;
+    overflow: auto;
+}
+#login-controls-group {
+    margin: 100px auto;
+    width: 25%;
+    height: 400px;
+    background: #e2d5aa;
+    border-style: ridge;
+    border-width: 2px;
+    border-color: #e9e2c3;
+    min-width: 350px;
+}
+#login-input-items, #reg-input-items {
+    margin: 70px auto 0 auto;
+    width: 85%;
+}
+#login-submit, #reg-submit{
+    margin: 10px auto 0 auto;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+}
+#login-label, #reg-label {
+    text-align: center;
+}
+#login-error-div, #reg-error-div {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+#login-error-span, #reg-error-span {
+    text-align: center;
+    font-size: 10pt;
+}
+/*registration*/
+#reg-controls-group {
+    margin: 100px auto;
+    width: 25%;
+    height: 600px;
+    background: #e2d5aa;
+    border-style: ridge;
+    border-width: 2px;
+    border-color: #e9e2c3;
+    min-width: 350px;
 }
