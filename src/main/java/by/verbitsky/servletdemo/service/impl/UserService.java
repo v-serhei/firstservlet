@@ -9,7 +9,7 @@ import by.verbitsky.servletdemo.pool.impl.ConnectionPoolImpl;
 import by.verbitsky.servletdemo.pool.impl.ProxyConnection;
 import by.verbitsky.servletdemo.service.WebResourcesManager;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.validator.routines.EmailValidator;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,64 +20,35 @@ public enum UserService {
     INSTANCE;
     //todo вынести в ресурсы
 
-    private static final String ATTR_SESSION_LOGIN_RESULT = "attr.session.loginresult";
     private static final String ATTR_SESSION_USER = "attr.session.user";
-    private static final String DEFAULT_GREETINGS = "Hello, guest";
-    private static final String DEFAULT_USER_EMAIL = "default";
-    private static final String DEFAULT_USER_NAME = "guest";
-    private static final String DISPLAY_VALUE_TRUE = "block";
-    private static final String DISPLAY_VALUE_FALSE = "none";
+    private static final String ATTR_SESSION_LOCALE = "attr.session.locale";
     private static final String EMAIL = "attr.user.email";
-    private static final String EMPTY_LOGIN_ERROR_MESSAGE = "";
-    private static final String HELLO_MESSAGE = "Hello, ";
-    private static final String LOGIN_BLOCK = "attr.loginblockdisplay";
-    private static final String LOGIN_ERROR = "attr.login.error";
-    private static final String LOGIN_ERROR_MESSAGE = "Wrong user name or password";
     private static final String LOGIN_PAGE = "pages.jsp.login";
-    private static final String LOGOUT_BLOCK = "attr.logoutblockdisplay";
     private static final String MAIN_PAGE = "pages.jsp.main";
-    private static final String NEGATIVE_LOGIN_RESULT = "false";
     private static final String PASSWORD = "attr.password";
     private static final String PASSWORD_SECOND = "attr.password.second";
-    private static final String POSITIVE_LOGIN_RESULT = "true";
     private static final String REGISTER_ERROR_ATTRIBUTE = "attr.reg.error";
-    private static final String REGISTER_ERROR_MESSAGE_DIFFERENT_PASSWORDS = "Different passwords";
-    private static final String REGISTER_ERROR_MESSAGE_EMPTY_PASSWORD = "Empty password field";
-    private static final String REGISTER_ERROR_MESSAGE_EXIST_EMAIL = "Email already used";
-    private static final String REGISTER_ERROR_MESSAGE_EXIST_USER = "User already exists";
-    private static final String REGISTER_ERROR_MESSAGE_WRONG_EMAIL = "Wrong user email";
-    private static final String REGISTER_ERROR_MESSAGE_WRONG_USER_NAME = "Wrong user name";
+    private static final String REGISTER_ERROR_MESSAGE_DIFFERENT_PASSWORDS = "reg.error.message.different.passwords";
+    //private static final String REGISTER_ERROR_MESSAGE_EMPTY_PASSWORD = "Empty password field";
+    private static final String REGISTER_ERROR_MESSAGE_EXIST_EMAIL = "reg.error.message.exist.email";
+    private static final String REGISTER_ERROR_MESSAGE_EXIST_USER = "reg.error.message.exist.user";
+    //private static final String REGISTER_ERROR_MESSAGE_WRONG_EMAIL = "Wrong user email";
+    //private static final String REGISTER_ERROR_MESSAGE_WRONG_USER_NAME = "Wrong user name";
     private static final String REGISTER_PAGE = "pages.jsp.registration";
     private static final String RESULT_PAGE = "attr.result.page";
-    private static final String USER_GREETING = "attr.usergreeting";
+
     private static final String USER_NAME = "attr.user.name";
 
-    private static final String MESSAGE_PARAMETER = "message";
 
     private static final int DEFAULT_SESSION_LIVE_TIME = 3600;
-    private static final String DELIMITER = "\n";
-    public static final String LOCALE = "locale";
+    private static final int DEFAULT_USER_DISCOUNT = 0;
+    private static final int DEFAULT_USER_ROLE_ID = 2;
+    private static final int DEFAULT_BLOCKED_STATUS = 0;
+
+
     private final Logger logger = LogManager.getLogger();
     private final ConnectionPoolImpl pool = ConnectionPoolImpl.getInstance();
     private final WebResourcesManager resourcesManager = WebResourcesManager.getInstance();
-
-/*
-    public void updateLoginAttributes(String userName) {
-        if (session != null && userName != null) {
-            String attrName = resourcesManager.getProperty(ATTR_SESSION_USER);
-            WebUser user = (WebUser) session.getAttribute(attrName);
-            user.setUserName(userName);
-            attrName = resourcesManager.getProperty(ATTR_SESSION_LOGIN_RESULT);
-            session.setAttribute(attrName, TRUE_LOGIN_RESULT);
-            attrName = resourcesManager.getProperty(LOGIN_BLOCK);
-            session.setAttribute(attrName, DISPLAY_VALUE_FALSE);
-            attrName = resourcesManager.getProperty(LOGOUT_BLOCK);
-            session.setAttribute(attrName, DISPLAY_VALUE_TRUE);
-            attrName = resourcesManager.getProperty(USER_GREETING);
-            session.setAttribute(attrName, HELLO_MESSAGE.concat(user.getUserName()));
-        }
-    }
-*/
 
   /*
     public void processLanguageSwitch(SessionRequestContent content) {
@@ -107,14 +78,43 @@ public enum UserService {
         String userName = content.getRequestParameter(paramName);
         String paramPassword = resourcesManager.getProperty(PASSWORD);
         String password = content.getRequestParameter(paramPassword);
-        boolean checkLogin = false;
+        String resultPage;
+        if (userName.isEmpty() || userName == null || password.isEmpty() || password == null) {
+            resultPage = resourcesManager.getProperty(LOGIN_PAGE);
+        } else {
+            try {
+                //looking for user in data base and compare user passwords
+                User user = findUserByName(userName);
+                if (user != null) {
+                    //if passwords are equals - set logged in status true
+                    if (user.getUserPassword().equals(getHashedPassword(password))) {
+                        user.setLoggedIn(true);
+                        user.setSession(content.getSession());
+                        content.addSessionAttribute(ATTR_SESSION_USER, user);
+                        resultPage = resourcesManager.getProperty(MAIN_PAGE);
+                    } else {
+                        resultPage = resourcesManager.getProperty(LOGIN_PAGE);
+                    }
+                } else {
+                    resultPage = resourcesManager.getProperty(LOGIN_PAGE);
+                }
+            } catch (PoolException | DaoException e) {
+                //todo подумать тут
+                logger.log(Level.WARN, "UserService: process login  error", e);
+                resultPage = resourcesManager.getProperty(LOGIN_PAGE);
+            }
+        }
+        content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPage);
+        /*boolean checkLogin = false;
         try {
             checkLogin = checkLogin(userName, password);
         } catch (PoolException | DaoException e) {
-            //todo generate error page
         }
-        String resultPage;
+
         if (checkLogin) {
+            User loggedInUser = findUserByName()
+
+
             content.addSessionAttribute(resourcesManager.getProperty(LOGIN_BLOCK), DISPLAY_VALUE_FALSE);
             content.addSessionAttribute(resourcesManager.getProperty(LOGOUT_BLOCK), DISPLAY_VALUE_TRUE);
             content.addSessionAttribute(resourcesManager.getProperty(USER_GREETING), HELLO_MESSAGE.concat(userName));
@@ -127,15 +127,17 @@ public enum UserService {
             content.addSessionAttribute(resourcesManager.getProperty(LOGOUT_BLOCK), DISPLAY_VALUE_FALSE);
             content.addSessionAttribute(resourcesManager.getProperty(USER_GREETING), DEFAULT_GREETINGS);
             content.addRequestAttribute(resourcesManager.getProperty(LOGIN_ERROR), LOGIN_ERROR_MESSAGE);
-            resultPage = resourcesManager.getProperty(LOGIN_PAGE);
+
             content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPage);
-        }
+        }*/
     }
 
     public void processLogout(SessionRequestContent content) {
+        content.getSession().invalidate();
+        /*
         content.addSessionAttribute(resourcesManager.getProperty(LOGIN_BLOCK), DISPLAY_VALUE_TRUE);
         content.addSessionAttribute(resourcesManager.getProperty(LOGOUT_BLOCK), DISPLAY_VALUE_FALSE);
-        content.addSessionAttribute(resourcesManager.getProperty(USER_GREETING), DEFAULT_GREETINGS);
+        content.addSessionAttribute(resourcesManager.getProperty(USER_GREETING), DEFAULT_GREETINGS);*/
         String resultPageUrl = resourcesManager.getProperty(MAIN_PAGE);
         content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPageUrl);
     }
@@ -143,62 +145,80 @@ public enum UserService {
     public void processRegistration(SessionRequestContent content) {
         String paramName = resourcesManager.getProperty(USER_NAME);
         String userName = content.getRequestParameter(paramName);
-        User user = new User();
+        User registeredUser = new User();
+        /*
         if (userName == null || userName.isEmpty()) {
             setWrongRegistrationResult(content, REGISTER_ERROR_MESSAGE_WRONG_USER_NAME);
             return;
-        }
+        }*/
         try {
-            if (existUserName(userName)) {
+            User user = findUserByName(userName);
+            if (user != null) {
                 setWrongRegistrationResult(content, REGISTER_ERROR_MESSAGE_EXIST_USER);
                 return;
             }
         } catch (PoolException | DaoException e) {
             //todo generate error page
         }
-        user.setUserName(userName);
+        registeredUser.setUserName(userName);
         paramName = resourcesManager.getProperty(PASSWORD);
         String firstPassword = content.getRequestParameter(paramName);
         paramName = resourcesManager.getProperty(PASSWORD_SECOND);
         String secondPassword = content.getRequestParameter(paramName);
+       /*
         if (firstPassword == null || firstPassword.isEmpty() || secondPassword == null || secondPassword.isEmpty()) {
             setWrongRegistrationResult(content, REGISTER_ERROR_MESSAGE_EMPTY_PASSWORD);
             return;
-        }
+        }*/
         if (!firstPassword.equals(secondPassword)) {
             setWrongRegistrationResult(content, REGISTER_ERROR_MESSAGE_DIFFERENT_PASSWORDS);
             return;
         }
-        user.setUserPassword(getHashedPassword(firstPassword));
+        registeredUser.setUserPassword(getHashedPassword(firstPassword));
         paramName = resourcesManager.getProperty(EMAIL);
         String email = content.getRequestParameter(paramName);
+        /*
         if (!validateUserEmail(email)) {
             setWrongRegistrationResult(content, REGISTER_ERROR_MESSAGE_WRONG_EMAIL);
             return;
-        }
+        }*/
         try {
-            if (existUserEmail(email)) {
+            User user = findUserByEmail(email);
+            if (user != null) {
                 setWrongRegistrationResult(content, REGISTER_ERROR_MESSAGE_EXIST_EMAIL);
                 return;
             }
         } catch (PoolException | DaoException e) {
             //todo generate error page
         }
-        user.setEmail(email);
+        registeredUser.setEmail(email);
+        registeredUser.setBlockedStatus(DEFAULT_BLOCKED_STATUS);
+        registeredUser.setDiscount(DEFAULT_USER_DISCOUNT);
+        registeredUser.setRoleId(DEFAULT_USER_ROLE_ID);
         String resultPage = resourcesManager.getProperty(LOGIN_PAGE);
         try {
-            addRegisteredUser(user);
+            addRegisteredUser(registeredUser);
         } catch (PoolException | DaoException e) {
             // todo generate error page
         }
         content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPage);
-
     }
 
     public void processNewSession(HttpSession session) {
         if (session != null) {
             if (session.isNew()) {
                 session.setMaxInactiveInterval(DEFAULT_SESSION_LIVE_TIME);
+                User user = new User();
+                user.setSession(session);
+                user.setLoggedIn(false);
+                Object locale = session.getAttribute(resourcesManager.getProperty(ATTR_SESSION_LOCALE));
+                if (locale == null) {
+                    session.setAttribute(resourcesManager.getProperty(ATTR_SESSION_LOCALE), Locale.getDefault());
+                }
+                session.setAttribute(ATTR_SESSION_USER, user);
+
+                //todo del this
+                /*
                 String attrName = resourcesManager.getProperty(ATTR_SESSION_USER);
                 User user = new User(session, DEFAULT_USER_NAME, DEFAULT_USER_EMAIL);
                 session.setAttribute(attrName, user);
@@ -209,12 +229,7 @@ public enum UserService {
                 attrName = resourcesManager.getProperty(LOGOUT_BLOCK);
                 session.setAttribute(attrName, DISPLAY_VALUE_FALSE);
                 attrName = resourcesManager.getProperty(USER_GREETING);
-                session.setAttribute(attrName, HELLO_MESSAGE.concat(user.getUserName()));
-                //todo change this
-                Object locale = session.getAttribute("locale");
-                if (locale == null) {
-                    session.setAttribute("locale", Locale.getDefault());
-                }
+                session.setAttribute(attrName, HELLO_MESSAGE.concat(user.getUserName()));*/
             }
         }
     }
@@ -230,6 +245,7 @@ public enum UserService {
         return DigestUtils.sha512Hex(salt.concat(password));
     }
 
+    /*
     private boolean checkLogin(String username, String password) throws PoolException, DaoException {
         if (username.isEmpty() || username == null || password.isEmpty() || password == null) {
             return false;
@@ -248,29 +264,31 @@ public enum UserService {
             }
         }
         return result;
-    }
+    }*/
 
-    private boolean existUserEmail(String email) throws PoolException, DaoException {
+    private User findUserByEmail(String email) throws PoolException, DaoException {
         UserDao userDAO = new UserDao();
         ProxyConnection connection = pool.getConnection();
         userDAO.setConnection(connection);
-        User result = userDAO.findByEmail(email.toLowerCase());
+        User user = userDAO.findByEmail(email.toLowerCase());
         pool.releaseConnection(connection);
-        return (result != null);
+        return user;
     }
 
-    private boolean existUserName(String userName) throws PoolException, DaoException {
+
+    private User findUserByName(String userName) throws PoolException, DaoException {
         UserDao userDAO = new UserDao();
         ProxyConnection connection = pool.getConnection();
         userDAO.setConnection(connection);
         User user = userDAO.findUserByName(userName.toLowerCase());
         pool.releaseConnection(connection);
-        return (user != null);
+        return user;
     }
 
+    /*
     private boolean validateUserEmail(String email) {
         return EmailValidator.getInstance().isValid(email);
-    }
+    }*/
 
     private boolean addRegisteredUser(User user) throws PoolException, DaoException {
         UserDao userDAO = new UserDao();

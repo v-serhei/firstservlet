@@ -11,16 +11,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDao extends BaseDao<User, Long> {
-    private static final String SELECT_ALL_USERS = "SELECT username, password, email FROM users";
-    private static final String SELECT_USER_BY_ID = "SELECT username, password, email FROM users WHERE id=?";
-    private static final String SELECT_USER_BY_EMAIL = "SELECT username, password, email FROM users WHERE email=?";
-    private static final String SELECT_USER_BY_NAME = "SELECT username, password, email FROM users WHERE username=?";
-    private static final String SELECT_DELETE_USER_BY_ID = "DELETE FROM users WHERE id=?";
-    private static final String INSERT_USER = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
-
+    private static final String SELECT_ALL_USERS =
+            "SELECT username, password, email, role_id, blocked, discount_value FROM users";
+    private static final String SELECT_USER_BY_ID =
+            "SELECT username, password, email, role_id, blocked, discount_value FROM users WHERE user_id=?";
+    private static final String SELECT_USER_BY_EMAIL =
+            "SELECT username, password, email, role_id, blocked, discount_value FROM users WHERE email=?";
+    private static final String SELECT_USER_BY_NAME =
+            "SELECT username, password, email, role_id, blocked, discount_value FROM users WHERE username=?";
+    private static final String SELECT_DELETE_USER_BY_ID =
+            "DELETE FROM users WHERE user_id=?";
+    private static final String INSERT_USER =
+            "INSERT INTO users " +
+            "(username, password, email, role_id, blocked, discount_value) " +
+            "VALUES (?, ?, ?, ?, ?, ?)";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_EMAIL = "email";
+    private static final String COLUMN_ROLE = "role_id";
+    private static final String COLUMN_BLOCKED = "blocked";
+    private static final String COLUMN_DISCOUNT = "discount_value";
     private Connection connection;
 
     public void setConnection(Connection connection) {
@@ -36,7 +46,10 @@ public class UserDao extends BaseDao<User, Long> {
                 String name = set.getString(COLUMN_USERNAME);
                 String email = set.getString(COLUMN_EMAIL);
                 String password = set.getString(COLUMN_PASSWORD);
-                User user = new User(name, password, email);
+                int roleId = Integer.parseInt(set.getString(COLUMN_ROLE));
+                int blocked = Integer.parseInt(set.getString(COLUMN_BLOCKED));
+                int discount = Integer.parseInt(set.getString(COLUMN_DISCOUNT));
+                User user = new User(name, password, email, roleId, blocked, discount);
                 result.add(user);
             }
         } catch (SQLException e) {
@@ -52,10 +65,7 @@ public class UserDao extends BaseDao<User, Long> {
             statement.setLong(1, id);
             ResultSet set = statement.executeQuery();
             if (set.next()) {
-                String name = set.getString(COLUMN_USERNAME);
-                String email = set.getString(COLUMN_EMAIL);
-                String password = set.getString(COLUMN_PASSWORD);
-                user = new User(name, password, email);
+                user = createUserFromSet(set);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -69,10 +79,7 @@ public class UserDao extends BaseDao<User, Long> {
             statement.setString(1, userEmail);
             ResultSet set = statement.executeQuery();
             if (set.next()) {
-                String name = set.getString(COLUMN_USERNAME);
-                String email = set.getString(COLUMN_EMAIL);
-                String password = set.getString(COLUMN_PASSWORD);
-                user = new User(name, password, email);
+                user = createUserFromSet(set);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -86,9 +93,7 @@ public class UserDao extends BaseDao<User, Long> {
             statement.setString(1, userName);
             ResultSet set = statement.executeQuery();
             if (set.next()) {
-                String email = set.getString(COLUMN_EMAIL);
-                String password = set.getString(COLUMN_PASSWORD);
-                user = new User(userName, password, email);
+                user = createUserFromSet(set);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -122,10 +127,14 @@ public class UserDao extends BaseDao<User, Long> {
     public boolean addNewUser(User user) throws DaoException {
         boolean result;
         if (user != null) {
+            //username, password, email, role_id, blocked, discount_value
             try (PreparedStatement statement = connection.prepareStatement(INSERT_USER)) {
                 statement.setString(1, user.getUserName());
                 statement.setString(2, user.getUserPassword());
                 statement.setString(3, user.getEmail());
+                statement.setInt(4, user.getRoleId());
+                statement.setInt(5, user.getBlockedStatus());
+                statement.setInt(6, user.getDiscount());
                 statement.executeUpdate();
                 result = true;
             } catch (SQLException e) {
@@ -135,5 +144,17 @@ public class UserDao extends BaseDao<User, Long> {
             result = false;
         }
         return result;
+    }
+
+    private User createUserFromSet(ResultSet set) throws SQLException {
+        User user;
+        String name = set.getString(COLUMN_USERNAME);
+        String email = set.getString(COLUMN_EMAIL);
+        String password = set.getString(COLUMN_PASSWORD);
+        int roleId = Integer.parseInt(set.getString(COLUMN_ROLE));
+        int blocked = Integer.parseInt(set.getString(COLUMN_BLOCKED));
+        int discount = Integer.parseInt(set.getString(COLUMN_DISCOUNT));
+        user = new User(name, password, email, roleId, blocked, discount);
+        return user;
     }
 }

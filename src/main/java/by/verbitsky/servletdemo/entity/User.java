@@ -7,31 +7,21 @@ public class User {
     private String userName;
     private String email;
     private String userPassword;
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
+    private int discount;
+    private int roleId;
+    private int blockedStatus;
+    private boolean isLoggedIn;
 
     public User() {
     }
 
-    public User(HttpSession session, String userName, String email) {
-        this.session = session;
+    public User(String userName, String email, String userPassword, int discount, int roleId, int blockedStatus) {
         this.userName = userName;
         this.email = email;
-    }
-    public User(String userName, String email) {
-        this.userName = userName;
-        this.email = email;
-    }
-    public User(String userName, String password, String email) {
-        this.userName = userName;
-        this.email = email;
-        this.userPassword = password;
+        this.userPassword = userPassword;
+        this.discount = discount;
+        this.roleId = roleId;
+        this.blockedStatus = blockedStatus;
     }
 
     public HttpSession getSession() {
@@ -56,6 +46,52 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
+
+    public int getBlockedStatus() {
+        return blockedStatus;
+    }
+
+    public void setBlockedStatus(int statusId) {
+        //status 1 or more - blocked, status <=0 - non blocked
+        if (statusId > 0) {
+            blockedStatus = 1;
+        }
+        if (statusId <= 0) {
+            blockedStatus = 0;
+        }
+    }
+
+    public boolean isLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        isLoggedIn = loggedIn;
     }
 
     @Override

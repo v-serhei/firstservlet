@@ -26,11 +26,8 @@
         </footer>
     </div>
 </div>
-
-
 <div class="bottom-div-gradient">
 </div>
-
 <!-- Add jquery libs on page -->
 <script type="text/javascript">
     <c:import url="/js/jquery-3.5.1.min.js"/>
