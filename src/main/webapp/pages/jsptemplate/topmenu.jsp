@@ -19,20 +19,24 @@
                     <a class="nav-link" href="#"><fmt:message key="main.menu.compilation"/></a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
+            <form class="form-inline my-2 my-lg-0" method="post">
                 <div class="btn-group btn-group-sm" role="group">
                     <c:choose>
                         <c:when test="${sessionScope.user.loginStatus}">
                             <!-- if logged in -->
-                        <button type="button" class="btn btn-secondary btn-lg" disabled><fmt:message
-                                key="user.menu.greetings"/></button>
-                        <input id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                               value="${sessionScope.user.userName}">
-                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <a class="dropdown-item" href="${pageContext.request.contextPath}/logout"><fmt:message
-                                    key="user.menu.logout"/></a>
-                        </div>
+                            <button type="button" class="btn btn-secondary btn-lg" disabled><fmt:message
+                                    key="user.menu.greetings"/></button>
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    ${sessionScope.user.userName}!
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <form action="logout" id="logout-form" method="post">
+                                    <button class="dropdown-item" type="submit" name="action" value="LOGOUT">
+                                        <fmt:message key="user.menu.logout"/>
+                                    </button>
+                                </form>
+                            </div>
                         </c:when>
                         <c:otherwise>
                             <!-- if not logged in -->
@@ -45,12 +49,13 @@
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 <a class="dropdown-item" href="${pageContext.request.contextPath}/login"><fmt:message
                                         key="user.menu.login"/></a>
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/registration"><fmt:message
+                                <a class="dropdown-item"
+                                   href="${pageContext.request.contextPath}/registration"><fmt:message
                                         key="user.menu.registration"/></a>
                             </div>
                         </c:otherwise>
                     </c:choose>
-                    </div>
+                </div>
             </form>
         </nav>
     </div>

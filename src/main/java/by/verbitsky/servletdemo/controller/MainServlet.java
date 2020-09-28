@@ -27,6 +27,7 @@ public class MainServlet extends HttpServlet {
     private static final String RESULT_PAGE = "attr.result.page";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("do post");
         //get session or create new
         HttpSession session = request.getSession(true);
         userService.processNewSession(session);
@@ -37,20 +38,21 @@ public class MainServlet extends HttpServlet {
         SessionRequestContent content = new SessionRequestContent(request);
         //Create command
         Command command = CommandProvider.defineCommand(cmd);
+        System.out.println(command);
         if (command == null) {
             //todo redirect to error page with error message
         }
         //Process command
         command.execute(content);
         //update request and session attributes
-        content.pushAttributesToRequest(request);
-        content.pushAttributesToSession(request);
+
         //get result page
         String page = (String) request.getAttribute(WebResourcesManager.getInstance().getProperty(RESULT_PAGE));
         request.getRequestDispatcher(page).forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("do get");
         HttpSession session = request.getSession(true);
         UserService.INSTANCE.processNewSession(session);
         String reqPage = request.getRequestURI();

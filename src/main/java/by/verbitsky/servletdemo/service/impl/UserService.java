@@ -106,16 +106,23 @@ public enum UserService {
         }
         content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPage);
         content.addRequestAttribute(resourcesManager.getProperty(ATTR_REQUEST_LOGIN_RESULT), loginError);
+        content.pushAttributesToRequest(content.getRequest());
+        content.pushAttributesToSession(content.getRequest());
     }
 
     public void processLogout(SessionRequestContent content) {
+        //todo подумать как убить сессию
         content.getSession().invalidate();
+      /*  HttpSession session = content.getRequest().getSession(true);
+        System.out.println(session);
+        processNewSession(session);
         /*
         content.addSessionAttribute(resourcesManager.getProperty(LOGIN_BLOCK), DISPLAY_VALUE_TRUE);
         content.addSessionAttribute(resourcesManager.getProperty(LOGOUT_BLOCK), DISPLAY_VALUE_FALSE);
         content.addSessionAttribute(resourcesManager.getProperty(USER_GREETING), DEFAULT_GREETINGS);*/
         String resultPageUrl = resourcesManager.getProperty(MAIN_PAGE);
         content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPageUrl);
+        content.pushAttributesToRequest(content.getRequest());
     }
 
     public void processRegistration(SessionRequestContent content) {
@@ -181,6 +188,8 @@ public enum UserService {
         regErrorResult = false;
         content.addRequestAttribute(resourcesManager.getProperty(ATTR_REQUEST_REG_RESULT), regErrorResult);
         content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPage);
+        content.pushAttributesToRequest(content.getRequest());
+        content.pushAttributesToSession(content.getRequest());
     }
 
     public void processNewSession(HttpSession session) {
