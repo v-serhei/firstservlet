@@ -19,46 +19,47 @@ import java.util.Locale;
 public enum UserService {
     INSTANCE;
     //todo вынести в ресурсы
-
+    //session and req attributes
     private static final String ATTR_SESSION_USER = "attr.session.user";
     private static final String ATTR_SESSION_LOCALE = "attr.session.locale";
     private static final String ATTR_REQUEST_LOGIN_RESULT = "attr.request.login.error";
     private static final String ATTR_REQUEST_REG_ERROR_MESSAGE = "attr.request.reg.error";
     private static final String ATTR_REQUEST_REG_RESULT = "attr.request.reg.result";
-    private static final String EMAIL = "attr.user.email";
     private static final String LOGIN_PAGE = "pages.jsp.login";
     private static final String MAIN_PAGE = "pages.jsp.main";
-    private static final String PASSWORD = "attr.password";
-    private static final String PASSWORD_SECOND = "attr.password.second";
+    //request parameters
+    private static final String PARAM_EMAIL = "param.user.email";
+    private static final String PARAM_LANGUAGE = "param.user.lang";
+    private static final String PARAM_USER_NAME = "param.user.name";
+    private static final String PARAM_PASSWORD = "param.password";
+    private static final String PARAM_PASSWORD_SECOND = "param.password.second";
+    private static final String PARAM_FORM_ACTION = "param.jsp.commandtype";
+    //other attributes
     private static final String REGISTER_ERROR_MESSAGE_DIFFERENT_PASSWORDS = "reg.error.message.different.passwords";
-    //private static final String REGISTER_ERROR_MESSAGE_EMPTY_PASSWORD = "Empty password field";
-    private static final String REGISTER_ERROR_MESSAGE_EXIST_EMAIL = "reg.error.message.exist.email";
     private static final String REGISTER_ERROR_MESSAGE_EXIST_USER = "reg.error.message.exist.user";
-    //private static final String REGISTER_ERROR_MESSAGE_WRONG_EMAIL = "Wrong user email";
-    //private static final String REGISTER_ERROR_MESSAGE_WRONG_USER_NAME = "Wrong user name";
     private static final String REGISTER_PAGE = "pages.jsp.registration";
     private static final String RESULT_PAGE = "attr.result.page";
+    private static final String REGISTER_ERROR_MESSAGE_EXIST_EMAIL = "reg.error.message.exist.email";
 
-    private static final String USER_NAME = "attr.user.name";
-
+    //private static final String REGISTER_ERROR_MESSAGE_WRONG_EMAIL = "Wrong user email";
+    //private static final String REGISTER_ERROR_MESSAGE_WRONG_USER_NAME = "Wrong user name";
+    //private static final String REGISTER_ERROR_MESSAGE_EMPTY_PASSWORD = "Empty password field";
 
     private static final int DEFAULT_SESSION_LIVE_TIME = 3600;
     private static final int DEFAULT_USER_DISCOUNT = 0;
     private static final int DEFAULT_USER_ROLE_ID = 2;
     private static final int DEFAULT_BLOCKED_STATUS = 0;
 
-
     private final Logger logger = LogManager.getLogger();
     private final ConnectionPoolImpl pool = ConnectionPoolImpl.getInstance();
     private final WebResourcesManager resourcesManager = WebResourcesManager.getInstance();
 
-  /*
+
     public void processLanguageSwitch(SessionRequestContent content) {
-        System.out.println("process language");
-        InputClientMessage message = (InputClientMessage) content.getRequestAttribute(MESSAGE_PARAMETER);
+        String paramName = WebResourcesManager.getInstance().getProperty(PARAM_FORM_ACTION);
+        String lang = content.getRequestParameter(paramName);
         Locale locale;
-        System.out.println();
-        switch (message.getMessage().toLowerCase()) {
+        switch (lang.toLowerCase()) {
             case "en": {
                 locale = new Locale("en", "US");
                 break;
@@ -70,15 +71,17 @@ public enum UserService {
             default:
                 locale = Locale.getDefault();
         }
-        content.addSessionAttribute(LOCALE, locale);
+        content.addSessionAttribute(resourcesManager.getProperty(ATTR_SESSION_LOCALE), locale);
         String resultPage = resourcesManager.getProperty(MAIN_PAGE);
         content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPage);
-    }*/
+        content.pushAttributesToRequest(content.getRequest());
+        content.pushAttributesToSession(content.getRequest());
+    }
 
     public void processLogin(SessionRequestContent content) {
-        String paramName = resourcesManager.getProperty(USER_NAME);
+        String paramName = resourcesManager.getProperty(PARAM_USER_NAME);
         String userName = content.getRequestParameter(paramName);
-        String paramPassword = resourcesManager.getProperty(PASSWORD);
+        String paramPassword = resourcesManager.getProperty(PARAM_PASSWORD);
         String password = content.getRequestParameter(paramPassword);
         String resultPage;
         boolean loginError = true;
@@ -126,7 +129,7 @@ public enum UserService {
     }
 
     public void processRegistration(SessionRequestContent content) {
-        String paramName = resourcesManager.getProperty(USER_NAME);
+        String paramName = resourcesManager.getProperty(PARAM_USER_NAME);
         String userName = content.getRequestParameter(paramName);
         User registeredUser = new User();
         boolean regErrorResult = true;
@@ -145,9 +148,9 @@ public enum UserService {
             //todo generate error page
         }
         registeredUser.setUserName(userName);
-        paramName = resourcesManager.getProperty(PASSWORD);
+        paramName = resourcesManager.getProperty(PARAM_PASSWORD);
         String firstPassword = content.getRequestParameter(paramName);
-        paramName = resourcesManager.getProperty(PASSWORD_SECOND);
+        paramName = resourcesManager.getProperty(PARAM_PASSWORD_SECOND);
         String secondPassword = content.getRequestParameter(paramName);
        /*
         if (firstPassword == null || firstPassword.isEmpty() || secondPassword == null || secondPassword.isEmpty()) {
@@ -159,7 +162,7 @@ public enum UserService {
             return;
         }
         registeredUser.setUserPassword(getHashedPassword(firstPassword));
-        paramName = resourcesManager.getProperty(EMAIL);
+        paramName = resourcesManager.getProperty(PARAM_EMAIL);
         String email = content.getRequestParameter(paramName);
         /*
         if (!validateUserEmail(email)) {

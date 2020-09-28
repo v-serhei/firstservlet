@@ -1,6 +1,6 @@
 package by.verbitsky.servletdemo.command;
 
-import by.verbitsky.servletdemo.command.impl.ChangeLanguageCommand;
+import by.verbitsky.servletdemo.command.impl.SwitchLanguageCommand;
 import by.verbitsky.servletdemo.command.impl.LoginCommand;
 import by.verbitsky.servletdemo.command.impl.LogoutCommand;
 import by.verbitsky.servletdemo.command.impl.RegisterCommand;
@@ -18,12 +18,15 @@ public enum CommandType {
         {
             this.command = new RegisterCommand();
         }
-    }, CHANGE_LANGUAGE {
+    }, RU {
         {
-            this.command = new ChangeLanguageCommand();
+            this.command = new SwitchLanguageCommand();
+        }
+    }, EN {
+        {
+            this.command = new SwitchLanguageCommand();
         }
     };
-
     Command command;
 
     public Command getCommand() {

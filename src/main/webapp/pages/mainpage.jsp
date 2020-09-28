@@ -9,14 +9,11 @@
 <div id="main-body-container">
     <div id="body-container">
         <div id="content-div">
-            <span>content container</span>
+
+            <!-- c:import url="login.jsp"/>-->
+
         </div>
-        <div id="right-menu-div">
-            site left menu
-            <ul>menu1</ul>
-            <ul>menu2</ul>
-            <ul>menu3</ul>
-        </div>
+
     </div>
 </div>
 <c:import url="jsptemplate/footer.jsp"/>
