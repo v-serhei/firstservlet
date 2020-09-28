@@ -23,8 +23,8 @@ public class UserDao extends BaseDao<User, Long> {
             "DELETE FROM users WHERE user_id=?";
     private static final String INSERT_USER =
             "INSERT INTO users " +
-            "(username, password, email, role_id, blocked, discount_value) " +
-            "VALUES (?, ?, ?, ?, ?, ?)";
+                    "(username, password, email, role_id, blocked, discount_value) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_EMAIL = "email";
@@ -154,7 +154,7 @@ public class UserDao extends BaseDao<User, Long> {
         int roleId = Integer.parseInt(set.getString(COLUMN_ROLE));
         int blocked = Integer.parseInt(set.getString(COLUMN_BLOCKED));
         int discount = Integer.parseInt(set.getString(COLUMN_DISCOUNT));
-        user = new User(name, password, email, roleId, blocked, discount);
+        user = new User(name, email, password, discount, roleId, blocked);
         return user;
     }
 }

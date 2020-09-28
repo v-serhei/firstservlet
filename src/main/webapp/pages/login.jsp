@@ -9,27 +9,31 @@
 <body>
 <div id="login-main-container">
     <div id="login-controls-group">
-        <div id="login-input-items">
-            <h4 id="login-label"><fmt:message key="login.mainlabel"/></h4>
-            <div class="form-group">
-                <label for="fieldUsername"><fmt:message key="login.label.name"/></label>
-                <input type="text" class="form-control" id="fieldUsername"
-                       name="fieldName" placeholder="<fmt:message key="login.placeholder.name"/>">
+        <form action="login" method="post">
+            <div id="login-input-items">
+                <h4 id="login-label"><fmt:message key="login.mainlabel"/></h4>
+                <div class="form-group">
+                    <label for="fieldUsername"><fmt:message key="login.label.name"/></label>
+                    <input type="text" class="form-control" id="fieldUsername"
+                           name="fieldName" placeholder="<fmt:message key="login.placeholder.name"/>">
+                </div>
+                <div class="form-group">
+                    <label for="fieldUserPassword"><fmt:message key="login.label.password"/></label>
+                    <input type="password" class="form-control" id="fieldUserPassword"
+                           name="fieldPassword" placeholder="<fmt:message key="login.placeholder.password"/>">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="fieldUserPassword"><fmt:message key="login.label.password"/></label>
-                <input type="password" class="form-control" id="fieldUserPassword"
-                       name="fieldPassword" placeholder="<fmt:message key="login.placeholder.password"/>">
+            <c:if test="${requestScope.loginError}">
+                <div id="login-error-div">
+                    <span id="login-error-span"><fmt:message key="login.error.message"/></span>
+                </div>
+            </c:if>
+            <div id="login-submit">
+                <button class="btn btn-light" name="action" value="LOGIN">
+                    <fmt:message key="login.confirm.button"/>
+                </button>
             </div>
-        </div>
-        <div id="login-error-div">
-            <span id="login-error-span"><fmt:message key="login.error.message"/></span>
-        </div>
-        <div id="login-submit">
-            <form action="login" method="post">
-                <input type="submit" class="btn btn-light" name="action" value="<fmt:message key="login.confirm.button"/>"/>
-            </form>
-        </div>
+        </form>
     </div>
 </div>
 <script type="text/javascript">

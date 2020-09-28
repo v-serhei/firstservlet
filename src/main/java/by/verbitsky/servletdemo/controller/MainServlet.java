@@ -51,7 +51,6 @@ public class MainServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("do get:"+request.getRequestURI());
         HttpSession session = request.getSession(true);
         UserService.INSTANCE.processNewSession(session);
         String reqPage = request.getRequestURI();

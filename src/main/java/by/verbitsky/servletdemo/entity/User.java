@@ -10,7 +10,7 @@ public class User {
     private int discount;
     private int roleId;
     private int blockedStatus;
-    private boolean isLoggedIn;
+    private boolean loginStatus;
 
     public User() {
     }
@@ -86,12 +86,12 @@ public class User {
         }
     }
 
-    public boolean isLoggedIn() {
-        return isLoggedIn;
+    public boolean getLoginStatus() {
+        return loginStatus;
     }
 
-    public void setLoggedIn(boolean loggedIn) {
-        isLoggedIn = loggedIn;
+    public void setLoginStatus(boolean loginStatus) {
+        this.loginStatus = loginStatus;
     }
 
     @Override
@@ -110,13 +110,31 @@ public class User {
         return userName != null ? userName.hashCode() : 0;
     }
 
-    @Override
+
+    /*@Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+
+        //todo fix it
+        StringBuilder  sb = new StringBuilder();
         sb.append("User: name=");
         sb.append(userName);
         sb.append(", email=");
         sb.append(email);
+
         return sb.toString();
+    }*/
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "session=" + session +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", discount=" + discount +
+                ", roleId=" + roleId +
+                ", blockedStatus=" + blockedStatus +
+                ", isLoggedIn=" + loginStatus +
+                '}';
     }
 }
