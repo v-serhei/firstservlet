@@ -10,11 +10,10 @@
     <div id="body-container">
         <div id="content-div">
 
-            <!-- c:import url="login.jsp"/>-->
-
         </div>
-
+        <c:import url="jsptemplate/leftmenu.jsp"/>
     </div>
+
 </div>
 <c:import url="jsptemplate/footer.jsp"/>
 </body>

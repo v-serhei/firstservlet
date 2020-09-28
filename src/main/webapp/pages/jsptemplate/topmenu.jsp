@@ -36,6 +36,9 @@
                                         <fmt:message key="user.menu.logout"/>
                                     </button>
                                 </form>
+
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/profile">profile</a>
+
                             </div>
                         </c:when>
                         <c:otherwise>

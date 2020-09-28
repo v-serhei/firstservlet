@@ -18,7 +18,7 @@ import java.io.IOException;
 
 @WebServlet(name = "MainServlet",
         urlPatterns = {"", "/index.jsp", "/controller", "/login", "/logout",
-                "/main", "/registration", "/langswitch"
+                "/main", "/registration", "/langswitch", "/profile"
 })
 
 public class MainServlet extends HttpServlet {

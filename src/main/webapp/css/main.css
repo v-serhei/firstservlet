@@ -107,3 +107,51 @@
     border-color: #e9e2c3;
     min-width: 350px;
 }
+/*profile page*/
+#profile-main-container {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    background: #f0e8cb;
+    border-style: ridge;
+    border-width: 2px;
+    border-color: #e9e2c3;
+}
+#profile-blocks {
+    display: flex;
+    flex-direction: row;
+    background: #e2d5aa;
+    height: 100%;
+}
+#profile-menu {
+    width: 200px;
+    background: #343a40;
+    min-width: 160px;
+}
+#nav-btns {
+    margin: 30px auto;
+    padding: 10%;
+    background: #343a40;
+}
+#profile-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+#profile-review-block, #profile-order-block {
+    display: none;
+}
+#profile-user-label {
+    display: flex;
+    justify-content: center;
+    font-size: 12pt;
+    color: ghostwhite;
+    margin: 30px auto 30px auto;
+}
+.profile-inputs {
+    border-style: ridge;
+    border-width: 2px;
+    border-color: #e9e2c3;
+    height: 100%;
+}
