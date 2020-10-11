@@ -5,7 +5,7 @@
 <fmt:setBundle basename="language/jsp"/>
 <!DOCTYPE html>
 <html>
-<c:import url="jsptemplate/header.jsp"/>
+<c:import url="../../WEB-INF/importjsp/header.jsp"/>
 <body>
 <div id="top-body-container">
     <div class="top-div-gradient">
@@ -20,7 +20,7 @@
         </nav>
     </div>
 </div>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/profile.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/profile.js"></script>
 <div id="main-body-container">
     <div id="body-container">
         <div id="content-div">
@@ -61,6 +61,6 @@
         </div>
     </div>
 </div>
-<c:import url="jsptemplate/footer.jsp"/>
+<c:import url="../../WEB-INF/importjsp/footer.jsp"/>
 </body>
 </html>

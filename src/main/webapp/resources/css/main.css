@@ -1,0 +1,345 @@
+.top-div-gradient, .bottom-div-gradient {
+    height: 20px;
+    margin: 0 auto; /* Выравнивание по центру */
+    background: #f0e8cb; /* Цвет фона левой колонки */
+}
+/*top part*/
+#top-body-container, #bottom-body-container {
+    background: #f0e8cb;
+}
+#top-menu-div, #footer-container, #body-container {
+    margin: 0 auto;
+    width: 80%;
+}
+/* middle part*/
+#main-body-container {
+    margin: 0 auto;
+    background: #f0e8cb;
+}
+#body-container {
+    height: 800px;
+    display: flex;
+    flex-direction: row;
+    background: #e2d5aa;
+}
+#content-div {
+    width: 80%;
+    margin: 5px;
+    height: 98%;
+    flex-grow: 2;
+    flex-shrink: 3;
+}
+#right-menu-div {
+    height: 98%;
+    flex-basis: 350px;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #e9e2c3;
+    flex-shrink: 1;
+}
+/*bottom part*/
+#footer-div {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+}
+#footer-span {
+    font-size: 12pt;
+    color: whitesmoke;
+}
+#user-menu-group {
+    margin-right: 10px;
+}
+#lang-menu {
+    display: initial;
+    margin-left: initial;
+}
+/*login page*/
+#login-main-container, #reg-main-container {
+    height: 980px;
+    width: 100%;
+    background: #f0e8cb;
+    overflow: auto;
+}
+#login-controls-group {
+    margin: 100px auto;
+    width: 25%;
+    height: 400px;
+    background: #e2d5aa;
+    border-style: ridge;
+    border-width: 2px;
+    border-color: #e9e2c3;
+    min-width: 350px;
+}
+#login-input-items, #reg-input-items {
+    margin: 70px auto 0 auto;
+    width: 85%;
+}
+#login-submit, #reg-submit{
+    margin: 10px auto 0 auto;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+}
+#login-label, #reg-label {
+    text-align: center;
+}
+#login-error-div, #reg-error-div {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+#login-error-span, #reg-error-span {
+    text-align: center;
+    font-size: 10pt;
+}
+/*registration*/
+#reg-controls-group {
+    margin: 100px auto;
+    width: 25%;
+    height: 600px;
+    background: #e2d5aa;
+    border-style: ridge;
+    border-width: 2px;
+    border-color: #e9e2c3;
+    min-width: 350px;
+}
+
+/*---------------------------------------------------------------------*/
+/*profile page*/
+#profile-main-container, #admin-page-main-container{
+    width: 100%;
+    background: #f0e8cb;
+}
+#profile-blocks, #admin-page-blocks {
+    display: flex;
+    background: #e2d5aa;
+}
+#profile-menu, #admin-page-menu {
+    width: 230px;
+    background: #343a40;
+    height: 790px;
+}
+#nav-btns {
+    margin: 30px auto;
+    width: 160px;
+    background: #343a40;
+}
+#profile-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+}
+#profile-review-block, #profile-order-block {
+    display: none;
+}
+#profile-user-label{
+    display: flex;
+    justify-content: center;
+    font-size: 12pt;
+    color: ghostwhite;
+    margin: 30px auto 30px auto;
+}
+.profile-inputs{
+    height: 100%;
+}
+#profile-settings-inputs{
+    width: 60%;
+    height: 80%;
+    margin: 30px auto;
+}
+#profile-settings-submit{
+    display: flex;
+    justify-content: center;
+}
+#admin-menu, #admin-content-menu {
+    margin-top: 30px;
+}
+#admin-menu-label, #admin-content-menu-label {
+    display: flex;
+    justify-content: center;
+    font-size: 12pt;
+    color: lightgreen;
+    font-style: revert;
+    font-weight: bolder;
+    margin-bottom: 10px;
+    margin-top: 50px;
+}
+/*admin page*/
+
+/*del this*/
+#users-account-settings-content,
+#select-user-block,
+#user-list-label,
+.account-options,
+.account-options>label {
+    /*
+        border-width: 2px;
+        border-style: ridge;
+    */
+}
+
+.admin-page-content {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    min-width: 300px;
+}
+#admin-page-user-management {
+    display: flex;
+}
+#users-account-settings-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+
+}
+#select-user-block {
+    margin: 20px auto 50px auto;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+#user-list-label {
+    display: block;
+    text-align: center;
+    font-size: 14pt;
+    color: #495057;
+    font-style: revert;
+    margin-bottom: 20px;
+}
+#user-list {
+    width: auto;
+    max-width: 350px;
+    align-self: center;
+    text-align: center;
+    font-size: 14pt;
+}
+.account-options {
+    display: flex;
+    flex-direction: row;
+    margin: 10px 25px;
+}
+.account-options>label{
+    display: block;
+    min-width: 70px;
+    margin-left: 10px;
+}
+.account-options>select{
+    max-width: 250px;
+    order: 99;
+    margin-left: auto;
+    margin-right: 50px;
+    text-align: right;
+}
+.line-separator {
+    margin: 0 15px;
+}
+#admin-user-info {
+    display: flex;
+    margin: 0 auto;
+}
+#user-details-table-caption {
+    display: block;
+    text-align: center;
+}
+.user-item, .item-value {
+    display: block;
+    font-size: 10pt;
+}
+.item-value {
+    text-align: right;
+}
+#user-description-block {
+    flex-direction: column;
+}
+#user-details-table {
+    width: 100%;
+    margin: 5px auto;
+}
+#admin-save-user-settings {
+    padding-top: 30px;
+    justify-content: center;
+}
+#admin-page-user-label {
+    display: flex;
+    justify-content: center;
+    font-size: 12pt;
+    color: ghostwhite;
+    margin: 30px auto 30px auto;
+}
+.admin-content-header {
+    display: block;
+    font-size: 16pt;
+    padding-bottom: 20px;
+    margin: 20px auto;
+    text-align: center;
+}
+/*content items*/
+
+/*del*/
+.item-container, .item-controls {
+    /*
+        border-style: ridge;
+        border-width: 1px;
+    */
+}
+/*values container*/
+.item-container{
+    display: flex;
+    flex-direction: row;
+    margin-left: 5px;
+    height: 35px;
+
+}
+.item-review {
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+    margin-left: 5px;
+    height: 65px;
+    border-width: 1pt;
+    border-style: dotted;
+}
+.content-values {
+    display: flex;
+    flex-direction: row;
+    width: 85%;
+    min-width: 60%;
+}
+.item-controls {
+    display: flex;
+    flex-direction: column;
+    width: 14%;
+    margin-left: 5px;
+}
+/*values*/
+.item-description-song {
+    margin-right: 10px;
+    display: flex;
+    flex-grow: 5;
+}
+.item-description-singer {
+    margin-right: 10px;
+    display: flex;
+    flex-grow: 2;
+}
+.item-description-album {
+      margin-right: 10px;
+      display: flex;
+      flex-grow: 2;
+}
+.item-description-genre {
+       margin-right: 10px;
+       display: flex;
+       flex-grow: 1;
+}
+.item-description-date {
+        margin-right: 10px;
+        display: flex;
+        flex-grow: 1;
+}

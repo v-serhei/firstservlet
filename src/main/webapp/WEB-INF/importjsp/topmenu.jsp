@@ -21,6 +21,7 @@
             </ul>
             <form class="form-inline my-2 my-lg-0" method="post">
                 <div class="btn-group btn-group-sm" role="group">
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/admin">admin menu</a>
                     <c:choose>
                         <c:when test="${sessionScope.user.loginStatus}">
                             <!-- if logged in -->
@@ -38,6 +39,8 @@
                                 </form>
 
                                 <a class="dropdown-item" href="${pageContext.request.contextPath}/profile">profile</a>
+
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin">admin menu</a>
 
                             </div>
                         </c:when>

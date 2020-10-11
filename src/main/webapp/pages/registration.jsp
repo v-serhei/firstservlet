@@ -5,7 +5,7 @@
 <fmt:setBundle basename="language/jsp"/>
 <!DOCTYPE html>
 <html>
-<c:import url="jsptemplate/header.jsp"/>
+<c:import url="../WEB-INF/importjsp/header.jsp"/>
 <body>
 <div id="reg-main-container">
     <div id="reg-controls-group">
@@ -46,9 +46,5 @@
         </form>
     </div>
 </div>
-<script type="text/javascript">
-    <c:import url="/js/jquery-3.5.1.min.js"/>
-    <c:import url="/css/bootstrap/js/bootstrap.min.js"/>
-</script>
 </body>
 </html>

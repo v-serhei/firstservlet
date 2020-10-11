@@ -13,7 +13,6 @@ public class CommandProvider {
             cmdType = CommandType.valueOf(requestCommand.toUpperCase());
             command = cmdType.getCommand();
         } catch (IllegalArgumentException exception) {
-            //todo подумать как вернуть в реквест ошибку, возможно обернуть в Optional
             command = new EmptyCommand();
         }
         return command;

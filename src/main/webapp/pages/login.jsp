@@ -5,7 +5,7 @@
 <fmt:setBundle basename="language/jsp"/>
 <!DOCTYPE html>
 <html>
-<c:import url="jsptemplate/header.jsp"/>
+<c:import url="../WEB-INF/importjsp/header.jsp"/>
 <body>
 <div id="login-main-container">
     <div id="login-controls-group">
@@ -23,7 +23,7 @@
                            name="fieldPassword" placeholder="<fmt:message key="login.placeholder.password"/>">
                 </div>
             </div>
-            <c:if test="${requestScope.loginError}">
+            <c:if test="${requestScope.loginFail}">
                 <div id="login-error-div">
                     <span id="login-error-span"><fmt:message key="login.error.message"/></span>
                 </div>
@@ -36,9 +36,9 @@
         </form>
     </div>
 </div>
-<script type="text/javascript">
-    <c:import url="/js/jquery-3.5.1.min.js"/>
-    <c:import url="/css/bootstrap/js/bootstrap.min.js"/>
-</script>
+
+<%--<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/css/bootstrap/js/bootstrap.min.js"></script>--%>
+<c:import url="../WEB-INF/importjsp/footer.jsp"/>
 </body>
 </html>

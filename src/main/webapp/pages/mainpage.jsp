@@ -3,18 +3,18 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
-<c:import url="jsptemplate/header.jsp"/>
+<c:import url="../WEB-INF/importjsp/header.jsp"/>
 <body>
-<c:import url="jsptemplate/topmenu.jsp"/>
+<c:import url="../WEB-INF/importjsp/topmenu.jsp"/>
 <div id="main-body-container">
     <div id="body-container">
         <div id="content-div">
 
         </div>
-        <c:import url="jsptemplate/leftmenu.jsp"/>
+        <c:import url="../WEB-INF/importjsp/leftmenu.jsp"/>
     </div>
 
 </div>
-<c:import url="jsptemplate/footer.jsp"/>
+<c:import url="../WEB-INF/importjsp/footer.jsp"/>
 </body>
 </html>

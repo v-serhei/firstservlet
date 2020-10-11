@@ -1,6 +1,7 @@
 package by.verbitsky.servletdemo.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -11,8 +12,9 @@ public class SessionRequestContent {
     private final HashMap<String, Object> sessionAttributes;
     private final HttpSession session;
     private final HttpServletRequest request;
+    private final HttpServletResponse response;
 
-    public SessionRequestContent(HttpServletRequest request) {
+    public SessionRequestContent(HttpServletRequest request, HttpServletResponse response) {
         requestAttributes = new HashMap<>();
         requestParameters = new HashMap<>();
         sessionAttributes = new HashMap<>();
@@ -21,6 +23,8 @@ public class SessionRequestContent {
         extractAttributesFromSession(request);
         session = request.getSession(false);
         this.request = request;
+        this.response = response;
+
     }
 
     public void addSessionAttribute(String attName, Object value) {
@@ -70,6 +74,10 @@ public class SessionRequestContent {
 
     public void pushAttributesToSession(HttpServletRequest request) {
        sessionAttributes.forEach(session::setAttribute);
+    }
+
+    public HttpServletResponse getResponse() {
+        return response;
     }
 
     public String getRequestParameter(String parameterName) {

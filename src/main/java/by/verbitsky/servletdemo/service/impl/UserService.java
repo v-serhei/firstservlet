@@ -9,11 +9,9 @@ import by.verbitsky.servletdemo.pool.impl.ConnectionPoolImpl;
 import by.verbitsky.servletdemo.pool.impl.ProxyConnection;
 import by.verbitsky.servletdemo.service.WebResourcesManager;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.http.HttpSession;
 import java.util.Locale;
 
 public enum UserService {
@@ -78,51 +76,9 @@ public enum UserService {
         content.pushAttributesToSession(content.getRequest());
     }
 
-    public void processLogin(SessionRequestContent content) {
-        String paramName = resourcesManager.getProperty(PARAM_USER_NAME);
-        String userName = content.getRequestParameter(paramName);
-        String paramPassword = resourcesManager.getProperty(PARAM_PASSWORD);
-        String password = content.getRequestParameter(paramPassword);
-        String resultPage;
-        boolean loginError = true;
-        try {
-            //looking for user in data base and compare user passwords
-            User user = findUserByName(userName);
-            if (user != null) {
-                //if passwords are equals - set logged in status true
-                if (user.getUserPassword().equals(getHashedPassword(password))) {
-                    user.setLoginStatus(true);
-                    user.setSession(content.getSession());
-                    content.addSessionAttribute(resourcesManager.getProperty(ATTR_SESSION_USER), user);
-                    resultPage = resourcesManager.getProperty(MAIN_PAGE);
-                    loginError=false;
-                } else {
-                    resultPage = resourcesManager.getProperty(LOGIN_PAGE);
-                }
-            } else {
-                resultPage = resourcesManager.getProperty(LOGIN_PAGE);
-            }
-        } catch (PoolException | DaoException e) {
-            //todo подумать тут
-            logger.log(Level.WARN, "UserService: process login  error", e);
-            resultPage = resourcesManager.getProperty(LOGIN_PAGE);
-        }
-        content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPage);
-        content.addRequestAttribute(resourcesManager.getProperty(ATTR_REQUEST_LOGIN_RESULT), loginError);
-        content.pushAttributesToRequest(content.getRequest());
-        content.pushAttributesToSession(content.getRequest());
-    }
-
     public void processLogout(SessionRequestContent content) {
         //todo подумать как убить сессию
         content.getSession().invalidate();
-      /*  HttpSession session = content.getRequest().getSession(true);
-        System.out.println(session);
-        processNewSession(session);
-        /*
-        content.addSessionAttribute(resourcesManager.getProperty(LOGIN_BLOCK), DISPLAY_VALUE_TRUE);
-        content.addSessionAttribute(resourcesManager.getProperty(LOGOUT_BLOCK), DISPLAY_VALUE_FALSE);
-        content.addSessionAttribute(resourcesManager.getProperty(USER_GREETING), DEFAULT_GREETINGS);*/
         String resultPageUrl = resourcesManager.getProperty(MAIN_PAGE);
         content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPageUrl);
         content.pushAttributesToRequest(content.getRequest());
@@ -195,22 +151,6 @@ public enum UserService {
         content.pushAttributesToSession(content.getRequest());
     }
 
-    public void processNewSession(HttpSession session) {
-        if (session != null) {
-            if (session.isNew()) {
-                session.setMaxInactiveInterval(DEFAULT_SESSION_LIVE_TIME);
-                User user = new User();
-                user.setSession(session);
-                user.setLoginStatus(false);
-                Object locale = session.getAttribute(resourcesManager.getProperty(ATTR_SESSION_LOCALE));
-                if (locale == null) {
-                    session.setAttribute(resourcesManager.getProperty(ATTR_SESSION_LOCALE), Locale.getDefault());
-                }
-                session.setAttribute(resourcesManager.getProperty(ATTR_SESSION_USER), user);
-            }
-        }
-    }
-
     private void setWrongRegistrationResult(SessionRequestContent content, String message, boolean regErrorResult) {
         String resultPageUrl = resourcesManager.getProperty(REGISTER_PAGE);
         content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPageUrl);
@@ -218,7 +158,7 @@ public enum UserService {
         content.addRequestAttribute(resourcesManager.getProperty(ATTR_REQUEST_REG_RESULT), regErrorResult);
     }
 
-    private String getHashedPassword(String password) {
+    public String getHashedPassword(String password) {
         String salt = "Something very salt";
         return DigestUtils.sha512Hex(salt.concat(password));
     }
@@ -244,7 +184,7 @@ public enum UserService {
         return result;
     }*/
 
-    private User findUserByEmail(String email) throws PoolException, DaoException {
+    public User findUserByEmail(String email) throws PoolException, DaoException {
         UserDao userDAO = new UserDao();
         ProxyConnection connection = pool.getConnection();
         userDAO.setConnection(connection);
@@ -254,7 +194,7 @@ public enum UserService {
     }
 
 
-    private User findUserByName(String userName) throws PoolException, DaoException {
+    public User findUserByName(String userName) throws PoolException, DaoException {
         UserDao userDAO = new UserDao();
         ProxyConnection connection = pool.getConnection();
         userDAO.setConnection(connection);
@@ -268,7 +208,7 @@ public enum UserService {
         return EmailValidator.getInstance().isValid(email);
     }*/
 
-    private boolean addRegisteredUser(User user) throws PoolException, DaoException {
+    public boolean addRegisteredUser(User user) throws PoolException, DaoException {
         UserDao userDAO = new UserDao();
         ProxyConnection connection = pool.getConnection();
         userDAO.setConnection(connection);

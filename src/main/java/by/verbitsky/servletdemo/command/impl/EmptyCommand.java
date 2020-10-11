@@ -1,12 +1,15 @@
 package by.verbitsky.servletdemo.command.impl;
 
 import by.verbitsky.servletdemo.command.Command;
+import by.verbitsky.servletdemo.command.CommandResult;
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
+import by.verbitsky.servletdemo.projectconst.ProjectPages;
 
 public class EmptyCommand implements Command {
     @Override
-    public void execute(SessionRequestContent content) {
-        //todo redirect to error page
-        //stub
+    public CommandResult execute(SessionRequestContent content) {
+
+        CommandResult result = new CommandResult(ProjectPages.ERROR_PAGE, true);
+        return result;
     }
 }
