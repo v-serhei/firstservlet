@@ -51,15 +51,16 @@ public class LoginCommand implements Command {
                 result = new CommandResult(ProjectPages.ERROR_PAGE, true);
             }
 
-            content.getResponse().setHeader(RESPONSE_HEADER_CONTENT_TYPE, RESPONSE_CONTENT_TYPE_TEXT);
-            content.addRequestAttribute(AttributesNames.REQUEST_ATTR_LOGIN_FAILED, loginFail);
-            content.pushAttributesToRequest(content.getRequest());
-            content.pushAttributesToSession(content.getRequest());
-
         } else {
             //todo обработать ошибочное поведение
-
+            result = new CommandResult(ProjectPages.LOGIN_PAGE, false);
         }
+
+        content.addSessionAttribute(AttributesNames.SESSION_ATTR_LAST_COMMAND, this);
+        content.getResponse().setHeader(RESPONSE_HEADER_CONTENT_TYPE, RESPONSE_CONTENT_TYPE_TEXT);
+        content.addRequestAttribute(AttributesNames.REQUEST_ATTR_LOGIN_FAILED, loginFail);
+        content.pushAttributesToRequest(content.getRequest());
+        content.pushAttributesToSession(content.getRequest());
         return result;
     }
 }

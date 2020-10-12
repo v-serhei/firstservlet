@@ -26,12 +26,10 @@ enum PoolPropertyManager {
         properties = new Properties();
         try (InputStream propertyFileInputStream = getClass().getClassLoader().getResourceAsStream(PROPERTY_FILE)) {
             if (propertyFileInputStream == null) {
-                logger.log(Level.FATAL, "Error to load properties - property file not found");
                 throw new PoolException("Error to load properties - property file not found");
             }
             properties.load(propertyFileInputStream);
         } catch (IOException e) {
-            logger.log(Level.FATAL, "Error to load connection properties", e);
             throw new PoolException("Error to load connection properties", e);
         }
     }

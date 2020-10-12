@@ -76,14 +76,6 @@ public enum UserService {
         content.pushAttributesToSession(content.getRequest());
     }
 
-    public void processLogout(SessionRequestContent content) {
-        //todo подумать как убить сессию
-        content.getSession().invalidate();
-        String resultPageUrl = resourcesManager.getProperty(MAIN_PAGE);
-        content.addRequestAttribute(resourcesManager.getProperty(RESULT_PAGE), resultPageUrl);
-        content.pushAttributesToRequest(content.getRequest());
-    }
-
     public void processRegistration(SessionRequestContent content) {
         String paramName = resourcesManager.getProperty(PARAM_USER_NAME);
         String userName = content.getRequestParameter(paramName);

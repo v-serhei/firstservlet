@@ -21,7 +21,11 @@
             </ul>
             <form class="form-inline my-2 my-lg-0" method="post">
                 <div class="btn-group btn-group-sm" role="group">
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/admin">admin menu</a>
+
+                    <%--delete this--%>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=admin_page">admin menu</a>
+
+
                     <c:choose>
                         <c:when test="${sessionScope.user.loginStatus}">
                             <!-- if logged in -->
@@ -38,9 +42,9 @@
                                     </button>
                                 </form>
 
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/profile">profile</a>
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/profile?action=profile_page">profile</a>
 
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin">admin menu</a>
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=admin_page">admin menu</a>
 
                             </div>
                         </c:when>
@@ -53,10 +57,10 @@
                                 <fmt:message key="user.menu.default.name"/>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/login"><fmt:message
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/login?action=login_page"><fmt:message
                                         key="user.menu.login"/></a>
                                 <a class="dropdown-item"
-                                   href="${pageContext.request.contextPath}/registration"><fmt:message
+                                   href="${pageContext.request.contextPath}/register?action=register_page"><fmt:message
                                         key="user.menu.registration"/></a>
                             </div>
                         </c:otherwise>

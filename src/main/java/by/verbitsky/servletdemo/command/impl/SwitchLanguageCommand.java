@@ -7,8 +7,8 @@ import by.verbitsky.servletdemo.service.impl.UserService;
 
 public class SwitchLanguageCommand implements Command {
     @Override
-    public CommandResult execute(SessionRequestContent request) {
-       UserService.INSTANCE.processLanguageSwitch(request);
+    public CommandResult execute(SessionRequestContent content) {
+       UserService.INSTANCE.processLanguageSwitch(content);
        return null;
     }
 }
