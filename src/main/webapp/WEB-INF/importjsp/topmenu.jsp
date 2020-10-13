@@ -19,12 +19,11 @@
                     <a class="nav-link" href="#"><fmt:message key="main.menu.compilation"/></a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0" method="post">
+            <form class="form-inline my-2 my-lg-0">
                 <div class="btn-group btn-group-sm" role="group">
 
                     <%--delete this--%>
                     <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=admin_page">admin menu</a>
-
 
                     <c:choose>
                         <c:when test="${sessionScope.user.loginStatus}">
@@ -36,16 +35,9 @@
                                     ${sessionScope.user.userName}!
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <form action="logout" id="logout-form" method="post">
-                                    <button class="dropdown-item" type="submit" name="action" value="LOGOUT">
-                                        <fmt:message key="user.menu.logout"/>
-                                    </button>
-                                </form>
-
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/profile?action=profile_page">profile</a>
-
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=admin_page">admin menu</a>
-
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/logout?action=logout"><fmt:message key="user.menu.logout"/> </a>
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/profile?action=profile_page"><fmt:message key="user.menu.profile"/></a>
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=admin_page"><fmt:message key="user.menu.adminpage"/></a>
                             </div>
                         </c:when>
                         <c:otherwise>

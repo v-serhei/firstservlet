@@ -7,22 +7,22 @@ import by.verbitsky.servletdemo.entity.User;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PermissionValidator {
-    private static final Map<Command, Integer> permissions;
+public class CommandPermissionValidator {
+    private static final Map<Class<? extends Command>, Integer> permissions;
 
     static {
         permissions = new HashMap<>();
         //todo дописать страницы с доступом по роли
-        permissions.put(new AdminPageCommand(), 1);
+        permissions.put(AdminPageCommand.class, 1);
     }
 
-    private PermissionValidator() {
+    private CommandPermissionValidator() {
     }
 
     public static boolean isUserHasPermission(User user, Command command) {
         boolean result;
         if (user != null && user.getLoginStatus() && command != null) {
-            Integer permissionId = permissions.get(command);
+            Integer permissionId = permissions.get(command.getClass());
             result = permissionId != null && user.getRoleId() == permissionId;
         } else {
             result = false;

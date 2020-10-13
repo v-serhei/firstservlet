@@ -9,7 +9,7 @@
 <body>
 <div id="reg-main-container">
     <div id="reg-controls-group">
-        <form action="registration" method="post">
+        <form action="register" method="post">
             <div id="reg-input-items">
                 <h4 id="reg-label"><fmt:message key="reg.mainlabel"/></h4>
                 <div class="form-group">

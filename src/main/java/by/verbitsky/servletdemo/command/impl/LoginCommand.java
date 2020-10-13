@@ -19,45 +19,37 @@ public class LoginCommand implements Command {
 
     @Override
     public CommandResult execute(SessionRequestContent content) {
-        CommandResult result = null;
+        CommandResult result;
         boolean loginFail = true;
         String method = content.getRequest().getMethod();
-        if (method.toLowerCase().equals(POST_METHOD)) {
-            //todo проверить валидатором
-            //todo проверить не залогинен ли юзер
-            String userName = content.getRequestParameter(PageParameterNames.LOGIN_REGISTRATION_USER_NAME);
-            String password = content.getRequestParameter(PageParameterNames.LOGIN_REGISTRATION_USER_PASSWORD_FIRST);
 
-            try {
-                //looking for user in data base and compare user passwords
-                User user = UserService.INSTANCE.findUserByName(userName);
-                if (user != null) {
-                    //if passwords are equals - set logged in status true
-                    if (user.getUserPassword().equals(UserService.INSTANCE.getHashedPassword(password))) {
-                        user.setLoginStatus(true);
-                        user.setSession(content.getSession());
-                        //add user to attr session
-                        content.addSessionAttribute(AttributesNames.SESSION_ATTR_USER, user);
-                        //set response header
-                        result = new CommandResult(ProjectPages.MAIN_PAGE, true);
-                        loginFail = false;
-                    } else {
-                        result = new CommandResult(ProjectPages.LOGIN_PAGE, false);
-                    }
+        //todo проверить валидатором
+        //todo проверить не залогинен ли юзер
+        String userName = content.getRequestParameter(PageParameterNames.LOGIN_REGISTRATION_USER_NAME);
+        String password = content.getRequestParameter(PageParameterNames.LOGIN_REGISTRATION_USER_PASSWORD_FIRST);
+
+        try {
+            //looking for user in data base and compare user passwords
+            User user = UserService.INSTANCE.findUserByName(userName);
+            if (user != null) {
+                //if passwords are equals - set logged in status true
+                if (user.getUserPassword().equals(UserService.INSTANCE.getHashedPassword(password))) {
+                    user.setLoginStatus(true);
+                    user.setSession(content.getSession());
+                    //add user to attr session
+                    content.addSessionAttribute(AttributesNames.SESSION_ATTR_USER, user);
+                    //set response header
+                    result = new CommandResult(ProjectPages.REDIRECT_MAIN_PAGE, true);
+                    loginFail = false;
                 } else {
-                    result = new CommandResult(ProjectPages.LOGIN_PAGE, false);
+                    result = new CommandResult(ProjectPages.FORWARD_LOGIN_PAGE, false);
                 }
-            } catch (PoolException | DaoException e) {
-                result = new CommandResult(ProjectPages.ERROR_PAGE, true);
+            } else {
+                result = new CommandResult(ProjectPages.FORWARD_LOGIN_PAGE, false);
             }
-
-        } else {
-            //todo обработать ошибочное поведение
-            result = new CommandResult(ProjectPages.LOGIN_PAGE, false);
+        } catch (PoolException | DaoException e) {
+            result = new CommandResult(ProjectPages.REDIRECT_ERROR_PAGE, true);
         }
-
-        content.addSessionAttribute(AttributesNames.SESSION_ATTR_LAST_COMMAND, this);
-        content.getResponse().setHeader(RESPONSE_HEADER_CONTENT_TYPE, RESPONSE_CONTENT_TYPE_TEXT);
         content.addRequestAttribute(AttributesNames.REQUEST_ATTR_LOGIN_FAILED, loginFail);
         content.pushAttributesToRequest(content.getRequest());
         content.pushAttributesToSession(content.getRequest());

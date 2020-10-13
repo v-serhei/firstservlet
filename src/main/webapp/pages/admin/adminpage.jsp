@@ -83,7 +83,8 @@
                     <div class="admin-page-content" id="admin-page-user-management">
                         <div class="admin-page-inputs" id="admin-page-account-settings">
                             <div id="users-account-settings-content">
-                                <form method="post">
+
+                                <form action="mainpage" method="post">
                                     <span class="admin-content-header">User management page</span>
                                     <div class="line-separator">
                                         <hr/>
@@ -196,7 +197,7 @@
                                         <hr/>
                                     </div>
                                     <div class="account-options" id="admin-save-user-settings">
-                                        <button type="submit" class="btn btn-light btn-sm" name="action" value="">Save
+                                        <button type="submit" class="btn btn-light btn-sm" name="action" value="main_page">Save
                                             changes
                                         </button>
                                     </div>

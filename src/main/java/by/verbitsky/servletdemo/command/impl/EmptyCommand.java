@@ -9,7 +9,7 @@ public class EmptyCommand implements Command {
     @Override
     public CommandResult execute(SessionRequestContent content) {
 
-        CommandResult result = new CommandResult(ProjectPages.ERROR_PAGE, true);
+        CommandResult result = new CommandResult(ProjectPages.REDIRECT_ERROR_PAGE, true);
         return result;
     }
 }

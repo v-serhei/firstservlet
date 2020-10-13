@@ -7,7 +7,7 @@
     <groupId>com.verbitsky</groupId>
     <artifactId>firstservlet</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>firstservlet</name>
+    <name>audiobox</name>
     <packaging>war</packaging>
 
     <properties>

@@ -110,11 +110,11 @@ public class User {
         return userName != null ? userName.hashCode() : 0;
     }
 
-
+//todo fix it
     /*@Override
     public String toString() {
 
-        //todo fix it
+
         StringBuilder  sb = new StringBuilder();
         sb.append("User: name=");
         sb.append(userName);

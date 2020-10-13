@@ -18,10 +18,8 @@ import java.io.IOException;
 
 @WebServlet(name = "MainServlet",
         urlPatterns = {
-                "",
-               // "/index.jsp",
-                "/mainpage",
                 "/login",
+                "/mainpage",
                 "/logout",
                 "/register",
                 "/langswitch",
@@ -31,57 +29,27 @@ import java.io.IOException;
 
 public class MainServlet extends HttpServlet {
     private final Logger logger = LogManager.getLogger();
-    private static final String URL_REDIRECT_PREFIX = "/firstservlet";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Command last = (Command) request.getSession(false).getAttribute(AttributesNames.SESSION_ATTR_LAST_COMMAND);
-        System.out.println(last);
-
-        String cmd = request.getParameter(PageParameterNames.ACTION);
-        //create S-R content
-        SessionRequestContent content = new SessionRequestContent(request, response);
-        //Create command
-        Command command = CommandProvider.defineCommand(cmd);
-        System.out.println(command);
-
-        CommandResult result = command.execute(content);
-        if (result.isRedirect()) {
-            System.out.println("do post redirect to page: " + URL_REDIRECT_PREFIX.concat(result.getResultPage()));
-            response.sendRedirect(URL_REDIRECT_PREFIX.concat(result.getResultPage()));
-        } else {
-            System.out.println("do post forward to page: " + (result.getResultPage()));
-            request.getRequestDispatcher(result.getResultPage()).forward(request, response);
-        }
+        processUserRequest(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Command last = (Command) request.getSession(false).getAttribute(AttributesNames.SESSION_ATTR_LAST_COMMAND);
-        System.out.println(last);
+        processUserRequest(request, response);
+    }
 
+    private void processUserRequest (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        //Command lastCommand = (Command) request.getSession(false).getAttribute(AttributesNames.SESSION_ATTR_LAST_COMMAND);
         String cmd = request.getParameter(PageParameterNames.ACTION);
-        //create S-R content
         SessionRequestContent content = new SessionRequestContent(request, response);
-        //Create command
         Command command = CommandProvider.defineCommand(cmd);
-        System.out.println(command);
-
         CommandResult result = command.execute(content);
+        content.addSessionAttribute(AttributesNames.SESSION_ATTR_LAST_COMMAND, command);
         if (result.isRedirect()) {
-            System.out.println("do post redirect to page: " + URL_REDIRECT_PREFIX.concat(result.getResultPage()));
-            response.sendRedirect(URL_REDIRECT_PREFIX.concat(result.getResultPage()));
+            response.sendRedirect(result.getResultPage());
         } else {
-            System.out.println("do post forward to page: " + (result.getResultPage()));
             request.getRequestDispatcher(result.getResultPage()).forward(request, response);
         }
-
-
-        /*
-        //todo подумать как редиректить красиво
-        String reqPage = request.getRequestURI();
-        String resultPage = WebResourcesManager.getInstance().getProperty(reqPage);
-        System.out.println("doget forward to page: "+resultPage);
-        request.getRequestDispatcher(resultPage).forward(request, response);
-*/
     }
 
     @Override
@@ -90,3 +58,14 @@ public class MainServlet extends HttpServlet {
         super.init();
     }
 }
+/*
+todo просмотреть все команды по порядку, доделать регистрацию
+todo обработка ошибок и страницы с ошибками
+todo дописать префикс к редиректу
+todo last command - добавить атт и обрабатывать
+todo смена языка
+todo - заменить кнопки на input"ы с соответствующими названиями и параметрами
+todo добавить меню на страницы логина и регистрации (кнопка home или другая навигация) + навигация на домашнюю страницу
+
+
+ */

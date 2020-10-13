@@ -9,7 +9,7 @@
 <body>
 <div id="login-main-container">
     <div id="login-controls-group">
-        <form action="login" method="post">
+        <form action="${pageContext.request.contextPath}/login" method="post">
             <div id="login-input-items">
                 <h4 id="login-label"><fmt:message key="login.mainlabel"/></h4>
                 <div class="form-group">
@@ -29,16 +29,12 @@
                 </div>
             </c:if>
             <div id="login-submit">
-                <button class="btn btn-light" name="action" value="LOGIN">
-                    <fmt:message key="login.confirm.button"/>
-                </button>
+                <input type="hidden" class="btn btn-light" name="action" value="login">
+                <input type="submit" class="btn btn-light" name="confirm" value="<fmt:message key="login.confirm.button"/>">
             </div>
         </form>
     </div>
 </div>
-
-<%--<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-3.5.1.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/css/bootstrap/js/bootstrap.min.js"></script>--%>
 <c:import url="../WEB-INF/importjsp/footer.jsp"/>
 </body>
 </html>
