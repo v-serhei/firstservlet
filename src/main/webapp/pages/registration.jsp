@@ -7,6 +7,7 @@
 <html>
 <c:import url="../WEB-INF/importjsp/header.jsp"/>
 <body>
+<c:import url="../WEB-INF/importjsp/topmenu.jsp"/>
 <div id="reg-main-container">
     <div id="reg-controls-group">
         <form action="register" method="post">
@@ -46,5 +47,6 @@
         </form>
     </div>
 </div>
+<c:import url="../WEB-INF/importjsp/footer.jsp"/>
 </body>
 </html>

@@ -7,7 +7,7 @@
 <html>
 <c:import url="/WEB-INF/importjsp/header.jsp"/>
 <body>
-<div id="top-body-container">
+<%--<div id="top-body-container">
     <div class="top-div-gradient">
     </div>
     <div id="top-menu-div">
@@ -19,7 +19,8 @@
             </ul>
         </nav>
     </div>
-</div>
+</div>--%>
+<c:import url="../../WEB-INF/importjsp/topmenu.jsp"/>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/adminka.js"></script>
 
 <div id="main-body-container">
@@ -36,17 +37,17 @@
                                 <div class="form-group">
                                     <span id="admin-menu-label">Administrator menu</span>
                                     <div id="list-example" class="list-group">
-                                        <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary"
+                                        <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
                                                 id="admin-user-menu"
-                                                onclick="hideContent('admin-page-user-management')">Users management
+                                                onclick="hideContent(this.id,'admin-page-user-management')">Users management
                                         </button>
-                                        <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary"
+                                        <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
                                                 id="admin-order-menu"
-                                                onclick="hideContent('admin-page-order-management')">orders management
+                                                onclick="hideContent(this.id,'admin-page-order-management')">orders management
                                         </button>
-                                        <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary"
+                                        <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
                                                 id="admin-review-menu"
-                                                onclick="hideContent('admin-page-review-management')">reviews management
+                                                onclick="hideContent(this.id,'admin-page-review-management')">reviews management
                                         </button>
                                     </div>
                                 </div>
@@ -55,25 +56,25 @@
                                 <div class="form-group">
                                     <span id="admin-content-menu-label">Content menu</span>
                                     <div id="list-example2" class="list-group">
-                                        <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary"
+                                        <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
                                                 id="content1"
-                                                onclick="hideContent('admin-page-track-management')">Tracks
+                                                onclick="hideContent(this.id,'admin-page-track-management')">Tracks
                                         </button>
-                                        <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary"
+                                        <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
                                                 id="content2"
-                                                onclick="hideContent('admin-page-performer-management')">Performers
+                                                onclick="hideContent(this.id,'admin-page-performer-management')">Performers
                                         </button>
-                                        <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary"
+                                        <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
                                                 id="content3"
-                                                onclick="hideContent('admin-page-genre-management')">Genres
+                                                onclick="hideContent(this.id,'admin-page-genre-management')">Genres
                                         </button>
-                                        <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary"
+                                        <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
                                                 id="content4"
-                                                onclick="hideContent('admin-page-albums-management')">Albums
+                                                onclick="hideContent(this.id,'admin-page-albums-management')">Albums
                                         </button>
-                                        <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary"
+                                        <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
                                                 id="content5"
-                                                onclick="hideContent('admin-page-compilations-management')">Compilations
+                                                onclick="hideContent(this.id,'admin-page-compilations-management')">Compilations
                                         </button>
                                     </div>
                                 </div>
@@ -200,6 +201,10 @@
                                         <button type="submit" class="btn btn-light btn-sm" name="action" value="main_page">Save
                                             changes
                                         </button>
+                                    </div>
+
+                                    <div class="admin-operation-message-block">
+                                        <span class="admin-message">Мессага об успешности выполненной операции</span>
                                     </div>
                                 </form>
                             </div>

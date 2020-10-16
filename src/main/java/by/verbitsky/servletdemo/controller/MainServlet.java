@@ -27,6 +27,7 @@ import java.io.IOException;
                 "/admin"
 })
 
+@SuppressWarnings("serial")
 public class MainServlet extends HttpServlet {
     private final Logger logger = LogManager.getLogger();
 
@@ -59,13 +60,21 @@ public class MainServlet extends HttpServlet {
     }
 }
 /*
+todo добавить меню на страницы логина и регистрации (кнопка home или другая навигация)
+ + навигация на домашнюю страницу
+
+
+
+
+
 todo просмотреть все команды по порядку, доделать регистрацию
+todo пагинация
+
 todo обработка ошибок и страницы с ошибками
 todo дописать префикс к редиректу
 todo last command - добавить атт и обрабатывать
 todo смена языка
 todo - заменить кнопки на input"ы с соответствующими названиями и параметрами
-todo добавить меню на страницы логина и регистрации (кнопка home или другая навигация) + навигация на домашнюю страницу
 
 
  */

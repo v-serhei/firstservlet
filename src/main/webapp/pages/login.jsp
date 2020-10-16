@@ -7,6 +7,7 @@
 <html>
 <c:import url="../WEB-INF/importjsp/header.jsp"/>
 <body>
+<c:import url="../WEB-INF/importjsp/topmenu.jsp"/>
 <div id="login-main-container">
     <div id="login-controls-group">
         <form action="${pageContext.request.contextPath}/login" method="post">
