@@ -4,30 +4,45 @@ import by.verbitsky.servletdemo.command.Command;
 import by.verbitsky.servletdemo.command.CommandResult;
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.entity.User;
+import by.verbitsky.servletdemo.exception.CommandExecutionException;
 import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.exception.PoolException;
 import by.verbitsky.servletdemo.projectconst.AttributesNames;
 import by.verbitsky.servletdemo.projectconst.PageParameterNames;
 import by.verbitsky.servletdemo.projectconst.ProjectPages;
 import by.verbitsky.servletdemo.service.impl.UserService;
+import by.verbitsky.servletdemo.util.FieldDataValidator;
 
 public class LoginCommand implements Command {
 
-    private static final String POST_METHOD = "post";
-    private static final String RESPONSE_HEADER_CONTENT_TYPE = "Content-Type";
-    private static final String RESPONSE_CONTENT_TYPE_TEXT = "text/html";
-
     @Override
-    public CommandResult execute(SessionRequestContent content) {
+    public CommandResult execute(SessionRequestContent content) throws CommandExecutionException {
+        if (content == null) {
+            throw new CommandExecutionException("LoginCommand: received null content");
+        }
         CommandResult result;
         boolean loginFail = true;
-        String method = content.getRequest().getMethod();
-
-        //todo проверить валидатором
-        //todo проверить не залогинен ли юзер
         String userName = content.getRequestParameter(PageParameterNames.LOGIN_REGISTRATION_USER_NAME);
         String password = content.getRequestParameter(PageParameterNames.LOGIN_REGISTRATION_USER_PASSWORD_FIRST);
-
+        //check user data input
+        if (!FieldDataValidator.validateUserName(userName) && !FieldDataValidator.validateUserPassword(password)) {
+            content.addRequestAttribute(AttributesNames.REQUEST_ATTR_LOGIN_FAILED, loginFail);
+            result = new CommandResult(ProjectPages.FORWARD_LOGIN_PAGE, false);
+            return result;
+        }
+        //check login status
+        User sessionUser = (User) content.getSession().getAttribute(AttributesNames.SESSION_ATTR_USER);
+        if (sessionUser == null) {
+            throw new CommandExecutionException("LoginCommand: session attr \"User\" doesn't exist");
+        }
+        //if already logged in, then redirect to home page
+        if (sessionUser.getLoginStatus()) {
+            loginFail = false;
+            content.addRequestAttribute(AttributesNames.REQUEST_ATTR_LOGIN_FAILED, loginFail);
+            result = new CommandResult(ProjectPages.REDIRECT_MAIN_PAGE, true);
+            return result;
+        }
+        //searching user in db and return auth result
         try {
             //looking for user in data base and compare user passwords
             User user = UserService.INSTANCE.findUserByName(userName);
@@ -48,11 +63,9 @@ public class LoginCommand implements Command {
                 result = new CommandResult(ProjectPages.FORWARD_LOGIN_PAGE, false);
             }
         } catch (PoolException | DaoException e) {
-            result = new CommandResult(ProjectPages.REDIRECT_ERROR_PAGE, true);
+            throw new CommandExecutionException("LoginCommand: execution error", e);
         }
         content.addRequestAttribute(AttributesNames.REQUEST_ATTR_LOGIN_FAILED, loginFail);
-        content.pushAttributesToRequest(content.getRequest());
-        content.pushAttributesToSession(content.getRequest());
         return result;
     }
 }

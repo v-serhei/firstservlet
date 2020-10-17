@@ -7,23 +7,25 @@ import java.util.Enumeration;
 import java.util.HashMap;
 
 public class SessionRequestContent {
-    private final HashMap<String, Object> requestAttributes;
-    private final HashMap<String, String> requestParameters;
-    private final HashMap<String, Object> sessionAttributes;
-    private final HttpSession session;
-    private final HttpServletRequest request;
-    private final HttpServletResponse response;
+    private HashMap<String, Object> requestAttributes;
+    private HashMap<String, String> requestParameters;
+    private HashMap<String, Object> sessionAttributes;
+    private HttpSession session;
+    private HttpServletRequest request;
 
     public SessionRequestContent(HttpServletRequest request, HttpServletResponse response) {
-        requestAttributes = new HashMap<>();
-        requestParameters = new HashMap<>();
-        sessionAttributes = new HashMap<>();
-        extractParametersFromRequest(request);
-        extractAttributesFromRequest(request);
-        extractAttributesFromSession(request);
-        session = request.getSession(false);
-        this.request = request;
-        this.response = response;
+        if (request != null && request.getSession(false) != null) {
+            requestAttributes = new HashMap<>();
+            requestParameters = new HashMap<>();
+            sessionAttributes = new HashMap<>();
+            extractParametersFromRequest(request);
+            extractAttributesFromRequest(request);
+            extractAttributesFromSession(request);
+            session = request.getSession(false);
+            this.request = request;
+        } else {
+            //todo подумать
+        }
 
     }
 
@@ -73,11 +75,7 @@ public class SessionRequestContent {
     }
 
     public void pushAttributesToSession(HttpServletRequest request) {
-       sessionAttributes.forEach(session::setAttribute);
-    }
-
-    public HttpServletResponse getResponse() {
-        return response;
+        sessionAttributes.forEach(session::setAttribute);
     }
 
     public String getRequestParameter(String parameterName) {

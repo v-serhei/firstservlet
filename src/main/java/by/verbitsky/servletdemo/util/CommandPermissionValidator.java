@@ -13,6 +13,7 @@ public class CommandPermissionValidator {
     static {
         permissions = new HashMap<>();
         //todo дописать страницы с доступом по роли
+        //todo можно попробовать переделать на загрузгу из конфига
         permissions.put(AdminPageCommand.class, 1);
     }
 
