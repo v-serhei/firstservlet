@@ -19,15 +19,10 @@ import java.io.IOException;
 
 @WebServlet(name = "MainServlet",
         urlPatterns = {
-                //processing commands (post)
                 "/login",
                 "/logout",
-
-
                 "/register",
                 "/langswitch",
-
-                //redirect commands (get)
                 "/mainpage",
                 "/profile",
                 "/admin"
@@ -36,6 +31,7 @@ import java.io.IOException;
 @SuppressWarnings("serial")
 public class MainServlet extends HttpServlet {
     private final Logger logger = LogManager.getLogger();
+    private static final String REDIRECT_PAGE_PREFIX = "/audiobox";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processUserRequest(request, response);
@@ -56,12 +52,13 @@ public class MainServlet extends HttpServlet {
             //if session was not invalidated
             if (request.getSession(false) != null) {
                 content.addSessionAttribute(AttributesNames.SESSION_ATTR_LAST_COMMAND, command);
+                content.addSessionAttribute(AttributesNames.SESSION_ATTR_LAST_URI, result.getResultPage());
                 content.pushAttributesToSession(content.getRequest());
             }
             content.pushAttributesToRequest(content.getRequest());
 
             if (result.isRedirect()) {
-                response.sendRedirect(result.getResultPage());
+                response.sendRedirect(REDIRECT_PAGE_PREFIX.concat(result.getResultPage()));
             } else {
                 request.getRequestDispatcher(result.getResultPage()).forward(request, response);
             }

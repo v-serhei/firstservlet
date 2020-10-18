@@ -27,7 +27,7 @@ public class LoginCommand implements Command {
         //check user data input
         if (!FieldDataValidator.validateUserName(userName) && !FieldDataValidator.validateUserPassword(password)) {
             content.addRequestAttribute(AttributesNames.REQUEST_ATTR_LOGIN_FAILED, loginFail);
-            result = new CommandResult(ProjectPages.FORWARD_LOGIN_PAGE, false);
+            result = new CommandResult(ProjectPages.LOGIN_PAGE, false);
             return result;
         }
         //check login status
@@ -39,7 +39,7 @@ public class LoginCommand implements Command {
         if (sessionUser.getLoginStatus()) {
             loginFail = false;
             content.addRequestAttribute(AttributesNames.REQUEST_ATTR_LOGIN_FAILED, loginFail);
-            result = new CommandResult(ProjectPages.REDIRECT_MAIN_PAGE, true);
+            result = new CommandResult(ProjectPages.MAIN_PAGE, true);
             return result;
         }
         //searching user in db and return auth result
@@ -51,13 +51,13 @@ public class LoginCommand implements Command {
                     user.setLoginStatus(true);
                     //add user to session attr
                     content.addSessionAttribute(AttributesNames.SESSION_ATTR_USER, user);
-                    result = new CommandResult(ProjectPages.REDIRECT_MAIN_PAGE, true);
+                    result = new CommandResult(ProjectPages.MAIN_PAGE, true);
                     loginFail = false;
                 } else {
-                    result = new CommandResult(ProjectPages.FORWARD_LOGIN_PAGE, false);
+                    result = new CommandResult(ProjectPages.LOGIN_PAGE, false);
                 }
             } else {
-                result = new CommandResult(ProjectPages.FORWARD_LOGIN_PAGE, false);
+                result = new CommandResult(ProjectPages.LOGIN_PAGE, false);
             }
         } catch (PoolException | DaoException e) {
             throw new CommandExecutionException("LoginCommand: execution error", e);

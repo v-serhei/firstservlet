@@ -46,7 +46,7 @@ public class RegisterCommand implements Command {
         if (!FieldDataValidator.validateUserName(userName)) {
             content.addRequestAttribute(AttributesNames.REQUEST_ATTR_REGISTRATION_FAIL, true);
             content.addRequestAttribute(AttributesNames.REQUEST_ATTR_REGISTRATION_ERROR_MSG, REG_ERROR_MESSAGE_WRONG_USER_NAME);
-            result = new CommandResult(ProjectPages.FORWARD_REGISTRATION_PAGE, false);
+            result = new CommandResult(ProjectPages.REGISTRATION_PAGE, false);
             return result;
         }
         try {
@@ -54,7 +54,7 @@ public class RegisterCommand implements Command {
             if (fUser != null) {
                 content.addRequestAttribute(AttributesNames.REQUEST_ATTR_REGISTRATION_FAIL, true);
                 content.addRequestAttribute(AttributesNames.REQUEST_ATTR_REGISTRATION_ERROR_MSG, REG_ERROR_MESSAGE_USER_EXIST);
-                result = new CommandResult(ProjectPages.FORWARD_REGISTRATION_PAGE, false);
+                result = new CommandResult(ProjectPages.REGISTRATION_PAGE, false);
                 return result;
             }
         } catch (PoolException | DaoException e) {
@@ -64,13 +64,13 @@ public class RegisterCommand implements Command {
         if (!FieldDataValidator.validateUserPasswords(fPassword, sPassword)) {
             content.addRequestAttribute(AttributesNames.REQUEST_ATTR_REGISTRATION_FAIL, true);
             content.addRequestAttribute(AttributesNames.REQUEST_ATTR_REGISTRATION_ERROR_MSG, REG_ERROR_MESSAGE_WRONG_PASSWORD);
-            result = new CommandResult(ProjectPages.FORWARD_REGISTRATION_PAGE, false);
+            result = new CommandResult(ProjectPages.REGISTRATION_PAGE, false);
             return result;
         }
         if (!fPassword.equals(sPassword)) {
             content.addRequestAttribute(AttributesNames.REQUEST_ATTR_REGISTRATION_FAIL, true);
             content.addRequestAttribute(AttributesNames.REQUEST_ATTR_REGISTRATION_ERROR_MSG, REG_ERROR_MESSAGE_DIFFERENT_PASSWORDS);
-            result = new CommandResult(ProjectPages.FORWARD_REGISTRATION_PAGE, false);
+            result = new CommandResult(ProjectPages.REGISTRATION_PAGE, false);
             return result;
         }
 
@@ -78,13 +78,13 @@ public class RegisterCommand implements Command {
         if (!FieldDataValidator.validateEmailRegex(userMail)) {
             content.addRequestAttribute(AttributesNames.REQUEST_ATTR_REGISTRATION_FAIL, true);
             content.addRequestAttribute(AttributesNames.REQUEST_ATTR_REGISTRATION_ERROR_MSG, REG_ERROR_MESSAGE_EMAIL_NOT_MATCHES_REGEX);
-            result = new CommandResult(ProjectPages.FORWARD_REGISTRATION_PAGE, false);
+            result = new CommandResult(ProjectPages.REGISTRATION_PAGE, false);
             return result;
         }
         if (!FieldDataValidator.validateUserEmail(userMail)) {
             content.addRequestAttribute(AttributesNames.REQUEST_ATTR_REGISTRATION_FAIL, true);
             content.addRequestAttribute(AttributesNames.REQUEST_ATTR_REGISTRATION_ERROR_MSG, REG_ERROR_MESSAGE_WRONG_EMAIL);
-            result = new CommandResult(ProjectPages.FORWARD_REGISTRATION_PAGE, false);
+            result = new CommandResult(ProjectPages.REGISTRATION_PAGE, false);
             return result;
         }
         try {
@@ -92,7 +92,7 @@ public class RegisterCommand implements Command {
             if (user != null) {
                 content.addRequestAttribute(AttributesNames.REQUEST_ATTR_REGISTRATION_FAIL, true);
                 content.addRequestAttribute(AttributesNames.REQUEST_ATTR_REGISTRATION_ERROR_MSG, REG_ERROR_MESSAGE_EMAIL_EXIST);
-                result = new CommandResult(ProjectPages.FORWARD_REGISTRATION_PAGE, false);
+                result = new CommandResult(ProjectPages.REGISTRATION_PAGE, false);
                 return result;
             }
         } catch (PoolException | DaoException e) {
@@ -104,7 +104,7 @@ public class RegisterCommand implements Command {
             throw new CommandExecutionException("RegisterCommand: unable to get user from session");
         }
         if (sessionUser.getLoginStatus()) {
-            result = new CommandResult(ProjectPages.REDIRECT_MAIN_PAGE, true);
+            result = new CommandResult(ProjectPages.MAIN_PAGE, true);
             return result;
         }
 
@@ -119,10 +119,10 @@ public class RegisterCommand implements Command {
         try {
             boolean insert = UserService.INSTANCE.addRegisteredUser(registeredUser);
             if (insert) {
-                result = new CommandResult(ProjectPages.REDIRECT_LOGIN_PAGE, true);
+                result = new CommandResult(ProjectPages.LOGIN_PAGE, true);
             } else {
                 //todo дописать причину редиректа
-                result = new CommandResult(ProjectPages.REDIRECT_ERROR_PAGE, true);
+                result = new CommandResult(ProjectPages.ERROR_PAGE, true);
             }
         } catch (PoolException | DaoException e) {
             throw new CommandExecutionException("RegisterCommand: error while adding user to data base");

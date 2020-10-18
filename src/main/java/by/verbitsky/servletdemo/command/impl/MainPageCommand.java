@@ -25,7 +25,7 @@ public class MainPageCommand implements Command {
 
 
 
-        CommandResult result = new CommandResult(ProjectPages.REDIRECT_MAIN_PAGE, true);
+        CommandResult result = new CommandResult(ProjectPages.MAIN_PAGE, true);
         return result;
     }
 }

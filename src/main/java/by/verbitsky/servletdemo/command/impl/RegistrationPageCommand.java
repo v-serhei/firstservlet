@@ -9,7 +9,7 @@ public class RegistrationPageCommand implements Command {
     @Override
     public CommandResult execute(SessionRequestContent content) {
         //todo проверить на то, залогинен ли. проверить предыдущую команду!!!
-        CommandResult result = new CommandResult(ProjectPages.REDIRECT_REGISTRATION_PAGE, true);
+        CommandResult result = new CommandResult(ProjectPages.REGISTRATION_PAGE, true);
         return result;
     }
 }
