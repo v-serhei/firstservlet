@@ -1,6 +1,8 @@
 package by.verbitsky.servletdemo.dao;
 
 import by.verbitsky.servletdemo.entity.User;
+import by.verbitsky.servletdemo.entity.UserBuilder;
+import by.verbitsky.servletdemo.entity.impl.UserBuilderImpl;
 import by.verbitsky.servletdemo.exception.DaoException;
 
 import java.sql.Connection;
@@ -37,19 +39,15 @@ public class UserDao extends BaseDao<User, Long> {
         this.connection = connection;
     }
 
+    //todo ПРОВЕРИТЬ все методы на NULL
+
     @Override
     public List<User> findAll() throws DaoException {
         List<User> result = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL_USERS)) {
             ResultSet set = statement.executeQuery();
             while (set.next()) {
-                String name = set.getString(COLUMN_USERNAME);
-                String email = set.getString(COLUMN_EMAIL);
-                String password = set.getString(COLUMN_PASSWORD);
-                int roleId = Integer.parseInt(set.getString(COLUMN_ROLE));
-                int blocked = Integer.parseInt(set.getString(COLUMN_BLOCKED));
-                int discount = Integer.parseInt(set.getString(COLUMN_DISCOUNT));
-                User user = new User(name, password, email, roleId, blocked, discount);
+                User user = buildUser(set);
                 result.add(user);
             }
         } catch (SQLException e) {
@@ -65,7 +63,7 @@ public class UserDao extends BaseDao<User, Long> {
             statement.setLong(1, id);
             ResultSet set = statement.executeQuery();
             if (set.next()) {
-                user = createUserFromSet(set);
+                user = buildUser(set);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -79,7 +77,7 @@ public class UserDao extends BaseDao<User, Long> {
             statement.setString(1, userEmail);
             ResultSet set = statement.executeQuery();
             if (set.next()) {
-                user = createUserFromSet(set);
+                user = buildUser(set);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -93,7 +91,7 @@ public class UserDao extends BaseDao<User, Long> {
             statement.setString(1, userName);
             ResultSet set = statement.executeQuery();
             if (set.next()) {
-                user = createUserFromSet(set);
+                user = buildUser(set);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -120,14 +118,9 @@ public class UserDao extends BaseDao<User, Long> {
     }
 
     @Override
-    public boolean create(User entity) throws DaoException {
-        throw new DaoException("Method not supported");
-    }
-
-    public boolean addNewUser(User user) throws DaoException {
+    public boolean create(User user) throws DaoException {
         boolean result;
         if (user != null) {
-            //username, password, email, role_id, blocked, discount_value
             try (PreparedStatement statement = connection.prepareStatement(INSERT_USER)) {
                 statement.setString(1, user.getUserName());
                 statement.setString(2, user.getUserPassword());
@@ -146,15 +139,14 @@ public class UserDao extends BaseDao<User, Long> {
         return result;
     }
 
-    private User createUserFromSet(ResultSet set) throws SQLException {
-        User user;
-        String name = set.getString(COLUMN_USERNAME);
-        String email = set.getString(COLUMN_EMAIL);
-        String password = set.getString(COLUMN_PASSWORD);
-        int roleId = Integer.parseInt(set.getString(COLUMN_ROLE));
-        int blocked = Integer.parseInt(set.getString(COLUMN_BLOCKED));
-        int discount = Integer.parseInt(set.getString(COLUMN_DISCOUNT));
-        user = new User(name, email, password, discount, roleId, blocked);
-        return user;
+    private User buildUser(ResultSet dbResultSet) throws SQLException {
+        UserBuilder builder = new UserBuilderImpl();
+        builder.setUserName(dbResultSet.getString(COLUMN_USERNAME));
+        builder.setUserPassword(dbResultSet.getString(COLUMN_PASSWORD));
+        builder.setEmail(dbResultSet.getString(COLUMN_EMAIL));
+        builder.setRoleId(Integer.parseInt(dbResultSet.getString(COLUMN_ROLE)));
+        builder.setBlockedStatus(Integer.parseInt(dbResultSet.getString(COLUMN_BLOCKED)));
+        builder.setDiscount(Integer.parseInt(dbResultSet.getString(COLUMN_DISCOUNT)));
+        return builder.buildUser();
     }
 }

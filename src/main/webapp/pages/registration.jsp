@@ -10,7 +10,7 @@
 <c:import url="../WEB-INF/importjsp/topmenu.jsp"/>
 <div id="reg-main-container">
     <div id="reg-controls-group">
-        <form action="register" method="post">
+        <form action="${pageContext.request.contextPath}/register" method="post">
             <div id="reg-input-items">
                 <h4 id="reg-label"><fmt:message key="reg.mainlabel"/></h4>
                 <div class="form-group">

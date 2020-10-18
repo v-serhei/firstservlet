@@ -23,7 +23,6 @@ public class SessionFilter implements Filter {
             if (session.isNew()) {
                 session.setMaxInactiveInterval(DEFAULT_SESSION_LIVE_TIME);
                 User user = new User();
-                user.setSession(session);
                 user.setLoginStatus(false);
                 session.setAttribute(AttributesNames.SESSION_ATTR_LOCALE, Locale.getDefault());
                 session.setAttribute(AttributesNames.SESSION_ATTR_USER, user);

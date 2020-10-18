@@ -7,8 +7,6 @@ import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.projectconst.AttributesNames;
 import by.verbitsky.servletdemo.projectconst.ProjectPages;
 
-import javax.servlet.http.HttpSession;
-
 public class LogoutCommand implements Command {
 
     @Override
@@ -17,9 +15,6 @@ public class LogoutCommand implements Command {
         CommandResult result;
         if (user != null && user.getLoginStatus()) {
             content.getSession().invalidate();
-
-            HttpSession session = content.getRequest().getSession(false);
-            System.out.println("session is null? "+ (session == null));
         }
         result = new CommandResult(ProjectPages.REDIRECT_MAIN_PAGE, true);
         return result;

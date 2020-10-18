@@ -1,9 +1,6 @@
 package by.verbitsky.servletdemo.entity;
 
-import javax.servlet.http.HttpSession;
-
 public class User {
-    private HttpSession session;
     private String userName;
     private String email;
     private String userPassword;
@@ -13,23 +10,6 @@ public class User {
     private boolean loginStatus;
 
     public User() {
-    }
-
-    public User(String userName, String email, String userPassword, int discount, int roleId, int blockedStatus) {
-        this.userName = userName;
-        this.email = email;
-        this.userPassword = userPassword;
-        this.discount = discount;
-        this.roleId = roleId;
-        this.blockedStatus = blockedStatus;
-    }
-
-    public HttpSession getSession() {
-        return session;
-    }
-
-    public void setSession(HttpSession session) {
-        this.session = session;
     }
 
     public String getUserName() {
@@ -100,8 +80,6 @@ public class User {
         if (!(o instanceof User)) return false;
 
         User user = (User) o;
-
-        if (session != null ? !session.equals(user.session) : user.session != null) return false;
         return userName != null ? userName.equals(user.userName) : user.userName == null;
     }
 
@@ -127,8 +105,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "session=" + session +
-                ", userName='" + userName + '\'' +
+                "userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
                 ", userPassword='" + userPassword + '\'' +
                 ", discount=" + discount +

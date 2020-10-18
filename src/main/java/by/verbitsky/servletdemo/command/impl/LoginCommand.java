@@ -8,7 +8,7 @@ import by.verbitsky.servletdemo.exception.CommandExecutionException;
 import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.exception.PoolException;
 import by.verbitsky.servletdemo.projectconst.AttributesNames;
-import by.verbitsky.servletdemo.projectconst.PageParameterNames;
+import by.verbitsky.servletdemo.projectconst.ParameterNames;
 import by.verbitsky.servletdemo.projectconst.ProjectPages;
 import by.verbitsky.servletdemo.service.impl.UserService;
 import by.verbitsky.servletdemo.util.FieldDataValidator;
@@ -22,8 +22,8 @@ public class LoginCommand implements Command {
         }
         CommandResult result;
         boolean loginFail = true;
-        String userName = content.getRequestParameter(PageParameterNames.LOGIN_REGISTRATION_USER_NAME);
-        String password = content.getRequestParameter(PageParameterNames.LOGIN_REGISTRATION_USER_PASSWORD_FIRST);
+        String userName = content.getRequestParameter(ParameterNames.LOGIN_REGISTRATION_USER_NAME);
+        String password = content.getRequestParameter(ParameterNames.LOGIN_REGISTRATION_USER_PASSWORD_FIRST);
         //check user data input
         if (!FieldDataValidator.validateUserName(userName) && !FieldDataValidator.validateUserPassword(password)) {
             content.addRequestAttribute(AttributesNames.REQUEST_ATTR_LOGIN_FAILED, loginFail);
@@ -44,16 +44,13 @@ public class LoginCommand implements Command {
         }
         //searching user in db and return auth result
         try {
-            //looking for user in data base and compare user passwords
             User user = UserService.INSTANCE.findUserByName(userName);
             if (user != null) {
                 //if passwords are equals - set logged in status true
                 if (user.getUserPassword().equals(UserService.INSTANCE.getHashedPassword(password))) {
                     user.setLoginStatus(true);
-                    user.setSession(content.getSession());
-                    //add user to attr session
+                    //add user to session attr
                     content.addSessionAttribute(AttributesNames.SESSION_ATTR_USER, user);
-                    //set response header
                     result = new CommandResult(ProjectPages.REDIRECT_MAIN_PAGE, true);
                     loginFail = false;
                 } else {

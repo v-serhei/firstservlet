@@ -10,8 +10,14 @@ public class AttributesNames {
 
     //Request attributes
     public static final String REQUEST_ATTR_LOGIN_FAILED = "loginFail";
-    public static final String REQUEST_ATTR_ERROR_MSG = "errorMessage";
-    public static final String REQUEST_ATTR_OPERATION_RESULT_MSG = "resultMessage";
+    public static final String REQUEST_ATTR_REGISTRATION_ERROR_MSG = "regErrorMessage";
+    public static final String REQUEST_ATTR_REGISTRATION_FAIL = "regResult";
+
+
+
+
+    public static final String REQUEST_ATTR_ADMIN_OPERATION_RESULT_MSG = "resultMessage";
+
     private AttributesNames() {
     }
 }

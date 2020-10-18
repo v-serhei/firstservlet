@@ -1,6 +1,6 @@
 package by.verbitsky.servletdemo.projectconst;
 
-public class PageParameterNames {
+public class ParameterNames {
     public static final String LOGIN_REGISTRATION_USER_NAME = "fieldName";
     public static final String LOGIN_REGISTRATION_USER_PASSWORD_FIRST = "fieldPassword";
     public static final String REGISTRATION_USER_EMAIL = "fieldEmail";
@@ -9,7 +9,7 @@ public class PageParameterNames {
     public static final String PAGE = "page";
 
 
-    private PageParameterNames() {
+    private ParameterNames() {
     }
 
 }

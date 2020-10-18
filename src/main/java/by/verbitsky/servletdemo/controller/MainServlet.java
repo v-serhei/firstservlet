@@ -6,7 +6,7 @@ import by.verbitsky.servletdemo.command.CommandResult;
 import by.verbitsky.servletdemo.exception.CommandExecutionException;
 import by.verbitsky.servletdemo.pool.impl.ConnectionPoolImpl;
 import by.verbitsky.servletdemo.projectconst.AttributesNames;
-import by.verbitsky.servletdemo.projectconst.PageParameterNames;
+import by.verbitsky.servletdemo.projectconst.ParameterNames;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,11 +19,16 @@ import java.io.IOException;
 
 @WebServlet(name = "MainServlet",
         urlPatterns = {
+                //processing commands (post)
                 "/login",
-                "/mainpage",
                 "/logout",
+
+
                 "/register",
                 "/langswitch",
+
+                //redirect commands (get)
+                "/mainpage",
                 "/profile",
                 "/admin"
         })
@@ -41,7 +46,7 @@ public class MainServlet extends HttpServlet {
     }
 
     private void processUserRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String cmd = request.getParameter(PageParameterNames.ACTION);
+        String cmd = request.getParameter(ParameterNames.ACTION);
         SessionRequestContent content = new SessionRequestContent(request, response);
         Command command = CommandProvider.defineCommand(cmd);
 
@@ -78,6 +83,21 @@ public class MainServlet extends HttpServlet {
 
 todo просмотреть все команды по порядку, доделать регистрацию
 todo пагинация
+ доделать логаут
+ валидация
+ страница ошибок
+
+
+
+
+
+
+
+
+
+
+
+
 
 todo обработка ошибок и страницы с ошибками
 todo дописать префикс к редиректу (убрать дублирующие ссылки в константах)
