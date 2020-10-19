@@ -19,9 +19,7 @@ public class SwitchLanguageCommand implements Command {
         CommandResult result;
         String lang = content.getRequestParameter(ParameterNames.ACTION);
         if (lang == null || lang.isEmpty()) {
-            //todo записать причину ошибки
-            result = new CommandResult(ProjectPages.ERROR_PAGE, true);
-            return result;
+            throw new CommandExecutionException("SwitchLanguageCommand: received null or empty parameter \"Lang\"");
         }
         Locale locale;
         switch (lang.toLowerCase()) {
@@ -39,8 +37,7 @@ public class SwitchLanguageCommand implements Command {
         content.addSessionAttribute(AttributesNames.SESSION_ATTR_LOCALE, locale);
         String lastPage = (String) content.getSessionAttribute(AttributesNames.SESSION_ATTR_LAST_URI);
         if (lastPage == null || lastPage.isEmpty()) {
-            //todo записать причину ошибки
-            result = new CommandResult(ProjectPages.ERROR_PAGE, true);
+            result = new CommandResult(ProjectPages.MAIN_PAGE, true);
             return result;
         }
         result = new CommandResult(lastPage, false);

@@ -21,7 +21,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">отзывы сюда</a>
                 </li>
-
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <div class="btn-group btn-group-sm" role="group">

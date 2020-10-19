@@ -4,6 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
+    <!--Filter mappfing-->
     <filter>
         <filter-name>SessionFilter</filter-name>
         <filter-class>by.verbitsky.servletdemo.filter.SessionFilter</filter-class>
@@ -21,4 +22,27 @@
         <filter-name>EncodeFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <!--Error page mapping-->
+    <error-page>
+        <error-code>401</error-code>
+        <location>/pages/error/errorpage400.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/pages/error/errorpage400.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/pages/error/errorpage400.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/pages/error/errorpage500.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>503</error-code>
+        <location>/pages/error/errorpage500.jsp</location>
+    </error-page>
+
 </web-app>

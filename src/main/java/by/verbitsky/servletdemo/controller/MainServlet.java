@@ -3,10 +3,13 @@ package by.verbitsky.servletdemo.controller;
 import by.verbitsky.servletdemo.command.Command;
 import by.verbitsky.servletdemo.command.CommandProvider;
 import by.verbitsky.servletdemo.command.CommandResult;
+import by.verbitsky.servletdemo.command.impl.EmptyCommand;
 import by.verbitsky.servletdemo.exception.CommandExecutionException;
 import by.verbitsky.servletdemo.pool.impl.ConnectionPoolImpl;
 import by.verbitsky.servletdemo.projectconst.AttributesNames;
 import by.verbitsky.servletdemo.projectconst.ParameterNames;
+import by.verbitsky.servletdemo.projectconst.ProjectPages;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,6 +33,7 @@ import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class MainServlet extends HttpServlet {
+    private static final int PAGE_NOT_FOUND_STATUS_CODE = 404;
     private final Logger logger = LogManager.getLogger();
     private static final String REDIRECT_PAGE_PREFIX = "/audiobox";
 
@@ -45,25 +49,33 @@ public class MainServlet extends HttpServlet {
         String cmd = request.getParameter(ParameterNames.ACTION);
         SessionRequestContent content = new SessionRequestContent(request, response);
         Command command = CommandProvider.defineCommand(cmd);
-
-        CommandResult result;
-        try {
-            result = command.execute(content);
-            //if session was not invalidated
-            if (request.getSession(false) != null) {
-                content.addSessionAttribute(AttributesNames.SESSION_ATTR_LAST_COMMAND, command);
-                content.addSessionAttribute(AttributesNames.SESSION_ATTR_LAST_URI, result.getResultPage());
-                content.pushAttributesToSession(content.getRequest());
+        if (command instanceof EmptyCommand) {
+            response.sendError(PAGE_NOT_FOUND_STATUS_CODE);
+        } else {
+            CommandResult result;
+            try {
+                result = command.execute(content);
+                //if session was not invalidated
+                if (request.getSession(false) != null) {
+                    content.addSessionAttribute(AttributesNames.SESSION_ATTR_LAST_COMMAND, command);
+                    content.addSessionAttribute(AttributesNames.SESSION_ATTR_LAST_URI, result.getResultPage());
+                    content.pushAttributesToSession(content.getRequest());
+                }
+                content.pushAttributesToRequest(content.getRequest());
+                if (result.isRedirect()) {
+                    response.sendRedirect(REDIRECT_PAGE_PREFIX.concat(result.getResultPage()));
+                } else {
+                    request.getRequestDispatcher(result.getResultPage()).forward(request, response);
+                }
+            } catch (CommandExecutionException e) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(e.getMessage());
+                sb.append(", cause: ");
+                sb.append(e.getCause().getLocalizedMessage());
+                logger.log(Level.WARN, sb.toString());
+                request.setAttribute(AttributesNames.REQUEST_ATTR_REQUESTED_URL, request.getRequestURL());
+                request.getRequestDispatcher(ProjectPages.ERROR_PAGE).forward(request, response);
             }
-            content.pushAttributesToRequest(content.getRequest());
-
-            if (result.isRedirect()) {
-                response.sendRedirect(REDIRECT_PAGE_PREFIX.concat(result.getResultPage()));
-            } else {
-                request.getRequestDispatcher(result.getResultPage()).forward(request, response);
-            }
-        } catch (CommandExecutionException e) {
-            //todo redirect to error page with stacktrace
         }
     }
 
@@ -73,33 +85,25 @@ public class MainServlet extends HttpServlet {
         super.init();
     }
 
-
+    private String getStacktraceText(Throwable e) {
+        StringBuilder sb = new StringBuilder();
+        for (StackTraceElement element : e.getStackTrace()) {
+            sb.append(element);
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 }
+
 /*
 
 
-todo просмотреть все команды по порядку, доделать регистрацию
+todo просмотреть все команды по порядку
 todo пагинация
- доделать логаут
  валидация
- страница ошибок
-
-
-
-
-
-
-
-
-
-
-
-
 
 todo обработка ошибок и страницы с ошибками
-todo дописать префикс к редиректу (убрать дублирующие ссылки в константах)
 todo last command - добавить атт и обрабатывать
-todo смена языка
 todo - заменить кнопки на input"ы с соответствующими названиями и параметрами
 
 

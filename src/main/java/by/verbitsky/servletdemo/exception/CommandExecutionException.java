@@ -1,7 +1,7 @@
 package by.verbitsky.servletdemo.exception;
 
 @SuppressWarnings("serial")
-public class CommandExecutionException extends Exception {
+public class CommandExecutionException extends Exception{
     public CommandExecutionException() {
         super();
     }

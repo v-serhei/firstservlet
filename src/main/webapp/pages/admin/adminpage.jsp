@@ -7,19 +7,6 @@
 <html>
 <c:import url="/WEB-INF/importjsp/header.jsp"/>
 <body>
-<%--<div id="top-body-container">
-    <div class="top-div-gradient">
-    </div>
-    <div id="top-menu-div">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: #e3f2fd">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#"><fmt:message key="main.menu.home"/></a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</div>--%>
 <c:import url="../../WEB-INF/importjsp/topmenu.jsp"/>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/adminka.js"></script>
 

@@ -510,6 +510,18 @@
     display: flex;
     justify-content: center;
 }
+.error-page-content {
+    border-style: solid;
+    border-width: 1px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 10px;
+}
+.error-stack-trace {
+    overflow: auto;
+    padding: 15px 15px;
+}
 
 
 /*

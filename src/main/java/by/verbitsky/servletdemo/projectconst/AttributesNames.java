@@ -14,6 +14,7 @@ public class AttributesNames {
     public static final String REQUEST_ATTR_REGISTRATION_FAIL = "regResult";
 
 
+    public static final String REQUEST_ATTR_REQUESTED_URL = "requestedURL";
 
 
     public static final String REQUEST_ATTR_ADMIN_OPERATION_RESULT_MSG = "resultMessage";
