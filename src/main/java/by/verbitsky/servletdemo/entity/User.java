@@ -3,7 +3,6 @@ package by.verbitsky.servletdemo.entity;
 public class User {
     private String userName;
     private String email;
-    private String userPassword;
     private int discount;
     private int roleId;
     private int blockedStatus;
@@ -28,14 +27,6 @@ public class User {
         this.email = email;
     }
 
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
     public int getDiscount() {
         return discount;
     }
@@ -52,8 +43,8 @@ public class User {
         this.roleId = roleId;
     }
 
-    public int getBlockedStatus() {
-        return blockedStatus;
+    public boolean getBlockedStatus() {
+        return blockedStatus > 0;
     }
 
     public void setBlockedStatus(int statusId) {
@@ -88,30 +79,23 @@ public class User {
         return userName != null ? userName.hashCode() : 0;
     }
 
-//todo fix it
-    /*@Override
+    @Override
     public String toString() {
-
-
-        StringBuilder  sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append("User: name=");
         sb.append(userName);
         sb.append(", email=");
         sb.append(email);
-
+        sb.append(", roleId=");
+        sb.append(roleId);
+        sb.append(", isBlocked=");
+        if (blockedStatus > 0) {
+            sb.append("true");
+        }else {
+            sb.append("false");
+        }
+        sb.append(", personal discount=");
+        sb.append(discount);
         return sb.toString();
-    }*/
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", userPassword='" + userPassword + '\'' +
-                ", discount=" + discount +
-                ", roleId=" + roleId +
-                ", blockedStatus=" + blockedStatus +
-                ", isLoggedIn=" + loginStatus +
-                '}';
     }
 }

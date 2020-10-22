@@ -6,7 +6,6 @@ import by.verbitsky.servletdemo.entity.UserBuilder;
 public class UserBuilderImpl implements UserBuilder {
     private String userName;
     private String email;
-    private String userPassword;
     private int discount;
     private int roleId;
     private int blockedStatus;
@@ -20,11 +19,6 @@ public class UserBuilderImpl implements UserBuilder {
     @Override
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    @Override
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
     }
 
     @Override
@@ -52,7 +46,6 @@ public class UserBuilderImpl implements UserBuilder {
         User user = new User();
         user.setUserName(userName);
         user.setEmail(email);
-        user.setUserPassword(userPassword);
         user.setDiscount(discount);
         user.setRoleId(roleId);
         user.setBlockedStatus(blockedStatus);

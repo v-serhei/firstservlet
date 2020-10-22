@@ -12,7 +12,7 @@
     <uri>customTagLib</uri>
     <tag>
         <name>pagination</name>
-        <tag-class>by.verbitsky.servletdemo.tags.Pagination</tag-class>
+        <tag-class>by.verbitsky.servletdemo.tag.Pagination</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>linkValue</name>

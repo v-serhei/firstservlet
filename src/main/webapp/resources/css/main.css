@@ -102,9 +102,10 @@
     justify-content: center;
 }
 
-#login-error-span, #reg-error-span {
+.login-error-span, .reg-error-span {
     text-align: center;
     font-size: 10pt;
+    color: red;
 }
 
 /*registration*/

@@ -5,8 +5,6 @@ public interface UserBuilder {
 
     void setEmail(String email);
 
-    void setUserPassword(String userPassword);
-
     void setDiscount(int discount);
 
     void setRoleId(int roleId);

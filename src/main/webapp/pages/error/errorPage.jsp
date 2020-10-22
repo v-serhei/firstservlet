@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="language/jsp"/>
 <!DOCTYPE html>
 <html>
 <c:import url="/WEB-INF/importjsp/header.jsp"/>
@@ -8,12 +11,16 @@
 <div id="main-body-container">
     <div id="body-container">
         <div class="error-page-content">
-            <h2 class="text-center">Error!</h2>
             <div class="error-stack-trace">
                 <br/>
-                <h4 class="text-center"> Received exception while processing user request on server: </h4>
+                <h4 class="text-center"> <fmt:message key="error.page.header.message"/> </h4>
                 <br/>
-                <h5 class="text-center"> ${requestScope.requestedURL}</h5>
+                <br/>
+                <h4 class="text-center"> <fmt:message key="error.page.url.header"/> </h4>
+                <h5 class="text-center"> ${sessionScope.requestedURL}</h5>
+                <br/>
+                <h4 class="text-center"> <fmt:message key="error.page.message.header"/> </h4>
+                <h5 class="text-center"><fmt:message key="${sessionScope.commandErrorMessage}"/></h5>
             </div>
         </div>
     </div>

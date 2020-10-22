@@ -11,8 +11,8 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 public class ProxyConnection implements Connection {
+    private static final Logger logger = LogManager.getLogger();
     private final Connection connection;
-    private static Logger logger = LogManager.getLogger();
 
     ProxyConnection(Connection connection) {
         this.connection = connection;
@@ -27,7 +27,7 @@ public class ProxyConnection implements Connection {
         try {
             ConnectionPoolImpl.getInstance().releaseConnection(this);
         } catch (PoolException e) {
-            logger.log(Level.WARN, "Error while returning connection in pool");
+            logger.log(Level.ERROR, "Error while returning connection in pool");
         }
     }
 
