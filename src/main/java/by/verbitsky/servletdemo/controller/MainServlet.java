@@ -1,14 +1,9 @@
 package by.verbitsky.servletdemo.controller;
 
-import by.verbitsky.servletdemo.controller.command.Command;
-import by.verbitsky.servletdemo.controller.command.CommandProvider;
-import by.verbitsky.servletdemo.controller.command.CommandResult;
+import by.verbitsky.servletdemo.controller.command.*;
 import by.verbitsky.servletdemo.controller.command.impl.ready.EmptyCommand;
 import by.verbitsky.servletdemo.exception.CommandException;
 import by.verbitsky.servletdemo.pool.impl.ConnectionPoolImpl;
-import by.verbitsky.servletdemo.controller.command.AttributeName;
-import by.verbitsky.servletdemo.controller.command.ParameterName;
-import by.verbitsky.servletdemo.controller.command.PagePath;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,6 +29,7 @@ import java.io.IOException;
 @SuppressWarnings("serial")
 public class MainServlet extends HttpServlet {
     private static final int PAGE_NOT_FOUND_STATUS_CODE = 404;
+    private static final int SERVER_ERROR_CODE = 500;
     private final Logger logger = LogManager.getLogger();
     private static final String REDIRECT_PAGE_PREFIX = "/audiobox";
 
@@ -70,7 +66,7 @@ public class MainServlet extends HttpServlet {
             } catch (CommandException e) {
                 logger.log(Level.WARN, generateLogMessage(e));
                 request.setAttribute(AttributeName.REQUESTED_URL, request.getRequestURL());
-                request.getRequestDispatcher(PagePath.ERROR_PAGE).forward(request, response);
+                response.sendError(SERVER_ERROR_CODE);
             }
         }
     }

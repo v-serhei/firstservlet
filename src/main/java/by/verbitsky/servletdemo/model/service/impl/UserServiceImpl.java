@@ -31,9 +31,8 @@ public enum UserServiceImpl implements UserService {
         Optional<User> result;
         try (Transaction transaction = new Transaction(connection)) {
             UserDaoImpl userDao = new UserDaoImpl();
-            transaction.beginTransaction(userDao);
+            transaction.processSimpleQuery(userDao);
             result = userDao.findUserByEmail(email.toLowerCase());
-            transaction.commitTransaction();
         } catch (DaoException e) {
             throw new ServiceException("UserService: received Dao exception while processing \"findUserByEmail\"", e);
         }
@@ -50,9 +49,8 @@ public enum UserServiceImpl implements UserService {
         Optional<User> result;
         try (Transaction transaction = new Transaction(connection)) {
             UserDaoImpl userDao = new UserDaoImpl();
-            transaction.beginTransaction(userDao);
+            transaction.processSimpleQuery(userDao);
             result = userDao.findUserByName(userName.toLowerCase());
-            transaction.commitTransaction();
         } catch (DaoException e) {
             throw new ServiceException("UserService: received Dao exception while processing \"findUserByName\"", e);
         }
@@ -69,9 +67,9 @@ public enum UserServiceImpl implements UserService {
         Optional<String> result;
         try (Transaction transaction = new Transaction(connection)) {
             UserDaoImpl userDao = new UserDaoImpl();
-            transaction.beginTransaction(userDao);
+            transaction.processSimpleQuery(userDao);
             result = userDao.findUserPassword(userName);
-            transaction.commitTransaction();
+
         } catch (DaoException e) {
             throw new ServiceException("UserService: received Dao exception while processing \"findUserByEmail\"", e);
         }
@@ -87,7 +85,7 @@ public enum UserServiceImpl implements UserService {
         }
         try (Transaction transaction = new Transaction(connection)) {
             UserDaoImpl userDao = new UserDaoImpl();
-            transaction.beginTransaction(userDao);
+            transaction.processTransaction(userDao);
             userDao.create(user);
             userDao.updateUserPassword(user, password);
             transaction.commitTransaction();

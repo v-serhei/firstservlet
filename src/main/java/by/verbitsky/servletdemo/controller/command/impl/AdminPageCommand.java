@@ -24,10 +24,8 @@ public class AdminPageCommand implements Command {
             if (CommandPermissionValidator.isUserHasPermission(user, this)) {
                 result = new CommandResult(PagePath.ADMIN_PAGE, true);
             } else {
-                content.addSessionAttribute(AttributeName.COMMAND_ERROR_MESSAGE,
-                        AttributeName.ADMIN_PAGE_ACCESS_DENIED);
-                content.addSessionAttribute(AttributeName.REQUESTED_URL,
-                        content.getRequest().getRequestURI());
+                content.addSessionAttribute(AttributeName.COMMAND_ERROR_MESSAGE, AttributeName.ADMIN_PAGE_ACCESS_DENIED);
+                content.addSessionAttribute(AttributeName.REQUESTED_URL, content.getRequest().getRequestURI());
                 result = new CommandResult(PagePath.ERROR_PAGE, true);
             }
         } else {
