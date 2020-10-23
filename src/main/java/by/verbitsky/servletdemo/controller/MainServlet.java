@@ -4,11 +4,11 @@ import by.verbitsky.servletdemo.controller.command.Command;
 import by.verbitsky.servletdemo.controller.command.CommandProvider;
 import by.verbitsky.servletdemo.controller.command.CommandResult;
 import by.verbitsky.servletdemo.controller.command.impl.ready.EmptyCommand;
-import by.verbitsky.servletdemo.exception.CommandExecutionException;
+import by.verbitsky.servletdemo.exception.CommandException;
 import by.verbitsky.servletdemo.pool.impl.ConnectionPoolImpl;
-import by.verbitsky.servletdemo.controller.command.AttributeNames;
-import by.verbitsky.servletdemo.controller.command.ParameterNames;
-import by.verbitsky.servletdemo.controller.command.PagePaths;
+import by.verbitsky.servletdemo.controller.command.AttributeName;
+import by.verbitsky.servletdemo.controller.command.ParameterName;
+import by.verbitsky.servletdemo.controller.command.PagePath;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,7 +46,7 @@ public class MainServlet extends HttpServlet {
     }
 
     private void processUserRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String cmd = request.getParameter(ParameterNames.ACTION);
+        String cmd = request.getParameter(ParameterName.ACTION);
         SessionRequestContent content = new SessionRequestContent(request);
         Command command = CommandProvider.defineCommand(cmd);
         if (command instanceof EmptyCommand) {
@@ -57,8 +57,8 @@ public class MainServlet extends HttpServlet {
                 result = command.execute(content);
                 //if session was not invalidated
                 if (request.getSession(false) != null) {
-                    content.addSessionAttribute(AttributeNames.SESSION_ATTR_LAST_COMMAND, command);
-                    content.addSessionAttribute(AttributeNames.SESSION_ATTR_LAST_URI, result.getResultPage());
+                    content.addSessionAttribute(AttributeName.SESSION_LAST_COMMAND, command);
+                    content.addSessionAttribute(AttributeName.SESSION_LAST_URI, result.getResultPage());
                     content.pushAttributesToSession();
                 }
                 content.pushAttributesToRequest();
@@ -67,15 +67,15 @@ public class MainServlet extends HttpServlet {
                 } else {
                     request.getRequestDispatcher(result.getResultPage()).forward(request, response);
                 }
-            } catch (CommandExecutionException e) {
+            } catch (CommandException e) {
                 logger.log(Level.WARN, generateLogMessage(e));
-                request.setAttribute(AttributeNames.REQUEST_ATTR_REQUESTED_URL, request.getRequestURL());
-                request.getRequestDispatcher(PagePaths.ERROR_PAGE).forward(request, response);
+                request.setAttribute(AttributeName.REQUESTED_URL, request.getRequestURL());
+                request.getRequestDispatcher(PagePath.ERROR_PAGE).forward(request, response);
             }
         }
     }
 
-    private String generateLogMessage(CommandExecutionException e) {
+    private String generateLogMessage(CommandException e) {
         StringBuilder sb = new StringBuilder();
         sb.append(e.getMessage());
         sb.append(", cause: ");

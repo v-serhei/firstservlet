@@ -3,35 +3,35 @@ package by.verbitsky.servletdemo.controller.command.impl;
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.controller.command.*;
 import by.verbitsky.servletdemo.entity.User;
-import by.verbitsky.servletdemo.exception.CommandExecutionException;
+import by.verbitsky.servletdemo.exception.CommandException;
 
 public class AdminPageCommand implements Command {
     @Override
-    public CommandResult execute(SessionRequestContent content) throws CommandExecutionException {
+    public CommandResult execute(SessionRequestContent content) throws CommandException {
         if (content == null) {
-            throw new CommandExecutionException("AdminPageCommand: received null content");
+            throw new CommandException("AdminPageCommand: received null content");
         }
         User user;
         try {
-            user = (User) content.getSessionAttribute(AttributeNames.SESSION_ATTR_USER);
+            user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
         } catch (ClassCastException e) {
-            throw new CommandExecutionException("AdminPageCommand: received class cast exception while getting attribute \"User\"");
+            throw new CommandException("AdminPageCommand: received class cast exception while getting attribute \"User\"");
         }
 
         CommandResult result;
         if (user != null && user.getLoginStatus()) {
             //todo посмотреть что нужно подгрузить на страницу и сделать запрос в БД
             if (CommandPermissionValidator.isUserHasPermission(user, this)) {
-                result = new CommandResult(PagePaths.ADMIN_PAGE, true);
+                result = new CommandResult(PagePath.ADMIN_PAGE, true);
             } else {
-                content.addSessionAttribute(AttributeNames.REQUEST_ATTR_COMMAND_ERROR_MESSAGE,
-                        AttributeNames.REQUEST_ATTR_ADMIN_PAGE_ACCESS_DENIED);
-                content.addSessionAttribute(AttributeNames.REQUEST_ATTR_REQUESTED_URL,
+                content.addSessionAttribute(AttributeName.COMMAND_ERROR_MESSAGE,
+                        AttributeName.ADMIN_PAGE_ACCESS_DENIED);
+                content.addSessionAttribute(AttributeName.REQUESTED_URL,
                         content.getRequest().getRequestURI());
-                result = new CommandResult(PagePaths.ERROR_PAGE, true);
+                result = new CommandResult(PagePath.ERROR_PAGE, true);
             }
         } else {
-            result = new CommandResult(PagePaths.LOGIN_PAGE, true);
+            result = new CommandResult(PagePath.LOGIN_PAGE, true);
         }
         return result;
     }

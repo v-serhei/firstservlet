@@ -23,8 +23,8 @@ public enum CommandType {
     /**
      * switch lang
      */
-    RU(new SwitchLanguageCommand()),
-    EN(new SwitchLanguageCommand());
+    RU(new LanguageCommand()),
+    EN(new LanguageCommand());
 
 
     CommandType(Command command) {

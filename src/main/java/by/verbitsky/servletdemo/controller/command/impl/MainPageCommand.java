@@ -3,7 +3,7 @@ package by.verbitsky.servletdemo.controller.command.impl;
 import by.verbitsky.servletdemo.controller.command.Command;
 import by.verbitsky.servletdemo.controller.command.CommandResult;
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
-import by.verbitsky.servletdemo.controller.command.PagePaths;
+import by.verbitsky.servletdemo.controller.command.PagePath;
 
 public class MainPageCommand implements Command {
     @Override
@@ -23,7 +23,7 @@ public class MainPageCommand implements Command {
  */
         //todo тут сделать пагинацию
 
-        CommandResult result = new CommandResult(PagePaths.MAIN_PAGE, true);
+        CommandResult result = new CommandResult(PagePath.MAIN_PAGE, true);
         return result;
     }
 }

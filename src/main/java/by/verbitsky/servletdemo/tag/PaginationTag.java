@@ -1,6 +1,6 @@
 package by.verbitsky.servletdemo.tag;
 
-import by.verbitsky.servletdemo.controller.command.AttributeNames;
+import by.verbitsky.servletdemo.controller.command.AttributeName;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 @SuppressWarnings("serial")
-public class Pagination extends TagSupport {
+public class PaginationTag extends TagSupport {
     private String linkValue;
     private int currentPage;
     private int totalPageCount;
@@ -29,7 +29,7 @@ public class Pagination extends TagSupport {
     @Override
     public int doStartTag() throws JspException {
         HttpSession session = pageContext.getSession();
-        Locale locale = (Locale) session.getAttribute(AttributeNames.SESSION_ATTR_LOCALE);
+        Locale locale = (Locale) session.getAttribute(AttributeName.SESSION_LOCALE);
         if (currentPage <= totalPageCount) {
             try {
                 if (totalPageCount > 1) {

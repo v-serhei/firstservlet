@@ -1,7 +1,7 @@
 package by.verbitsky.servletdemo.controller.filter;
 
 import by.verbitsky.servletdemo.entity.User;
-import by.verbitsky.servletdemo.controller.command.AttributeNames;
+import by.verbitsky.servletdemo.controller.command.AttributeName;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -24,8 +24,8 @@ public class SessionFilter implements Filter {
                 session.setMaxInactiveInterval(DEFAULT_SESSION_LIVE_TIME);
                 User user = new User();
                 user.setLoginStatus(false);
-                session.setAttribute(AttributeNames.SESSION_ATTR_LOCALE, Locale.getDefault());
-                session.setAttribute(AttributeNames.SESSION_ATTR_USER, user);
+                session.setAttribute(AttributeName.SESSION_LOCALE, Locale.getDefault());
+                session.setAttribute(AttributeName.SESSION_USER, user);
             }
         }
     }

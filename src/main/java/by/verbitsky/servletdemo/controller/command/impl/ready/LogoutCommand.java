@@ -4,22 +4,22 @@ import by.verbitsky.servletdemo.controller.command.Command;
 import by.verbitsky.servletdemo.controller.command.CommandResult;
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.entity.User;
-import by.verbitsky.servletdemo.exception.CommandExecutionException;
-import by.verbitsky.servletdemo.controller.command.AttributeNames;
-import by.verbitsky.servletdemo.controller.command.PagePaths;
+import by.verbitsky.servletdemo.exception.CommandException;
+import by.verbitsky.servletdemo.controller.command.AttributeName;
+import by.verbitsky.servletdemo.controller.command.PagePath;
 
 public class LogoutCommand implements Command {
 
     @Override
-    public CommandResult execute(SessionRequestContent content) throws CommandExecutionException {
-        User user = (User) content.getSessionAttribute(AttributeNames.SESSION_ATTR_USER);
+    public CommandResult execute(SessionRequestContent content) throws CommandException {
+        User user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
         CommandResult result;
         if (user != null && user.getLoginStatus()) {
             content.getSession().invalidate();
         }else {
-            throw new CommandExecutionException("LogoutCommand: attribute user is null");
+            throw new CommandException("LogoutCommand: attribute \"User\" is null\"");
         }
-        result = new CommandResult(PagePaths.MAIN_PAGE, true);
+        result = new CommandResult(PagePath.MAIN_PAGE, true);
         return result;
     }
 }

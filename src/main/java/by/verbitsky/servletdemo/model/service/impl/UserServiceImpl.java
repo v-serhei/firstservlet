@@ -13,7 +13,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.Optional;
 
-public enum UserServiceImpl implements UserService<User> {
+public enum UserServiceImpl implements UserService {
     INSTANCE;
 
     public String getHashedPassword(String password) {
@@ -21,8 +21,13 @@ public enum UserServiceImpl implements UserService<User> {
         return DigestUtils.sha512Hex(salt.concat(password));
     }
 
-    public Optional<User> findUserByEmail(String email) throws PoolException, ServiceException {
-        ProxyConnection connection = ConnectionPoolImpl.getInstance().getConnection();
+    public boolean isExistEmail(String email) throws ServiceException {
+        ProxyConnection connection;
+        try {
+            connection = ConnectionPoolImpl.getInstance().getConnection();
+        } catch (PoolException e) {
+            throw new ServiceException("UserService: received Pool exception while processing \"findUserByEmail\"", e);
+        }
         Optional<User> result;
         try (Transaction transaction = new Transaction(connection)) {
             UserDaoImpl userDao = new UserDaoImpl();
@@ -32,11 +37,16 @@ public enum UserServiceImpl implements UserService<User> {
         } catch (DaoException e) {
             throw new ServiceException("UserService: received Dao exception while processing \"findUserByEmail\"", e);
         }
-        return result;
+        return result.isPresent();
     }
 
-    public Optional<User> findUserByName(String userName) throws PoolException, ServiceException {
-        ProxyConnection connection = ConnectionPoolImpl.getInstance().getConnection();
+    public Optional<User> findUserByName(String userName) throws ServiceException {
+        ProxyConnection connection;
+        try {
+            connection = ConnectionPoolImpl.getInstance().getConnection();
+        } catch (PoolException e) {
+            throw new ServiceException("UserService: received Pool exception while processing \"findUserByName\"", e);
+        }
         Optional<User> result;
         try (Transaction transaction = new Transaction(connection)) {
             UserDaoImpl userDao = new UserDaoImpl();
@@ -44,13 +54,18 @@ public enum UserServiceImpl implements UserService<User> {
             result = userDao.findUserByName(userName.toLowerCase());
             transaction.commitTransaction();
         } catch (DaoException e) {
-            throw new ServiceException("UserService: received Dao exception while processing \"findUserByEmail\"", e);
+            throw new ServiceException("UserService: received Dao exception while processing \"findUserByName\"", e);
         }
         return result;
     }
 
-    public Optional<String> findUserPassword(String userName) throws PoolException, ServiceException {
-        ProxyConnection connection = ConnectionPoolImpl.getInstance().getConnection();
+    public Optional<String> findUserPassword(String userName) throws ServiceException {
+        ProxyConnection connection;
+        try {
+            connection = ConnectionPoolImpl.getInstance().getConnection();
+        } catch (PoolException e) {
+            throw new ServiceException("UserService: received Pool exception while processing \"findUserPassword\"", e);
+        }
         Optional<String> result;
         try (Transaction transaction = new Transaction(connection)) {
             UserDaoImpl userDao = new UserDaoImpl();
@@ -63,8 +78,13 @@ public enum UserServiceImpl implements UserService<User> {
         return result;
     }
 
-    public void addRegisteredUser(User user, String password) throws PoolException, ServiceException {
-        ProxyConnection connection = ConnectionPoolImpl.getInstance().getConnection();
+    public void addRegisteredUser(User user, String password) throws ServiceException {
+        ProxyConnection connection;
+        try {
+            connection = ConnectionPoolImpl.getInstance().getConnection();
+        } catch (PoolException e) {
+            throw new ServiceException("UserService: received Pool exception while processing \"addRegisteredUser\"", e);
+        }
         try (Transaction transaction = new Transaction(connection)) {
             UserDaoImpl userDao = new UserDaoImpl();
             transaction.beginTransaction(userDao);

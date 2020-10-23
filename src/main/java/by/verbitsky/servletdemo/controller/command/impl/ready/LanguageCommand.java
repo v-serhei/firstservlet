@@ -5,7 +5,7 @@ import by.verbitsky.servletdemo.controller.command.*;
 
 import java.util.Locale;
 
-public class SwitchLanguageCommand implements Command {
+public class LanguageCommand implements Command {
 
     private static final String EN_LANGUAGE = "en";
     private static final String RU_COUNTRY = "RU";
@@ -14,12 +14,12 @@ public class SwitchLanguageCommand implements Command {
     @Override
     public CommandResult execute(SessionRequestContent content) {
         CommandResult result;
-        String langParameter = content.getRequestParameter(ParameterNames.ACTION);
+        String langParameter = content.getRequestParameter(ParameterName.ACTION);
         Locale locale = defineLocale(langParameter);
-        content.addSessionAttribute(AttributeNames.SESSION_ATTR_LOCALE, locale);
-        String lastPage = (String) content.getSessionAttribute(AttributeNames.SESSION_ATTR_LAST_URI);
+        content.addSessionAttribute(AttributeName.SESSION_LOCALE, locale);
+        String lastPage = (String) content.getSessionAttribute(AttributeName.SESSION_LAST_URI);
         if (lastPage == null || lastPage.isEmpty()) {
-            result = new CommandResult(PagePaths.MAIN_PAGE, true);
+            result = new CommandResult(PagePath.MAIN_PAGE, true);
         } else {
             result = new CommandResult(lastPage, false);
         }
