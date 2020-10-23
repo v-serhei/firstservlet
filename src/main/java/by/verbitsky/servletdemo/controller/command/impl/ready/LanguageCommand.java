@@ -21,7 +21,7 @@ public class LanguageCommand implements Command {
         if (lastPage == null || lastPage.isEmpty()) {
             result = new CommandResult(PagePath.MAIN_PAGE, true);
         } else {
-            result = new CommandResult(lastPage, false);
+            result = new CommandResult(lastPage, true);
         }
         return result;
     }
