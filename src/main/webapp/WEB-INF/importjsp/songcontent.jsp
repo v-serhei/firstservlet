@@ -3,24 +3,33 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="language/jsp"/>
+<%@ taglib prefix="ab" uri="customTagLib" %>
 
 <%--12 штук на страницу--%>
 
-<div class="item-container">
-    <div class="content-values">
-        <span class="item-description-song">Song-name</span>
-        <span class="item-description-singer">Author</span>
-        <span class="item-description-album">Album</span>
-        <span class="item-description-genre">Genre</span>
-        <span class="item-description-date">03-10-2020</span>
+<c:forEach var="song" items="${sessionScope.contentList}">
+    <div class="line-separator">
+        <hr/>
     </div>
-    <div class="item-controls">
-        controls
+    <div class="item-container">
+        <div class="content-values">
+            <span class="item-description-song">${song.songTitle}</span>
+            <span class="item-description-singer">${song.authorName}</span>
+            <span class="item-description-album">${song.albumTitle}</span>
+            <span class="item-description-genre">${song.genre}</span>
+            <span class="item-description-date">${song.uploadDate}</span>
+        </div>
+        <div class="item-controls">
+            controls
+        </div>
     </div>
-</div>
-
+</c:forEach>
 <div class="line-separator">
     <hr/>
 </div>
+<ab:pagination linkValue="${pageContext.request.contextPath}${sessionScope.linkValue}"
+               currentPage="${sessionScope.currentPage}"
+               totalPageCount="${sessionScope.totalPageCount}"
+/>
 
 

@@ -45,7 +45,7 @@ public class PaginationTag extends TagSupport {
                         if (currentPage == 1) {
                             pageContext.getOut().write("<span class=\"pagination-link inactive-page-link\"> &lt;&lt; </span>");
                         } else {
-                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "?action=pagination\"> &lt;&lt; </a>\n");
+                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "&page=1\"> &lt;&lt; </a>\n");
                         }
                         pageContext.getOut().write("</div>\n");
                     }
@@ -53,38 +53,38 @@ public class PaginationTag extends TagSupport {
                     if (currentPage == 1) {
                         pageContext.getOut().write("<span class=\"pagination-link inactive-page-link\"> &lt; </span>");
                     } else {
-                        pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "?action=pagination\"> &lt; </a>\n");
+                        pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "&page="+ (currentPage - 1) +"\"> &lt; </a>\n");
                     }
                     pageContext.getOut().write("</div>\n");
                     pageContext.getOut().write("<div class=\"btn-group mr-2 btn-group-sm\" role=\"group\" aria-label=\"Second group\">\n");
                     if (totalPageCount == 2) {
                         if (currentPage == 1) {
                             pageContext.getOut().write("<span class=\"pagination-link active-page-link\">" + currentPage + "</span>\n");
-                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "?action=pagination\">" + (currentPage + 1) + "</a>\n");
+                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "&page="+ (currentPage + 1) +"\">" + (currentPage + 1) + "</a>\n");
                             pageContext.getOut().write("</div>\n");
 
                         } else {
-                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "?action=pagination\">" + (currentPage - 1) + "</a>\n");
+                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "&page="+ (currentPage - 1) +"\">" + (currentPage - 1) + "</a>\n");
                             pageContext.getOut().write("<span class=\"pagination-link active-page-link\">" + currentPage + "</span>\n");
                             pageContext.getOut().write("</div>\n");
                         }
                     } else {
                         if (currentPage == 1) {
                             pageContext.getOut().write("<span class=\"pagination-link active-page-link\">" + currentPage + "</span>\n");
-                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "?action=pagination\">" + (currentPage + 1) + "</a>\n");
-                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "?action=pagination\">" + (currentPage + 2) + "</a>\n");
+                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "&page="+ (currentPage + 1) +"\">" + (currentPage + 1) + "</a>\n");
+                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "&page="+ (currentPage +2) +"\">" + (currentPage + 2) + "</a>\n");
                             pageContext.getOut().write("</div>\n");
                         }
                         if (currentPage == totalPageCount) {
-                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "?action=pagination\">" + (currentPage - 2) + "</a>\n");
-                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "?action=pagination\">" + (currentPage - 1) + "</a>\n");
+                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "&page="+ (currentPage - 2) +"\">" + (currentPage - 2) + "</a>\n");
+                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "&page="+ (currentPage - 1) +"\">" + (currentPage - 1) + "</a>\n");
                             pageContext.getOut().write("<span class=\"pagination-link active-page-link\">" + currentPage + "</span>\n");
                             pageContext.getOut().write("</div>\n");
                         }
                         if (currentPage > 1 && currentPage < totalPageCount) {
-                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "?action=pagination\">" + (currentPage - 1) + "</a>\n");
+                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "&page="+ (currentPage - 1) +"\">" + (currentPage - 1) + "</a>\n");
                             pageContext.getOut().write("<span class=\"pagination-link active-page-link\">" + currentPage + "</span>\n");
-                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "?action=pagination\">" + (currentPage + 1) + "</a>\n");
+                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "&page="+ (currentPage + 1) +"\">" + (currentPage + 1) + "</a>\n");
                             pageContext.getOut().write("</div>\n");
                         }
                     }
@@ -92,7 +92,7 @@ public class PaginationTag extends TagSupport {
                     if (currentPage == totalPageCount) {
                         pageContext.getOut().write("<span class=\"pagination-link inactive-page-link\"> &gt; </span>");
                     } else {
-                        pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "?action=pagination\"> &gt; </a>\n");
+                        pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "&page="+ (currentPage + 1) +"\"> &gt; </a>\n");
                     }
                     pageContext.getOut().write("</div>\n");
                     if (totalPageCount > 4) {
@@ -100,7 +100,7 @@ public class PaginationTag extends TagSupport {
                         if (currentPage == totalPageCount) {
                             pageContext.getOut().write("<span class=\"pagination-link inactive-page-link\"> &gt;&gt; </span>");
                         } else {
-                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "?action=pagination\"> &gt;&gt; </a>\n");
+                            pageContext.getOut().write("<a class=\"pagination-link\" href=\"" + linkValue + "&page="+ totalPageCount +"\"> &gt;&gt; </a>\n");
                         }
                         pageContext.getOut().write("</div>\n");
                     }

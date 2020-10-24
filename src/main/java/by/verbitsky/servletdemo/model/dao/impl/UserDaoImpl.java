@@ -4,9 +4,9 @@ import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.entity.UserBuilder;
 import by.verbitsky.servletdemo.entity.impl.UserBuilderImpl;
 import by.verbitsky.servletdemo.exception.DaoException;
+import by.verbitsky.servletdemo.model.dao.AbstractDao;
 import by.verbitsky.servletdemo.model.dao.UserDao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl extends AbstractDao implements UserDao {
 
     private static final String SELECT_ALL_USERS =
             "SELECT username, email, role_id, blocked_status, discount_value FROM users";
@@ -37,16 +37,6 @@ public class UserDaoImpl implements UserDao {
     private static final String COLUMN_ROLE = "role_id";
     private static final String COLUMN_BLOCKED = "blocked_status";
     private static final String COLUMN_DISCOUNT = "discount_value";
-    private Connection connection;
-
-    @Override
-    public void setConnection(Connection connection) throws DaoException {
-        if (connection != null) {
-            this.connection = connection;
-        } else {
-            throw new DaoException("SetConnection: received null connection");
-        }
-    }
 
     @Override
     public List<User> findAll() throws DaoException {
@@ -61,6 +51,11 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException(e);
         }
         return result;
+    }
+
+    @Override
+    public List<User> findEntity(long offset, int limit) throws DaoException {
+        throw new DaoException("Unsupported method call");
     }
 
 
@@ -140,7 +135,7 @@ public class UserDaoImpl implements UserDao {
                     statement.setString(2, userName);
                     statement.executeUpdate();
                 } catch (SQLException e) {
-                    throw new DaoException("Update user password: error while updating user password");
+                    throw new DaoException("Update user password: error while updating user password",e);
                 }
             } else {
                 throw new DaoException("Update user password: received null or empty user name");
@@ -169,7 +164,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean update(User entity) {
+    public long calculateRowCount() throws DaoException {
+        return 0;
+    }
+
+    @Override
+    public boolean update(long id, User entity) {
         //todo release this (admin)
         return true;
     }

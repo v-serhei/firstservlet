@@ -30,7 +30,7 @@
                 </div>
             </c:if>
             <div id="login-submit">
-                <input type="hidden" class="btn btn-light" name="action" value="login">
+                <input type="hidden" class="btn btn-light" name="action" value="login"/>
                 <input type="submit" class="btn btn-light" name="confirm" value="<fmt:message key="login.confirm.button"/>">
             </div>
         </form>

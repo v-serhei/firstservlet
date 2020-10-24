@@ -23,6 +23,25 @@ public class AttributeName {
     public static final String REGISTRATION_EXIST_EMAIL = "regExistEmail";
 
     /**
+     * Pagination request attributes
+     */
+
+    public static final String CONTENT_CURRENT_PAGE = "currentPage";
+    public static final String CONTENT_TOTAL_PAGE_COUNT = "totalPageCount";
+    public static final String CONTENT = "contentList";
+    public static final String CONTENT_FILTER = "filter";
+    public static final String PAGINATION_CONTROLS_LINK = "linkValue";
+
+    /**
+     * List attributes for select tag
+     */
+
+    public static final String SINGER_LIST = "singerList";
+    public static final String GENRE_LIST = "genreList";
+
+
+
+    /**
      * Attribute names for error page
      */
     public static final String REQUESTED_URL = "requestedURL";

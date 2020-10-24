@@ -11,11 +11,15 @@ public interface BaseDao<E> {
 
     List<E> findAll() throws DaoException;
 
-   Optional <E> findEntityById(Long id) throws DaoException;
+    List<E> findEntity(long offset, int limit) throws DaoException;
 
-    boolean update(E entity);
+    Optional <E> findEntityById(Long id) throws DaoException;
+
+    boolean update(long id, E entity);
 
     boolean delete(Long id) throws DaoException;
 
     boolean create(E entity) throws DaoException;
+
+    long calculateRowCount() throws DaoException;
 }
