@@ -28,7 +28,7 @@
     <hr/>
 </div>
 <ab:pagination linkValue="${pageContext.request.contextPath}${sessionScope.linkValue}"
-               currentPage="${sessionScope.currentPage}"
+               currentPage="${sessionScope.filter.pageNumber}"
                totalPageCount="${sessionScope.totalPageCount}"
 />
 

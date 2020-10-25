@@ -19,8 +19,7 @@ public class LogoutCommand implements Command {
         }else {
             throw new CommandException("LogoutCommand: attribute \"User\" is null\"");
         }
-        result = new CommandResult(PagePath.MAIN_PAGE, true);
-        //todo сбрасывать фильтр
+        result = new CommandResult(PagePath.LOGOUT_PAGE, true);
         return result;
     }
 }

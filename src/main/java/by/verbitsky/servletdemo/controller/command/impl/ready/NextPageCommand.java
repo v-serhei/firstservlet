@@ -11,7 +11,6 @@ import by.verbitsky.servletdemo.model.service.impl.ContentServiceImpl;
 import java.util.List;
 
 public class NextPageCommand implements Command {
-
     @Override
     public CommandResult execute(SessionRequestContent content) throws CommandException {
         SongFilter filter = (SongFilter) content.getSessionAttribute(AttributeName.CONTENT_FILTER);
