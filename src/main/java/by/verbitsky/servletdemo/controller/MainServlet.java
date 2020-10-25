@@ -1,7 +1,7 @@
 package by.verbitsky.servletdemo.controller;
 
 import by.verbitsky.servletdemo.controller.command.*;
-import by.verbitsky.servletdemo.controller.command.impl.ready.EmptyCommand;
+import by.verbitsky.servletdemo.controller.command.impl.common.EmptyCommand;
 import by.verbitsky.servletdemo.exception.CommandException;
 import by.verbitsky.servletdemo.pool.impl.ConnectionPoolImpl;
 import org.apache.logging.log4j.Level;

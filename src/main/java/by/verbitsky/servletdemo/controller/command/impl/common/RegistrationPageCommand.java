@@ -1,4 +1,4 @@
-package by.verbitsky.servletdemo.controller.command.impl.ready;
+package by.verbitsky.servletdemo.controller.command.impl.common;
 
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.controller.command.AttributeName;

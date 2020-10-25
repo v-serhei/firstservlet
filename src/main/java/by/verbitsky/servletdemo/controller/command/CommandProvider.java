@@ -1,6 +1,6 @@
 package by.verbitsky.servletdemo.controller.command;
 
-import by.verbitsky.servletdemo.controller.command.impl.ready.EmptyCommand;
+import by.verbitsky.servletdemo.controller.command.impl.common.EmptyCommand;
 
 public class CommandProvider {
     public static Command defineCommand(String requestCommand) {

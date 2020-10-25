@@ -1,7 +1,7 @@
 package by.verbitsky.servletdemo.controller.command;
 
 import by.verbitsky.servletdemo.controller.command.impl.*;
-import by.verbitsky.servletdemo.controller.command.impl.ready.*;
+import by.verbitsky.servletdemo.controller.command.impl.common.*;
 
 public enum CommandType {
     /**
