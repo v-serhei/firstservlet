@@ -17,6 +17,7 @@ public class LoginPageCommand implements Command {
         } else {
             result = new CommandResult(PagePath.MAIN_PAGE, true);
         }
+        //todo сбрасывать фильтр
         return result;
     }
 }

@@ -8,11 +8,7 @@ public class PagePath {
     public static final String PROFILE_PAGE = "/pages/user/profile.jsp";
     public static final String ERROR_PAGE = "/pages/error/errorPage.jsp";
 
-
-    public static final String PAGINATION_MAIN =
-            "/mainpage?action=selectSongPage&filter=false";
-    public static final String PAGINATION_MAIN_FILTERED =
-            "/mainpage?action=selectSongPage&filter=true";
+    public static final String PAGINATION_MAIN = "/mainpage?action=next_song_page&filtered=true";
 
     private PagePath() {
     }

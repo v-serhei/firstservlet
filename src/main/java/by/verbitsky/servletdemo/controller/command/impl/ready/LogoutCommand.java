@@ -20,6 +20,7 @@ public class LogoutCommand implements Command {
             throw new CommandException("LogoutCommand: attribute \"User\" is null\"");
         }
         result = new CommandResult(PagePath.MAIN_PAGE, true);
+        //todo сбрасывать фильтр
         return result;
     }
 }

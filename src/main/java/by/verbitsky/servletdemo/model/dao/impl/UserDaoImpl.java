@@ -54,12 +54,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public List<User> findEntity(long offset, int limit) throws DaoException {
-        throw new DaoException("Unsupported method call");
-    }
-
-
-    @Override
     public Optional<User> findEntityById(Long id) throws DaoException {
         if (id != null) {
             User user = null;
@@ -161,11 +155,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             result = false;
         }
         return result;
-    }
-
-    @Override
-    public long calculateRowCount() throws DaoException {
-        return 0;
     }
 
     @Override

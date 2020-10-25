@@ -19,6 +19,8 @@ public enum CommandType {
     REGISTER_PAGE(new RegistrationPageCommand()),
     PROFILE_PAGE(new ProfilePageCommand()),
     ADMIN_PAGE(new AdminPageCommand()),
+    SEARCH_SONG (new MainPageCommand()),
+    NEXT_SONG_PAGE (new NextPageCommand()),
 
     /**
      * switch lang

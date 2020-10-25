@@ -46,6 +46,7 @@ public class LoginCommand implements Command {
             throw new CommandException("LoginCommand: execution error", e);
         }
         content.addRequestAttribute(AttributeName.LOGIN_FAILED, loginFail);
+        //todo сбрасывать фильтр
         return result;
     }
 }

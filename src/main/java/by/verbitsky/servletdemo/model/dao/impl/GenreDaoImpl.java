@@ -4,7 +4,8 @@ import by.verbitsky.servletdemo.entity.AudioContent;
 import by.verbitsky.servletdemo.entity.ext.Genre;
 import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.model.dao.AbstractDao;
-import by.verbitsky.servletdemo.model.dao.GenreDao;
+import by.verbitsky.servletdemo.model.dao.ContentDao;
+import by.verbitsky.servletdemo.model.service.ContentFilter;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class GenreDaoImpl extends AbstractDao implements GenreDao {
+public class GenreDaoImpl extends AbstractDao implements ContentDao {
 
     private static final String SELECT_ALL_GENRE = "SELECT genre_id, genre_name FROM genres ORDER BY genre_name";
 
@@ -37,11 +38,6 @@ public class GenreDaoImpl extends AbstractDao implements GenreDao {
     }
 
     @Override
-    public List<AudioContent> findEntity(long offset, int limit) throws DaoException {
-        return null;
-    }
-
-    @Override
     public Optional<AudioContent> findEntityById(Long id) throws DaoException {
         return Optional.empty();
     }
@@ -62,8 +58,13 @@ public class GenreDaoImpl extends AbstractDao implements GenreDao {
     }
 
     @Override
-    public long calculateRowCount() throws DaoException {
+    public long calculateRowCount(ContentFilter filter) throws DaoException {
         return 0;
+    }
+
+    @Override
+    public List<AudioContent> findFilteredContent(long offset, int limit, ContentFilter filter) throws DaoException {
+        return null;
     }
 
     private Genre createGenreFromResultSet(ResultSet resultSet) throws SQLException {

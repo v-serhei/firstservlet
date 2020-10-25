@@ -22,6 +22,7 @@ public class RegistrationPageCommand implements Command {
         } else {
             throw new CommandException("RegistrationPageCommand: attribute \"User\" is null");
         }
+        //todo сбрасывать фильтр
         return result;
     }
 }

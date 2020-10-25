@@ -45,6 +45,7 @@ public class RegisterCommand implements Command {
                 throw new CommandException("RegisterCommand: error while adding user to data base");
             }
         }
+        //todo сбрасывать фильтр
         return result;
     }
 

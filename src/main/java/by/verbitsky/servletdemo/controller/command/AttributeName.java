@@ -26,7 +26,7 @@ public class AttributeName {
      * Pagination request attributes
      */
 
-    public static final String CONTENT_CURRENT_PAGE = "currentPage";
+    public static final String CONTENT_CURRENT_PAGE_NUMBER = "currentPage";
     public static final String CONTENT_TOTAL_PAGE_COUNT = "totalPageCount";
     public static final String CONTENT = "contentList";
     public static final String CONTENT_FILTER = "filter";

@@ -4,7 +4,8 @@ import by.verbitsky.servletdemo.entity.AudioContent;
 import by.verbitsky.servletdemo.entity.ext.Singer;
 import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.model.dao.AbstractDao;
-import by.verbitsky.servletdemo.model.dao.SingerDao;
+import by.verbitsky.servletdemo.model.dao.ContentDao;
+import by.verbitsky.servletdemo.model.service.ContentFilter;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SingerDaoImpl extends AbstractDao implements SingerDao {
+public class SingerDaoImpl extends AbstractDao implements ContentDao {
 
     private static final String SELECT_ALL_SINGERS = "Select singer_id, singer_name FROM singers ORDER BY singer_name";
 
@@ -37,11 +38,6 @@ public class SingerDaoImpl extends AbstractDao implements SingerDao {
     }
 
     @Override
-    public List<AudioContent> findEntity(long offset, int limit) throws DaoException {
-        return null;
-    }
-
-    @Override
     public Optional<AudioContent> findEntityById(Long id) throws DaoException {
         return Optional.empty();
     }
@@ -62,7 +58,12 @@ public class SingerDaoImpl extends AbstractDao implements SingerDao {
     }
 
     @Override
-    public long calculateRowCount() throws DaoException {
+    public List<AudioContent> findFilteredContent(long offset, int limit, ContentFilter filter) throws DaoException {
+        return null;
+    }
+
+    @Override
+    public long calculateRowCount(ContentFilter filter) throws DaoException {
         return 0;
     }
 
