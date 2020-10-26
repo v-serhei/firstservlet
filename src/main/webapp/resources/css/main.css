@@ -359,7 +359,7 @@
 
 .item-controls {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 10%;
     margin-left: 5px;
 }
