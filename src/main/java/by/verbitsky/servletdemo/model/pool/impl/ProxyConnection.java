@@ -1,4 +1,4 @@
-package by.verbitsky.servletdemo.pool.impl;
+package by.verbitsky.servletdemo.model.pool.impl;
 
 import by.verbitsky.servletdemo.exception.PoolException;
 import org.apache.logging.log4j.Level;

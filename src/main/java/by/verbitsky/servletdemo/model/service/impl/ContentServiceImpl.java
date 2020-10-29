@@ -12,35 +12,24 @@ import by.verbitsky.servletdemo.model.dao.impl.SongDaoImpl;
 import by.verbitsky.servletdemo.model.service.ContentFilter;
 import by.verbitsky.servletdemo.model.service.ContentService;
 import by.verbitsky.servletdemo.model.service.ContentType;
-import by.verbitsky.servletdemo.pool.impl.ConnectionPoolImpl;
-import by.verbitsky.servletdemo.pool.impl.ProxyConnection;
+import by.verbitsky.servletdemo.model.pool.impl.ConnectionPoolImpl;
+import by.verbitsky.servletdemo.model.pool.impl.ProxyConnection;
 
 import java.util.List;
+import java.util.Optional;
 
 public enum ContentServiceImpl implements ContentService {
     INSTANCE;
 
     @Override
-    public long calculateItemsCount(ContentType type, ContentFilter filter) throws ServiceException {
-        if (type == null) {
-            throw new ServiceException("ContentServiceImpl: null parameter Content type");
+    public long calculateItemsCount(ContentFilter filter) throws ServiceException {
+        if (filter == null) {
+            throw new ServiceException("ContentServiceImpl calculateItemsCount: received null filter");
         }
+        ProxyConnection connection = askConnectionFromPool();
         long result;
-        ProxyConnection connection;
-        try {
-            connection = ConnectionPoolImpl.getInstance().getConnection();
-        } catch (PoolException e) {
-            throw new ServiceException("ContentServiceImpl: error while receiving connection from pool", e);
-        }
-        ContentDao dao = null;
-        switch (type) {
-            case SONG: {
-                dao = new SongDaoImpl();
-                break;
-            }
-            // TODO: 25.10.2020 дописать остальные дао
-        }
         try (Transaction transaction = new Transaction(connection)) {
+            ContentDao dao = defineDaoByContentType(filter.getContentType());
             transaction.processSimpleQuery(dao);
             result = dao.calculateRowCount(filter);
         } catch (DaoException e) {
@@ -51,14 +40,62 @@ public enum ContentServiceImpl implements ContentService {
 
     @Override
     public List<AudioContent> findAllContent(ContentType type) throws ServiceException {
-        List<AudioContent> result;
-        ProxyConnection connection;
-        try {
-            connection = ConnectionPoolImpl.getInstance().getConnection();
-        } catch (PoolException e) {
-            throw new ServiceException("ContentServiceImpl: error while receiving connection from pool");
+        if (type == null) {
+            throw new ServiceException("ContentServiceImpl: null parameter Content type");
         }
-        ContentDao dao = null;
+        List<AudioContent> result;
+        ProxyConnection connection = askConnectionFromPool();
+        ContentDao dao = defineDaoByContentType(type);
+        try (Transaction transaction = new Transaction(connection)) {
+            dao.setConnection(connection);
+            transaction.processSimpleQuery(dao);
+            result = dao.findAll();
+        } catch (DaoException e) {
+            throw new ServiceException("ContentServiceImpl: error while searching singers", e);
+        }
+        return result;
+    }
+
+    @Override
+    public Optional<AudioContent> findContentById(ContentType type, long id) throws ServiceException {
+        if (type == null) {
+            throw new ServiceException("ContentServiceImpl findContentById: null parameter Content type");
+        }
+        ProxyConnection connection = askConnectionFromPool();
+        Optional<AudioContent> result;
+        try (Transaction transaction = new Transaction(connection)) {
+            ContentDao dao = defineDaoByContentType(type);
+            dao.setConnection(connection);
+            transaction.processSimpleQuery(dao);
+            result = dao.findEntityById(id);
+        } catch (DaoException e) {
+            throw new ServiceException("ContentServiceImpl: error while searching content by id", e);
+        }
+        return result;
+    }
+
+
+    @Override
+    public List<AudioContent> findFilteredContent(ContentFilter filter) throws ServiceException {
+        if (filter == null) {
+            throw new ServiceException("ContentServiceImpl: received null filter");
+        }
+        List<AudioContent> result;
+        ContentDao dao = defineDaoByContentType(filter.getContentType());
+        ProxyConnection connection = askConnectionFromPool();
+        try (Transaction transaction = new Transaction(connection)) {
+            long offset = filter.getPageNumber() * filter.getItemPerPage() - filter.getItemPerPage();
+            dao.setConnection(connection);
+            transaction.processSimpleQuery(dao);
+            result = dao.findFilteredContent(offset, filter.getItemPerPage(), filter);
+        } catch (DaoException e) {
+            throw new ServiceException("ContentServiceImpl: error while searching singers", e);
+        }
+        return result;
+    }
+
+    private ContentDao defineDaoByContentType(ContentType type) throws ServiceException {
+        ContentDao dao;
         switch (type) {
             case SONG: {
                 dao = new SongDaoImpl();
@@ -72,41 +109,19 @@ public enum ContentServiceImpl implements ContentService {
                 dao = new GenreDaoImpl();
                 break;
             }
-            // TODO: 25.10.2020  Дописать остальные дао когда добавлю
-        }
-        try (Transaction transaction = new Transaction(connection)) {
-            dao.setConnection(connection);
-            transaction.processSimpleQuery(dao);
-            result = dao.findAll();
-        } catch (DaoException e) {
-            throw new ServiceException("ContentServiceImpl: error while searching singers", e);
-        }
-        return result;
-    }
-
-    @Override
-    public List<AudioContent> findFilteredContent(ContentFilter filter) throws ServiceException {
-        List<AudioContent> result;
-        ContentDao dao = null;
-        ProxyConnection connection;
-        try {
-            connection = ConnectionPoolImpl.getInstance().getConnection();
-        } catch (PoolException e) {
-            throw new ServiceException("ContentServiceImpl: error while receiving connection from pool");
-        }
-        switch (filter.getContentType()) {
-            case SONG: {
-                dao = new SongDaoImpl();
-                break;
+            default: {
+                throw new ServiceException("ContentServiceImpl findFilteredContent: unsupported content tye " + type);
             }
         }
-        try (Transaction transaction = new Transaction(connection)) {
-            long offset = filter.getPageNumber() * filter.getItemPerPage() - filter.getItemPerPage();
-            dao.setConnection(connection);
-            transaction.processSimpleQuery(dao);
-            result = dao.findFilteredContent(offset, filter.getItemPerPage(), filter);
-        } catch (DaoException e) {
-            throw new ServiceException("ContentServiceImpl: error while searching singers", e);
+        return dao;
+    }
+
+    private ProxyConnection askConnectionFromPool () throws ServiceException {
+        ProxyConnection result;
+        try {
+            result = ConnectionPoolImpl.getInstance().getConnection();
+        } catch (PoolException e) {
+            throw new ServiceException("ContentServiceImpl: error while receiving connection from pool");
         }
         return result;
     }

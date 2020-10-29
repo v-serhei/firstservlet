@@ -1,4 +1,4 @@
-package by.verbitsky.servletdemo.pool.impl;
+package by.verbitsky.servletdemo.model.pool.impl;
 
 import by.verbitsky.servletdemo.exception.PoolException;
 import com.sun.javafx.fxml.PropertyNotFoundException;

@@ -2,29 +2,39 @@ package by.verbitsky.servletdemo.controller.command;
 
 import by.verbitsky.servletdemo.controller.command.impl.*;
 import by.verbitsky.servletdemo.controller.command.impl.common.*;
+import by.verbitsky.servletdemo.controller.command.impl.nav.*;
 
 public enum CommandType {
-    /**
-     * user executable command (method post)
-     */
+
+    //Common commands
+    BASKET_ADD (new BasketAddCommand()),
+    BASKET_REMOVE (new BasketRemoveCommand()),
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
     REGISTER(new RegisterCommand()),
 
-    /**
-     * user redirected command (method get)
-     */
+
+    //page nav commands
+    ADMIN_PAGE(new AdminPageCommand()),
     LOGIN_PAGE(new LoginPageCommand()),
     MAIN_PAGE(new MainPageCommand()),
-    REGISTER_PAGE(new RegistrationPageCommand()),
-    PROFILE_PAGE(new ProfilePageCommand()),
-    ADMIN_PAGE(new AdminPageCommand()),
-    SEARCH_SONG (new MainPageCommand()),
     NEXT_SONG_PAGE (new NextPageCommand()),
 
-    /**
-     * switch lang
-     */
+    ORDER_PAGE (new OrderPageCommand()),//todo
+
+    PROFILE_PAGE(new ProfilePageCommand()),
+    REGISTER_PAGE(new RegistrationPageCommand()),
+
+    REVIEW_PAGE(new ReviewPageCommand()), //todo
+
+    SEARCH_SONG (new MainPageCommand()),
+
+    //admin commands
+
+
+
+
+
     RU(new LanguageCommand()),
     EN(new LanguageCommand());
 

@@ -3,7 +3,7 @@ package by.verbitsky.servletdemo.controller;
 import by.verbitsky.servletdemo.controller.command.*;
 import by.verbitsky.servletdemo.controller.command.impl.common.EmptyCommand;
 import by.verbitsky.servletdemo.exception.CommandException;
-import by.verbitsky.servletdemo.pool.impl.ConnectionPoolImpl;
+import by.verbitsky.servletdemo.model.pool.impl.ConnectionPoolImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

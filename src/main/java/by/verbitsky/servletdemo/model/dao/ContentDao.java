@@ -10,4 +10,5 @@ public interface ContentDao extends BaseDao<AudioContent>{
     List<AudioContent> findFilteredContent (long offset, int limit, ContentFilter filter) throws DaoException;
 
     long calculateRowCount(ContentFilter filter) throws DaoException;
+
 }

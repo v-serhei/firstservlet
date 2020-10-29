@@ -1,7 +1,7 @@
 package by.verbitsky.servletdemo.model.dao;
 
 import by.verbitsky.servletdemo.exception.DaoException;
-import by.verbitsky.servletdemo.pool.impl.ProxyConnection;
+import by.verbitsky.servletdemo.model.pool.impl.ProxyConnection;
 
 import java.sql.SQLException;
 

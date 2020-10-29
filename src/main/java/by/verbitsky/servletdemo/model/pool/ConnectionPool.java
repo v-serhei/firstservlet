@@ -1,4 +1,4 @@
-package by.verbitsky.servletdemo.pool;
+package by.verbitsky.servletdemo.model.pool;
 
 import by.verbitsky.servletdemo.exception.PoolException;
 

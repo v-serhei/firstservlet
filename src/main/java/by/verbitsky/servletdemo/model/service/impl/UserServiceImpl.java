@@ -7,8 +7,8 @@ import by.verbitsky.servletdemo.exception.ServiceException;
 import by.verbitsky.servletdemo.model.dao.Transaction;
 import by.verbitsky.servletdemo.model.dao.impl.UserDaoImpl;
 import by.verbitsky.servletdemo.model.service.UserService;
-import by.verbitsky.servletdemo.pool.impl.ConnectionPoolImpl;
-import by.verbitsky.servletdemo.pool.impl.ProxyConnection;
+import by.verbitsky.servletdemo.model.pool.impl.ConnectionPoolImpl;
+import by.verbitsky.servletdemo.model.pool.impl.ProxyConnection;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.Optional;
@@ -22,12 +22,7 @@ public enum UserServiceImpl implements UserService {
     }
 
     public boolean isExistEmail(String email) throws ServiceException {
-        ProxyConnection connection;
-        try {
-            connection = ConnectionPoolImpl.getInstance().getConnection();
-        } catch (PoolException e) {
-            throw new ServiceException("UserService: received Pool exception while processing \"findUserByEmail\"", e);
-        }
+        ProxyConnection connection = askConnectionFromPool();
         Optional<User> result;
         try (Transaction transaction = new Transaction(connection)) {
             UserDaoImpl userDao = new UserDaoImpl();
@@ -40,12 +35,7 @@ public enum UserServiceImpl implements UserService {
     }
 
     public Optional<User> findUserByName(String userName) throws ServiceException {
-        ProxyConnection connection;
-        try {
-            connection = ConnectionPoolImpl.getInstance().getConnection();
-        } catch (PoolException e) {
-            throw new ServiceException("UserService: received Pool exception while processing \"findUserByName\"", e);
-        }
+        ProxyConnection connection = askConnectionFromPool();
         Optional<User> result;
         try (Transaction transaction = new Transaction(connection)) {
             UserDaoImpl userDao = new UserDaoImpl();
@@ -58,12 +48,7 @@ public enum UserServiceImpl implements UserService {
     }
 
     public Optional<String> findUserPassword(String userName) throws ServiceException {
-        ProxyConnection connection;
-        try {
-            connection = ConnectionPoolImpl.getInstance().getConnection();
-        } catch (PoolException e) {
-            throw new ServiceException("UserService: received Pool exception while processing \"findUserPassword\"", e);
-        }
+        ProxyConnection connection = askConnectionFromPool();
         Optional<String> result;
         try (Transaction transaction = new Transaction(connection)) {
             UserDaoImpl userDao = new UserDaoImpl();
@@ -77,12 +62,7 @@ public enum UserServiceImpl implements UserService {
     }
 
     public void addRegisteredUser(User user, String password) throws ServiceException {
-        ProxyConnection connection;
-        try {
-            connection = ConnectionPoolImpl.getInstance().getConnection();
-        } catch (PoolException e) {
-            throw new ServiceException("UserService: received Pool exception while processing \"addRegisteredUser\"", e);
-        }
+        ProxyConnection connection = askConnectionFromPool();
         try (Transaction transaction = new Transaction(connection)) {
             UserDaoImpl userDao = new UserDaoImpl();
             transaction.processTransaction(userDao);
@@ -92,5 +72,15 @@ public enum UserServiceImpl implements UserService {
         } catch (DaoException e) {
             throw new ServiceException("UserService: received Dao exception while processing \"findUserByEmail\"", e);
         }
+    }
+
+    private ProxyConnection askConnectionFromPool () throws ServiceException {
+        ProxyConnection result;
+        try {
+            result = ConnectionPoolImpl.getInstance().getConnection();
+        } catch (PoolException e) {
+            throw new ServiceException("UserServiceImpl: error while receiving connection from pool");
+        }
+        return result;
     }
 }

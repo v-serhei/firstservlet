@@ -1,4 +1,4 @@
-package by.verbitsky.servletdemo.controller.command.impl.common;
+package by.verbitsky.servletdemo.controller.command.impl.nav;
 
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.controller.command.*;
@@ -48,7 +48,7 @@ public class MainPageCommand implements Command {
         List<AudioContent> genres;
         try {
             pageContent = service.findFilteredContent(filter);
-            totalSongCount = service.calculateItemsCount(ContentType.SONG, filter);
+            totalSongCount = service.calculateItemsCount(filter);
             singers = service.findAllContent(ContentType.SINGER);
             genres = service.findAllContent(ContentType.GENRE);
         } catch (ServiceException e) {
@@ -73,7 +73,7 @@ public class MainPageCommand implements Command {
         List<AudioContent> pageContent;
         try {
             pageContent = service.findFilteredContent(filter);
-            totalSongCount = service.calculateItemsCount(ContentType.SONG, filter);
+            totalSongCount = service.calculateItemsCount(filter);
         } catch (ServiceException e) {
             throw new CommandException("MainPageCommand: error while receiving song content from db", e);
         }

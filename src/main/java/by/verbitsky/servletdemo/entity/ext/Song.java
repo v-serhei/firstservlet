@@ -10,17 +10,19 @@ public class Song extends AudioContent {
     private String albumTitle;
     private String genre;
     private LocalDate uploadDate;
+    private double price;
 
     public Song() {
     }
 
-    public Song(long id, String songTitle, String authorName, String albumTitle, String genre, LocalDate uploadDate) {
+    public Song(long id, String songTitle, String authorName, String albumTitle, String genre, LocalDate uploadDate, double price) {
         setId(id);
         this.songTitle = songTitle;
         this.authorName = authorName;
         this.albumTitle = albumTitle;
         this.genre = genre;
         this.uploadDate = uploadDate;
+        this.price = price;
     }
 
     public String getSongTitle() {
@@ -61,6 +63,14 @@ public class Song extends AudioContent {
 
     public void setUploadDate(LocalDate uploadDate) {
         this.uploadDate = uploadDate;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     @Override

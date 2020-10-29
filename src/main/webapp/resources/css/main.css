@@ -2,7 +2,7 @@
     height: 20px;
     margin: 0 auto; /* Выравнивание по центру */
     background: #f0e8cb; /* Цвет фона левой колонки */
-    min-width: 800px;
+    min-width: 1300px;
 }
 
 /*top part*/
@@ -13,7 +13,7 @@
 #top-menu-div, #footer-container, #body-container {
     margin: 0 auto;
     width: 80%;
-    min-width: 800px;
+    min-width: 1300px;
 }
 
 /* middle part*/
@@ -27,7 +27,7 @@
     display: flex;
     flex-direction: row;
     background: #e2d5aa;
-    min-width: 800px;
+    min-width: 1300px;
 }
 
 #content-div {
@@ -386,7 +386,7 @@
 .item-description-album {
     margin-right: 10px;
     display: flex;
-    width: 25%;
+    width: 22%;
     font-size: 11pt;
     font-family: "Comic Sans MS", serif;
     /*flex-grow: 2;*/
@@ -395,7 +395,7 @@
 .item-description-genre {
     margin-right: 10px;
     display: flex;
-    width: 15%;
+    width: 12%;
     font-size: 10pt;
     font-family: "Comic Sans MS", serif;
     /* flex-grow: 1;*/
@@ -406,6 +406,28 @@
     display: flex;
     flex-direction: column;
     width: 8%;
+    font-size: 10pt;
+    font-family: "Comic Sans MS", serif;
+}
+
+.item-description-price {
+    text-align: right;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 4%;
+    font-size: 10pt;
+    font-style: oblique;
+    font-weight: bold;
+    font-family: "Comic Sans MS", serif;
+}
+
+.item-description-price-currency {
+    text-align: right;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 3%;
     font-size: 10pt;
     font-family: "Comic Sans MS", serif;
 }
@@ -536,7 +558,11 @@
     overflow: auto;
     padding: 15px 15px;
 }
-
+.song-content-controls {
+    width: 24px;
+    height: 24px;
+    margin-left: 10px;
+}
 
 /*
    background: #f0e8cb;- светлый

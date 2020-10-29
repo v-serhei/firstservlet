@@ -19,7 +19,7 @@ import java.util.Optional;
 public class SongDaoImpl extends AbstractDao implements ContentDao {
 
     private static final String SELECT_ALL_SONGS =
-            "Select song_title, so.upload_date, singer_name, album_title, genre_name " +
+            "Select song_title, upload_date, song_price, singer_name, album_title, genre_name " +
                     "from songs as so " +
                     "         left join singers as si on so.singer_id = si.singer_id " +
                     "         left join albums as al on so.album_id = al.album_id " +
@@ -27,7 +27,7 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                     "ORDER BY so.upload_date";
 
     private static final String SELECT_SONGS_BY_FILTER =
-            "Select song_id, song_title, so.upload_date, singer_name, album_title, genre_name " +
+            "Select song_id, song_title, upload_date, song_price, singer_name, album_title, genre_name " +
                     "from songs as so " +
                     "         left join singers as si on so.singer_id = si.singer_id " +
                     "         left join albums as al on so.album_id = al.album_id " +
@@ -43,14 +43,24 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                     "         left join genres as ge on so.genre_id = ge.genre_id " +
                     "WHERE  song_title REGEXP ? and genre_name REGEXP ? and singer_name REGEXP ? ";
 
+    private static final String SELECT_SONG_BY_ID =
+            "Select song_id, song_title, upload_date, song_price, singer_name, album_title, genre_name " +
+                    "from songs as so " +
+                    "         left join singers as si on so.singer_id = si.singer_id " +
+                    "         left join albums as al on so.album_id = al.album_id " +
+                    "         left join genres as ge on so.genre_id = ge.genre_id " +
+                    "WHERE song_id=?";
+
+
     private static final String COLUMN_ID = "song_id";
     private static final String COLUMN_TITLE = "song_title";
     private static final String COLUMN_SINGER = "singer_name";
     private static final String COLUMN_ALBUM_TITLE = "album_title";
     private static final String COLUMN_GENRE = "genre_name";
     private static final String COLUMN_UPLOAD_DATE = "upload_date";
+    private static final String COLUMN_SONG_PRICE = "song_price";
 
-   /* @Override
+/*    @Override
     public Optional<Song> findSongByTitle(String title) throws DaoException {
         Optional<Song> result;
         if (title != null) {
@@ -74,6 +84,9 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
 
     @Override
     public long calculateRowCount(ContentFilter filter) throws DaoException {
+        if (filter == null) {
+            throw new DaoException("SongDao CalculateRowCount: received null filter");
+        }
         SongFilter songFilter = (SongFilter) filter;
         String title = SqlRegexGenerator.generateRegexFromParameter(songFilter.getSongTitle());
         String genre = SqlRegexGenerator.generateRegexFromParameter(songFilter.getSongGenre());
@@ -110,7 +123,21 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
 
     @Override
     public Optional<AudioContent> findEntityById(Long id) throws DaoException {
-        return Optional.empty();
+        if (id == null) {
+            throw new DaoException("SongDao FindEntityById: received null id");
+        }
+        Optional<AudioContent> result = Optional.empty();
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_SONG_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Song song = createSongFromResultSet(resultSet);
+                result = Optional.of(song);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return result;
     }
 
     @Override
@@ -130,6 +157,9 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
 
     @Override
     public List<AudioContent> findFilteredContent(long offset, int limit, ContentFilter filter) throws DaoException {
+        if (connection == null) {
+            throw new DaoException("SongDao findFilteredContent: received null filter");
+        }
         SongFilter songFilter = (SongFilter) filter;
         String title = SqlRegexGenerator.generateRegexFromParameter(songFilter.getSongTitle());
         String genre = SqlRegexGenerator.generateRegexFromParameter(songFilter.getSongGenre());
@@ -161,6 +191,7 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
         result.setAlbumTitle(resultSet.getString(COLUMN_ALBUM_TITLE));
         result.setGenre(resultSet.getString(COLUMN_GENRE));
         result.setUploadDate(resultSet.getDate(COLUMN_UPLOAD_DATE).toLocalDate());
+        result.setPrice(resultSet.getDouble(COLUMN_SONG_PRICE));
         return result;
     }
 }

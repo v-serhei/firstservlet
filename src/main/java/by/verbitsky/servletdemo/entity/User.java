@@ -7,6 +7,7 @@ public class User {
     private int roleId;
     private int blockedStatus;
     private boolean loginStatus;
+    private Basket basket;
 
     public User() {
     }
@@ -63,6 +64,14 @@ public class User {
 
     public void setLoginStatus(boolean loginStatus) {
         this.loginStatus = loginStatus;
+    }
+
+    public Basket getBasket() {
+        return basket;
+    }
+
+    public void initBasket () {
+        basket = new Basket();
     }
 
     @Override
