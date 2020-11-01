@@ -23,23 +23,24 @@ public class AttributeName {
     public static final String REGISTRATION_EXIST_EMAIL = "regExistEmail";
 
     /**
-     * Pagination request attributes
+     * Content attributes
      */
+    public static final String SONG_CONTENT = "songContentList";
+    public static final String SONG_CONTROLS_LINK = "songLinkValue";
+    public static final String SONG_FILTER = "songFilter";
+    public static final String SONG_TOTAL_PAGE_COUNT = "songTotalPageCount";
+    public static final String SONG_SEARCH_COUNT_RESULT = "songContentCount";
 
-    public static final String CONTENT_CURRENT_PAGE_NUMBER = "currentPage";
-    public static final String CONTENT_TOTAL_PAGE_COUNT = "totalPageCount";
-    public static final String CONTENT = "contentList";
-    public static final String CONTENT_FILTER = "filter";
-    public static final String PAGINATION_CONTROLS_LINK = "linkValue";
-
-    /**
-     * List attributes for select tag
-     */
+    public static final String ADDITIONAL_CONTENT_SONGS = "reviewSongList";
+    public static final String REVIEW_CONTENT = "reviewContentList";
+    public static final String REVIEW_CONTROLS_LINK = "reviewLinkValue";
+    public static final String REVIEW_FILTER = "reviewFilter";
+    public static final String REVIEW_TOTAL_PAGE_COUNT = "reviewTotalPageCount";
+    public static final String REVIEW_SEARCH_COUNT_RESULT = "reviewContentCount";
 
     public static final String SINGER_LIST = "singerList";
     public static final String GENRE_LIST = "genreList";
-
-
+    //search count result
 
     /**
      * Attribute names for error page

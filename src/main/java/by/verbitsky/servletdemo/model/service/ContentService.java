@@ -1,6 +1,7 @@
 package by.verbitsky.servletdemo.model.service;
 
 import by.verbitsky.servletdemo.entity.AudioContent;
+import by.verbitsky.servletdemo.entity.ContentType;
 import by.verbitsky.servletdemo.exception.ServiceException;
 
 import java.util.List;

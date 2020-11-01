@@ -1,7 +1,10 @@
 package by.verbitsky.servletdemo.model.dao.impl;
 
 import by.verbitsky.servletdemo.entity.AudioContent;
+import by.verbitsky.servletdemo.entity.ContentFactory;
+import by.verbitsky.servletdemo.entity.ContentType;
 import by.verbitsky.servletdemo.entity.ext.Singer;
+import by.verbitsky.servletdemo.entity.impl.AudioContentFactory;
 import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.model.dao.AbstractDao;
 import by.verbitsky.servletdemo.model.dao.ContentDao;
@@ -15,11 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class SingerDaoImpl extends AbstractDao implements ContentDao {
-
     private static final String SELECT_ALL_SINGERS = "Select singer_id, singer_name FROM singers ORDER BY singer_name";
-
-    private static final String COLUMN_ID = "singer_id";
-    private static final String COLUMN_SINGER_NAME = "singer_name";
+    private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Singer>();
 
 
     @Override
@@ -28,8 +28,8 @@ public class SingerDaoImpl extends AbstractDao implements ContentDao {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL_SINGERS)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Singer singer = createSingerFromResultSet(resultSet);
-                result.add(singer);
+                Optional<AudioContent> singer = factory.createContent(resultSet, ContentType.SINGER);
+                singer.ifPresent(result::add);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -65,12 +65,5 @@ public class SingerDaoImpl extends AbstractDao implements ContentDao {
     @Override
     public long calculateRowCount(ContentFilter filter) throws DaoException {
         return 0;
-    }
-
-    private Singer createSingerFromResultSet(ResultSet resultSet) throws SQLException {
-        Singer result = new Singer();
-        result.setId(resultSet.getInt(COLUMN_ID));
-        result.setSingerName(resultSet.getString(COLUMN_SINGER_NAME));
-        return result;
     }
 }

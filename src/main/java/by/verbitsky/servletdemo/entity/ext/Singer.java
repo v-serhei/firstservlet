@@ -9,11 +9,6 @@ public class Singer extends AudioContent {
     public Singer() {
     }
 
-    public Singer(int singerId, String singerName) {
-        setId(singerId);
-        this.singerName = singerName;
-    }
-
     public String getSingerName() {
         return singerName;
     }
@@ -25,8 +20,8 @@ public class Singer extends AudioContent {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Singer)) return false;
-
+        if (this.getClass() != o.getClass()) return false;
+        if (o == null) return false;
         Singer singer = (Singer) o;
 
         if (getId() != singer.getId()) return false;

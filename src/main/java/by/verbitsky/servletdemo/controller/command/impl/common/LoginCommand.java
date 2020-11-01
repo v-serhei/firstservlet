@@ -35,7 +35,7 @@ public class LoginCommand implements Command {
                     user.get().setLoginStatus(true);
                     user.get().initBasket();
                     content.addSessionAttribute(AttributeName.SESSION_USER, user.get());
-                    result = new CommandResult(PagePath.MAIN_PAGE, true);
+                    result = new CommandResult(PagePath.MAIN_PAGE_REDIRECT, true);
                     loginFail = false;
                 } else {
                     result = new CommandResult(PagePath.LOGIN_PAGE, false);
@@ -47,7 +47,6 @@ public class LoginCommand implements Command {
             throw new CommandException("LoginCommand: execution error", e);
         }
         content.addRequestAttribute(AttributeName.LOGIN_FAILED, loginFail);
-        //todo сбрасывать фильтр
         return result;
     }
 }

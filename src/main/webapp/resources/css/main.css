@@ -331,6 +331,7 @@
     margin: 20px auto;
     text-align: center;
 }
+
 /*content items*/
 /*values container*/
 .item-container {
@@ -558,10 +559,53 @@
     overflow: auto;
     padding: 15px 15px;
 }
+
 .song-content-controls {
     width: 24px;
     height: 24px;
     margin-left: 10px;
+}
+
+/*   review page   */
+.review-body-container {
+    /*container*/
+    display: flex;
+    flex-direction: column;
+}
+
+.review-content {
+    /*accordion*/
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 99%;
+}
+
+.song-review {
+    /*container for current song reviews*/
+    display: flex;
+    flex-direction: column;
+    max-height: 250px;
+    overflow: auto;
+}
+
+.review-author {
+    font-weight: bold;
+    font-size: 12pt;
+    font-style: italic;
+}
+
+.review-text {
+    font-size: 10pt;
+    min-height: 50px;
+}
+
+.accordion-inner-header {
+    display: flex;
+    flex-direction: row;
+}
+
+.review-collapsed-body {
+    background: #f0e8cb;
 }
 
 /*

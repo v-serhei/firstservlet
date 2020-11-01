@@ -1,7 +1,10 @@
 package by.verbitsky.servletdemo.model.dao.impl;
 
 import by.verbitsky.servletdemo.entity.AudioContent;
+import by.verbitsky.servletdemo.entity.ContentFactory;
+import by.verbitsky.servletdemo.entity.ContentType;
 import by.verbitsky.servletdemo.entity.ext.Genre;
+import by.verbitsky.servletdemo.entity.impl.AudioContentFactory;
 import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.model.dao.AbstractDao;
 import by.verbitsky.servletdemo.model.dao.ContentDao;
@@ -15,11 +18,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class GenreDaoImpl extends AbstractDao implements ContentDao {
-
     private static final String SELECT_ALL_GENRE = "SELECT genre_id, genre_name FROM genres ORDER BY genre_name";
+    private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Genre>();
 
-    private static final String COLUMN_ID = "genre_id";
-    private static final String COLUMN_GENRE_NAME = "genre_name";
 
     @Override
     public List<AudioContent> findAll() throws DaoException {
@@ -27,8 +28,8 @@ public class GenreDaoImpl extends AbstractDao implements ContentDao {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL_GENRE)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Genre genre = createGenreFromResultSet(resultSet);
-                result.add(genre);
+                Optional<AudioContent> genre = factory.createContent(resultSet, ContentType.GENRE);
+                genre.ifPresent(result::add);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -65,12 +66,5 @@ public class GenreDaoImpl extends AbstractDao implements ContentDao {
     @Override
     public List<AudioContent> findFilteredContent(long offset, int limit, ContentFilter filter) throws DaoException {
         return null;
-    }
-
-    private Genre createGenreFromResultSet(ResultSet resultSet) throws SQLException {
-        Genre result = new Genre();
-        result.setId(resultSet.getInt(COLUMN_ID));
-        result.setGenreName(resultSet.getString(COLUMN_GENRE_NAME));
-        return result;
     }
 }

@@ -1,4 +1,4 @@
-package by.verbitsky.servletdemo.controller.command.impl.nav;
+package by.verbitsky.servletdemo.controller.command.impl.navigation;
 
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.controller.command.AttributeName;
@@ -15,9 +15,8 @@ public class LoginPageCommand implements Command {
         if (!user.getLoginStatus()) {
             result = new CommandResult(PagePath.LOGIN_PAGE, true);
         } else {
-            result = new CommandResult(PagePath.MAIN_PAGE, true);
+            result = new CommandResult(PagePath.MAIN_PAGE_REDIRECT, true);
         }
-        //todo сбрасывать фильтр
         return result;
     }
 }

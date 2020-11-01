@@ -15,10 +15,8 @@ public class LogoutCommand implements Command {
         CommandResult result;
         if (user != null && user.getLoginStatus()) {
             content.getSession().invalidate();
-            result = new CommandResult(PagePath.LOGOUT_PAGE, true);
-        } else {
-            result = new CommandResult(PagePath.MAIN_PAGE, true);
         }
+        result = new CommandResult(PagePath.MAIN_PAGE_REDIRECT, true);
         return result;
     }
 }

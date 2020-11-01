@@ -10,8 +10,8 @@
 <div id="main-body-container">
     <div id="body-container">
         <%--add if block for present songs albums or compilations--%>
-        <c:import url="../WEB-INF/pages/importjsp/songcontent.jsp"/>
-        <c:import url="../WEB-INF/pages/importjsp/rightmenusong.jsp"/>
+        <c:import url="../WEB-INF/pages/importjsp/reviewcontent.jsp"/>
+        <c:import url="../WEB-INF/pages/importjsp/rightmenureview.jsp"/>
     </div>
 
 </div>

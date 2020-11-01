@@ -1,5 +1,7 @@
 package by.verbitsky.servletdemo.model.service;
 
+import by.verbitsky.servletdemo.entity.ContentType;
+
 public abstract class ContentFilter {
     private ContentType contentType;
     private int itemPerPage;
@@ -25,5 +27,9 @@ public abstract class ContentFilter {
 
     public void setPageNumber(int pageNumber) {
         this.pageNumber = pageNumber;
+    }
+
+    public void setItemPerPage(int itemPerPage) {
+        this.itemPerPage = itemPerPage;
     }
 }

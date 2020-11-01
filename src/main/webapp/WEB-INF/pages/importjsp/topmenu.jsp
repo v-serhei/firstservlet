@@ -19,7 +19,7 @@
                     <a class="nav-link" href="#"><fmt:message key="main.menu.compilation"/></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">отзывы сюда</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/review?action=review_page"><fmt:message key="review.page.btn"/></a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">

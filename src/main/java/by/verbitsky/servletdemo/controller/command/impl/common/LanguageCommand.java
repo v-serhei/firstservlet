@@ -19,7 +19,7 @@ public class LanguageCommand implements Command {
         content.addSessionAttribute(AttributeName.SESSION_LOCALE, locale);
         String lastPage = (String) content.getSessionAttribute(AttributeName.SESSION_LAST_URI);
         if (lastPage == null || lastPage.isEmpty()) {
-            result = new CommandResult(PagePath.MAIN_PAGE, true);
+            result = new CommandResult(PagePath.MAIN_PAGE_REDIRECT, true);
         } else {
             result = new CommandResult(lastPage, true);
         }

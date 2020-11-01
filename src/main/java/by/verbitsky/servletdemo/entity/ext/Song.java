@@ -15,16 +15,6 @@ public class Song extends AudioContent {
     public Song() {
     }
 
-    public Song(long id, String songTitle, String authorName, String albumTitle, String genre, LocalDate uploadDate, double price) {
-        setId(id);
-        this.songTitle = songTitle;
-        this.authorName = authorName;
-        this.albumTitle = albumTitle;
-        this.genre = genre;
-        this.uploadDate = uploadDate;
-        this.price = price;
-    }
-
     public String getSongTitle() {
         return songTitle;
     }
@@ -76,8 +66,8 @@ public class Song extends AudioContent {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Song)) return false;
-
+        if (this.getClass() != o.getClass()) return false;
+        if (o == null) return false;
         Song song = (Song) o;
 
         if (getId() != song.getId()) return false;

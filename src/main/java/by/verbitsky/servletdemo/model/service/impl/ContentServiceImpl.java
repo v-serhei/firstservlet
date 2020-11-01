@@ -7,11 +7,12 @@ import by.verbitsky.servletdemo.exception.ServiceException;
 import by.verbitsky.servletdemo.model.dao.ContentDao;
 import by.verbitsky.servletdemo.model.dao.Transaction;
 import by.verbitsky.servletdemo.model.dao.impl.GenreDaoImpl;
+import by.verbitsky.servletdemo.model.dao.impl.ReviewDaoImpl;
 import by.verbitsky.servletdemo.model.dao.impl.SingerDaoImpl;
 import by.verbitsky.servletdemo.model.dao.impl.SongDaoImpl;
 import by.verbitsky.servletdemo.model.service.ContentFilter;
 import by.verbitsky.servletdemo.model.service.ContentService;
-import by.verbitsky.servletdemo.model.service.ContentType;
+import by.verbitsky.servletdemo.entity.ContentType;
 import by.verbitsky.servletdemo.model.pool.impl.ConnectionPoolImpl;
 import by.verbitsky.servletdemo.model.pool.impl.ProxyConnection;
 
@@ -89,7 +90,7 @@ public enum ContentServiceImpl implements ContentService {
             transaction.processSimpleQuery(dao);
             result = dao.findFilteredContent(offset, filter.getItemPerPage(), filter);
         } catch (DaoException e) {
-            throw new ServiceException("ContentServiceImpl: error while searching singers", e);
+            throw new ServiceException("ContentServiceImpl: error while searching content", e);
         }
         return result;
     }
@@ -107,6 +108,10 @@ public enum ContentServiceImpl implements ContentService {
             }
             case GENRE: {
                 dao = new GenreDaoImpl();
+                break;
+            }
+            case REVIEW: {
+                dao = new ReviewDaoImpl();
                 break;
             }
             default: {

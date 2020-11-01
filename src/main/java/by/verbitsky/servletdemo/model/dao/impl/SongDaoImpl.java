@@ -1,7 +1,10 @@
 package by.verbitsky.servletdemo.model.dao.impl;
 
 import by.verbitsky.servletdemo.entity.AudioContent;
+import by.verbitsky.servletdemo.entity.ContentFactory;
+import by.verbitsky.servletdemo.entity.ContentType;
 import by.verbitsky.servletdemo.entity.ext.Song;
+import by.verbitsky.servletdemo.entity.impl.AudioContentFactory;
 import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.model.dao.AbstractDao;
 import by.verbitsky.servletdemo.model.dao.ContentDao;
@@ -51,14 +54,7 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                     "         left join genres as ge on so.genre_id = ge.genre_id " +
                     "WHERE song_id=?";
 
-
-    private static final String COLUMN_ID = "song_id";
-    private static final String COLUMN_TITLE = "song_title";
-    private static final String COLUMN_SINGER = "singer_name";
-    private static final String COLUMN_ALBUM_TITLE = "album_title";
-    private static final String COLUMN_GENRE = "genre_name";
-    private static final String COLUMN_UPLOAD_DATE = "upload_date";
-    private static final String COLUMN_SONG_PRICE = "song_price";
+    private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Song>();
 
 /*    @Override
     public Optional<Song> findSongByTitle(String title) throws DaoException {
@@ -98,7 +94,7 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
             statement.setString(3, singer);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                result = Long.parseLong(resultSet.getString(1));
+                result =resultSet.getLong(1);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -112,8 +108,8 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL_SONGS)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Song song = createSongFromResultSet(resultSet);
-                result.add(song);
+                Optional<AudioContent> song = factory.createContent(resultSet, ContentType.SONG);
+                song.ifPresent(result::add);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -131,8 +127,7 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                Song song = createSongFromResultSet(resultSet);
-                result = Optional.of(song);
+                result = factory.createContent(resultSet, ContentType.SONG);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -173,25 +168,12 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
             statement.setLong(5, offset);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Song song = createSongFromResultSet(resultSet);
-                result.add(song);
+                Optional<AudioContent> song = factory.createContent(resultSet, ContentType.SONG);
+                song.ifPresent(result::add);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-        return result;
-    }
-
-
-    private Song createSongFromResultSet(ResultSet resultSet) throws SQLException {
-        Song result = new Song();
-        result.setId(resultSet.getInt(COLUMN_ID));
-        result.setSongTitle(resultSet.getString(COLUMN_TITLE));
-        result.setAuthorName(resultSet.getString(COLUMN_SINGER));
-        result.setAlbumTitle(resultSet.getString(COLUMN_ALBUM_TITLE));
-        result.setGenre(resultSet.getString(COLUMN_GENRE));
-        result.setUploadDate(resultSet.getDate(COLUMN_UPLOAD_DATE).toLocalDate());
-        result.setPrice(resultSet.getDouble(COLUMN_SONG_PRICE));
         return result;
     }
 }

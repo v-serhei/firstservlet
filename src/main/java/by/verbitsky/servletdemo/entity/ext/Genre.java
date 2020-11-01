@@ -9,11 +9,6 @@ public class Genre extends AudioContent {
     public Genre() {
     }
 
-    public Genre(int genreId, String genreName) {
-        setId(genreId);
-        this.genreName = genreName;
-    }
-
     public String getGenreName() {
         return genreName;
     }
@@ -25,7 +20,8 @@ public class Genre extends AudioContent {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Genre)) return false;
+        if (this.getClass() != o.getClass()) return false;
+        if (o == null) return false;
 
         Genre genre = (Genre) o;
 

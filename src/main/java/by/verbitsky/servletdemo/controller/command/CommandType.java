@@ -2,7 +2,7 @@ package by.verbitsky.servletdemo.controller.command;
 
 import by.verbitsky.servletdemo.controller.command.impl.*;
 import by.verbitsky.servletdemo.controller.command.impl.common.*;
-import by.verbitsky.servletdemo.controller.command.impl.nav.*;
+import by.verbitsky.servletdemo.controller.command.impl.navigation.*;
 
 public enum CommandType {
 
@@ -12,22 +12,21 @@ public enum CommandType {
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
     REGISTER(new RegisterCommand()),
-
+    SEARCH_REVIEW (new ReviewPageCommand()),
+    SEARCH_SONG (new MainPageCommand()),
 
     //page nav commands
     ADMIN_PAGE(new AdminPageCommand()),
     LOGIN_PAGE(new LoginPageCommand()),
     MAIN_PAGE(new MainPageCommand()),
-    NEXT_SONG_PAGE (new NextPageCommand()),
+    NEXT_PAGE(new NextPageCommand()),
 
     ORDER_PAGE (new OrderPageCommand()),//todo
 
     PROFILE_PAGE(new ProfilePageCommand()),
     REGISTER_PAGE(new RegistrationPageCommand()),
+    REVIEW_PAGE(new ReviewPageCommand()),
 
-    REVIEW_PAGE(new ReviewPageCommand()), //todo
-
-    SEARCH_SONG (new MainPageCommand()),
 
     //admin commands
 

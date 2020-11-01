@@ -9,17 +9,23 @@
             </span>
     <div class="song-searching-controls">
         <form action="${pageContext.request.contextPath}/mainpage" method="get">
-            <c:set var="filter" value="${sessionScope.filter}"/>
+            <c:set var="filter" value="${sessionScope.songFilter}"/>
             <input type="hidden" name="action" value="search_song"/>
             <input type="hidden" name="filtered" value="true"/>
             <label for="song-name-input" class="search-label search-block-item">
-                <fmt:message key="song.serach.input.label"/>
+                <fmt:message key="song.search.input.label"/>
             </label>
             <input class="search-text-input" id="song-name-input" type="text" name="songName" value="${filter.songTitle}"/>
             <div class="search-confirm-input">
                 <input type="submit" class="btn btn-sm bg-light search-confirm-btn"
-                       name="search" value="<fmt:message key="song.search.confirm.btn"/>"/>
+                       name="search" value="<fmt:message key="search.confirm.btn"/>"/>
             </div>
+            <div class="line-separator">
+                <hr/>
+            </div>
+            <span class="right-menu-label">
+                <fmt:message key="song.search.result"/> ${sessionScope.songContentCount}
+            </span>
             <div class="line-separator">
                 <hr/>
             </div>
@@ -50,18 +56,18 @@
             </select>
             <div class="search-confirm-input">
                 <input type="submit" class="btn btn-sm bg-light search-confirm-btn"
-                       name="search" value="<fmt:message key="song.search.confirm.btn"/>"/>
+                       name="search" value="<fmt:message key="search.confirm.btn"/>"/>
             </div>
             <div class="line-separator">
                 <hr/>
             </div>
         </form>
-        <form action="">
+        <form>
             <input type="hidden" name="filtered" value="false"/>
             <div class="cancel-filter">
                 <a class="btn btn-sm bg-light"
                    href="${pageContext.request.contextPath}/mainpage?action=main_page"><fmt:message
-                        key="song.filter.reset.btn"/> </a>
+                        key="filter.reset.btn"/> </a>
             </div>
         </form>
 

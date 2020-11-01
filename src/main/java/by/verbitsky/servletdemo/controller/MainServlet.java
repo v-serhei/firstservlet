@@ -18,6 +18,7 @@ import java.io.IOException;
 @WebServlet(name = "MainServlet",
         urlPatterns = {
                 "/login",
+                "/review",
                 "/logout",
                 "/register",
                 "/langswitch",

@@ -1,12 +1,12 @@
-package by.verbitsky.servletdemo.controller.command.impl.nav;
+package by.verbitsky.servletdemo.controller.command.impl.navigation;
 
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.controller.command.*;
 import by.verbitsky.servletdemo.entity.AudioContent;
+import by.verbitsky.servletdemo.entity.ContentType;
 import by.verbitsky.servletdemo.exception.CommandException;
 import by.verbitsky.servletdemo.exception.ServiceException;
 import by.verbitsky.servletdemo.model.service.ContentService;
-import by.verbitsky.servletdemo.model.service.ContentType;
 import by.verbitsky.servletdemo.model.service.ext.SongFilter;
 import by.verbitsky.servletdemo.model.service.impl.ContentServiceImpl;
 
@@ -20,68 +20,74 @@ public class MainPageCommand implements Command {
         String songTitle = content.getRequestParameter(ParameterName.SONG);
         String singerName = content.getRequestParameter(ParameterName.SINGER);
         String genreName = content.getRequestParameter(ParameterName.GENRE);
-        String enableFilter = content.getRequestParameter(ParameterName.RESET_FILTER);
+        String enableFilter = content.getRequestParameter(ParameterName.ENABLE_FILTER);
         boolean isFiltered = Boolean.parseBoolean(enableFilter);
         SongFilter filter;
         if (isFiltered) {
-            filter = (SongFilter) content.getSessionAttribute(AttributeName.CONTENT_FILTER);
-            filter.setSongTitle(songTitle);
-            filter.setSongGenre(genreName);
-            filter.setSingerName(singerName);
-            filter.setPageNumber(AttributeValue.DEFAULT_PAGE_NUMBER);
+            filter = (SongFilter) content.getSessionAttribute(AttributeName.SONG_FILTER);
+            fillSongFilter(filter, songTitle, genreName, singerName);
+            return updateFilteredContent(filter, content);
         } else {
             filter = new SongFilter();
-        }
-        //update filter attribute
-        content.addSessionAttribute(AttributeName.CONTENT_FILTER, filter);
-        if (isFiltered) {
-            return updateFilteredContent (filter, content);
-        }else {
-            return generateFilteredContent (filter, content);
+            fillSongFilter(filter, songTitle, genreName, singerName);
+            return generateFilteredContent(filter, content);
         }
     }
 
+    private void fillSongFilter(SongFilter filter, String songTitle, String genreName, String singerName) {
+        filter.setSongTitle(songTitle);
+        filter.setSongGenre(genreName);
+        filter.setSingerName(singerName);
+        filter.setPageNumber(AttributeValue.DEFAULT_PAGE_NUMBER);
+    }
+
     private CommandResult generateFilteredContent(SongFilter filter, SessionRequestContent content) throws CommandException {
-        long totalSongCount;
+        long totalContentCount;
         List<AudioContent> pageContent;
         List<AudioContent> singers;
         List<AudioContent> genres;
         try {
             pageContent = service.findFilteredContent(filter);
-            totalSongCount = service.calculateItemsCount(filter);
+            totalContentCount = service.calculateItemsCount(filter);
             singers = service.findAllContent(ContentType.SINGER);
             genres = service.findAllContent(ContentType.GENRE);
         } catch (ServiceException e) {
             throw new CommandException("MainPageCommand: error while receiving song content from db", e);
         }
-        int totalPageCount = (int) Math.ceil(totalSongCount * 1.0 / filter.getItemPerPage());
+        int totalPageCount = (int) Math.ceil(totalContentCount * 1.0 / filter.getItemPerPage());
         //add total page count
-        content.addSessionAttribute(AttributeName.CONTENT_TOTAL_PAGE_COUNT, totalPageCount);
+        content.addSessionAttribute(AttributeName.SONG_TOTAL_PAGE_COUNT, totalPageCount);
         //add content list
-        content.addSessionAttribute(AttributeName.CONTENT, pageContent);
+        content.addSessionAttribute(AttributeName.SONG_CONTENT, pageContent);
         //add select tag authors
         content.addSessionAttribute(AttributeName.SINGER_LIST, singers);
         //add select tag genres
         content.addSessionAttribute(AttributeName.GENRE_LIST, genres);
         //add href value for pagination control
-        content.addSessionAttribute(AttributeName.PAGINATION_CONTROLS_LINK, PagePath.PAGINATION_MAIN);
-        return new CommandResult(PagePath.MAIN_PAGE, false);
+        content.addSessionAttribute(AttributeName.SONG_CONTROLS_LINK, PagePath.PAGINATION_MAIN);
+        //add result count:
+        content.addSessionAttribute(AttributeName.SONG_SEARCH_COUNT_RESULT, totalContentCount);
+        //add filter value
+        content.addSessionAttribute(AttributeName.SONG_FILTER, filter);
+        return new CommandResult(PagePath.MAIN_PAGE, true);
     }
 
     private CommandResult updateFilteredContent(SongFilter filter, SessionRequestContent content) throws CommandException {
-        long totalSongCount;
+        long totalContentCount;
         List<AudioContent> pageContent;
         try {
             pageContent = service.findFilteredContent(filter);
-            totalSongCount = service.calculateItemsCount(filter);
+            totalContentCount = service.calculateItemsCount(filter);
         } catch (ServiceException e) {
             throw new CommandException("MainPageCommand: error while receiving song content from db", e);
         }
-        int totalPageCount = (int) Math.ceil(totalSongCount * 1.0 / filter.getItemPerPage());
+        int totalPageCount = (int) Math.ceil(totalContentCount * 1.0 / filter.getItemPerPage());
         //total page count
-        content.addSessionAttribute(AttributeName.CONTENT_TOTAL_PAGE_COUNT, totalPageCount);
+        content.addSessionAttribute(AttributeName.SONG_TOTAL_PAGE_COUNT, totalPageCount);
         //update content list
-        content.addSessionAttribute(AttributeName.CONTENT, pageContent);
-        return new CommandResult(PagePath.MAIN_PAGE, true);
+        content.addSessionAttribute(AttributeName.SONG_CONTENT, pageContent);
+        //add result count:
+        content.addSessionAttribute(AttributeName.SONG_SEARCH_COUNT_RESULT, totalContentCount);
+        return new CommandResult(PagePath.MAIN_PAGE, false);
     }
 }

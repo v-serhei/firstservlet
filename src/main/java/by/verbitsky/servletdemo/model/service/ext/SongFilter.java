@@ -2,7 +2,7 @@ package by.verbitsky.servletdemo.model.service.ext;
 
 import by.verbitsky.servletdemo.controller.command.AttributeValue;
 import by.verbitsky.servletdemo.model.service.ContentFilter;
-import by.verbitsky.servletdemo.model.service.ContentType;
+import by.verbitsky.servletdemo.entity.ContentType;
 
 public class SongFilter extends ContentFilter {
     private String songTitle;
@@ -15,13 +15,6 @@ public class SongFilter extends ContentFilter {
         setSongTitle(EMPTY_PARAMETER);
         setSongGenre(EMPTY_PARAMETER);
         setSingerName(EMPTY_PARAMETER);
-    }
-
-    public SongFilter(String songTitle, String songGenre, String singerName, int pageNumber) {
-        super(ContentType.SONG, pageNumber, AttributeValue.MAIN_PAGE_SONG_PER_PAGE);
-        setSongTitle(songTitle);
-        setSongGenre(songGenre);
-        setSingerName(singerName);
     }
 
     public String getSongTitle() {
