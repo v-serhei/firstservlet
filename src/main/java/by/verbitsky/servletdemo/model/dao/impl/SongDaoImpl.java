@@ -30,12 +30,13 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                     "ORDER BY so.upload_date";
 
     private static final String SELECT_SONGS_BY_FILTER =
-            "Select song_id, song_title, upload_date, song_price, singer_name, album_title, genre_name " +
+            "Select song_id, song_title, upload_date, song_price, singer_name, album_title, al.creation_date, genre_name " +
                     "from songs as so " +
                     "         left join singers as si on so.singer_id = si.singer_id " +
                     "         left join albums as al on so.album_id = al.album_id " +
                     "         left join genres as ge on so.genre_id = ge.genre_id " +
-                    "WHERE  song_title REGEXP ? and genre_name REGEXP ? and singer_name REGEXP ? " +
+                    "WHERE  song_title REGEXP ? and genre_name REGEXP ? and " +
+                    "       singer_name REGEXP ? and album_title REGEXP ? " +
                     "ORDER BY upload_date " +
                     "limit ? offset ?";
 
@@ -44,7 +45,8 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                     "         left join singers as si on so.singer_id = si.singer_id " +
                     "         left join albums as al on so.album_id = al.album_id " +
                     "         left join genres as ge on so.genre_id = ge.genre_id " +
-                    "WHERE  song_title REGEXP ? and genre_name REGEXP ? and singer_name REGEXP ? ";
+                    "WHERE  song_title REGEXP ? and genre_name REGEXP ? and " +
+                    "       singer_name REGEXP ? and album_title REGEXP ? ";
 
     private static final String SELECT_SONG_BY_ID =
             "Select song_id, song_title, upload_date, song_price, singer_name, album_title, genre_name " +
@@ -87,11 +89,13 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
         String title = SqlRegexGenerator.generateRegexFromParameter(songFilter.getSongTitle());
         String genre = SqlRegexGenerator.generateRegexFromParameter(songFilter.getSongGenre());
         String singer = SqlRegexGenerator.generateRegexFromParameter(songFilter.getSingerName());
+        String album = SqlRegexGenerator.generateRegexFromParameter(songFilter.getAlbumTitle());
         long result = 0;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_SONG_COUNT)) {
             statement.setString(1, title);
             statement.setString(2, genre);
             statement.setString(3, singer);
+            statement.setString(4, album);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 result =resultSet.getLong(1);
@@ -159,13 +163,15 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
         String title = SqlRegexGenerator.generateRegexFromParameter(songFilter.getSongTitle());
         String genre = SqlRegexGenerator.generateRegexFromParameter(songFilter.getSongGenre());
         String singer = SqlRegexGenerator.generateRegexFromParameter(songFilter.getSingerName());
+        String album = SqlRegexGenerator.generateRegexFromParameter(songFilter.getAlbumTitle());
         List<AudioContent> result = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(SELECT_SONGS_BY_FILTER)) {
             statement.setString(1, title);
             statement.setString(2, genre);
             statement.setString(3, singer);
-            statement.setInt(4, limit);
-            statement.setLong(5, offset);
+            statement.setString(4, album);
+            statement.setInt(5, limit);
+            statement.setLong(6, offset);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Optional<AudioContent> song = factory.createContent(resultSet, ContentType.SONG);

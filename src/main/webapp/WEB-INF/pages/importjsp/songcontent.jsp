@@ -15,9 +15,15 @@
             <div class="content-values">
                 <span class="item-description-song">${song.songTitle}</span>
                 <span class="item-description-singer">${song.authorName}</span>
-                <span class="item-description-album">${song.albumTitle}</span>
+                <div class="album-title-description">
+                    <span class="item-description-album">${song.albumTitle}</span>
+                    <span class="item-description-album-date">${song.albumCreationDate}</span>
+                </div>
                 <span class="item-description-genre">${song.genre}</span>
-                <span class="item-description-date">${song.uploadDate}</span>
+                <div class="upload-description">
+                    <span class="item-description-upload"><fmt:message key="song.description.upload.header"/></span>
+                    <span class="item-description-upload-date">${song.uploadDate}</span>
+                </div>
 
                 <span class="item-description-price">2.25</span>
                 <span class="item-description-price-currency">BYN</span>

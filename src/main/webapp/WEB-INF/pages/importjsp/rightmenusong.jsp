@@ -54,6 +54,10 @@
                     <option value="${singer.singerName}">${singer.singerName}</option>
                 </c:forEach>
             </select>
+            <label for="song-name-input" class="search-label search-block-item">
+                <fmt:message key="album.search.input.label"/>
+            </label>
+            <input class="search-text-input" id="song-name-input" type="text" name="albumTitle" value="${filter.albumTitle}"/>
             <div class="search-confirm-input">
                 <input type="submit" class="btn btn-sm bg-light search-confirm-btn"
                        name="search" value="<fmt:message key="search.confirm.btn"/>"/>

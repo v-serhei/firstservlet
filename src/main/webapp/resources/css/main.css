@@ -384,10 +384,24 @@
     /*flex-grow: 2;*/
 }
 
-.item-description-album {
-    margin-right: 10px;
+.album-title-description {
     display: flex;
-    width: 22%;
+    flex-direction: column;
+    width: 20%;
+    align-self: center;
+}
+
+.item-description-upload-date {
+    text-align: center;
+    font-size: 8pt;
+    font-family: "Comic Sans MS", serif;
+
+}.item-description-album-date{
+     font-size: 8pt;
+     font-family: "Comic Sans MS", serif;
+ }
+
+.item-description-album {
     font-size: 11pt;
     font-family: "Comic Sans MS", serif;
     /*flex-grow: 2;*/
@@ -401,12 +415,15 @@
     font-family: "Comic Sans MS", serif;
     /* flex-grow: 1;*/
 }
-
-.item-description-date {
-    margin-right: 10px;
+.upload-description {
     display: flex;
     flex-direction: column;
-    width: 8%;
+    width: 10%;
+    align-self: center;
+}
+
+.item-description-upload {
+    text-align: center;
     font-size: 10pt;
     font-family: "Comic Sans MS", serif;
 }
@@ -579,7 +596,6 @@
     margin-right: 10px;
     width: 99%;
 }
-
 .song-review {
     /*container for current song reviews*/
     display: flex;
@@ -607,6 +623,7 @@
 .review-collapsed-body {
     background: #f0e8cb;
 }
+
 
 /*
    background: #f0e8cb;- светлый

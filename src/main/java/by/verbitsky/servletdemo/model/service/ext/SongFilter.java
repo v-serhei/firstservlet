@@ -8,6 +8,7 @@ public class SongFilter extends ContentFilter {
     private String songTitle;
     private String songGenre;
     private String singerName;
+    private String albumTitle;
     private static final String EMPTY_PARAMETER = "";
 
     public SongFilter() {
@@ -15,6 +16,7 @@ public class SongFilter extends ContentFilter {
         setSongTitle(EMPTY_PARAMETER);
         setSongGenre(EMPTY_PARAMETER);
         setSingerName(EMPTY_PARAMETER);
+        setAlbumTitle(EMPTY_PARAMETER);
     }
 
     public String getSongTitle() {
@@ -39,5 +41,13 @@ public class SongFilter extends ContentFilter {
 
     public void setSingerName(String singerName) {
         this.singerName = singerName;
+    }
+
+    public String getAlbumTitle() {
+        return albumTitle;
+    }
+
+    public void setAlbumTitle(String albumTitle) {
+        this.albumTitle = albumTitle;
     }
 }

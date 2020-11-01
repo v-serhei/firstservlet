@@ -13,9 +13,6 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/mainpage?action=main_page"><fmt:message key="main.menu.home"/></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><fmt:message key="main.menu.album"/></a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="#"><fmt:message key="main.menu.compilation"/></a>
                 </li>
                 <li class="nav-item">
@@ -40,7 +37,7 @@
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 <a class="dropdown-item" href="${pageContext.request.contextPath}/logout?action=logout"><fmt:message key="user.menu.logout"/> </a>
                                 <a class="dropdown-item" href="${pageContext.request.contextPath}/profile?action=profile_page"><fmt:message key="user.menu.profile"/></a>
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=admin_page"><fmt:message key="user.menu.adminpage"/></a>
+                                <a class="dropdown-item bg-light" href="${pageContext.request.contextPath}/admin?action=admin_page"><fmt:message key="user.menu.adminpage"/></a>
                             </div>
                         </c:when>
                         <c:otherwise>

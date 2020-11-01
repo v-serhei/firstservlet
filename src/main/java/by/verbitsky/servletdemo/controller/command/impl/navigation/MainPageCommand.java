@@ -20,24 +20,26 @@ public class MainPageCommand implements Command {
         String songTitle = content.getRequestParameter(ParameterName.SONG);
         String singerName = content.getRequestParameter(ParameterName.SINGER);
         String genreName = content.getRequestParameter(ParameterName.GENRE);
+        String albumTitle = content.getRequestParameter(ParameterName.ALBUM);
         String enableFilter = content.getRequestParameter(ParameterName.ENABLE_FILTER);
         boolean isFiltered = Boolean.parseBoolean(enableFilter);
         SongFilter filter;
         if (isFiltered) {
             filter = (SongFilter) content.getSessionAttribute(AttributeName.SONG_FILTER);
-            fillSongFilter(filter, songTitle, genreName, singerName);
+            fillSongFilter(filter, songTitle, genreName, singerName, albumTitle);
             return updateFilteredContent(filter, content);
         } else {
             filter = new SongFilter();
-            fillSongFilter(filter, songTitle, genreName, singerName);
+            fillSongFilter(filter, songTitle, genreName, singerName, albumTitle);
             return generateFilteredContent(filter, content);
         }
     }
 
-    private void fillSongFilter(SongFilter filter, String songTitle, String genreName, String singerName) {
+    private void fillSongFilter(SongFilter filter, String songTitle, String genreName, String singerName, String albumTitle) {
         filter.setSongTitle(songTitle);
         filter.setSongGenre(genreName);
         filter.setSingerName(singerName);
+        filter.setAlbumTitle(albumTitle);
         filter.setPageNumber(AttributeValue.DEFAULT_PAGE_NUMBER);
     }
 

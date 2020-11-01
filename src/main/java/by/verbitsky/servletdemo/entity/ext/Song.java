@@ -9,6 +9,7 @@ public class Song extends AudioContent {
     private String authorName;
     private String albumTitle;
     private String genre;
+    private LocalDate albumCreationDate;
     private LocalDate uploadDate;
     private double price;
 
@@ -37,6 +38,14 @@ public class Song extends AudioContent {
 
     public void setAlbumTitle(String albumTitle) {
         this.albumTitle = albumTitle;
+    }
+
+    public LocalDate getAlbumCreationDate() {
+        return albumCreationDate;
+    }
+
+    public void setAlbumCreationDate(LocalDate albumCreationDate) {
+        this.albumCreationDate = albumCreationDate;
     }
 
     public String getGenre() {

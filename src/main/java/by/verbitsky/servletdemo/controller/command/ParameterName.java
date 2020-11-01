@@ -11,6 +11,7 @@ public class ParameterName {
     public static final String SONG = "songName";
     public static final String GENRE = "genreName";
     public static final String SINGER = "singerName";
+    public static final String ALBUM = "albumTitle";
     public static final String ENABLE_FILTER = "filtered";
     public static final String PAGE_NUMBER = "pageNumber";
     public static final String ORDERED_SONG_ID = "orderedSongId";

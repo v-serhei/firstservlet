@@ -21,6 +21,7 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
     private static final String COLUMN_SONG_UPLOAD_DATE = "upload_date";
     private static final String COLUMN_SONG_PRICE = "song_price";
 
+    private static final String COLUMN_ALBUM_CREATION_DATE = "creation_date";
     private static final String COLUMN_ALBUM_TITLE = "album_title";
 
     private static final String COLUMN_SINGER_ID = "singer_id";
@@ -79,6 +80,7 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
                     ((Song) result).setSongTitle(resultSet.getString(COLUMN_SONG_TITLE));
                     ((Song) result).setAuthorName(resultSet.getString(COLUMN_SINGER_NAME));
                     ((Song) result).setAlbumTitle(resultSet.getString(COLUMN_ALBUM_TITLE));
+                    ((Song) result).setAlbumCreationDate(resultSet.getDate(COLUMN_ALBUM_CREATION_DATE).toLocalDate());
                     ((Song) result).setGenre(resultSet.getString(COLUMN_GENRE_NAME));
                     ((Song) result).setUploadDate(resultSet.getDate(COLUMN_SONG_UPLOAD_DATE).toLocalDate());
                     ((Song) result).setPrice(resultSet.getDouble(COLUMN_SONG_PRICE));
