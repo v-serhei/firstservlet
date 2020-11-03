@@ -1,5 +1,5 @@
 package by.verbitsky.servletdemo.entity;
 
 public enum ContentType {
-    SONG, ALBUM, COMPILATION, SINGER, GENRE, REVIEW
+    SONG, SONG_COMPILATION, SINGER, GENRE, REVIEW
 }

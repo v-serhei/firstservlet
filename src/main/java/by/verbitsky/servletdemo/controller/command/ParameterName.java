@@ -9,6 +9,8 @@ public class ParameterName {
     public static final String USER_PASSWORD_SECOND = "fieldPassword2";
 
     public static final String SONG = "songName";
+    public static final String COMPILATION = "compilationName";
+    public static final String COMPILATION_TYPE_NAME = "compilationTypeName";
     public static final String GENRE = "genreName";
     public static final String SINGER = "singerName";
     public static final String ALBUM = "albumTitle";
@@ -17,6 +19,7 @@ public class ParameterName {
     public static final String ORDERED_SONG_ID = "orderedSongId";
     public static final String CONTENT_TYPE = "contentType";
 
+    public static final String PAGE_MARK = "currentPageUri";
 
 
 

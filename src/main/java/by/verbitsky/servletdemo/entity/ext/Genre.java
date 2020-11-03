@@ -31,7 +31,7 @@ public class Genre extends AudioContent {
 
     @Override
     public int hashCode() {
-        int result = (int)getId();
+        int result = (int) (getId() ^ (getId() >>> 32));
         result = 31 * result + genreName.hashCode();
         return result;
     }

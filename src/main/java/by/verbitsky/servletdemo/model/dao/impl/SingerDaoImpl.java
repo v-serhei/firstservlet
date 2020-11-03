@@ -13,7 +13,6 @@ import by.verbitsky.servletdemo.model.service.ContentFilter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,14 +22,19 @@ public class SingerDaoImpl extends AbstractDao implements ContentDao {
 
 
     @Override
+    public List<String> findContentProperties() {
+        return null;
+    }
+
+    @Override
     public List<AudioContent> findAll() throws DaoException {
-        List<AudioContent> result = new ArrayList<>();
+        if (connection == null) {
+            throw new DaoException("SingerDao findAll: received null connection");
+        }
+        List<AudioContent> result;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL_SINGERS)) {
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Optional<AudioContent> singer = factory.createContent(resultSet, ContentType.SINGER);
-                singer.ifPresent(result::add);
-            }
+            result = factory.createContentList(resultSet, ContentType.SINGER);
         } catch (SQLException e) {
             throw new DaoException(e);
         }

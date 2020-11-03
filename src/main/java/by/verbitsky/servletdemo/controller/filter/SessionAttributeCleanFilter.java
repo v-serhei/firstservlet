@@ -21,7 +21,7 @@ public class SessionAttributeCleanFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-        String prevUri = (String) ((HttpServletRequest) req).getSession().getAttribute(AttributeName.SESSION_LAST_URI);
+        String prevUri = (String) ((HttpServletRequest) req).getSession().getAttribute(AttributeName.SESSION_USER_LAST_QUERY);
         String requestedUri = ((HttpServletRequest) req).getRequestURI();
         String prevPage = definePage(prevUri);
         String requestedPage = definePage(requestedUri);

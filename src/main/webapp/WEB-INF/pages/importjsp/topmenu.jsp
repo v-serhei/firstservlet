@@ -13,7 +13,7 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/mainpage?action=main_page"><fmt:message key="main.menu.home"/></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><fmt:message key="main.menu.compilation"/></a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/compilation?action=compilation_page"><fmt:message key="main.menu.compilation"/></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/review?action=review_page"><fmt:message key="review.page.btn"/></a>

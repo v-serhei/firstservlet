@@ -25,13 +25,13 @@
                     <span class="item-description-upload-date">${song.uploadDate}</span>
                 </div>
 
-                <span class="item-description-price">2.25</span>
+                <span class="item-description-price">${song.price}</span>
                 <span class="item-description-price-currency">BYN</span>
 
             </div>
-                <%-- <c:if test="${sessionScope.user.loginStatus}">--%>
             <div class="item-controls">
                 <form action="${pageContext.request.contextPath}/mainpage" method="get">
+                    <input type="hidden" name="currentPageUri" value="${sessionScope.lastUri}">
                     <c:if test="${sessionScope.user.basket.contains(song.id)}">
                         <input type="hidden" name="action" value="basket_remove">
                         <input type="hidden" name="orderedSongId" value="${song.id}">
@@ -68,9 +68,7 @@
                            data-toggle="tooltip" data-placement="top"
                            title="<fmt:message key="song.controls.hint.go.order"/>">
                 </form>
-
             </div>
-                <%--</c:if>--%>
         </div>
     </c:forEach>
     <div class="line-separator">

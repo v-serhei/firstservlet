@@ -14,6 +14,7 @@ public enum CommandType {
     REGISTER(new RegisterCommand()),
     SEARCH_REVIEW (new ReviewPageCommand()),
     SEARCH_SONG (new MainPageCommand()),
+    SEARCH_COMPILATION (new CompilationPageCommand()),
 
     //page nav commands
     ADMIN_PAGE(new AdminPageCommand()),
@@ -26,6 +27,7 @@ public enum CommandType {
     PROFILE_PAGE(new ProfilePageCommand()),
     REGISTER_PAGE(new RegistrationPageCommand()),
     REVIEW_PAGE(new ReviewPageCommand()),
+    COMPILATION_PAGE(new CompilationPageCommand()),
 
 
     //admin commands

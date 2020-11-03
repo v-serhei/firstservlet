@@ -11,4 +11,5 @@ public interface ContentDao extends BaseDao<AudioContent>{
 
     long calculateRowCount(ContentFilter filter) throws DaoException;
 
+    List<String> findContentProperties() throws DaoException;
 }

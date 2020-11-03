@@ -8,7 +8,7 @@ public class AttributeName {
     public static final String SESSION_USER = "user";
     public static final String SESSION_LOCALE = "locale";
     public static final String SESSION_LAST_COMMAND = "lastCommand";
-    public static final String SESSION_LAST_URI = "lastUri";
+    public static final String SESSION_USER_LAST_QUERY = "lastUri";
 
     /**
      * Request attributes
@@ -30,6 +30,15 @@ public class AttributeName {
     public static final String SONG_FILTER = "songFilter";
     public static final String SONG_TOTAL_PAGE_COUNT = "songTotalPageCount";
     public static final String SONG_SEARCH_COUNT_RESULT = "songContentCount";
+
+    public static final String COMPILATION_CONTENT = "compilationContentList";
+    public static final String COMPILATION_CONTROLS_LINK = "compilationLinkValue";
+    public static final String COMPILATION_FILTER = "compilationFilter";
+    public static final String COMPILATION_TOTAL_PAGE_COUNT = "compilationTotalPageCount";
+    public static final String COMPILATION_SEARCH_COUNT_RESULT = "compilationContentCount";
+    public static final String COMPILATION_TYPES_LIST = "compilationTypeList";
+
+
 
     public static final String ADDITIONAL_CONTENT_SONGS = "reviewSongList";
     public static final String REVIEW_CONTENT = "reviewContentList";

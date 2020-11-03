@@ -12,6 +12,7 @@
                 </div>
                 <div id="lang-menu" style="display: flex">
                     <form action="${pageContext.request.contextPath}/langswitch" method="post">
+                        <input type="hidden" name="currentPageUri" value="${sessionScope.lastUri}">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
                             <button type="submit" class="btn btn-secondary" name="action" value="en">En</button>
                         </div>

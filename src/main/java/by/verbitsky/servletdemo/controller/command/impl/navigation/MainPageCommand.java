@@ -8,12 +8,12 @@ import by.verbitsky.servletdemo.exception.CommandException;
 import by.verbitsky.servletdemo.exception.ServiceException;
 import by.verbitsky.servletdemo.model.service.ContentService;
 import by.verbitsky.servletdemo.model.service.ext.SongFilter;
-import by.verbitsky.servletdemo.model.service.impl.ContentServiceImpl;
+import by.verbitsky.servletdemo.model.service.impl.AudioContentService;
 
 import java.util.List;
 
 public class MainPageCommand implements Command {
-    private ContentService service = ContentServiceImpl.INSTANCE;
+    private ContentService service = AudioContentService.INSTANCE;
 
     @Override
     public CommandResult execute(SessionRequestContent content) throws CommandException {

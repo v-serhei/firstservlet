@@ -8,14 +8,14 @@ import by.verbitsky.servletdemo.exception.CommandException;
 import by.verbitsky.servletdemo.exception.ServiceException;
 import by.verbitsky.servletdemo.model.service.ContentService;
 import by.verbitsky.servletdemo.model.service.ext.ReviewFilter;
-import by.verbitsky.servletdemo.model.service.impl.ContentServiceImpl;
+import by.verbitsky.servletdemo.model.service.impl.AudioContentService;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class ReviewPageCommand implements Command {
-    private ContentService service = ContentServiceImpl.INSTANCE;
+    private ContentService service = AudioContentService.INSTANCE;
 
     @Override
     public CommandResult execute(SessionRequestContent content) throws CommandException {

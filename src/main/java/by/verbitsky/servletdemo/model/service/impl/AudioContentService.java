@@ -6,10 +6,7 @@ import by.verbitsky.servletdemo.exception.PoolException;
 import by.verbitsky.servletdemo.exception.ServiceException;
 import by.verbitsky.servletdemo.model.dao.ContentDao;
 import by.verbitsky.servletdemo.model.dao.Transaction;
-import by.verbitsky.servletdemo.model.dao.impl.GenreDaoImpl;
-import by.verbitsky.servletdemo.model.dao.impl.ReviewDaoImpl;
-import by.verbitsky.servletdemo.model.dao.impl.SingerDaoImpl;
-import by.verbitsky.servletdemo.model.dao.impl.SongDaoImpl;
+import by.verbitsky.servletdemo.model.dao.impl.*;
 import by.verbitsky.servletdemo.model.service.ContentFilter;
 import by.verbitsky.servletdemo.model.service.ContentService;
 import by.verbitsky.servletdemo.entity.ContentType;
@@ -19,7 +16,7 @@ import by.verbitsky.servletdemo.model.pool.impl.ProxyConnection;
 import java.util.List;
 import java.util.Optional;
 
-public enum ContentServiceImpl implements ContentService {
+public enum AudioContentService implements ContentService {
     INSTANCE;
 
     @Override
@@ -75,6 +72,21 @@ public enum ContentServiceImpl implements ContentService {
         return result;
     }
 
+    @Override
+    public List<String> findContentProperties(ContentType contentType) throws ServiceException {
+        if (contentType == ContentType.SONG_COMPILATION) {
+            ContentDao dao = new CompilationDao();
+            ProxyConnection connection = askConnectionFromPool();
+            try {
+                dao.setConnection(connection);
+                return dao.findContentProperties ();
+            } catch (DaoException e) {
+                throw new ServiceException("AudioContentService: findContentProperties: error while receiving properties from db");
+            }
+        }
+        throw new ServiceException("AudioContentService: findContentProperties received unsupported content type");
+    }
+
 
     @Override
     public List<AudioContent> findFilteredContent(ContentFilter filter) throws ServiceException {
@@ -95,6 +107,8 @@ public enum ContentServiceImpl implements ContentService {
         return result;
     }
 
+
+
     private ContentDao defineDaoByContentType(ContentType type) throws ServiceException {
         ContentDao dao;
         switch (type) {
@@ -112,6 +126,10 @@ public enum ContentServiceImpl implements ContentService {
             }
             case REVIEW: {
                 dao = new ReviewDaoImpl();
+                break;
+            }
+            case SONG_COMPILATION: {
+                dao = new CompilationDao();
                 break;
             }
             default: {

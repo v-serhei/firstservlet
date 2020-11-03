@@ -334,7 +334,7 @@
 
 /*content items*/
 /*values container*/
-.item-container {
+.item-container, .compilation-item-container {
     display: flex;
     flex-direction: row;
     margin-left: 15px;
@@ -624,6 +624,17 @@
     background: #f0e8cb;
 }
 
+.compilation-caption-header, .compilation-caption-type, .compilation-caption-upload {
+    text-align: center;
+    font-family: "Comic Sans MS", serif;
+}
+
+.compilation-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 650px;
+    overflow: auto;
+}
 
 /*
    background: #f0e8cb;- светлый

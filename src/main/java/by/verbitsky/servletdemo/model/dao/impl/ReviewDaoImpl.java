@@ -15,7 +15,6 @@ import by.verbitsky.servletdemo.util.SqlRegexGenerator;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,12 +48,15 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
 
     @Override
     public List<AudioContent> findFilteredContent(long offset, int limit, ContentFilter filter) throws DaoException {
-        if (connection == null) {
+        if (filter == null) {
             throw new DaoException("ReviewDao findFilteredContent: received null filter");
+        }
+        if (connection == null) {
+            throw new DaoException("ReviewDao findFilteredContent: received null connection");
         }
         ReviewFilter reviewFilter = (ReviewFilter) filter;
         String title = SqlRegexGenerator.generateRegexFromParameter(reviewFilter.getSongTitle());
-        List<AudioContent> result = new ArrayList<>();
+        List<AudioContent> result;
         boolean unique = ((ReviewFilter) filter).isFindUnique();
         String query;
         if (unique) {
@@ -62,7 +64,6 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
         } else {
             query = SELECT_ALL_REVIEWS_BY_SONG_TITLE;
         }
-
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, title);
             if (unique) {
@@ -70,10 +71,7 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
                 statement.setLong(3, offset);
             }
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Optional<AudioContent> review = factory.createContent(resultSet, ContentType.REVIEW);
-                review.ifPresent(result::add);
-            }
+            result = factory.createContentList(resultSet, ContentType.REVIEW);
         } catch (SQLException e) {
             throw new DaoException(e);
         }
@@ -81,13 +79,20 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
     }
 
     @Override
+    public List<String> findContentProperties() {
+        return null;
+    }
+
+    @Override
     public long calculateRowCount(ContentFilter filter) throws DaoException {
         if (filter == null) {
             throw new DaoException("ReviewDao CalculateRowCount: received null filter");
         }
+        if (connection == null) {
+            throw new DaoException("ReviewDao CalculateRowCount: received null connection");
+        }
         ReviewFilter reviewFilter = (ReviewFilter) filter;
         String title = SqlRegexGenerator.generateRegexFromParameter(reviewFilter.getSongTitle());
-
         long result = 0;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_SONG_COUNT)) {
             statement.setString(1, title);
@@ -99,7 +104,6 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
             throw new DaoException(e);
         }
         return result;
-
     }
 
     @Override

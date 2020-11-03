@@ -15,4 +15,6 @@ public interface ContentService {
     List<AudioContent> findAllContent(ContentType type) throws ServiceException;
 
     Optional<AudioContent> findContentById (ContentType type, long id) throws ServiceException;
+
+    List<String> findContentProperties(ContentType compilation) throws ServiceException;
 }

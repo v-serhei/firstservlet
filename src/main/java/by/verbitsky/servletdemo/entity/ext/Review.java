@@ -65,7 +65,7 @@ public class Review extends AudioContent {
 
     @Override
     public int hashCode() {
-        int result = reviewText.hashCode();
+        int result = (int) (getId() ^ (getId() >>> 32));
         result = 31 * result + songTitle.hashCode();
         result = 31 * result + userName.hashCode();
         return result;

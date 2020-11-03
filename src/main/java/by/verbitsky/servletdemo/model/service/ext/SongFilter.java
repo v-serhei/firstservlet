@@ -9,6 +9,8 @@ public class SongFilter extends ContentFilter {
     private String songGenre;
     private String singerName;
     private String albumTitle;
+    private long compilationId;
+    private long orderId;
     private static final String EMPTY_PARAMETER = "";
 
     public SongFilter() {
@@ -49,5 +51,21 @@ public class SongFilter extends ContentFilter {
 
     public void setAlbumTitle(String albumTitle) {
         this.albumTitle = albumTitle;
+    }
+
+    public long getCompilationId() {
+        return compilationId;
+    }
+
+    public void setCompilationId(long compilationId) {
+        this.compilationId = compilationId;
+    }
+
+    public long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
     }
 }

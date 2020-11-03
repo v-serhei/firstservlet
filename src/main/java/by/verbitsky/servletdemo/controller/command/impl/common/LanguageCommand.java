@@ -13,17 +13,14 @@ public class LanguageCommand implements Command {
 
     @Override
     public CommandResult execute(SessionRequestContent content) {
-        CommandResult result;
         String langParameter = content.getRequestParameter(ParameterName.ACTION);
         Locale locale = defineLocale(langParameter);
         content.addSessionAttribute(AttributeName.SESSION_LOCALE, locale);
-        String lastPage = (String) content.getSessionAttribute(AttributeName.SESSION_LAST_URI);
+        String lastPage = content.getRequestParameter(ParameterName.PAGE_MARK);
         if (lastPage == null || lastPage.isEmpty()) {
-            result = new CommandResult(PagePath.MAIN_PAGE_REDIRECT, true);
-        } else {
-            result = new CommandResult(lastPage, true);
+            lastPage = PagePath.MAIN_PAGE_REDIRECT;
         }
-        return result;
+        return new CommandResult(lastPage, true);
     }
 
     private Locale defineLocale(String lang) {
