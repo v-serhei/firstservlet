@@ -3,10 +3,10 @@ package by.verbitsky.servletdemo.controller.command;
 public class PagePath {
 
     //redirect path
-    public static final String REDIRECT_MAIN_PAGE = "/do/main";
-    public static final String REDIRECT_REVIEW_PAGE = "/do/reviews";
-    public static final String REDIRECT_LOGIN_PAGE = "/do/login";
-    public static final String REDIRECT_ERROR_PAGE = "/do/error";
+    public static final String REDIRECT_MAIN_PAGE = "/audiobox/do/main";
+    public static final String REDIRECT_REVIEW_PAGE = "/audiobox/do/reviews";
+    public static final String REDIRECT_LOGIN_PAGE = "/audiobox/do/login";
+    public static final String REDIRECT_ERROR_PAGE = "/audiobox/do/error";
 
     //public static final String REDIRECT_COMPILATION_PAGE = "/do/compilations";
    // public static final String REDIRECT_REGISTRATION_PAGE = "/do/registration";

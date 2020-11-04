@@ -23,7 +23,7 @@ public class BasketAddCommand implements Command {
             user.getBasket().addSong(songId);
             result = new CommandResult(lastPage, true);
         }else {
-            result = new CommandResult(PagePath.FORWARD_LOGIN_PAGE, true);
+            result = new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
         }
         return result;
     }

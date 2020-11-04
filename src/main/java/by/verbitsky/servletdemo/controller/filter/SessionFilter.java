@@ -13,10 +13,14 @@ import java.util.Locale;
 @WebFilter
 public class SessionFilter implements Filter {
     private static final int DEFAULT_SESSION_LIVE_TIME = 3600;
+    private static final String URL_PARAMETER_PREFIX = "?";
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpSession session = ((HttpServletRequest) servletRequest).getSession(true);
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpSession session = request.getSession(true);
         processNewSession(session);
+        session.setAttribute(AttributeName.SESSION_USER_LAST_QUERY, constructQuery(request));
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
@@ -30,5 +34,15 @@ public class SessionFilter implements Filter {
                 session.setAttribute(AttributeName.SESSION_USER, user);
             }
         }
+    }
+    private String constructQuery(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        String query = request.getQueryString();
+        StringBuilder sb = new StringBuilder(uri);
+        if (query != null && !query.isEmpty()) {
+            sb.append(URL_PARAMETER_PREFIX);
+            sb.append(query);
+        }
+        return sb.toString();
     }
 }

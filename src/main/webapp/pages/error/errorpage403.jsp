@@ -15,8 +15,8 @@
                 <h5 class="text-center"> ${pageContext.errorData.requestURI}</h5>
                 <br/>
                 <h4 class="text-center"> Error code: </h4>
-                <h5 class="text-center"> ${pageContext.errorData.statusCode}</h5>
-                <h5 class="text-center"> Requested resource not available </h5>
+                <h5 class="text-center"> 403</h5>
+                <h5 class="text-center"> Requested resource not available or you don't have enough permissions </h5>
             </div>
         </div>
     </div>

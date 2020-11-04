@@ -15,25 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/*@WebServlet(name = "MainServlet",
-        urlPatterns = {
-                "/login",
-                "/review",
-                "/logout",
-                "/register",
-                "/langswitch",
-                "/mainpage",
-                "/profile",
-                "/admin",
-                "/compilation",
-                "/orderPage"
-        })*/
-
 @WebServlet(name = "MainServlet", urlPatterns = "/do/*")
 @SuppressWarnings("serial")
 public class MainServlet extends HttpServlet {
-    private static final String URL_PARAMETER_PREFIX = "?";
-    private static final String REDIRECT_PAGE_PREFIX = "/audiobox";
     private static final int PAGE_NOT_FOUND_STATUS_CODE = 404;
     private static final int SERVER_ERROR_CODE = 500;
     private final Logger logger = LogManager.getLogger();
@@ -47,26 +31,21 @@ public class MainServlet extends HttpServlet {
     }
 
     private void processUserRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-       // String cmd = request.getParameter(ParameterName.ACTION);
-        String cmd = request.getRequestURI();
-        SessionRequestContent content = new SessionRequestContent(request);
-        Command command = CommandProvider.defineCommand(cmd);
+        Command command = CommandProvider.defineCommand(request.getRequestURI());
         if (command instanceof EmptyCommand) {
             response.sendError(PAGE_NOT_FOUND_STATUS_CODE);
         } else {
             CommandResult result;
             try {
+                SessionRequestContent content = new SessionRequestContent(request);
                 result = command.execute(content);
                 //if session was not invalidated
                 if (request.getSession(false) != null) {
-                    content.addSessionAttribute(AttributeName.SESSION_LAST_COMMAND, command);
-                    content.addSessionAttribute(AttributeName.SESSION_USER_LAST_QUERY, constructQuery(request));
                     content.pushAttributesToSession();
                 }
                 content.pushAttributesToRequest();
-                int i = 1;
                 if (result.isRedirect()) {
-                    response.sendRedirect(REDIRECT_PAGE_PREFIX.concat(result.getResultPage()));
+                    response.sendRedirect(result.getResultPage());
                 } else {
                     request.getRequestDispatcher(result.getResultPage()).forward(request, response);
                 }
@@ -78,16 +57,7 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private String constructQuery(HttpServletRequest request) {
-        String uri = request.getRequestURI().replaceFirst(REDIRECT_PAGE_PREFIX,"");
-        String query = request.getQueryString();
-        StringBuilder sb = new StringBuilder(uri);
-        if (query != null && !query.isEmpty()) {
-            sb.append(URL_PARAMETER_PREFIX);
-            sb.append(query);
-        }
-        return sb.toString();
-    }
+
 
     private String generateLogMessage(CommandException e) {
         StringBuilder sb = new StringBuilder();
