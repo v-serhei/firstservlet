@@ -61,7 +61,7 @@ public class CompilationDao extends AbstractDao implements ContentDao {
             statement.setInt(3, limit);
             statement.setLong(4, offset);
             ResultSet resultSet = statement.executeQuery();
-            result = factory.createContentList(resultSet, ContentType.SONG_COMPILATION);
+            result = factory.createContentList(resultSet, ContentType.COMPILATION);
         } catch (SQLException e) {
             throw new DaoException(e);
         }

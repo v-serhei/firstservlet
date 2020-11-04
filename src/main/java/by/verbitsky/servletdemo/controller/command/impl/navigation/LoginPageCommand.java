@@ -13,9 +13,9 @@ public class LoginPageCommand implements Command {
         User user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
         CommandResult result;
         if (!user.getLoginStatus()) {
-            result = new CommandResult(PagePath.LOGIN_PAGE, true);
+            result = new CommandResult(PagePath.FORWARD_LOGIN_PAGE, false);
         } else {
-            result = new CommandResult(PagePath.MAIN_PAGE_REDIRECT, true);
+            result = new CommandResult(PagePath.REDIRECT_MAIN_PAGE, true);
         }
         return result;
     }

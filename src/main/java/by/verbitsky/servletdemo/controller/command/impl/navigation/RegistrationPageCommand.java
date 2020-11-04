@@ -15,9 +15,9 @@ public class RegistrationPageCommand implements Command {
         User user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
         if (user != null) {
             if (!user.getLoginStatus()) {
-                result = new CommandResult(PagePath.REGISTRATION_PAGE, true);
+                result = new CommandResult(PagePath.FORWARD_REGISTRATION_PAGE, false);
             } else {
-                result = new CommandResult(PagePath.MAIN_PAGE_REDIRECT, true);
+                result = new CommandResult(PagePath.REDIRECT_MAIN_PAGE, true);
             }
         } else {
             throw new CommandException("RegistrationPageCommand: attribute \"User\" is null");

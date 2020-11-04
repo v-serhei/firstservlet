@@ -11,13 +11,16 @@
                     <span class="navbar-text" id="footer-span"> <fmt:message key="footer.message"/></span>
                 </div>
                 <div id="lang-menu" style="display: flex">
-                    <form action="${pageContext.request.contextPath}/langswitch" method="post">
+                    <form action="${pageContext.request.contextPath}/do/language/en" method="post">
                         <input type="hidden" name="currentPageUri" value="${sessionScope.lastUri}">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                            <button type="submit" class="btn btn-secondary" name="action" value="en">En</button>
+                            <button type="submit" class="btn btn-secondary" name="language" value="en">En</button>
                         </div>
+                    </form>
+                    <form action="${pageContext.request.contextPath}/do/language/ru" method="post">
+                        <input type="hidden" name="currentPageUri" value="${sessionScope.lastUri}">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                            <button type="submit" class="btn btn-secondary" name="action" value="ru">Ru</button>
+                            <button type="submit" class="btn btn-secondary" name="language" value="ru">Ru</button>
                         </div>
                     </form>
                 </div>

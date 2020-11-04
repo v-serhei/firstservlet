@@ -4,11 +4,13 @@ import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.controller.command.AttributeName;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Locale;
 
+@WebFilter
 public class SessionFilter implements Filter {
     private static final int DEFAULT_SESSION_LIVE_TIME = 3600;
     @Override

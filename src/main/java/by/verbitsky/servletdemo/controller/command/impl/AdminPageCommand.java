@@ -22,14 +22,14 @@ public class AdminPageCommand implements Command {
         if (user != null && user.getLoginStatus()) {
             //todo посмотреть что нужно подгрузить на страницу и сделать запрос в БД
             if (CommandPermissionValidator.isUserHasPermission(user, this)) {
-                result = new CommandResult(PagePath.ADMIN_PAGE, true);
+                result = new CommandResult(PagePath.FORWARD_ADMIN_PAGE, false);
             } else {
                 content.addSessionAttribute(AttributeName.COMMAND_ERROR_MESSAGE, AttributeName.ADMIN_PAGE_ACCESS_DENIED);
                 content.addSessionAttribute(AttributeName.REQUESTED_URL, content.getRequest().getRequestURI());
-                result = new CommandResult(PagePath.ERROR_PAGE, true);
+                result = new CommandResult(PagePath.REDIRECT_ERROR_PAGE, true);
             }
         } else {
-            result = new CommandResult(PagePath.LOGIN_PAGE, true);
+            result = new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
         }
         return result;
     }

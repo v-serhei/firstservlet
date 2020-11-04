@@ -43,7 +43,7 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
         List<AudioContent> result = new ArrayList<>();
         if (resultSet != null && type != null) {
             switch (type) {
-                case SONG_COMPILATION: {
+                case COMPILATION: {
                     return createCompilationList(resultSet);
                 }
                 case SONG: {
@@ -70,7 +70,7 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
     public Optional<AudioContent> createSingleContent(ResultSet resultSet, ContentType type) throws SQLException {
         if (resultSet != null && type != null) {
             switch (type) {
-                case SONG_COMPILATION: {
+                case COMPILATION: {
                     return createCompilation(resultSet);
                 }
                 case GENRE: {

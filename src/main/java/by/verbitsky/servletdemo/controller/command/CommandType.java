@@ -5,7 +5,7 @@ import by.verbitsky.servletdemo.controller.command.impl.common.*;
 import by.verbitsky.servletdemo.controller.command.impl.navigation.*;
 
 public enum CommandType {
-
+/*
     //Common commands
     BASKET_ADD (new BasketAddCommand()),
     BASKET_REMOVE (new BasketRemoveCommand()),
@@ -28,16 +28,37 @@ public enum CommandType {
     REGISTER_PAGE(new RegistrationPageCommand()),
     REVIEW_PAGE(new ReviewPageCommand()),
     COMPILATION_PAGE(new CompilationPageCommand()),
+    */
+
+    //navigation
+    MAIN(new MainPageCommand()),
+    LOGIN(new LoginPageCommand()),
+    REGISTRATION(new RegistrationPageCommand()),
+    ADMIN(new AdminPageCommand()),
+    PROFILE(new ProfilePageCommand()),
+    REVIEWS(new ReviewPageCommand()),
+    COMPILATIONS(new CompilationPageCommand()),
+    NEXT_PAGE(new NextPageCommand()),
 
 
-    //admin commands
 
-
-
-
-
+    //processing commands
+    PROCESS_LOGIN(new LoginCommand()),
+    PROCESS_LOGOUT(new LogoutCommand()),
+    PROCESS_REGISTRATION(new RegisterCommand()),
+    SEARCH(new SearchCommand()),
     RU(new LanguageCommand()),
-    EN(new LanguageCommand());
+    EN(new LanguageCommand()),
+
+
+    //need fix:
+    BASKET_ADD(new BasketAddCommand()),
+    BASKET_REMOVE(new BasketRemoveCommand()),
+
+
+    ORDER_PAGE(new OrderPageCommand());//todo
+
+
 
 
     CommandType(Command command) {

@@ -64,7 +64,7 @@ public class NextPageCommand implements Command {
             throw new CommandException("CompilationPageCommand: error while receiving compilation content from db", e);
         }
         content.addSessionAttribute(AttributeName.COMPILATION_CONTENT, pageContent);
-        return new CommandResult(PagePath.COMPILATION_PAGE, false);
+        return new CommandResult(PagePath.FORWARD_COMPILATION_PAGE, false);
     }
 
     private CommandResult updateMainPageContent(SongFilter filter, SessionRequestContent content) throws CommandException {
@@ -75,7 +75,7 @@ public class NextPageCommand implements Command {
             throw new CommandException("NextPageCommand: error while receiving song content from db", e);
         }
         content.addSessionAttribute(AttributeName.SONG_CONTENT, pageContent);
-        return new CommandResult(PagePath.MAIN_PAGE, false);
+        return new CommandResult(PagePath.FORWARD_MAIN_PAGE, false);
     }
 
     private CommandResult updateReviewPageContent(ReviewFilter filter, SessionRequestContent content) throws CommandException {
@@ -93,6 +93,6 @@ public class NextPageCommand implements Command {
         Set<String> songTitles = new HashSet<>();
         uniqueSongs.forEach((review) -> songTitles.add(((Review) review).getSongTitle()));
         content.addSessionAttribute(AttributeName.ADDITIONAL_CONTENT_SONGS, songTitles);
-        return new CommandResult(PagePath.REVIEW_PAGE, false);
+        return new CommandResult(PagePath.FORWARD_REVIEW_PAGE, false);
     }
 }

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "MainServlet",
+/*@WebServlet(name = "MainServlet",
         urlPatterns = {
                 "/login",
                 "/review",
@@ -27,7 +27,9 @@ import java.io.IOException;
                 "/admin",
                 "/compilation",
                 "/orderPage"
-        })
+        })*/
+
+@WebServlet(name = "MainServlet", urlPatterns = "/do/*")
 @SuppressWarnings("serial")
 public class MainServlet extends HttpServlet {
     private static final String URL_PARAMETER_PREFIX = "?";
@@ -45,7 +47,8 @@ public class MainServlet extends HttpServlet {
     }
 
     private void processUserRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String cmd = request.getParameter(ParameterName.ACTION);
+       // String cmd = request.getParameter(ParameterName.ACTION);
+        String cmd = request.getRequestURI();
         SessionRequestContent content = new SessionRequestContent(request);
         Command command = CommandProvider.defineCommand(cmd);
         if (command instanceof EmptyCommand) {
@@ -107,10 +110,7 @@ public class MainServlet extends HttpServlet {
 
 
 todo просмотреть все команды по порядку (посмотреть как обрабатываются ошибки - пробросить все наверх)
- доделать пагинацию на главной странице, проверить как работает
  валидация
-
-todo last command - добавить атт и обрабатывать
 todo - заменить кнопки на input"ы с соответствующими названиями и параметрами
  посмотреть где пропущена интернационализация на страницах (стр ошибок)
 

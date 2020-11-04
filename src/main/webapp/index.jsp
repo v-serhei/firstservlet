@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>index jsp</title>
-    <meta http-equiv="refresh" content="0;URL=${pageContext.request.contextPath}/mainpage?action=main_page" />
+    <meta http-equiv="refresh" content="0;URL=${pageContext.request.contextPath}/do/main" />
 </head>
 <body>
 

@@ -71,7 +71,7 @@ public class MainPageCommand implements Command {
         content.addSessionAttribute(AttributeName.SONG_SEARCH_COUNT_RESULT, totalContentCount);
         //add filter value
         content.addSessionAttribute(AttributeName.SONG_FILTER, filter);
-        return new CommandResult(PagePath.MAIN_PAGE, true);
+        return new CommandResult(PagePath.FORWARD_MAIN_PAGE, false);
     }
 
     private CommandResult updateFilteredContent(SongFilter filter, SessionRequestContent content) throws CommandException {
@@ -90,6 +90,6 @@ public class MainPageCommand implements Command {
         content.addSessionAttribute(AttributeName.SONG_CONTENT, pageContent);
         //add result count:
         content.addSessionAttribute(AttributeName.SONG_SEARCH_COUNT_RESULT, totalContentCount);
-        return new CommandResult(PagePath.MAIN_PAGE, false);
+        return new CommandResult(PagePath.FORWARD_MAIN_PAGE, false);
     }
 }

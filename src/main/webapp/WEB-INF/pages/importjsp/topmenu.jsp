@@ -10,20 +10,20 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: #e3f2fd">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/mainpage?action=main_page"><fmt:message key="main.menu.home"/></a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/do/main"><fmt:message key="main.menu.home"/></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/compilation?action=compilation_page"><fmt:message key="main.menu.compilation"/></a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/do/compilations"><fmt:message key="main.menu.compilation"/></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/review?action=review_page"><fmt:message key="review.page.btn"/></a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/do/reviews"><fmt:message key="review.page.btn"/></a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <div class="btn-group btn-group-sm" role="group">
 
                     <%--delete this--%>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/admin?action=admin_page">admin menu</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/do/admin">admin menu</a>
 
                     <c:choose>
                         <c:when test="${sessionScope.user.loginStatus}">
@@ -35,9 +35,9 @@
                                     ${sessionScope.user.userName}!
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/logout?action=logout"><fmt:message key="user.menu.logout"/> </a>
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/profile?action=profile_page"><fmt:message key="user.menu.profile"/></a>
-                                <a class="dropdown-item bg-light" href="${pageContext.request.contextPath}/admin?action=admin_page"><fmt:message key="user.menu.adminpage"/></a>
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/do/process_logout"><fmt:message key="user.menu.logout"/> </a>
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/do/profile"><fmt:message key="user.menu.profile"/></a>
+                                <a class="dropdown-item bg-light" href="${pageContext.request.contextPath}/do/admin"><fmt:message key="user.menu.adminpage"/></a>
                             </div>
                         </c:when>
                         <c:otherwise>
@@ -49,10 +49,10 @@
                                 <fmt:message key="user.menu.default.name"/>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/login?action=login_page"><fmt:message
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/do/login"><fmt:message
                                         key="user.menu.login"/></a>
                                 <a class="dropdown-item"
-                                   href="${pageContext.request.contextPath}/register?action=register_page"><fmt:message
+                                   href="${pageContext.request.contextPath}/do/registration"><fmt:message
                                         key="user.menu.registration"/></a>
                             </div>
                         </c:otherwise>

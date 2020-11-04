@@ -10,7 +10,7 @@ public class CompilationFilter extends ContentFilter {
     private String compilationType;
 
     public CompilationFilter() {
-        super(ContentType.SONG_COMPILATION, AttributeValue.DEFAULT_PAGE_NUMBER, AttributeValue.COMPILATION_PAGE_REVIEW_PER_PAGE);
+        super(ContentType.COMPILATION, AttributeValue.DEFAULT_PAGE_NUMBER, AttributeValue.COMPILATION_PAGE_REVIEW_PER_PAGE);
         setCompilationTitle(EMPTY_PARAMETER);
         setCompilationType(EMPTY_PARAMETER);
     }

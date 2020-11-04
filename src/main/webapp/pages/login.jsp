@@ -10,7 +10,7 @@
 <c:import url="../WEB-INF/pages/importjsp/topmenu.jsp"/>
 <div id="login-main-container">
     <div id="login-controls-group">
-        <form action="${pageContext.request.contextPath}/login" method="post">
+        <form action="${pageContext.request.contextPath}/do/process_login" method="post">
             <div id="login-input-items">
                 <h4 id="login-label"><fmt:message key="login.mainlabel"/></h4>
                 <div class="form-group">
@@ -30,7 +30,6 @@
                 </div>
             </c:if>
             <div id="login-submit">
-                <input type="hidden" class="btn btn-light" name="action" value="login"/>
                 <input type="submit" class="btn btn-light" name="confirm" value="<fmt:message key="login.confirm.button"/>">
             </div>
         </form>

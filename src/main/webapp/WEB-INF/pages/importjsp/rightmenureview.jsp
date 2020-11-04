@@ -9,9 +9,9 @@
     </span>
 
     <div class="song-searching-controls">
-        <form action="${pageContext.request.contextPath}/review" method="get">
+        <form action="${pageContext.request.contextPath}/do/reviews/search" method="get">
             <c:set var="filter" value="${sessionScope.reviewFilter}"/>
-            <input type="hidden" name="action" value="search_review"/>
+            <input type="hidden" name="contentType" value="${filter.contentType}"/>
             <input type="hidden" name="filtered" value="true"/>
             <label for="song-name-input" class="search-label search-block-item">
                 <fmt:message key="review.search.input.label"/>
@@ -39,7 +39,7 @@
         <input type="hidden" name="filtered" value="false"/>
         <div class="cancel-filter">
             <a class="btn btn-sm bg-light"
-            href="${pageContext.request.contextPath}/review?action=review_page"><fmt:message key="filter.reset.btn"/> </a>
+            href="${pageContext.request.contextPath}/do/reviews"><fmt:message key="filter.reset.btn"/> </a>
         </div>
     </form>
 

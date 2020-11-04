@@ -30,7 +30,7 @@ public class RegisterCommand implements Command {
             isUserInputsIncorrect = true;
         }
         if (isUserInputsIncorrect) {
-            result = new CommandResult(PagePath.REGISTRATION_PAGE, false);
+            result = new CommandResult(PagePath.FORWARD_REGISTRATION_PAGE, false);
         } else {
             UserBuilder builder = new UserBuilderImpl();
             builder.setUserName(userName);
@@ -38,14 +38,13 @@ public class RegisterCommand implements Command {
             User registeredUser = builder.buildUser();
             try {
                 UserServiceImpl.INSTANCE.addRegisteredUser(registeredUser, UserServiceImpl.INSTANCE.getHashedPassword(firstPassword));
-                result = new CommandResult(PagePath.LOGIN_PAGE, true);
+                result = new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
             } catch (ServiceException e) {
                 content.addSessionAttribute(AttributeName.COMMAND_ERROR_MESSAGE, AttributeValue.DEFAULT_COMMAND_ERROR_MESSAGE);
                 content.addSessionAttribute(AttributeName.REQUESTED_URL, content.getRequest().getRequestURI());
                 throw new CommandException("RegisterCommand: error while adding user to data base");
             }
         }
-        //todo сбрасывать фильтр
         return result;
     }
 

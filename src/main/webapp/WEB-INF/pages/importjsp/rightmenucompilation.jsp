@@ -8,9 +8,9 @@
                 <fmt:message key="compilation.search.header"/>
             </span>
     <div class="song-searching-controls">
-        <form action="${pageContext.request.contextPath}/mainpage" method="get">
+        <form action="${pageContext.request.contextPath}/do/compilations/search" method="get">
             <c:set var="filter" value="${sessionScope.compilationFilter}"/>
-            <input type="hidden" name="action" value="search_compilation"/>
+            <input type="hidden" name="contentType" value="${filter.contentType}"/>
             <input type="hidden" name="filtered" value="true"/>
             <label for="song-name-input" class="search-label search-block-item">
                 <fmt:message key="compilation.search.input.label"/>
@@ -55,7 +55,7 @@
             <input type="hidden" name="filtered" value="false"/>
             <div class="cancel-filter">
                 <a class="btn btn-sm bg-light"
-                   href="${pageContext.request.contextPath}/compilation?action=compilation_page"><fmt:message
+                   href="${pageContext.request.contextPath}/do/compilations"><fmt:message
                         key="filter.reset.btn"/> </a>
             </div>
         </form>

@@ -15,7 +15,7 @@ public class BasketAddCommand implements Command {
         User user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
         String lastPage = content.getRequestParameter(ParameterName.PAGE_MARK);
         if (lastPage == null || lastPage.isEmpty()) {
-            lastPage = PagePath.MAIN_PAGE_REDIRECT;
+            lastPage = PagePath.REDIRECT_MAIN_PAGE;
         }
         CommandResult result;
         if (user.getLoginStatus()) {
@@ -23,7 +23,7 @@ public class BasketAddCommand implements Command {
             user.getBasket().addSong(songId);
             result = new CommandResult(lastPage, true);
         }else {
-            result = new CommandResult(PagePath.LOGIN_PAGE, true);
+            result = new CommandResult(PagePath.FORWARD_LOGIN_PAGE, true);
         }
         return result;
     }

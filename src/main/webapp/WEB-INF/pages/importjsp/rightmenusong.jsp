@@ -8,9 +8,9 @@
                 <fmt:message key="song.search.header"/>
             </span>
     <div class="song-searching-controls">
-        <form action="${pageContext.request.contextPath}/mainpage" method="get">
+        <form action="${pageContext.request.contextPath}/do/main/search" method="get">
             <c:set var="filter" value="${sessionScope.songFilter}"/>
-            <input type="hidden" name="action" value="search_song"/>
+            <input type="hidden" name="contentType" value="${filter.contentType}"/>
             <input type="hidden" name="filtered" value="true"/>
             <label for="song-name-input" class="search-label search-block-item">
                 <fmt:message key="song.search.input.label"/>
@@ -70,7 +70,7 @@
             <input type="hidden" name="filtered" value="false"/>
             <div class="cancel-filter">
                 <a class="btn btn-sm bg-light"
-                   href="${pageContext.request.contextPath}/mainpage?action=main_page"><fmt:message
+                   href="${pageContext.request.contextPath}/do/main"><fmt:message
                         key="filter.reset.btn"/> </a>
             </div>
         </form>

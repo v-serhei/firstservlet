@@ -27,12 +27,12 @@ public class ReviewPageCommand implements Command {
             filter = (ReviewFilter) content.getSessionAttribute(AttributeName.REVIEW_FILTER);
             fillReviewFilter(filter, songTitle);
             generateContent(filter, content);
-            return new CommandResult(PagePath.REVIEW_PAGE, false);
+            return new CommandResult(PagePath.FORWARD_REVIEW_PAGE, false);
         } else {
             filter = new ReviewFilter();
             fillReviewFilter(filter, songTitle);
             generateContent(filter, content);
-            return new CommandResult(PagePath.REVIEW_PAGE, true);
+            return new CommandResult(PagePath.FORWARD_REVIEW_PAGE, false);
         }
     }
 

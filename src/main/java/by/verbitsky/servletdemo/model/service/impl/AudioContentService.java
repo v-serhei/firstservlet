@@ -74,7 +74,7 @@ public enum AudioContentService implements ContentService {
 
     @Override
     public List<String> findContentProperties(ContentType contentType) throws ServiceException {
-        if (contentType == ContentType.SONG_COMPILATION) {
+        if (contentType == ContentType.COMPILATION) {
             ContentDao dao = new CompilationDao();
             ProxyConnection connection = askConnectionFromPool();
             try {
@@ -128,7 +128,7 @@ public enum AudioContentService implements ContentService {
                 dao = new ReviewDaoImpl();
                 break;
             }
-            case SONG_COMPILATION: {
+            case COMPILATION: {
                 dao = new CompilationDao();
                 break;
             }

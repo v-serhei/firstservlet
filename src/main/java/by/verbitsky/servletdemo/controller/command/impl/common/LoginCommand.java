@@ -21,7 +21,7 @@ public class LoginCommand implements Command {
         //check user data input
         if (!FieldDataValidator.validateUserName(userName) && !FieldDataValidator.validateUserPassword(password)) {
             content.addRequestAttribute(AttributeName.LOGIN_FAILED, loginFail);
-            result = new CommandResult(PagePath.LOGIN_PAGE, false);
+            result = new CommandResult(PagePath.FORWARD_LOGIN_PAGE, false);
             return result;
         }
         //searching user in db and return auth result
@@ -35,13 +35,13 @@ public class LoginCommand implements Command {
                     user.get().setLoginStatus(true);
                     user.get().initBasket();
                     content.addSessionAttribute(AttributeName.SESSION_USER, user.get());
-                    result = new CommandResult(PagePath.MAIN_PAGE_REDIRECT, true);
+                    result = new CommandResult(PagePath.REDIRECT_MAIN_PAGE, true);
                     loginFail = false;
                 } else {
-                    result = new CommandResult(PagePath.LOGIN_PAGE, false);
+                    result = new CommandResult(PagePath.FORWARD_LOGIN_PAGE, false);
                 }
             } else {
-                result = new CommandResult(PagePath.LOGIN_PAGE, false);
+                result = new CommandResult(PagePath.FORWARD_LOGIN_PAGE, false);
             }
         } catch (ServiceException e) {
             throw new CommandException("LoginCommand: execution error", e);

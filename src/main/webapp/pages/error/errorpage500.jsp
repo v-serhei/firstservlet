@@ -11,7 +11,7 @@
             <h2 class="text-center">Server Error!</h2>
             <div class="error-stack-trace">
                 <br/>
-                <h4 class="text-center"> Received exception while processing user request: </h4>
+                <h4 class="text-center"> Received error while processing user request: </h4>
                 <h5 class="text-center"> ${pageContext.errorData.requestURI}</h5>
                 <br/>
                 <h4 class="text-center"> Error code: </h4>

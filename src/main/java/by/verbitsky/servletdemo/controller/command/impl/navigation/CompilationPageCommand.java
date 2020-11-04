@@ -48,7 +48,7 @@ public class CompilationPageCommand implements Command {
         try {
             totalContentCount = service.calculateItemsCount(filter);
             pageContent = service.findFilteredContent(filter);
-            compilationTypes = service.findContentProperties(ContentType.SONG_COMPILATION);
+            compilationTypes = service.findContentProperties(ContentType.COMPILATION);
             for (AudioContent item : pageContent) {
                 SongFilter songFilter = new SongFilter();
                 songFilter.setCompilationId(item.getId());
@@ -71,7 +71,7 @@ public class CompilationPageCommand implements Command {
         content.addSessionAttribute(AttributeName.COMPILATION_SEARCH_COUNT_RESULT, totalContentCount);
         //add filter value
         content.addSessionAttribute(AttributeName.COMPILATION_FILTER, filter);
-        return new CommandResult(PagePath.COMPILATION_PAGE, true);
+        return new CommandResult(PagePath.FORWARD_COMPILATION_PAGE, false);
     }
 
     private CommandResult updateFilteredContent(CompilationFilter filter, SessionRequestContent content) throws CommandException {
@@ -95,6 +95,6 @@ public class CompilationPageCommand implements Command {
         content.addSessionAttribute(AttributeName.COMPILATION_CONTENT, pageContent);
         //add result count:
         content.addSessionAttribute(AttributeName.COMPILATION_SEARCH_COUNT_RESULT, totalContentCount);
-        return new CommandResult(PagePath.COMPILATION_PAGE, false);
+        return new CommandResult(PagePath.FORWARD_COMPILATION_PAGE, false);
     }
 }

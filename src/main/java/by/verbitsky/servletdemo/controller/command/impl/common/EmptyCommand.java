@@ -12,6 +12,6 @@ public class EmptyCommand implements Command {
     public CommandResult execute(SessionRequestContent content) {
         content.addSessionAttribute(AttributeName.COMMAND_ERROR_MESSAGE, AttributeValue.EMPTY_COMMAND_ERROR_MESSAGE);
         content.addSessionAttribute(AttributeName.REQUESTED_URL, content.getRequest().getRequestURI());
-        return new CommandResult(PagePath.ERROR_PAGE, true);
+        return new CommandResult(PagePath.FORWARD_ERROR_PAGE, true);
     }
 }

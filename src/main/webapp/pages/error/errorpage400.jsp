@@ -11,12 +11,12 @@
             <h2 class="text-center">Client error!</h2>
             <div class="error-stack-trace">
                 <br/>
-                <h4 class="text-center"> Received exception while processing user request: </h4>
+                <h4 class="text-center"> Received error while processing user request: </h4>
                 <h5 class="text-center"> ${pageContext.errorData.requestURI}</h5>
                 <br/>
                 <h4 class="text-center"> Error code: </h4>
                 <h5 class="text-center"> ${pageContext.errorData.statusCode}</h5>
-                <h5 class="text-center"> Requested resource not available</h5>
+                <h5 class="text-center"> Requested resource not available or you don't have enough permissions </h5>
             </div>
         </div>
     </div>

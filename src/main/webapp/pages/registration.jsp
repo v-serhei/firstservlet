@@ -10,10 +10,9 @@
 <c:import url="../WEB-INF/pages/importjsp/topmenu.jsp"/>
 <div id="reg-main-container">
     <div id="reg-controls-group">
-        <form action="${pageContext.request.contextPath}/register" method="post">
+        <form action="${pageContext.request.contextPath}/do/process_registration" method="post">
             <div id="reg-input-items">
                 <h4 id="reg-label"><fmt:message key="reg.mainlabel"/></h4>
-
                 <c:if test="${requestScope.regWrongName}">
                     <div id="reg-error-div">
                         <span class="reg-error-span"><fmt:message key="reg.error.message.wrong.name"/></span>
@@ -69,7 +68,7 @@
             </div>
 
             <div id="reg-submit">
-                <button type="submit" class="btn btn-light" name="action" value="REGISTER">
+                <button type="submit" class="btn btn-light" name="register">
                     <fmt:message key="reg.confirm.button"/>
                 </button>
             </div>
