@@ -18,8 +18,6 @@ import java.io.IOException;
 @WebServlet(name = "MainServlet", urlPatterns = "/do/*")
 @SuppressWarnings("serial")
 public class MainServlet extends HttpServlet {
-    private static final int PAGE_NOT_FOUND_STATUS_CODE = 404;
-    private static final int SERVER_ERROR_CODE = 500;
     private final Logger logger = LogManager.getLogger();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,7 +31,7 @@ public class MainServlet extends HttpServlet {
     private void processUserRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Command command = CommandProvider.defineCommand(request.getRequestURI());
         if (command instanceof EmptyCommand) {
-            response.sendError(PAGE_NOT_FOUND_STATUS_CODE);
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
         } else {
             CommandResult result;
             try {
@@ -52,12 +50,10 @@ public class MainServlet extends HttpServlet {
             } catch (CommandException e) {
                 logger.log(Level.WARN, generateLogMessage(e));
                 request.setAttribute(AttributeName.REQUESTED_URL, request.getRequestURL());
-                response.sendError(SERVER_ERROR_CODE);
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         }
     }
-
-
 
     private String generateLogMessage(CommandException e) {
         StringBuilder sb = new StringBuilder();
