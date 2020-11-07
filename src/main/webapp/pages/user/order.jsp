@@ -9,11 +9,8 @@
 <c:import url="/WEB-INF/pages/importjsp/topmenu.jsp"/>
 <div id="main-body-container">
     <div id="body-container">
-        <%--add if block for present songs albums or compilations--%>
-        <c:import url="/WEB-INF/pages/importjsp/compilationcontent.jsp"/>
-        <c:import url="/WEB-INF/pages/importjsp/rightmenucompilation.jsp"/>
+       <c:import url="/WEB-INF/pages/importjsp/oredercontent.jsp"/>
     </div>
-
 </div>
 <c:import url="/WEB-INF/pages/importjsp/footer.jsp"/>
 </body>

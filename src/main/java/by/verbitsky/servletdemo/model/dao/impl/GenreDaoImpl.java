@@ -48,7 +48,7 @@ public class GenreDaoImpl extends AbstractDao implements ContentDao {
     }
 
     @Override
-    public boolean update(long id, AudioContent entity) {
+    public boolean update(AudioContent entity) {
         return false;
     }
 

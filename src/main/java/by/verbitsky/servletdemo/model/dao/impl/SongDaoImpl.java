@@ -169,7 +169,7 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
     }
 
     @Override
-    public boolean update(long id, AudioContent entity) {
+    public boolean update(AudioContent entity) {
         return false;
     }
 
@@ -205,7 +205,6 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
     private List<AudioContent> findSongByItemId(long itemId, String query) throws DaoException {
         List <AudioContent> result;
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-        //try (PreparedStatement statement = connection.prepareStatement(SELECT_SONGS_BY_COMPILATION_ID)) {
             statement.setLong(1, itemId);
             ResultSet resultSet = statement.executeQuery();
             result = factory.createContentList(resultSet, ContentType.SONG);

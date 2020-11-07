@@ -12,5 +12,5 @@ public interface UserDao extends BaseDao <User> {
 
     Optional <String> findUserPassword (String userName) throws DaoException;
 
-    void updateUserPassword (User user, String password) throws DaoException;
+    boolean updateUserPassword (User user, String password) throws DaoException;
 }

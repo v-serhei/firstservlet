@@ -20,18 +20,16 @@ public class Singer extends AudioContent {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (this.getClass() != o.getClass()) return false;
         if (o == null) return false;
+        if (this.getClass() != o.getClass()) return false;
         Singer singer = (Singer) o;
 
-        if (getId() != singer.getId()) return false;
-        return singerName.equals(singer.singerName);
+        return getId() == singer.getId();
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (getId() ^ (getId() >>> 32));
-        result = 31 * result + singerName.hashCode();
-        return result;
+
+        return (int) (getId() ^ (getId() >>> 32));
     }
 }

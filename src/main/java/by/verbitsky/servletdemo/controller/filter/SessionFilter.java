@@ -21,6 +21,7 @@ public class SessionFilter implements Filter {
         HttpSession session = request.getSession(true);
         processNewSession(session);
         session.setAttribute(AttributeName.SESSION_USER_LAST_QUERY, constructQuery(request));
+
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

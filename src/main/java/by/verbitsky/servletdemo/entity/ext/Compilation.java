@@ -5,6 +5,7 @@ import by.verbitsky.servletdemo.entity.AudioContent;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Compilation extends AudioContent {
@@ -26,11 +27,7 @@ public class Compilation extends AudioContent {
     }
 
     public List<Song> getSongList() {
-        return songList;
-    }
-
-    public void setSongList(List<Song> songList) {
-        this.songList = songList;
+        return Collections.unmodifiableList(songList);
     }
 
     public String getCompilationType() {
@@ -66,22 +63,15 @@ public class Compilation extends AudioContent {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (this.getClass() != o.getClass()) return false;
         if (o == null) return false;
+        if (this.getClass() != o.getClass()) return false;
 
         Compilation compilation = (Compilation) o;
-
-        if (getId() != compilation.getId()) return false;
-        if (!compilationTitle.equals(compilation.compilationTitle)) return false;
-        if (!compilationType.equals(compilation.compilationType)) return false;
-        return compilationCreationDate.equals(compilation.compilationCreationDate);
+        return getId() != compilation.getId();
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (getId() ^ (getId() >>> 32));
-        result = 31 * result + compilationType.hashCode();
-        result = 31 * result + compilationCreationDate.hashCode();
-        return result;
+        return (int) (getId() ^ (getId() >>> 32));
     }
 }

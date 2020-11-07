@@ -20,19 +20,14 @@ public class Genre extends AudioContent {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (this.getClass() != o.getClass()) return false;
         if (o == null) return false;
+        if (this.getClass() != o.getClass()) return false;
 
-        Genre genre = (Genre) o;
-
-        if (getId() != genre.getId()) return false;
-        return genreName.equals(genre.genreName);
+        return getId() == ((Genre)o).getId();
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (getId() ^ (getId() >>> 32));
-        result = 31 * result + genreName.hashCode();
-        return result;
+        return (int) (getId() ^ (getId() >>> 32));
     }
 }

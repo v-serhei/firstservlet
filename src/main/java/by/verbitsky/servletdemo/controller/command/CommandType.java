@@ -1,8 +1,10 @@
 package by.verbitsky.servletdemo.controller.command;
 
-import by.verbitsky.servletdemo.controller.command.impl.*;
+import by.verbitsky.servletdemo.controller.command.impl.AdminPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.ProfilePageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.common.*;
 import by.verbitsky.servletdemo.controller.command.impl.navigation.*;
+import by.verbitsky.servletdemo.controller.command.impl.user.*;
 
 public enum CommandType {
 
@@ -16,11 +18,7 @@ public enum CommandType {
     COMPILATIONS(new CompilationPageCommand()),
     NEXT_PAGE(new NextPageCommand()),
 
-
-
-    //user commands
-    BASKET_ADD(new BasketAddCommand()),
-    BASKET_REMOVE(new BasketRemoveCommand()),
+    //common commands
     PROCESS_LOGIN(new LoginCommand()),
     PROCESS_LOGOUT(new LogoutCommand()),
     PROCESS_REGISTRATION(new RegisterCommand()),
@@ -28,10 +26,16 @@ public enum CommandType {
     RU(new LanguageCommand()),
     EN(new LanguageCommand()),
 
-    //admin commands
+    //user commands
+    BASKET_ADD(new BasketAddCommand()),
+    BASKET_REMOVE(new BasketRemoveCommand()),
+    SONG_REMOVE(new OrderRemoveSongCommand()),
+    ORDER(new OrderPageCommand()),
+    PAY_ORDER(new PayOrderCommand()),
+    CREATE_ORDER(new CreateOrderCommand());
 
-    //need fix:
-    ORDER_PAGE(new OrderPageCommand());//todo
+
+    //admin commands
 
 
 

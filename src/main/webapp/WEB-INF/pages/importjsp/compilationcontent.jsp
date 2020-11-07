@@ -70,7 +70,7 @@
                                    data-toggle="tooltip" data-placement="top"
                                    title="<fmt:message key="song.controls.hint.get.review"/>">
                         </form>
-                        <form action="${pageContext.request.contextPath}/do/order" method="get">
+                        <form action="${pageContext.request.contextPath}/do/create_order" method="get">
                             <input type="submit" class="btn btn-sm song-content-controls"
                                    style="background-image: url('${pageContext.request.contextPath}/resources/img/order.png')"
                                    alt="Create order" value=""

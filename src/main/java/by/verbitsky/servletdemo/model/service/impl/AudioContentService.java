@@ -45,7 +45,6 @@ public enum AudioContentService implements ContentService {
         ProxyConnection connection = askConnectionFromPool();
         ContentDao dao = defineDaoByContentType(type);
         try (Transaction transaction = new Transaction(connection)) {
-            dao.setConnection(connection);
             transaction.processSimpleQuery(dao);
             result = dao.findAll();
         } catch (DaoException e) {
@@ -63,7 +62,6 @@ public enum AudioContentService implements ContentService {
         Optional<AudioContent> result;
         try (Transaction transaction = new Transaction(connection)) {
             ContentDao dao = defineDaoByContentType(type);
-            dao.setConnection(connection);
             transaction.processSimpleQuery(dao);
             result = dao.findEntityById(id);
         } catch (DaoException e) {
@@ -77,8 +75,8 @@ public enum AudioContentService implements ContentService {
         if (contentType == ContentType.COMPILATION) {
             ContentDao dao = new CompilationDao();
             ProxyConnection connection = askConnectionFromPool();
-            try {
-                dao.setConnection(connection);
+            try (Transaction transaction = new Transaction(connection)){
+                transaction.processSimpleQuery(dao);
                 return dao.findContentProperties ();
             } catch (DaoException e) {
                 throw new ServiceException("AudioContentService: findContentProperties: error while receiving properties from db");
@@ -98,7 +96,6 @@ public enum AudioContentService implements ContentService {
         ProxyConnection connection = askConnectionFromPool();
         try (Transaction transaction = new Transaction(connection)) {
             long offset = filter.getPageNumber() * filter.getItemPerPage() - filter.getItemPerPage();
-            dao.setConnection(connection);
             transaction.processSimpleQuery(dao);
             result = dao.findFilteredContent(offset, filter.getItemPerPage(), filter);
         } catch (DaoException e) {

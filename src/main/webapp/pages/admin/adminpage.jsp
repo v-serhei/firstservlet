@@ -7,7 +7,7 @@
 <html>
 <c:import url="/WEB-INF/pages/importjsp/header.jsp"/>
 <body>
-<c:import url="../../WEB-INF/pages/importjsp/topmenu.jsp"/>
+<c:import url="/WEB-INF/pages/importjsp/topmenu.jsp"/>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/adminka.js"></script>
 
 <div id="main-body-container">

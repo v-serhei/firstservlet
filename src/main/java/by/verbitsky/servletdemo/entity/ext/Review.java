@@ -53,21 +53,18 @@ public class Review extends AudioContent {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (this.getClass() != o.getClass()) return false;
         if (o == null) return false;
+        if (this.getClass() != o.getClass()) return false;
         Review review = (Review) o;
+        if (getSongId() != ((Review) o).getSongId()) return false;
 
-        if(getSongId() != ((Review) o).getSongId()) return false;
-        if (!reviewText.equals(review.reviewText)) return false;
-        if (!songTitle.equals(review.songTitle)) return false;
-        return userName.equals(review.userName);
+        return getId() == review.getId();
     }
 
     @Override
     public int hashCode() {
         int result = (int) (getId() ^ (getId() >>> 32));
-        result = 31 * result + songTitle.hashCode();
-        result = 31 * result + userName.hashCode();
+        result = 31 * result + (int) getSongId();
         return result;
     }
 }

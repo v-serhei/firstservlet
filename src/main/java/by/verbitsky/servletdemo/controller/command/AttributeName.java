@@ -7,13 +7,13 @@ public class AttributeName {
      */
     public static final String SESSION_USER = "user";
     public static final String SESSION_LOCALE = "locale";
-    public static final String SESSION_LAST_COMMAND = "lastCommand";
     public static final String SESSION_USER_LAST_QUERY = "lastUri";
+    public static final String SESSION_CURRENT_ORDER = "currentOrder";
 
     /**
      * Request attributes
      */
-    public static final String ADMIN_PAGE_ACCESS_DENIED = "admin.page.request.error";
+    public static final String ADMIN_PAGE_ACCESS_DENIED = "access.violation.message";
     public static final String LOGIN_FAILED = "loginFail";
     public static final String REGISTRATION_WRONG_NAME = "regWrongName";
     public static final String REGISTRATION_EXIST_NAME = "regExistName";
@@ -22,6 +22,12 @@ public class AttributeName {
     public static final String REGISTRATION_WRONG_EMAIL = "regWrongEmail";
     public static final String REGISTRATION_EXIST_EMAIL = "regExistEmail";
 
+    //attributes for result page
+    public static final String OPERATION_TYPE = "operationType";
+    public static final String OPERATION_RESULT = "operationResult";
+    public static final String OPERATION_MESSAGE = "operationMessage";
+    public static final String OPERATION_BUTTON_CAPTION = "btnCaptionValue";
+    public static final String OPERATION_BUTTON_LINK = "btnLinkValue";
     /**
      * Content attributes
      */
@@ -30,26 +36,28 @@ public class AttributeName {
     public static final String SONG_FILTER = "songFilter";
     public static final String SONG_TOTAL_PAGE_COUNT = "songTotalPageCount";
     public static final String SONG_SEARCH_COUNT_RESULT = "songContentCount";
-
+    //compilation content
     public static final String COMPILATION_CONTENT = "compilationContentList";
     public static final String COMPILATION_CONTROLS_LINK = "compilationLinkValue";
     public static final String COMPILATION_FILTER = "compilationFilter";
     public static final String COMPILATION_TOTAL_PAGE_COUNT = "compilationTotalPageCount";
     public static final String COMPILATION_SEARCH_COUNT_RESULT = "compilationContentCount";
     public static final String COMPILATION_TYPES_LIST = "compilationTypeList";
-
-
-
+    //review content
     public static final String ADDITIONAL_CONTENT_SONGS = "reviewSongList";
     public static final String REVIEW_CONTENT = "reviewContentList";
     public static final String REVIEW_CONTROLS_LINK = "reviewLinkValue";
     public static final String REVIEW_FILTER = "reviewFilter";
     public static final String REVIEW_TOTAL_PAGE_COUNT = "reviewTotalPageCount";
     public static final String REVIEW_SEARCH_COUNT_RESULT = "reviewContentCount";
-
+    //additional song content
     public static final String SINGER_LIST = "singerList";
     public static final String GENRE_LIST = "genreList";
-    //search count result
+    //order request  attributes
+    public static final String ORDER = "requestedOrder";
+    public static final String SHOW_ORDER_CONTROLS = "enableOrderControls";
+
+
 
     /**
      * Attribute names for error page

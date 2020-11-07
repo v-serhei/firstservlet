@@ -1,6 +1,7 @@
 package by.verbitsky.servletdemo.entity;
 
 public class User {
+    private long userId;
     private String userName;
     private String email;
     private int discount;
@@ -10,6 +11,14 @@ public class User {
     private Basket basket;
 
     public User() {
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -70,14 +79,15 @@ public class User {
         return basket;
     }
 
-    public void initBasket () {
+    public void initBasket() {
         basket = new Basket();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
+        if (o == null) return false;
+        if (this.getClass() != o.getClass()) return false;
 
         User user = (User) o;
         return userName != null ? userName.equals(user.userName) : user.userName == null;
@@ -85,7 +95,9 @@ public class User {
 
     @Override
     public int hashCode() {
-        return userName != null ? userName.hashCode() : 0;
+        int result = (int) (userId ^ userId >>> 32);
+        result = 31 * result + (userName != null ? userName.hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -100,7 +112,7 @@ public class User {
         sb.append(", isBlocked=");
         if (blockedStatus > 0) {
             sb.append("true");
-        }else {
+        } else {
             sb.append("false");
         }
         sb.append(", personal discount=");

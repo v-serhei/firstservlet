@@ -3,8 +3,6 @@ package by.verbitsky.servletdemo.controller.command.impl.common;
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.controller.command.*;
 import by.verbitsky.servletdemo.entity.User;
-import by.verbitsky.servletdemo.entity.UserBuilder;
-import by.verbitsky.servletdemo.entity.impl.UserBuilderImpl;
 import by.verbitsky.servletdemo.exception.CommandException;
 import by.verbitsky.servletdemo.exception.ServiceException;
 import by.verbitsky.servletdemo.model.service.impl.UserServiceImpl;
@@ -32,17 +30,16 @@ public class RegisterCommand implements Command {
         if (isUserInputsIncorrect) {
             result = new CommandResult(PagePath.FORWARD_REGISTRATION_PAGE, false);
         } else {
-            UserBuilder builder = new UserBuilderImpl();
-            builder.setUserName(userName);
-            builder.setEmail(userEmail);
-            User registeredUser = builder.buildUser();
+            User registeredUser = new User();
+            registeredUser.setUserName(userName);
+            registeredUser.setEmail(userEmail);
             try {
                 UserServiceImpl.INSTANCE.addRegisteredUser(registeredUser, UserServiceImpl.INSTANCE.getHashedPassword(firstPassword));
                 result = new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
             } catch (ServiceException e) {
                 content.addSessionAttribute(AttributeName.COMMAND_ERROR_MESSAGE, AttributeValue.DEFAULT_COMMAND_ERROR_MESSAGE);
                 content.addSessionAttribute(AttributeName.REQUESTED_URL, content.getRequest().getRequestURI());
-                throw new CommandException("RegisterCommand: error while adding user to data base");
+                throw new CommandException("RegisterCommand: error while adding user to data base", e);
             }
         }
         return result;
@@ -54,7 +51,7 @@ public class RegisterCommand implements Command {
             result = UserServiceImpl.INSTANCE.findUserByName(userName);
             content.addRequestAttribute(AttributeName.REGISTRATION_EXIST_NAME, result.isPresent());
         } catch (ServiceException e) {
-            throw new CommandException("RegisterCommand: unable to check user data");
+            throw new CommandException("RegisterCommand: unable to check user data", e);
         }
         return result.isPresent();
     }
@@ -65,7 +62,7 @@ public class RegisterCommand implements Command {
             result = UserServiceImpl.INSTANCE.isExistEmail(userEmail);
             content.addRequestAttribute(AttributeName.REGISTRATION_EXIST_EMAIL, result);
         } catch (ServiceException e) {
-            throw new CommandException("RegisterCommand: unable to check user data");
+            throw new CommandException("RegisterCommand: unable to check user data", e);
         }
         return result;
     }

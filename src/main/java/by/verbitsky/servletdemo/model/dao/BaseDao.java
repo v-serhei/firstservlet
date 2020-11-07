@@ -13,7 +13,7 @@ public interface BaseDao<E> {
 
     Optional <E> findEntityById(Long id) throws DaoException;
 
-    boolean update(long id, E entity);
+    boolean update(E entity) throws DaoException;
 
     boolean delete(Long id) throws DaoException;
 

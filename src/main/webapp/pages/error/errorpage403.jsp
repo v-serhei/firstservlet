@@ -4,7 +4,7 @@
 <html>
 <c:import url="/WEB-INF/pages/importjsp/header.jsp"/>
 <body>
-<c:import url="../../WEB-INF/pages/importjsp/topmenu.jsp"/>
+<c:import url="/WEB-INF/pages/importjsp/topmenu.jsp"/>
 <div id="main-body-container">
     <div id="body-container">
         <div class="error-page-content">

@@ -4,17 +4,16 @@
 
 <!DOCTYPE html>
 <html>
-<c:import url="../WEB-INF/pages/importjsp/header.jsp"/>
+<c:import url="/WEB-INF/pages/importjsp/header.jsp"/>
 <body>
-<c:import url="../WEB-INF/pages/importjsp/topmenu.jsp"/>
+<c:import url="/WEB-INF/pages/importjsp/topmenu.jsp"/>
 <div id="main-body-container">
     <div id="body-container">
-        <%--add if block for present songs albums or compilations--%>
-        <c:import url="../WEB-INF/pages/importjsp/reviewcontent.jsp"/>
-        <c:import url="../WEB-INF/pages/importjsp/rightmenureview.jsp"/>
+        <c:import url="/WEB-INF/pages/importjsp/reviewcontent.jsp"/>
+        <c:import url="/WEB-INF/pages/importjsp/rightmenureview.jsp"/>
     </div>
 
 </div>
-<c:import url="../WEB-INF/pages/importjsp/footer.jsp"/>
+<c:import url="/WEB-INF/pages/importjsp/footer.jsp"/>
 </body>
 </html>

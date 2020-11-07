@@ -1,8 +1,8 @@
 package by.verbitsky.servletdemo.model.dao.impl;
 
 import by.verbitsky.servletdemo.entity.User;
-import by.verbitsky.servletdemo.entity.UserBuilder;
-import by.verbitsky.servletdemo.entity.impl.UserBuilderImpl;
+import by.verbitsky.servletdemo.entity.UserFactory;
+import by.verbitsky.servletdemo.entity.impl.UserFactoryImpl;
 import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.model.dao.AbstractDao;
 import by.verbitsky.servletdemo.model.dao.UserDao;
@@ -10,43 +10,34 @@ import by.verbitsky.servletdemo.model.dao.UserDao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
 
     private static final String SELECT_ALL_USERS =
-            "SELECT username, email, role_id, blocked_status, discount_value FROM users";
+            "SELECT user_id, username, email, role_id, blocked_status, discount_value FROM users";
     private static final String SELECT_USER_BY_ID =
-            "SELECT username, email, role_id, blocked_status, discount_value FROM users WHERE user_id=?";
+            "SELECT user_id, username, email, role_id, blocked_status, discount_value FROM users WHERE user_id=?";
     private static final String SELECT_USER_BY_EMAIL =
-            "SELECT username, email, role_id, blocked_status, discount_value FROM users WHERE email=?";
+            "SELECT user_id, username, email, role_id, blocked_status, discount_value FROM users WHERE email=?";
     private static final String SELECT_USER_BY_NAME =
-            "SELECT username, password, email, role_id, blocked_status, discount_value FROM users WHERE username=?";
-    private static final String SELECT_DELETE_USER_BY_ID =
+            "SELECT user_id, username, password, email, role_id, blocked_status, discount_value FROM users WHERE username=?";
+    private static final String DELETE_USER_BY_ID =
             "DELETE FROM users WHERE user_id=?";
     private static final String INSERT_USER =
             "INSERT INTO users (`username`, `email`) VALUES (?, ?)";
     private static final String UPDATE_USER_PASSWORD =
             "UPDATE users SET password = ? WHERE username = ?";
 
-    private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
-    private static final String COLUMN_EMAIL = "email";
-    private static final String COLUMN_ROLE = "role_id";
-    private static final String COLUMN_BLOCKED = "blocked_status";
-    private static final String COLUMN_DISCOUNT = "discount_value";
-
+    private UserFactory<User> factory = new UserFactoryImpl();
     @Override
     public List<User> findAll() throws DaoException {
-        List<User> result = new ArrayList<>();
+        List<User> result;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL_USERS)) {
             ResultSet set = statement.executeQuery();
-            while (set.next()) {
-                User user = buildUser(set);
-                result.add(user);
-            }
+            result = factory.createUserList(set);
         } catch (SQLException e) {
             throw new DaoException(e);
         }
@@ -56,21 +47,15 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public Optional<User> findEntityById(Long id) throws DaoException {
         if (id != null) {
-            User user = null;
+            Optional<User> result = Optional.empty();
             try (PreparedStatement statement = connection.prepareStatement(SELECT_USER_BY_ID)) {
                 statement.setLong(1, id);
                 ResultSet set = statement.executeQuery();
                 if (set.next()) {
-                    user = buildUser(set);
+                    result = factory.createUser(set);
                 }
             } catch (SQLException e) {
                 throw new DaoException(e);
-            }
-            Optional<User> result;
-            if (user != null) {
-                result = Optional.of(user);
-            } else {
-                result = Optional.empty();
             }
             return result;
         } else {
@@ -99,7 +84,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public Optional<String> findUserPassword(String userName) throws DaoException {
         String password;
-        Optional<String> result;
+        Optional<String> result = Optional.empty();
         if (userName != null || !userName.isEmpty()) {
             try (PreparedStatement statement = connection.prepareStatement(SELECT_USER_BY_NAME)) {
                 statement.setString(1, userName);
@@ -107,8 +92,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 if (set.next()) {
                     password = set.getString(COLUMN_PASSWORD);
                     result = Optional.of(password);
-                } else {
-                    result = Optional.empty();
                 }
             } catch (SQLException e) {
                 throw new DaoException(e);
@@ -120,7 +103,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public void updateUserPassword(User user, String password) throws DaoException {
+    public boolean updateUserPassword(User user, String password) throws DaoException {
         if (user != null || password != null || !password.isEmpty()) {
             String userName = user.getUserName();
             if (userName != null || !userName.isEmpty()) {
@@ -128,6 +111,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                     statement.setString(1, password);
                     statement.setString(2, userName);
                     statement.executeUpdate();
+                    return true;
                 } catch (SQLException e) {
                     throw new DaoException("Update user password: error while updating user password",e);
                 }
@@ -141,24 +125,28 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public boolean create(User user) throws DaoException {
-        boolean result;
+        boolean result = false;
         if (user != null) {
-            try (PreparedStatement statement = connection.prepareStatement(INSERT_USER)) {
+            try (PreparedStatement statement = connection.prepareStatement(INSERT_USER, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, user.getUserName());
                 statement.setString(2, user.getEmail());
-                statement.executeUpdate();
-                result = true;
+                int count = statement.executeUpdate();
+                if (count > 0) {
+                    ResultSet generatedKeys = statement.getGeneratedKeys();
+                    if (generatedKeys.next()) {
+                        user.setUserId(generatedKeys.getLong(1));
+                        result = true;
+                    }
+                }
             } catch (SQLException e) {
                 throw new DaoException(e);
             }
-        } else {
-            result = false;
         }
         return result;
     }
 
     @Override
-    public boolean update(long id, User entity) {
+    public boolean update(User entity) {
         //todo release this (admin)
         return true;
     }
@@ -167,7 +155,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public boolean delete(Long id) throws DaoException {
         if (id != null) {
             boolean result;
-            try (PreparedStatement statement = connection.prepareStatement(SELECT_DELETE_USER_BY_ID)) {
+            try (PreparedStatement statement = connection.prepareStatement(DELETE_USER_BY_ID)) {
                 statement.setLong(1, id);
                 statement.executeQuery();
                 result = true;
@@ -181,30 +169,16 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     private Optional<User> findUser(String userName, String query) throws DaoException {
-        Optional<User> result;
-        User user;
+        Optional<User> result = Optional.empty();
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, userName);
             ResultSet set = statement.executeQuery();
             if (set.next()) {
-                user = buildUser(set);
-                result = Optional.of(user);
-            } else {
-                result = Optional.empty();
+                result = factory.createUser(set);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
         }
         return result;
-    }
-
-    private User buildUser(ResultSet dbResultSet) throws SQLException {
-        UserBuilder builder = new UserBuilderImpl();
-        builder.setUserName(dbResultSet.getString(COLUMN_USERNAME));
-        builder.setEmail(dbResultSet.getString(COLUMN_EMAIL));
-        builder.setRoleId(Integer.parseInt(dbResultSet.getString(COLUMN_ROLE)));
-        builder.setBlockedStatus(Integer.parseInt(dbResultSet.getString(COLUMN_BLOCKED)));
-        builder.setDiscount(Integer.parseInt(dbResultSet.getString(COLUMN_DISCOUNT)));
-        return builder.buildUser();
     }
 }

@@ -7,7 +7,7 @@
 <html>
 <c:import url="/WEB-INF/pages/importjsp/header.jsp"/>
 <body>
-<c:import url="../../WEB-INF/pages/importjsp/topmenu.jsp"/>
+<c:import url="/WEB-INF/pages/importjsp/topmenu.jsp"/>
 <div id="main-body-container">
     <div id="body-container">
         <div class="error-page-content">
@@ -17,10 +17,10 @@
                 <br/>
                 <br/>
                 <h4 class="text-center"> <fmt:message key="error.page.url.header"/> </h4>
-                <h5 class="text-center"> ${sessionScope.requestedURL}</h5>
+                <h5 class="text-center"> ${sessionScope.lastUri}</h5>
                 <br/>
                 <h4 class="text-center"> <fmt:message key="error.page.message.header"/> </h4>
-                <h5 class="text-center"><fmt:message key="${sessionScope.commandErrorMessage}"/></h5>
+                <h5 class="text-center"><fmt:message key="access.violation.message"/></h5>
             </div>
         </div>
     </div>

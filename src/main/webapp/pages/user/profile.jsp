@@ -5,7 +5,7 @@
 <fmt:setBundle basename="language/jsp"/>
 <!DOCTYPE html>
 <html>
-<c:import url="../../WEB-INF/pages/importjsp/header.jsp"/>
+<c:import url="/WEB-INF/pages/importjsp/header.jsp"/>
 <body>
 <div id="top-body-container">
     <div class="top-div-gradient">
@@ -61,6 +61,6 @@
         </div>
     </div>
 </div>
-<c:import url="../../WEB-INF/pages/importjsp/footer.jsp"/>
+<c:import url="/WEB-INF/pages/importjsp/footer.jsp"/>
 </body>
 </html>

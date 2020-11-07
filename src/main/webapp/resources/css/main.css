@@ -563,13 +563,13 @@
 }
 
 /*error page*/
-.error-page-content {
+.error-page-content, .user-operation-page-content {
     border-style: solid;
     border-width: 1px;
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 10px 10px;
+    padding: 20px 10px;
 }
 
 .error-stack-trace {
@@ -627,6 +627,7 @@
 .compilation-caption-header, .compilation-caption-type, .compilation-caption-upload {
     text-align: center;
     font-family: "Comic Sans MS", serif;
+
 }
 
 .compilation-container {
@@ -635,6 +636,64 @@
     max-height: 650px;
     overflow: auto;
 }
+
+/*order page*/
+.order-content-block {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.order-header {
+    text-align: center;
+    margin: 20px auto;
+}
+
+.order-description-block{
+    display: flex;
+    flex-direction: column;
+    height: 85%;
+    width: 100%;
+}
+.order-result {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+}
+.order-controls {
+    display: flex;
+    flex-direction: row;
+    margin: 20px auto;
+}
+.order-count-result {
+    text-align: center;
+    font-style: italic;
+    font-size: 11pt;
+}
+.order-cash-result {
+    text-align: center;
+    font-style: italic;
+    font-weight: bolder;
+}
+.order-items {
+    overflow: auto;
+    margin: 30px auto;
+    width: 100%;
+}
+
+.result-message-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 70%;
+    height: 50px;
+    margin: 50px auto;
+    align-items: center;
+}
+
+
+
 
 /*
    background: #f0e8cb;- светлый

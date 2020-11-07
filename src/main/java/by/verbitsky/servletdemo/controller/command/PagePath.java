@@ -6,7 +6,7 @@ public class PagePath {
     public static final String REDIRECT_MAIN_PAGE = "/audiobox/do/main";
     public static final String REDIRECT_REVIEW_PAGE = "/audiobox/do/reviews";
     public static final String REDIRECT_LOGIN_PAGE = "/audiobox/do/login";
-    public static final String REDIRECT_ERROR_PAGE = "/audiobox/do/error";
+    public static final String REDIRECT_ORDER_PAGE = "/audiobox/do/order";
 
     //public static final String REDIRECT_COMPILATION_PAGE = "/do/compilations";
    // public static final String REDIRECT_REGISTRATION_PAGE = "/do/registration";
@@ -16,9 +16,11 @@ public class PagePath {
 
     //path to jsp (for forwarding)
     public static final String FORWARD_MAIN_PAGE = "/pages/mainpage.jsp";
+    public static final String FORWARD_RESULT_PAGE = "/pages/user/result.jsp";
     public static final String FORWARD_REVIEW_PAGE = "/pages/reviews.jsp";
     public static final String FORWARD_COMPILATION_PAGE = "/pages/compilations.jsp";
     public static final String FORWARD_LOGIN_PAGE = "/pages/login.jsp";
+    public static final String FORWARD_ORDER_PAGE = "/pages/user/order.jsp";
     public static final String FORWARD_REGISTRATION_PAGE = "/pages/registration.jsp";
     public static final String FORWARD_ADMIN_PAGE = "/pages/admin/adminpage.jsp";
     public static final String FORWARD_PROFILE_PAGE = "/pages/user/profile.jsp";

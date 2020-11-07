@@ -11,12 +11,7 @@ public class AdminPageCommand implements Command {
         if (content == null) {
             throw new CommandException("AdminPageCommand: received null content");
         }
-        User user;
-        try {
-            user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
-        } catch (ClassCastException e) {
-            throw new CommandException("AdminPageCommand: received class cast exception while getting attribute \"User\"");
-        }
+        User user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
 
         CommandResult result;
         if (user != null && user.getLoginStatus()) {
@@ -24,9 +19,7 @@ public class AdminPageCommand implements Command {
             if (CommandPermissionValidator.isUserHasPermission(user, this)) {
                 result = new CommandResult(PagePath.FORWARD_ADMIN_PAGE, false);
             } else {
-                content.addSessionAttribute(AttributeName.COMMAND_ERROR_MESSAGE, AttributeName.ADMIN_PAGE_ACCESS_DENIED);
-                content.addSessionAttribute(AttributeName.REQUESTED_URL, content.getRequest().getRequestURI());
-                result = new CommandResult(PagePath.REDIRECT_ERROR_PAGE, true);
+                result = new CommandResult(PagePath.FORWARD_ERROR_PAGE, false);
             }
         } else {
             result = new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);

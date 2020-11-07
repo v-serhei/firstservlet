@@ -7,7 +7,7 @@ import by.verbitsky.servletdemo.exception.ServiceException;
 import java.util.Optional;
 
 public interface UserService {
-    void addRegisteredUser(User user, String password) throws PoolException, ServiceException;
+    boolean addRegisteredUser(User user, String password) throws PoolException, ServiceException;
 
     Optional<String> findUserPassword(String userName) throws PoolException, ServiceException;
 

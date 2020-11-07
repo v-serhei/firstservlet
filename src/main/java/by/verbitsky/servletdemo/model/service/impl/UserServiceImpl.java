@@ -16,6 +16,10 @@ import java.util.Optional;
 public enum UserServiceImpl implements UserService {
     INSTANCE;
 
+    public int getAdminRoleId() {
+        return UserRole.ADMIN.getRoleId();
+    }
+
     public String getHashedPassword(String password) {
         String salt = "Something very salt";
         return DigestUtils.sha512Hex(salt.concat(password));
@@ -54,27 +58,27 @@ public enum UserServiceImpl implements UserService {
             UserDaoImpl userDao = new UserDaoImpl();
             transaction.processSimpleQuery(userDao);
             result = userDao.findUserPassword(userName);
-
         } catch (DaoException e) {
             throw new ServiceException("UserService: received Dao exception while processing \"findUserByEmail\"", e);
         }
         return result;
     }
 
-    public void addRegisteredUser(User user, String password) throws ServiceException {
+    public boolean addRegisteredUser(User user, String password) throws ServiceException {
         ProxyConnection connection = askConnectionFromPool();
+        boolean result;
         try (Transaction transaction = new Transaction(connection)) {
             UserDaoImpl userDao = new UserDaoImpl();
             transaction.processTransaction(userDao);
-            userDao.create(user);
-            userDao.updateUserPassword(user, password);
+            result = (userDao.create(user) && userDao.updateUserPassword(user, password));
             transaction.commitTransaction();
         } catch (DaoException e) {
             throw new ServiceException("UserService: received Dao exception while processing \"findUserByEmail\"", e);
         }
+        return result;
     }
 
-    private ProxyConnection askConnectionFromPool () throws ServiceException {
+    private ProxyConnection askConnectionFromPool() throws ServiceException {
         ProxyConnection result;
         try {
             result = ConnectionPoolImpl.getInstance().getConnection();

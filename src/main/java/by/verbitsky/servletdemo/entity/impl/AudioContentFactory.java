@@ -194,7 +194,7 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
         result.setAlbumCreationDate(resultSet.getDate(COLUMN_ALBUM_CREATION_DATE).toLocalDate());
         result.setGenre(resultSet.getString(COLUMN_GENRE_NAME));
         result.setUploadDate(resultSet.getDate(COLUMN_SONG_UPLOAD_DATE).toLocalDate());
-        result.setPrice(resultSet.getDouble(COLUMN_SONG_PRICE));
+        result.setPrice(resultSet.getBigDecimal(COLUMN_SONG_PRICE));
         return Optional.of(result);
     }
 
