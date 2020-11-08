@@ -6,9 +6,6 @@ import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.exception.CommandException;
 import by.verbitsky.servletdemo.exception.ServiceException;
 import by.verbitsky.servletdemo.model.service.impl.UserServiceImpl;
-import by.verbitsky.servletdemo.util.FieldDataValidator;
-
-import java.util.Optional;
 
 public class RegisterCommand implements Command {
 
@@ -20,50 +17,28 @@ public class RegisterCommand implements Command {
         String firstPassword = content.getRequestParameter(ParameterName.USER_PASSWORD_FIRST);
         String secondPassword = content.getRequestParameter(ParameterName.USER_PASSWORD_SECOND);
         String userEmail = content.getRequestParameter(ParameterName.USER_EMAIL);
-
-        if (!FieldDataValidator.isValidRegistrationInputs(userName, firstPassword, secondPassword, userEmail, content)) {
-            isUserInputsIncorrect = true;
-        }
-        if (isExistUserName(userName, content) | isExistEmail(userEmail, content)) {
-            isUserInputsIncorrect = true;
-        }
-        if (isUserInputsIncorrect) {
-            result = new CommandResult(PagePath.FORWARD_REGISTRATION_PAGE, false);
-        } else {
-            User registeredUser = new User();
-            registeredUser.setUserName(userName);
-            registeredUser.setEmail(userEmail);
-            try {
-                UserServiceImpl.INSTANCE.addRegisteredUser(registeredUser, UserServiceImpl.INSTANCE.getHashedPassword(firstPassword));
-                result = new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
-            } catch (ServiceException e) {
-                content.addSessionAttribute(AttributeName.COMMAND_ERROR_MESSAGE, AttributeValue.DEFAULT_COMMAND_ERROR_MESSAGE);
-                content.addSessionAttribute(AttributeName.REQUESTED_URL, content.getRequest().getRequestURI());
-                throw new CommandException("RegisterCommand: error while adding user to data base", e);
+        try {
+            isUserInputsIncorrect = UserServiceImpl.INSTANCE.validateUserInputs(userName, firstPassword, secondPassword, userEmail, content);
+            if (isUserInputsIncorrect) {
+                result = new CommandResult(PagePath.FORWARD_REGISTRATION_PAGE, false);
+            } else {
+                User registeredUser = new User();
+                registeredUser.setUserName(userName);
+                registeredUser.setEmail(userEmail);
+                try {
+                    UserServiceImpl.INSTANCE.addRegisteredUser(registeredUser, UserServiceImpl.INSTANCE.getHashedPassword(firstPassword));
+                    result = new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
+                } catch (ServiceException e) {
+                    content.addSessionAttribute(AttributeName.COMMAND_ERROR_MESSAGE, AttributeValue.DEFAULT_COMMAND_ERROR_MESSAGE);
+                    content.addSessionAttribute(AttributeName.REQUESTED_URL, content.getRequest().getRequestURI());
+                    throw new CommandException("RegisterCommand: error while adding user to data base", e);
+                }
             }
+        } catch (ServiceException e) {
+           throw new CommandException("RegisterCommand: Error while validating user inputs", e);
         }
         return result;
     }
 
-    private boolean isExistUserName(String userName, SessionRequestContent content) throws CommandException {
-        Optional<User> result;
-        try {
-            result = UserServiceImpl.INSTANCE.findUserByName(userName);
-            content.addRequestAttribute(AttributeName.REGISTRATION_EXIST_NAME, result.isPresent());
-        } catch (ServiceException e) {
-            throw new CommandException("RegisterCommand: unable to check user data", e);
-        }
-        return result.isPresent();
-    }
 
-    private boolean isExistEmail(String userEmail, SessionRequestContent content) throws CommandException {
-        boolean result;
-        try {
-            result = UserServiceImpl.INSTANCE.isExistEmail(userEmail);
-            content.addRequestAttribute(AttributeName.REGISTRATION_EXIST_EMAIL, result);
-        } catch (ServiceException e) {
-            throw new CommandException("RegisterCommand: unable to check user data", e);
-        }
-        return result;
-    }
 }

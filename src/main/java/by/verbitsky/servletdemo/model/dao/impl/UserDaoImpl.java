@@ -6,6 +6,7 @@ import by.verbitsky.servletdemo.entity.impl.UserFactoryImpl;
 import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.model.dao.AbstractDao;
 import by.verbitsky.servletdemo.model.dao.UserDao;
+import by.verbitsky.servletdemo.util.SqlRegexGenerator;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,13 +17,13 @@ import java.util.Optional;
 public class UserDaoImpl extends AbstractDao implements UserDao {
 
     private static final String SELECT_ALL_USERS =
-            "SELECT user_id, username, email, role_id, blocked_status, discount_value FROM users";
+            "SELECT user_id, username, email, role_id, blocked_status, discount_value, reg_date FROM users";
     private static final String SELECT_USER_BY_ID =
-            "SELECT user_id, username, email, role_id, blocked_status, discount_value FROM users WHERE user_id=?";
+            "SELECT user_id, username, email, role_id, blocked_status, discount_value, reg_date FROM users WHERE user_id=?";
     private static final String SELECT_USER_BY_EMAIL =
-            "SELECT user_id, username, email, role_id, blocked_status, discount_value FROM users WHERE email=?";
+            "SELECT user_id, username, email, role_id, blocked_status, discount_value, reg_date FROM users WHERE email=?";
     private static final String SELECT_USER_BY_NAME =
-            "SELECT user_id, username, password, email, role_id, blocked_status, discount_value FROM users WHERE username=?";
+            "SELECT user_id, username, password, email, role_id, blocked_status, discount_value, reg_date FROM users WHERE username=?";
     private static final String DELETE_USER_BY_ID =
             "DELETE FROM users WHERE user_id=?";
     private static final String INSERT_USER =
@@ -30,7 +31,16 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     private static final String UPDATE_USER_PASSWORD =
             "UPDATE users SET password = ? WHERE username = ?";
 
+    private static final String UPDATE_USER =
+            "UPDATE users " +
+            "SET email          = ?," +
+            "    role_id        = ?," +
+            "    blocked_status = ?," +
+            "    discount_value = ? " +
+            "WHERE users.username = ?;";
+
     private static final String COLUMN_PASSWORD = "password";
+
     private UserFactory<User> factory = new UserFactoryImpl();
     @Override
     public List<User> findAll() throws DaoException {
@@ -146,9 +156,31 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public boolean update(User entity) {
-        //todo release this (admin)
-        return true;
+    public boolean update(User user) throws DaoException {
+        if (user != null) {
+            String userName = user.getUserName();
+            if (userName != null || !userName.isEmpty()) {
+                try (PreparedStatement statement = connection.prepareStatement(UPDATE_USER)) {
+                    statement.setString(1, SqlRegexGenerator.escapeEmailParameter(user.getEmail()));
+                    statement.setInt(2, user.getRoleId());
+                    if (user.getBlockedStatus()) {
+                        statement.setInt(3, 1);
+                    }else {
+                        statement.setInt(3, 0);
+                    }
+                    statement.setInt(4, user.getDiscount());
+                    statement.setString(5, user.getUserName());
+                    int count = statement.executeUpdate();
+                    return count > 0;
+                } catch (SQLException e) {
+                    throw new DaoException("Update user password: error while updating user password",e);
+                }
+            } else {
+                throw new DaoException("Update user password: received null or empty user name");
+            }
+        } else {
+            throw new DaoException("Update user password: received null or empty user or password value");
+        }
     }
 
     @Override

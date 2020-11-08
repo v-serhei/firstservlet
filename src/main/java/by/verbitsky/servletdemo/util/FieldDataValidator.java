@@ -13,12 +13,17 @@ public class FieldDataValidator {
     }
 
 
-    public static boolean isValidRegistrationInputs(String name, String firstPassword, String secondPassword, String email, SessionRequestContent content) {
+    public static boolean isValidUserName(String name, SessionRequestContent content) {
         boolean result = true;
         if (!validateUserName(name)) {
             content.addRequestAttribute(AttributeName.REGISTRATION_WRONG_NAME, true);
             result = false;
         }
+        return result;
+    }
+
+    public static boolean isValidUserPasswords(String firstPassword, String secondPassword, SessionRequestContent content) {
+        boolean result = true;
         if (!validateUserPassword(firstPassword)) {
             content.addRequestAttribute(AttributeName.REGISTRATION_WRONG_PASSWORD, true);
             result = false;
@@ -27,12 +32,19 @@ public class FieldDataValidator {
             content.addRequestAttribute(AttributeName.REGISTRATION_DIFFERENT_PASSWORDS, true);
             result = false;
         }
-        if (!validateUserEmail(email)) {
+        return result;
+    }
+
+    public static boolean isValidUserEmail(String email, SessionRequestContent content) {
+        boolean result = true;
+        if (!validateEmailRegex(email)) {
             content.addRequestAttribute(AttributeName.REGISTRATION_WRONG_EMAIL, true);
             result = false;
         }
         return result;
     }
+
+
 
     public static boolean validateUserName(String name) {
         //todo stub
@@ -49,16 +61,6 @@ public class FieldDataValidator {
         }
         return true;
     }
-
-
-    private static boolean validateUserEmail(String userMail) {
-
-        if (userMail == null || userMail.isEmpty()) {
-            return false;
-        }        //todo check other params
-        return true;
-    }
-
 
     private static boolean validateEmailRegex(String email) {
         return EmailValidator.getInstance().isValid(email);

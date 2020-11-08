@@ -1,19 +1,19 @@
-package by.verbitsky.servletdemo.controller.command.impl;
+package by.verbitsky.servletdemo.controller.command.impl.navigation;
 
+import by.verbitsky.servletdemo.controller.SessionRequestContent;
+import by.verbitsky.servletdemo.controller.command.AttributeName;
 import by.verbitsky.servletdemo.controller.command.Command;
 import by.verbitsky.servletdemo.controller.command.CommandResult;
-import by.verbitsky.servletdemo.controller.SessionRequestContent;
-import by.verbitsky.servletdemo.entity.User;
-import by.verbitsky.servletdemo.controller.command.AttributeName;
 import by.verbitsky.servletdemo.controller.command.PagePath;
+import by.verbitsky.servletdemo.entity.User;
+import by.verbitsky.servletdemo.exception.CommandException;
 
-public class ProfilePageCommand implements Command {
+public class SettingsPageCommand implements Command {
     @Override
-    public CommandResult execute(SessionRequestContent content) {
+    public CommandResult execute(SessionRequestContent content) throws CommandException {
         User user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
         CommandResult result;
         if (user != null && user.getLoginStatus()) {
-            //todo посмотрет ьчто нужно подгрузить на страницу и сделать запрос в БД
             result = new CommandResult(PagePath.FORWARD_SETTINGS_PAGE, false);
         } else {
             result = new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);

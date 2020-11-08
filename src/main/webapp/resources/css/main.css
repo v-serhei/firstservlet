@@ -173,7 +173,7 @@
     margin: 30px auto;
 }
 
-#profile-settings-submit {
+.profile-settings-submit {
     display: flex;
     justify-content: center;
 }
@@ -278,7 +278,7 @@
     margin: 0 auto;
 }
 
-#user-details-table-caption {
+.user-details-table-caption {
     display: block;
     text-align: center;
 }
@@ -296,7 +296,7 @@
     flex-direction: column;
 }
 
-#user-details-table {
+.user-details-table {
     width: 100%;
     margin: 5px auto;
 }
@@ -691,6 +691,51 @@
     margin: 50px auto;
     align-items: center;
 }
+
+.profile-operation-message{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-top: 50px
+}
+
+.user-orders-block{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 70%;
+    margin: 0 auto;
+}
+.order-block-header {
+    display: block;
+    text-align: center;
+}
+.user-order-list {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 600px;
+    width: 100%;
+}
+.order-list-total {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 70%;
+    margin: 20px auto;
+}
+.order-totals {
+    font-weight: bolder;
+    font-size: 14pt;
+}
+.user-settings-header {
+    display: flex;
+    flex-direction: column;
+    margin: 15px auto;
+    width: 50%;
+}
+
 
 
 

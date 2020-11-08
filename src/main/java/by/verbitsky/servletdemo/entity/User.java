@@ -1,5 +1,9 @@
 package by.verbitsky.servletdemo.entity;
 
+import by.verbitsky.servletdemo.model.service.impl.UserServiceImpl;
+
+import java.time.LocalDate;
+
 public class User {
     private long userId;
     private String userName;
@@ -9,8 +13,26 @@ public class User {
     private int blockedStatus;
     private boolean loginStatus;
     private Basket basket;
+    private LocalDate registrationDate;
+    private String roleDescription;
 
     public User() {
+    }
+
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public String getRoleDescription() {
+        return roleDescription;
+    }
+
+    public void setRoleDescription(String roleDescription) {
+        this.roleDescription = roleDescription;
+    }
+
+    public void setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
     }
 
     public long getUserId() {
@@ -51,6 +73,7 @@ public class User {
 
     public void setRoleId(int roleId) {
         this.roleId = roleId;
+        setRoleDescription(UserServiceImpl.INSTANCE.getRoleNameById(roleId));
     }
 
     public boolean getBlockedStatus() {

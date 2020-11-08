@@ -7,9 +7,14 @@ public class SqlRegexGenerator {
     private static final String WORD_DELIMITER = ".*";
     private static final String DEFAULT_DELIMITER = "\\s";
     private static final String SPECIAL_SYMBOLS = ")([{$^|<>*+.'?\\";
+    private static final String EMAIL_DELIMITER = "@";
     private static final String ESCAPE = "\\";
 
     private SqlRegexGenerator() {
+    }
+
+    public static String escapeEmailParameter(String parameter) {
+        return parameter.replaceFirst(EMAIL_DELIMITER, (ESCAPE.concat(EMAIL_DELIMITER)));
     }
 
     public static String generateRegexFromParameter(String parameter) {

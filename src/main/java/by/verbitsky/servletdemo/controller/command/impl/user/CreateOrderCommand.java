@@ -38,12 +38,12 @@ public class CreateOrderCommand implements Command {
             content.addSessionAttribute(AttributeName.SESSION_CURRENT_ORDER, order);
             result = new CommandResult(PagePath.REDIRECT_ORDER_PAGE, true);
         } else {
-            content.addSessionAttribute(AttributeName.OPERATION_TYPE, AttributeValue.CREATE_ORDER);
+            content.addSessionAttribute(AttributeName.OPERATION_TYPE, AttributeValue.REMOVE_SONG_FROM_ORDER);
             content.addSessionAttribute(AttributeName.OPERATION_RESULT, AttributeValue.OPERATION_FAILED);
-            content.addSessionAttribute(AttributeName.OPERATION_MESSAGE, AttributeValue.EMPTY_ORDER_LIST);
+            content.addSessionAttribute(AttributeName.OPERATION_MESSAGE, AttributeValue.ORDER_NOT_EXIST);
             content.addSessionAttribute(AttributeName.OPERATION_BUTTON_CAPTION, AttributeValue.BUTTON_CAPTION_BACK);
             content.addSessionAttribute(AttributeName.OPERATION_BUTTON_LINK, PagePath.REDIRECT_MAIN_PAGE);
-            result = new CommandResult(PagePath.REDIRECT_ORDER_CREATION_RESULT_PAGE, true);
+            return new CommandResult(PagePath.FORWARD_RESULT_PAGE, false);
         }
         return result;
     }

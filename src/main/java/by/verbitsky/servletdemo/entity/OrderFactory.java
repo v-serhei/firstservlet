@@ -9,11 +9,11 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface OrderFactory <Order> {
+    Optional<Order> createSimpleOrder (ResultSet resultSet) throws SQLException;
 
+    List<Order> createSimpleOrders (ResultSet resultSet) throws SQLException;
 
     Optional<Order> createOrder (ResultSet resultSet) throws SQLException;
-
-
 
     List<Order> createOrders (ResultSet resultSet) throws SQLException;
 

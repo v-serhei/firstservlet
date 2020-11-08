@@ -13,5 +13,5 @@ public interface UserService {
 
     Optional<User> findUserByName(String userName) throws PoolException, ServiceException;
 
-    boolean isExistEmail(String email) throws PoolException, ServiceException;
+    boolean findUserByEmail(String email) throws PoolException, ServiceException;
 }

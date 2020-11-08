@@ -2,6 +2,7 @@ package by.verbitsky.servletdemo.model.service.impl;
 
 import by.verbitsky.servletdemo.entity.AudioContent;
 import by.verbitsky.servletdemo.entity.Order;
+import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.entity.ext.Song;
 import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.exception.PoolException;
@@ -55,9 +56,15 @@ public enum OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findUserOrders(long userId) {
-
-        return null;
+    public List<Order> findUserOrders(long userId) throws ServiceException {
+        ProxyConnection connection = askConnectionFromPool();
+        try (Transaction transaction = new Transaction(connection)) {
+            OrderDao dao = new OrderDaoImpl();
+            transaction.processSimpleQuery(dao);
+            return dao.findOrdersByUserId(userId);
+        } catch (DaoException e) {
+            throw new ServiceException("OrderService findUserOrders: error while searching user orders", e);
+        }
     }
 
     @Override
@@ -86,14 +93,25 @@ public enum OrderServiceImpl implements OrderService {
         return result;
     }
 
+
     @Override
-    public boolean deleteOrder(Order order) throws ServiceException {
+    public boolean deleteOrder(User user, long orderId) throws ServiceException {
         ProxyConnection connection = askConnectionFromPool();
         boolean result;
         try (Transaction transaction = new Transaction(connection)) {
             OrderDao dao = new OrderDaoImpl();
-            transaction.processSimpleQuery(dao);
-            result = dao.delete(order.getOrderId());
+            transaction.processTransaction(dao);
+            Optional<Order> removedOrder = dao.findEntityById(orderId);
+            if (removedOrder.isPresent()) {
+                if (removedOrder.get().getUserId() == user.getUserId()) {
+                    result = dao.delete(orderId);
+                } else {
+                    result = false;
+                }
+            } else {
+                result = false;
+            }
+            transaction.commitTransaction();
         } catch (DaoException e) {
             throw new ServiceException("OrderServiceImpl: error while removing order");
         }

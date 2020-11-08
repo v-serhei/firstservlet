@@ -53,6 +53,15 @@ public class OrderDaoImpl implements OrderDao {
     private static final String DELETE_ORDER =
            "DELETE FROM orders WHERE orders.order_id = ?;";
 
+    private static final String FIND_USER_ORDERS_BY_USER_ID =
+           "Select orders.order_id," +
+                   "       orders.user_id," +
+                   "       orders.order_summ," +
+                   "       orders.order_date," +
+                   "       orders.order_status " +
+           "from orders " +
+           "where orders.user_id = ?";
+
     private static final OrderFactory<Order> factory = new OrderFactoryImpl();
 
 
@@ -124,8 +133,17 @@ public class OrderDaoImpl implements OrderDao {
 
 
     @Override
-    public List<Order> findOrdersByUserId(long userId) {
-        return null;
+    public List<Order> findOrdersByUserId(long userId) throws DaoException {
+        if (connection == null) {
+            throw new DaoException("OrderDaoImpl findOrdersByUserId: connection is null");
+        }
+        try (PreparedStatement statement = connection.prepareStatement(FIND_USER_ORDERS_BY_USER_ID)){
+            statement.setLong(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            return factory.createSimpleOrders(resultSet);
+        } catch (SQLException e) {
+            throw new DaoException("OrderDaoImpl: error while searching user orders", e);
+        }
     }
 
     @Override

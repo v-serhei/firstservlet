@@ -44,7 +44,7 @@
                     </c:if>
                     <c:if test="${!sessionScope.user.basket.contains(song.id)}">
                 <form action="${pageContext.request.contextPath}/do/basket_add" method="get">
-                    <input type="hidden" name="currentPageUri" value="${sessionScope.lastUri}">
+                        <input type="hidden" name="currentPageUri" value="${sessionScope.lastUri}">
                         <input type="hidden" name="orderedSongId" value="${song.id}">
                         <input type="submit" class="btn btn-sm song-content-controls"
                                style="background-image: url('${pageContext.request.contextPath}/resources/img/add.png')"
@@ -55,7 +55,6 @@
                     </c:if>
 
                 <form action="${pageContext.request.contextPath}/do/reviews" method="get">
-                    <input type="hidden" name="action" value="review_page">
                     <input type="hidden" name="songName" value="${song.songTitle}">
                     <input type="submit" class="btn btn-sm song-content-controls"
                            style="background-image: url('${pageContext.request.contextPath}/resources/img/review.png')"

@@ -140,6 +140,10 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
     }
 
     private Optional<AudioContent> createCompilation(ResultSet resultSet) throws SQLException {
+        int contentId = resultSet.getInt(COLUMN_COMPILATION_ID);
+        if (contentId <= 0){
+            return Optional.empty();
+        }
         Compilation result = new Compilation();
         result.setId(resultSet.getLong(COLUMN_COMPILATION_ID));
         result.setCompilationTitle(resultSet.getString(COLUMN_COMPILATION_TITLE));
@@ -148,44 +152,11 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
         return Optional.of(result);
     }
 
-    /*
-    private List<AudioContent> createCompilationList(ResultSet resultSet) throws SQLException {
-        List<AudioContent> result = new ArrayList<>();
-        Compilation compilation = null;
-        long currentCompilationId = -1;
-        while (resultSet.next()) {
-            long resultSetCompId = resultSet.getLong(COLUMN_COMPILATION_ID);
-            //если это не первый элемент и уже создана компиляция,
-            // значит либо все песни уже добавлены и компиляцию нужно положить в результирующий лист
-            // и создать новую для последующего заполнения
-
-            // либо еще дозаполняем
-            if (currentCompilationId == resultSetCompId) {
-                //если id из сета  = id компиляции, то создаем песнб и ложим в текущую компиляцию
-                addSongToResult(resultSet, compilation);
-            } else {
-                //иначе проверим:
-                //если id текущей компиляции = -1 - значит компиляция еще не была создана
-                if (currentCompilationId == -1) {
-                    currentCompilationId = resultSetCompId;
-                    compilation = new Compilation();
-                    compilation.setId(currentCompilationId);
-                    addSongToResult(resultSet, compilation);
-                } else {
-                    //если id текущей компиляции не -1 и не = id из резалт сета, значит компиляция была заполнена
-                    // и ее надо добавить в результат, а текущую песню добавим уже в новую компиляцию
-                    result.add(compilation);
-                    currentCompilationId = resultSetCompId;
-                    compilation = new Compilation();
-                    compilation.setId(currentCompilationId);
-                    addSongToResult(resultSet, compilation);
-                }
-            }
-        }
-        return result;
-    }
-*/
     private Optional<AudioContent> createSong(ResultSet resultSet) throws SQLException {
+        int contentId = resultSet.getInt(COLUMN_SONG_ID);
+        if (contentId <= 0){
+            return Optional.empty();
+        }
         Song result = new Song();
         result.setId(resultSet.getInt(COLUMN_SONG_ID));
         result.setSongTitle(resultSet.getString(COLUMN_SONG_TITLE));
@@ -199,6 +170,10 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
     }
 
     private Optional<AudioContent> createSinger(ResultSet resultSet) throws SQLException {
+        int contentId = resultSet.getInt(COLUMN_SINGER_ID);
+        if (contentId <= 0){
+            return Optional.empty();
+        }
         Singer result = new Singer();
         result.setId(resultSet.getInt(COLUMN_SINGER_ID));
         result.setSingerName(resultSet.getString(COLUMN_SINGER_NAME));
@@ -206,6 +181,10 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
     }
 
     private Optional<AudioContent> createReview(ResultSet resultSet) throws SQLException {
+        int contentId = resultSet.getInt(COLUMN_REVIEW_ID);
+        if (contentId <= 0){
+            return Optional.empty();
+        }
         Review result = new Review();
         result.setId(resultSet.getLong(COLUMN_REVIEW_ID));
         result.setSongId(resultSet.getLong(COLUMN_SONG_ID));
@@ -219,6 +198,10 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
 
 
     private Optional<AudioContent> createGenre(ResultSet resultSet) throws SQLException {
+        int contentId = resultSet.getInt(COLUMN_GENRE_ID);
+        if (contentId <= 0){
+            return Optional.empty();
+        }
         Genre result = new Genre();
         result.setId(resultSet.getInt(COLUMN_GENRE_ID));
         result.setGenreName(resultSet.getString(COLUMN_GENRE_NAME));

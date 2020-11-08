@@ -7,9 +7,11 @@ public class PagePath {
     public static final String REDIRECT_REVIEW_PAGE = "/audiobox/do/reviews";
     public static final String REDIRECT_LOGIN_PAGE = "/audiobox/do/login";
     public static final String REDIRECT_ORDER_PAGE = "/audiobox/do/order";
-    public static final String REDIRECT_PROFILE_PAGE = "/audiobox/do/profile";
+    public static final String REDIRECT_SETTINGS_PAGE = "/audiobox/do/profile/settings";
+    public static final String REDIRECT_USER_ORDER_PAGE = "/audiobox/do/profile/user_orders";
     public static final String REDIRECT_ORDER_PAYMENT_RESULT_PAGE = "/audiobox/do/payment/operation_result";
     public static final String REDIRECT_ORDER_CREATION_RESULT_PAGE = "/audiobox/do/create_order/operation_result";
+    public static final String REDIRECT_ORDER_REMOVE_RESULT_PAGE = "/audiobox/do/remove_order/operation_result";
 
     //public static final String REDIRECT_COMPILATION_PAGE = "/do/compilations";
     //public static final String REDIRECT_ADMIN_PAGE = "/do/admin";
@@ -25,7 +27,8 @@ public class PagePath {
     public static final String FORWARD_ORDER_PAGE = "/pages/user/order.jsp";
     public static final String FORWARD_REGISTRATION_PAGE = "/pages/registration.jsp";
     public static final String FORWARD_ADMIN_PAGE = "/pages/admin/adminpage.jsp";
-    public static final String FORWARD_PROFILE_PAGE = "/pages/user/profile.jsp";
+    public static final String FORWARD_SETTINGS_PAGE = "/pages/user/profilesettings.jsp";
+    public static final String FORWARD_USER_ORDERS_PAGE = "/pages/user/profileorders.jsp";
     public static final String FORWARD_ERROR_PAGE = "/pages/error/errorPage.jsp";
 
     //pagination controls href attribute value

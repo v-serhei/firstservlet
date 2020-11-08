@@ -60,6 +60,11 @@
                     <input type="submit" class="btn btn-sm btn-secondary bg-success"
                            name="pay" value="<fmt:message key="order.confirm.btn"/>">
                 </form>
+                <form action="${pageContext.request.contextPath}/do/remove_order">
+                    <input type="hidden" name="orderId" value="${currentOrder.orderId}">
+                    <input type="submit" class="btn btn-sm btn-secondary" style="margin-left: 30px"
+                           name="pay" value="<fmt:message key="order.delete.btn"/>">
+                </form>
             </div>
         </c:if>
     </div>

@@ -25,7 +25,7 @@ public class PayOrderCommand implements Command {
         CommandResult result;
         long orderId;
         try {
-            orderId = Long.parseLong(content.getRequestParameter(ParameterName.ORDERED_ID));
+            orderId = Long.parseLong(content.getRequestParameter(ParameterName.ORDER_ID));
             Optional<Order> paidOrder = orderService.findOrderById(orderId);
             if (paidOrder.isPresent()) {
                 if (paidOrder.get().getOrderStatusId() != (orderService.getPaidOrderStatusId())) {
@@ -36,7 +36,7 @@ public class PayOrderCommand implements Command {
                         content.addSessionAttribute(AttributeName.OPERATION_RESULT, AttributeValue.OPERATION_COMPLETED);
                         content.addSessionAttribute(AttributeName.OPERATION_MESSAGE, AttributeValue.ORDER_PAYMENT_SUCCESSFUL);
                         content.addSessionAttribute(AttributeName.OPERATION_BUTTON_CAPTION, AttributeValue.BUTTON_CAPTION_PROFILE);
-                        content.addSessionAttribute(AttributeName.OPERATION_BUTTON_LINK, PagePath.REDIRECT_PROFILE_PAGE);
+                        content.addSessionAttribute(AttributeName.OPERATION_BUTTON_LINK, PagePath.REDIRECT_USER_ORDER_PAGE);
                         result = new CommandResult(PagePath.REDIRECT_ORDER_PAYMENT_RESULT_PAGE, true);
                     } else {
                         throw new CommandException("PayOrderCommand: error while updating order status");
@@ -46,7 +46,7 @@ public class PayOrderCommand implements Command {
                     content.addSessionAttribute(AttributeName.OPERATION_RESULT, AttributeValue.OPERATION_FAILED);
                     content.addSessionAttribute(AttributeName.OPERATION_MESSAGE, AttributeValue.ORDER_ALREADY_PAID);
                     content.addSessionAttribute(AttributeName.OPERATION_BUTTON_CAPTION, AttributeValue.BUTTON_CAPTION_PROFILE);
-                    content.addSessionAttribute(AttributeName.OPERATION_BUTTON_LINK, PagePath.REDIRECT_PROFILE_PAGE);
+                    content.addSessionAttribute(AttributeName.OPERATION_BUTTON_LINK, PagePath.REDIRECT_USER_ORDER_PAGE);
                     result = new CommandResult(PagePath.REDIRECT_ORDER_PAYMENT_RESULT_PAGE, true);
                 }
             } else {

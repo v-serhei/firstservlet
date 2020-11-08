@@ -25,7 +25,7 @@ public class OrderRemoveSongCommand implements Command {
         long songId;
         long orderId;
         try {
-            orderId = Long.parseLong(content.getRequestParameter(ParameterName.ORDERED_ID));
+            orderId = Long.parseLong(content.getRequestParameter(ParameterName.ORDER_ID));
             songId = Long.parseLong(content.getRequestParameter(ParameterName.ORDERED_SONG_ID));
             Optional<Order> order = OrderServiceImpl.INSTANCE.findOrderById(orderId);
             if (order.isPresent()) {
@@ -36,7 +36,7 @@ public class OrderRemoveSongCommand implements Command {
                     result = new OrderPageCommand().execute(content);
                 } else {
                     //if orderList is empty after removing song - delete current order
-                    boolean delResult = OrderServiceImpl.INSTANCE.deleteOrder(order.get());
+                    boolean delResult = OrderServiceImpl.INSTANCE.deleteOrder(user, order.get().getOrderId());
                     if(delResult) {
                         result = new CommandResult(PagePath.REDIRECT_MAIN_PAGE, true);
                     }else {

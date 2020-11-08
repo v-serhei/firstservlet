@@ -22,20 +22,38 @@ public class OrderFactoryImpl implements OrderFactory<Order> {
     private static final ContentFactory<AudioContent> contentFactory = new AudioContentFactory<>();
 
     @Override
-    public Optional<Order> createOrder(ResultSet resultSet) throws SQLException {
+    public Optional<Order> createSimpleOrder(ResultSet resultSet) throws SQLException {
         Order result = new Order();
         result.setOrderId(resultSet.getLong(COLUMN_ORDER_ID));
         result.setUserId(resultSet.getLong(COLUMN_USER_ID));
         result.setOrderPrice(resultSet.getBigDecimal(COLUMN_ORDER_PRICE));
         result.setOrderDate(resultSet.getDate(COLUMN_ORDER_DATE).toLocalDate());
         result.setOrderStatus(resultSet.getInt(COLUMN_ORDER_STATUS));
-        Optional<AudioContent> song = contentFactory.createSingleContent(resultSet, ContentType.SONG);
-        song.ifPresent(audioContent -> result.addSong((Song) audioContent));
-        while (resultSet.next()){
-            Optional<AudioContent> nextSong = contentFactory.createSingleContent(resultSet, ContentType.SONG);
-            nextSong.ifPresent(audioContent -> result.addSong((Song) audioContent));
-        }
         return Optional.of(result);
+    }
+
+    @Override
+    public List<Order> createSimpleOrders(ResultSet resultSet) throws SQLException {
+        List<Order> orderList = new ArrayList<>();
+        while (resultSet.next()) {
+            Optional<Order> currentOrder = createSimpleOrder(resultSet);
+            currentOrder.ifPresent(orderList::add);
+        }
+        return orderList;
+    }
+
+    @Override
+    public Optional<Order> createOrder(ResultSet resultSet) throws SQLException {
+        Optional<Order> order = createSimpleOrder(resultSet);
+        if (order.isPresent()) {
+            Optional<AudioContent> song = contentFactory.createSingleContent(resultSet, ContentType.SONG);
+            song.ifPresent(audioContent -> order.get().addSong((Song) audioContent));
+            while (resultSet.next()){
+                Optional<AudioContent> nextSong = contentFactory.createSingleContent(resultSet, ContentType.SONG);
+                nextSong.ifPresent(audioContent -> order.get().addSong((Song) audioContent));
+            }
+        }
+        return order;
     }
 
     @Override

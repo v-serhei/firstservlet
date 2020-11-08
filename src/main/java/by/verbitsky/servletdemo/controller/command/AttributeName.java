@@ -22,6 +22,10 @@ public class AttributeName {
     public static final String REGISTRATION_WRONG_EMAIL = "regWrongEmail";
     public static final String REGISTRATION_EXIST_EMAIL = "regExistEmail";
 
+    public static final String USER_UPDATE_FAILED = "updateUser";
+    public static final String USER_DELETE_ORDER = "deleteOrder";
+    public static final String USER_PROFILE_SHOW_MESSAGE = "showMessage";
+
     //attributes for result page
     public static final String OPERATION_TYPE = "operationType";
     public static final String OPERATION_RESULT = "operationResult";
@@ -56,6 +60,13 @@ public class AttributeName {
     //order request  attributes
     public static final String ORDER = "requestedOrder";
     public static final String SHOW_ORDER_CONTROLS = "enableOrderControls";
+
+    public static final String ORDER_LIST = "orderList";
+    public static final String ORDER_TOTAL_COUNT = "totalOrderCount";
+    public static final String ORDER_TOTAL_PAID_COUNT = "totalPaidOrderCount";
+    public static final String ORDER_TOTAL_PRICE = "totalOrderPrice";
+
+
 
 
 

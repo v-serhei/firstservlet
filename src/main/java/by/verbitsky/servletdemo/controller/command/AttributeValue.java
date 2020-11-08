@@ -3,7 +3,7 @@ package by.verbitsky.servletdemo.controller.command;
 public class AttributeValue {
     public static final String DEFAULT_COMMAND_ERROR_MESSAGE = "default.command.error.message";
     public static final String EMPTY_COMMAND_ERROR_MESSAGE = "empty.command.error.message";
-    //values for result page
+    /*  values for result page  */
     public static final String CREATE_ORDER = "operation.create.order";
     public static final String PAY_ORDER = "operation.pay.order";
     public static final String OPERATION_COMPLETED = "operation.completed";
@@ -12,6 +12,12 @@ public class AttributeValue {
     public static final String BUTTON_CAPTION_PROFILE = "operation.btn.caption.profile";
     public static final String BUTTON_CAPTION_BACK = "operation.btn.caption.back";
     public static final String REMOVE_SONG_FROM_ORDER = "operation.remove.song.from.order";
+
+    public static final String REMOVE_ORDER = "operation.remove.order";
+    public static final String OPEN_ORDER = "operation.open.order";
+    public static final String ORDER_REMOVE_SUCCESSFUL = "operation.message.successful.order.removing";
+    public static final String ORDER_REMOVE_FAIL = "operation.message.order.removing.fail";
+
 
     public static final String EMPTY_ORDER_LIST = "operation.message.empty.order.list";
     public static final String ORDER_NOT_EXIST = "operation.message.order.not.exist";

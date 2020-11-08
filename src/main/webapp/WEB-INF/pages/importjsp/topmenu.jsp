@@ -36,7 +36,7 @@
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 <a class="dropdown-item" href="${pageContext.request.contextPath}/do/process_logout"><fmt:message key="user.menu.logout"/> </a>
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/do/profile"><fmt:message key="user.menu.profile"/></a>
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/do/profile/settings"><fmt:message key="user.menu.profile"/></a>
                                 <a class="dropdown-item bg-light" href="${pageContext.request.contextPath}/do/admin"><fmt:message key="user.menu.adminpage"/></a>
                             </div>
                         </c:when>
