@@ -162,8 +162,8 @@ public class OrderDaoImpl implements OrderDao {
             statement.setInt(2, order.getOrderStatusId());
             statement.setDate(3, Date.valueOf(order.getOrderDate()));
             statement.setLong(4, order.getOrderId());
-            statement.executeUpdate();
-            result = true;
+            int count = statement.executeUpdate();
+            result = count > 0;
         } catch (SQLException e) {
             throw new DaoException("OrderDaoImpl update order: SQL error while updating order", e);
         }

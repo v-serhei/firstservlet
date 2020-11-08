@@ -4,6 +4,7 @@ import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.controller.command.*;
 import by.verbitsky.servletdemo.controller.command.impl.navigation.OrderPageCommand;
 import by.verbitsky.servletdemo.entity.Order;
+import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.exception.CommandException;
 import by.verbitsky.servletdemo.exception.ServiceException;
 import by.verbitsky.servletdemo.model.service.impl.OrderServiceImpl;
@@ -13,6 +14,13 @@ import java.util.Optional;
 public class OrderRemoveSongCommand implements Command {
     @Override
     public CommandResult execute(SessionRequestContent content) throws CommandException {
+        User user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
+        if (!user.getLoginStatus()) {
+            return new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
+        }
+        if (!CommandPermissionValidator.isUserHasPermission(user, this)){
+            return new CommandResult(PagePath.FORWARD_ERROR_PAGE, false);
+        }
         CommandResult result;
         long songId;
         long orderId;
@@ -47,11 +55,11 @@ public class OrderRemoveSongCommand implements Command {
     }
 
     private CommandResult addAttributesForErrorPage(SessionRequestContent content) {
-        content.addRequestAttribute(AttributeName.OPERATION_TYPE, AttributeValue.REMOVE_SONG_FROM_ORDER);
-        content.addRequestAttribute(AttributeName.OPERATION_RESULT, AttributeValue.OPERATION_FAILED);
-        content.addRequestAttribute(AttributeName.OPERATION_MESSAGE, AttributeValue.ORDER_NOT_EXIST);
-        content.addRequestAttribute(AttributeName.OPERATION_BUTTON_CAPTION, AttributeValue.BUTTON_CAPTION_BACK);
-        content.addRequestAttribute(AttributeName.OPERATION_BUTTON_LINK, PagePath.REDIRECT_MAIN_PAGE);
+        content.addSessionAttribute(AttributeName.OPERATION_TYPE, AttributeValue.REMOVE_SONG_FROM_ORDER);
+        content.addSessionAttribute(AttributeName.OPERATION_RESULT, AttributeValue.OPERATION_FAILED);
+        content.addSessionAttribute(AttributeName.OPERATION_MESSAGE, AttributeValue.ORDER_NOT_EXIST);
+        content.addSessionAttribute(AttributeName.OPERATION_BUTTON_CAPTION, AttributeValue.BUTTON_CAPTION_BACK);
+        content.addSessionAttribute(AttributeName.OPERATION_BUTTON_LINK, PagePath.REDIRECT_MAIN_PAGE);
         return new CommandResult(PagePath.FORWARD_RESULT_PAGE, false);
     }
 }

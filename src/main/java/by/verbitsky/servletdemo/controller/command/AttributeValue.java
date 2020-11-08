@@ -8,13 +8,14 @@ public class AttributeValue {
     public static final String PAY_ORDER = "operation.pay.order";
     public static final String OPERATION_COMPLETED = "operation.completed";
     public static final String OPERATION_FAILED = "operation.failed";
-    public static final String EMPTY_ORDER_LIST = "operation.message.empty.order.list";
     public static final String ORDER_PAYMENT_SUCCESSFUL = "operation.message.successful.order.payment";
     public static final String BUTTON_CAPTION_PROFILE = "operation.btn.caption.profile";
     public static final String BUTTON_CAPTION_BACK = "operation.btn.caption.back";
-
     public static final String REMOVE_SONG_FROM_ORDER = "operation.remove.song.from.order";
+
+    public static final String EMPTY_ORDER_LIST = "operation.message.empty.order.list";
     public static final String ORDER_NOT_EXIST = "operation.message.order.not.exist";
+    public static final String ORDER_ALREADY_PAID = "operation.message.order.already.paid";
 
 
 

@@ -11,11 +11,11 @@
 <div id="main-body-container">
     <div id="body-container">
         <div class="user-operation-page-content">
-            <h3 class="text-center"><fmt:message key="${requestScope.operationType}"/></h3>
-            <h4 class="text-center"><fmt:message key="${requestScope.operationResult}"/></h4>
+            <h3 class="text-center"><fmt:message key="${sessionScope.operationType}"/></h3>
+            <h4 class="text-center"><fmt:message key="${sessionScope.operationResult}"/></h4>
             <div class="result-message-block">
-                <h5> <fmt:message key="${requestScope.operationMessage}"/> </h5>
-                <a href="${requestScope.btnLinkValue}" class="btn btn-sm btn-secondary "><fmt:message key="${requestScope.btnCaptionValue}"/> </a>
+                <h5> <fmt:message key="${sessionScope.operationMessage}"/> </h5>
+                <a href="${sessionScope.btnLinkValue}" class="btn btn-sm btn-secondary "><fmt:message key="${sessionScope.btnCaptionValue}"/> </a>
             </div>
         </div>
     </div>

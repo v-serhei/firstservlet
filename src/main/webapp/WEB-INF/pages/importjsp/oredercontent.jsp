@@ -55,10 +55,11 @@
         </div>
         <c:if test="${requestScope.enableOrderControls}">
             <div class="order-controls">
-                <a class="btn btn-sm btn-secondary bg-success"
-                   href="${pageContext.request.contextPath}/do/pay_order">
-                    <fmt:message key="order.confirm.btn"/>
-                </a>
+                <form action="${pageContext.request.contextPath}/do/pay_order">
+                    <input type="hidden" name="orderId" value="${currentOrder.orderId}">
+                    <input type="submit" class="btn btn-sm btn-secondary bg-success"
+                           name="pay" value="<fmt:message key="order.confirm.btn"/>">
+                </form>
             </div>
         </c:if>
     </div>

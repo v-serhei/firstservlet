@@ -19,39 +19,32 @@ public class CreateOrderCommand implements Command {
     @Override
     public CommandResult execute(SessionRequestContent content) throws CommandException {
         User user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
+        if (!user.getLoginStatus()) {
+            return new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
+        }
+        if (!CommandPermissionValidator.isUserHasPermission(user, this)) {
+            return new CommandResult(PagePath.FORWARD_ERROR_PAGE, false);
+        }
         CommandResult result;
-        if (user.getLoginStatus()) {
-            if (CommandPermissionValidator.isUserHasPermission(user, this)) {
-                Set<Song> songs = user.getBasket().getSongs();
-                if (songs.size() > 0) {
-                    Order order = factory.createOrder(user, songs);
-                    try {
-                        OrderServiceImpl.INSTANCE.addOrder(order);
-                        user.getBasket().clear();
-                    } catch (ServiceException e) {
-                        throw new CommandException("CreateOrderCommand: Error while creating order", e);
-                    }
-                    content.addSessionAttribute(AttributeName.SESSION_CURRENT_ORDER, order);
-                    result = new CommandResult(PagePath.REDIRECT_ORDER_PAGE, true);
-                } else {
-                    result = addAttributesForErrorPage(content);
-
-                }
-            } else {
-                result = new CommandResult(PagePath.FORWARD_ERROR_PAGE, false);
+        Set<Song> songs = user.getBasket().getSongs();
+        if (songs.size() > 0) {
+            Order order = factory.createOrder(user, songs);
+            try {
+                OrderServiceImpl.INSTANCE.addOrder(order);
+                user.getBasket().clear();
+            } catch (ServiceException e) {
+                throw new CommandException("CreateOrderCommand: Error while creating order", e);
             }
+            content.addSessionAttribute(AttributeName.SESSION_CURRENT_ORDER, order);
+            result = new CommandResult(PagePath.REDIRECT_ORDER_PAGE, true);
         } else {
-            result = new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
+            content.addSessionAttribute(AttributeName.OPERATION_TYPE, AttributeValue.CREATE_ORDER);
+            content.addSessionAttribute(AttributeName.OPERATION_RESULT, AttributeValue.OPERATION_FAILED);
+            content.addSessionAttribute(AttributeName.OPERATION_MESSAGE, AttributeValue.EMPTY_ORDER_LIST);
+            content.addSessionAttribute(AttributeName.OPERATION_BUTTON_CAPTION, AttributeValue.BUTTON_CAPTION_BACK);
+            content.addSessionAttribute(AttributeName.OPERATION_BUTTON_LINK, PagePath.REDIRECT_MAIN_PAGE);
+            result = new CommandResult(PagePath.REDIRECT_ORDER_CREATION_RESULT_PAGE, true);
         }
         return result;
-    }
-
-    private CommandResult addAttributesForErrorPage(SessionRequestContent content) {
-        content.addRequestAttribute(AttributeName.OPERATION_TYPE, AttributeValue.CREATE_ORDER);
-        content.addRequestAttribute(AttributeName.OPERATION_RESULT, AttributeValue.OPERATION_FAILED);
-        content.addRequestAttribute(AttributeName.OPERATION_MESSAGE, AttributeValue.EMPTY_ORDER_LIST);
-        content.addRequestAttribute(AttributeName.OPERATION_BUTTON_CAPTION, AttributeValue.BUTTON_CAPTION_BACK);
-        content.addRequestAttribute(AttributeName.OPERATION_BUTTON_LINK, PagePath.REDIRECT_MAIN_PAGE);
-        return new CommandResult(PagePath.FORWARD_RESULT_PAGE, false);
     }
 }

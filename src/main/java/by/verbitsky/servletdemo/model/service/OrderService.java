@@ -16,4 +16,6 @@ public interface OrderService {
     boolean removeSongFromOrder(long orderId, long songId) throws ServiceException;
 
     boolean deleteOrder(Order order) throws ServiceException;
+
+    boolean updateOrder (Order order) throws ServiceException;
 }

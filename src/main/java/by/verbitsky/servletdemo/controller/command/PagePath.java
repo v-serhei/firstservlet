@@ -7,11 +7,13 @@ public class PagePath {
     public static final String REDIRECT_REVIEW_PAGE = "/audiobox/do/reviews";
     public static final String REDIRECT_LOGIN_PAGE = "/audiobox/do/login";
     public static final String REDIRECT_ORDER_PAGE = "/audiobox/do/order";
+    public static final String REDIRECT_PROFILE_PAGE = "/audiobox/do/profile";
+    public static final String REDIRECT_ORDER_PAYMENT_RESULT_PAGE = "/audiobox/do/payment/operation_result";
+    public static final String REDIRECT_ORDER_CREATION_RESULT_PAGE = "/audiobox/do/create_order/operation_result";
 
     //public static final String REDIRECT_COMPILATION_PAGE = "/do/compilations";
-   // public static final String REDIRECT_REGISTRATION_PAGE = "/do/registration";
     //public static final String REDIRECT_ADMIN_PAGE = "/do/admin";
-    //public static final String REDIRECT_PROFILE_PAGE = "/do/profile";
+
 
 
     //path to jsp (for forwarding)

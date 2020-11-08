@@ -1,9 +1,7 @@
 package by.verbitsky.servletdemo.controller.command;
 
 import by.verbitsky.servletdemo.controller.command.impl.AdminPageCommand;
-import by.verbitsky.servletdemo.controller.command.impl.user.BasketAddCommand;
-import by.verbitsky.servletdemo.controller.command.impl.user.BasketRemoveCommand;
-import by.verbitsky.servletdemo.controller.command.impl.user.CreateOrderCommand;
+import by.verbitsky.servletdemo.controller.command.impl.user.*;
 import by.verbitsky.servletdemo.entity.User;
 
 import java.util.HashMap;
@@ -25,6 +23,9 @@ public class CommandPermissionValidator {
         permissions.put(BasketRemoveCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(BasketAddCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(CreateOrderCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));
+        permissions.put(OrderRemoveSongCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));
+        permissions.put(PayOrderCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));
+        //common commands
     }
 
     private CommandPermissionValidator() {

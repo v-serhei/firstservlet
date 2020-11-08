@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-public enum OrderServiceImpl implements OrderService  {
+public enum OrderServiceImpl implements OrderService {
     INSTANCE;
 
     @Override
@@ -73,7 +73,7 @@ public enum OrderServiceImpl implements OrderService  {
             if (order.isPresent()) {
                 BigDecimal songPrice = BigDecimal.ZERO;
                 if (song.isPresent()) {
-                    songPrice = ((Song)song.get()).getPrice();
+                    songPrice = ((Song) song.get()).getPrice();
                 }
                 order.get().setOrderPrice(order.get().getOrderPrice().subtract(songPrice));
                 orderDao.removeOrderDescription(orderId, songId);
@@ -98,6 +98,24 @@ public enum OrderServiceImpl implements OrderService  {
             throw new ServiceException("OrderServiceImpl: error while removing order");
         }
         return result;
+    }
+
+    @Override
+    public boolean updateOrder(Order order) throws ServiceException {
+        ProxyConnection connection = askConnectionFromPool();
+        boolean result;
+        try (Transaction transaction = new Transaction(connection)) {
+            OrderDao orderDao = new OrderDaoImpl();
+            transaction.processSimpleQuery(orderDao);
+            result = orderDao.update(order);
+        } catch (DaoException e) {
+            throw new ServiceException("OrderServiceImpl: error while removing song from order");
+        }
+        return result;
+    }
+
+    public int getPaidOrderStatusId() {
+        return OrderStatus.PAID.getOrderStatusId();
     }
 
     private ProxyConnection askConnectionFromPool() throws ServiceException {
