@@ -771,6 +771,38 @@
     margin-top: 15px;
 }
 
+.user-review-list{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto;
+    justify-content: center;
+}
+.review-list-header {
+    display: flex;
+    margin: 5px auto;
+    width: 100%;
+}
+.review-totals {
+    text-align: center;
+    font-size: 14pt;
+    font-weight: bolder;
+    width: 100%;
+}
+.user-review-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: auto;
+    max-height: 700px
+}
+.user-reviews-text{
+    display: flex;
+    flex-direction: row;
+    max-height: 30px;
+    overflow: hidden;
+    font-size: 12pt;
+}
 
 
 /*

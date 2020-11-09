@@ -25,8 +25,10 @@ public class AttributeValue {
     public static final String REVIEW_ADD_FAIL = "operation.message.failed.review.add";
 
 
-
-
+    public static final String REVIEW_DELETE = "operation.delete.review";
+    public static final String REVIEW_DELETE_SUCCESSFUL = "operation.message.successful.review.delete";
+    public static final String REVIEW_DELETE_FAIL = "operation.message.failed.review.delete";
+    public static final String REVIEW_NOT_EXIST = "operation.message.review.not.exist";
 
 
     public static final String EMPTY_ORDER_LIST = "operation.message.empty.order.list";

@@ -3,6 +3,7 @@ package by.verbitsky.servletdemo.model.dao.impl;
 import by.verbitsky.servletdemo.entity.AudioContent;
 import by.verbitsky.servletdemo.entity.ContentFactory;
 import by.verbitsky.servletdemo.entity.ContentType;
+import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.entity.ext.Singer;
 import by.verbitsky.servletdemo.entity.impl.AudioContentFactory;
 import by.verbitsky.servletdemo.exception.DaoException;
@@ -20,6 +21,11 @@ public class SingerDaoImpl extends AbstractDao implements ContentDao {
     private static final String SELECT_ALL_SINGERS = "Select singer_id, singer_name FROM singers ORDER BY singer_name";
     private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Singer>();
 
+
+    @Override
+    public List<AudioContent> findContentByUser(User user) throws DaoException {
+        return null;
+    }
 
     @Override
     public List<String> findContentProperties() {

@@ -3,6 +3,7 @@ package by.verbitsky.servletdemo.model.dao.impl;
 import by.verbitsky.servletdemo.entity.AudioContent;
 import by.verbitsky.servletdemo.entity.ContentFactory;
 import by.verbitsky.servletdemo.entity.ContentType;
+import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.entity.ext.Song;
 import by.verbitsky.servletdemo.entity.impl.AudioContentFactory;
 import by.verbitsky.servletdemo.exception.DaoException;
@@ -212,6 +213,11 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
             throw new DaoException(e);
         }
         return result;
+    }
+
+    @Override
+    public List<AudioContent> findContentByUser(User user) throws DaoException {
+        return null;
     }
 
     private List<AudioContent> findSongByFilter(long offset, int limit, SongFilter songFilter) throws DaoException {

@@ -19,6 +19,7 @@ public class ParameterName {
     public static final String PAGE_NUMBER = "pageNumber";
     public static final String ORDERED_SONG_ID = "orderedSongId";
     public static final String ORDER_ID = "orderId";
+    public static final String REVIEW_ID = "reviewId";
     public static final String CONTENT_TYPE = "contentType";
 
     public static final String PAGE_MARK = "currentPageUri";

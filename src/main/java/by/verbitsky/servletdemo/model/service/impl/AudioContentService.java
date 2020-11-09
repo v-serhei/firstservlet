@@ -24,10 +24,11 @@ public enum AudioContentService implements ContentService {
     private static final int DEFAULT_ITEMS_PER_PAGE = 1;
     private static final int DEFAULT_PAGE_NUMBER = 1;
 
+
     @Override
     public long calculateItemsCount(ContentFilter filter) throws ServiceException {
         if (filter == null) {
-            throw new ServiceException("ContentServiceImpl calculateItemsCount: received null filter");
+            throw new ServiceException("AudioContentService calculateItemsCount: received null filter");
         }
         ProxyConnection connection = askConnectionFromPool();
         long result;
@@ -36,7 +37,7 @@ public enum AudioContentService implements ContentService {
             transaction.processSimpleQuery(dao);
             result = dao.calculateRowCount(filter);
         } catch (DaoException e) {
-            throw new ServiceException("ContentServiceImpl: processing calculate Content items count DaoException error", e);
+            throw new ServiceException("AudioContentService: processing calculate Content items count DaoException error", e);
         }
         return result;
     }
@@ -44,7 +45,7 @@ public enum AudioContentService implements ContentService {
     @Override
     public List<AudioContent> findAllContent(ContentType type) throws ServiceException {
         if (type == null) {
-            throw new ServiceException("ContentServiceImpl: null parameter Content type");
+            throw new ServiceException("AudioContentService: null parameter Content type");
         }
         List<AudioContent> result;
         ProxyConnection connection = askConnectionFromPool();
@@ -53,7 +54,7 @@ public enum AudioContentService implements ContentService {
             transaction.processSimpleQuery(dao);
             result = dao.findAll();
         } catch (DaoException e) {
-            throw new ServiceException("ContentServiceImpl: error while searching singers", e);
+            throw new ServiceException("AudioContentService: error while searching singers", e);
         }
         return result;
     }
@@ -61,7 +62,7 @@ public enum AudioContentService implements ContentService {
     @Override
     public Optional<AudioContent> findContentById(ContentType type, long id) throws ServiceException {
         if (type == null) {
-            throw new ServiceException("ContentServiceImpl findContentById: null parameter Content type");
+            throw new ServiceException("AudioContentService findContentById: null parameter Content type");
         }
         ProxyConnection connection = askConnectionFromPool();
         Optional<AudioContent> result;
@@ -70,7 +71,7 @@ public enum AudioContentService implements ContentService {
             transaction.processSimpleQuery(dao);
             result = dao.findEntityById(id);
         } catch (DaoException e) {
-            throw new ServiceException("ContentServiceImpl: error while searching content by id", e);
+            throw new ServiceException("AudioContentService: error while searching content by id", e);
         }
         return result;
     }
@@ -115,7 +116,39 @@ public enum AudioContentService implements ContentService {
             }
             transaction.commitTransaction();
         } catch (DaoException e) {
-            throw new ServiceException("ContentServiceImpl: error while searching content by id", e);
+            throw new ServiceException("AudioContentService: error while searching content by id", e);
+        }
+        return result;
+    }
+
+    public List<AudioContent> findUserReviews(User user) throws ServiceException {
+        if (user.getUserId() == 0 ) {
+            throw new ServiceException("AudioContentService find user Reviews: user id = 0");
+        }
+        ContentDao dao = new ReviewDaoImpl();
+        ProxyConnection connection = askConnectionFromPool();
+        try (Transaction transaction = new Transaction(connection)) {
+            transaction.processSimpleQuery(dao);
+            return dao.findContentByUser(user);
+        } catch (DaoException e) {
+            throw new ServiceException("AudioContentService find user Reviews: error while searching user reviews", e);
+        }
+    }
+
+    @Override
+    public boolean deleteContentById(ContentType type, long contentId) throws ServiceException {
+        if (type == null || contentId == 0) {
+            throw new ServiceException("AudioContentService findContentById: null parameter Content type or content id = 0");
+        }
+        ContentDao dao = defineDaoByContentType(type);
+        ProxyConnection connection = askConnectionFromPool();
+        boolean result;
+        try (Transaction transaction = new Transaction(connection)) {
+            transaction.processTransaction(dao);
+            result = dao.delete(contentId);
+            transaction.commitTransaction();
+        } catch (DaoException e) {
+            throw new ServiceException("AudioContentService deleteContentById: error while deleting content by id",e);
         }
         return result;
     }
@@ -124,7 +157,7 @@ public enum AudioContentService implements ContentService {
     @Override
     public List<AudioContent> findFilteredContent(ContentFilter filter) throws ServiceException {
         if (filter == null) {
-            throw new ServiceException("ContentServiceImpl: received null filter");
+            throw new ServiceException("AudioContentService: received null filter");
         }
         List<AudioContent> result;
         ContentDao dao = defineDaoByContentType(filter.getContentType());
@@ -134,7 +167,7 @@ public enum AudioContentService implements ContentService {
             transaction.processSimpleQuery(dao);
             result = dao.findFilteredContent(offset, filter.getItemPerPage(), filter);
         } catch (DaoException e) {
-            throw new ServiceException("ContentServiceImpl: error while searching content", e);
+            throw new ServiceException("AudioContentService: error while searching content", e);
         }
         return result;
     }
@@ -169,6 +202,7 @@ public enum AudioContentService implements ContentService {
         }
         return dao;
     }
+
 
     private ProxyConnection askConnectionFromPool() throws ServiceException {
         ProxyConnection result;

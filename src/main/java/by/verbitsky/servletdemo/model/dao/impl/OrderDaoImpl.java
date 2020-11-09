@@ -54,13 +54,26 @@ public class OrderDaoImpl implements OrderDao {
            "DELETE FROM orders WHERE orders.order_id = ?;";
 
     private static final String FIND_USER_ORDERS_BY_USER_ID =
-           "Select orders.order_id," +
-                   "       orders.user_id," +
-                   "       orders.order_summ," +
-                   "       orders.order_date," +
-                   "       orders.order_status " +
-           "from orders " +
-           "where orders.user_id = ?";
+            "Select orders.order_id," +
+                    "       orders.user_id," +
+                    "       orders.order_summ," +
+                    "       orders.order_date," +
+                    "       orders.order_status," +
+                    "       so.song_id as song_id," +
+                    "       song_title," +
+                    "       upload_date," +
+                    "       song_price," +
+                    "       singer_name," +
+                    "       album_title," +
+                    "       album.creation_date as album_date," +
+                    "       genre_name " +
+                    "from orders " +
+                    "       left join orders_description as description on orders.order_id = description.order_id" +
+                    "       left join songs as so on so.song_id = description.song_id" +
+                    "       left join singers as si on so.singer_id = si.singer_id" +
+                    "       left join albums as album on so.album_id = album.album_id" +
+                    "       left join genres as ge on so.genre_id = ge.genre_id " +
+                    "where orders.user_id = ?;";
 
     private static final OrderFactory<Order> factory = new OrderFactoryImpl();
 

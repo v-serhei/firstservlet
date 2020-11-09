@@ -20,4 +20,6 @@ public interface ContentService {
     List<String> findContentProperties(ContentType compilation) throws ServiceException;
 
     boolean createReview(User user, String songTitle, String singerName, String reviewText) throws ServiceException;
+
+    boolean deleteContentById (ContentType type, long contentId) throws ServiceException;
 }

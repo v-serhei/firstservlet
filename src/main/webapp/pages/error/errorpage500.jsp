@@ -16,6 +16,8 @@
                 <br/>
                 <h4 class="text-center"> Error code: </h4>
                 <h5 class="text-center"> ${pageContext.errorData.statusCode}</h5>
+
+                ${pageContext.errorData.throwable.message}
             </div>
         </div>
     </div>

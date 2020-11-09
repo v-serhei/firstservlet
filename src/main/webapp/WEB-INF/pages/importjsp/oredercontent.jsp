@@ -37,7 +37,7 @@
                         <form action="${pageContext.request.contextPath}/do/order/song_remove" method="get">
                             <input type="hidden" name="orderedSongId" value="${song.id}">
                             <input type="hidden" name="orderId" value="${currentOrder.orderId}">
-                            <input type="submit" class="btn btn-sm song-content-controls"
+                            <input type="submit" class="btn btn-sm song-content-controls bg-warning"
                                    style="background-image: url('${pageContext.request.contextPath}/resources/img/remove.png')"
                                    alt="Remove" value=""
                                    data-toggle="tooltip" data-placement="top"
@@ -62,7 +62,7 @@
                 </form>
                 <form action="${pageContext.request.contextPath}/do/remove_order">
                     <input type="hidden" name="orderId" value="${currentOrder.orderId}">
-                    <input type="submit" class="btn btn-sm btn-secondary" style="margin-left: 30px"
+                    <input type="submit" class="btn btn-sm btn-secondary badge-warning" style="margin-left: 30px"
                            name="pay" value="<fmt:message key="order.delete.btn"/>">
                 </form>
             </div>

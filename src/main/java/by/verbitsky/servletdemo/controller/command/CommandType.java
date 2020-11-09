@@ -18,6 +18,7 @@ public enum CommandType {
     OPERATION_RESULT(new OperationResultCommand()),
     ORDER(new OrderPageCommand()),
     USER_ORDERS(new UserOrdersCommand()),
+    USER_REVIEWS(new UserReviewsPageCommand()),
 
     //common commands
     PROCESS_LOGIN(new LoginCommand()),
@@ -30,6 +31,7 @@ public enum CommandType {
     UPDATE_PASSWORD(new UpdatePasswordCommand()),
     ADD_REVIEW(new ReviewCreationPageCommand()),
     CREATE_REVIEW(new CreateReviewCommand()),
+    DELETE_REVIEW(new DeleteReviewCommand()),
 
 
     //user commands

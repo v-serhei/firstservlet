@@ -7,6 +7,7 @@ public class Review extends AudioContent {
     private static final String POSTFIX_NAME = " )";
     private String reviewText;
     private String songTitle;
+    private String singerName;
     private String userName;
     private long userId;
     private long songId;
@@ -22,6 +23,13 @@ public class Review extends AudioContent {
         this.userId = userId;
     }
 
+    public String getSingerName() {
+        return singerName;
+    }
+
+    public void setSingerName(String singerName) {
+        this.singerName = singerName;
+    }
     public String getReviewText() {
         return reviewText;
     }

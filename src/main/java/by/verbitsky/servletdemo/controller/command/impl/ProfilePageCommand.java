@@ -14,7 +14,7 @@ public class ProfilePageCommand implements Command {
         CommandResult result;
         if (user != null && user.getLoginStatus()) {
             //todo посмотрет ьчто нужно подгрузить на страницу и сделать запрос в БД
-            result = new CommandResult(PagePath.FORWARD_SETTINGS_PAGE, false);
+            result = new CommandResult(PagePath.FORWARD_USER_SETTINGS_PAGE, false);
         } else {
             result = new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
         }

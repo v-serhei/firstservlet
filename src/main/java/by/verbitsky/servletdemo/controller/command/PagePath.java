@@ -9,16 +9,10 @@ public class PagePath {
     public static final String REDIRECT_ORDER_PAGE = "/audiobox/do/order";
     public static final String REDIRECT_SETTINGS_PAGE = "/audiobox/do/profile/settings";
     public static final String REDIRECT_USER_ORDER_PAGE = "/audiobox/do/profile/user_orders";
-    public static final String REDIRECT_ORDER_PAYMENT_RESULT_PAGE = "/audiobox/do/payment/operation_result";
-
-    public static final String REDIRECT_REVIEW_CREATION_RESULT_PAGE = "/audiobox/do/create_review/operation_result";
-
-    public static final String REDIRECT_ORDER_REMOVE_RESULT_PAGE = "/audiobox/do/remove_order/operation_result";
-
-    //public static final String REDIRECT_COMPILATION_PAGE = "/do/compilations";
-    //public static final String REDIRECT_ADMIN_PAGE = "/do/admin";
-
-
+    public static final String REDIRECT_USER_REVIEWS_PAGE = "/audiobox/do/profile/user_reviews";
+    public static final String REDIRECT_ORDER_PAYMENT_RESULT_PAGE = "/audiobox/do/order/payment/operation_result";
+    public static final String REDIRECT_REVIEW_CREATION_RESULT_PAGE = "/audiobox/do/review/create_review/operation_result";
+    public static final String REDIRECT_ORDER_REMOVE_RESULT_PAGE = "/audiobox/do/profile/remove_order/operation_result";
 
     //path to jsp (for forwarding)
     public static final String FORWARD_MAIN_PAGE = "/pages/mainpage.jsp";
@@ -29,8 +23,9 @@ public class PagePath {
     public static final String FORWARD_ORDER_PAGE = "/pages/user/order.jsp";
     public static final String FORWARD_REGISTRATION_PAGE = "/pages/registration.jsp";
     public static final String FORWARD_ADMIN_PAGE = "/pages/admin/adminpage.jsp";
-    public static final String FORWARD_SETTINGS_PAGE = "/pages/user/profilesettings.jsp";
+    public static final String FORWARD_USER_SETTINGS_PAGE = "/pages/user/profilesettings.jsp";
     public static final String FORWARD_USER_ORDERS_PAGE = "/pages/user/profileorders.jsp";
+    public static final String FORWARD_USER_REVIEWS_PAGE = "/pages/user/profilereviews.jsp";
     public static final String FORWARD_ADD_REVIEW_PAGE = "/pages/addreview.jsp";
     public static final String FORWARD_ERROR_PAGE = "/pages/error/errorPage.jsp";
 

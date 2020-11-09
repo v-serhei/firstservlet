@@ -27,6 +27,7 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
     private static final String COLUMN_GENRE_ID = "genre_id";
     private static final String COLUMN_GENRE_NAME = "genre_name";
 
+    private static final String COLUMN_USER_ID = "user_id";
     private static final String COLUMN_REVIEW_ID = "review_id";
     private static final String COLUMN_REVIEW_TEXT = "review";
 
@@ -193,6 +194,7 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
                 resultSet.getString(COLUMN_SINGER_NAME));
         result.setUserName(resultSet.getString(COLUMN_USER_NAME));
         result.setReviewText(resultSet.getString(COLUMN_REVIEW_TEXT));
+        result.setUserId(resultSet.getLong(COLUMN_USER_ID));
         return Optional.of(result);
     }
 

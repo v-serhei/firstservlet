@@ -23,7 +23,7 @@ public class UpdateEmailCommand implements Command {
                     return new CommandResult(PagePath.REDIRECT_SETTINGS_PAGE, true);
 
                 }else {
-                    return new CommandResult(PagePath.FORWARD_SETTINGS_PAGE, false);
+                    return new CommandResult(PagePath.FORWARD_USER_SETTINGS_PAGE, false);
                 }
             } catch (ServiceException e) {
                 throw new CommandException("UpdatePasswordCommand: error while updating user password", e);
