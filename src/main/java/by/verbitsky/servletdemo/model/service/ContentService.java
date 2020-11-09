@@ -2,6 +2,7 @@ package by.verbitsky.servletdemo.model.service;
 
 import by.verbitsky.servletdemo.entity.AudioContent;
 import by.verbitsky.servletdemo.entity.ContentType;
+import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.exception.ServiceException;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface ContentService {
     Optional<AudioContent> findContentById (ContentType type, long id) throws ServiceException;
 
     List<String> findContentProperties(ContentType compilation) throws ServiceException;
+
+    boolean createReview(User user, String songTitle, String singerName, String reviewText) throws ServiceException;
 }

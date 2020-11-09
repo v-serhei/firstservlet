@@ -3,6 +3,7 @@ package by.verbitsky.servletdemo.controller.command.impl.navigation;
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.controller.command.*;
 import by.verbitsky.servletdemo.entity.AudioContent;
+import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.entity.ext.Review;
 import by.verbitsky.servletdemo.exception.CommandException;
 import by.verbitsky.servletdemo.exception.ServiceException;
@@ -16,23 +17,33 @@ import java.util.Set;
 
 public class ReviewPageCommand implements Command {
     private ContentService service = AudioContentService.INSTANCE;
+    private long reviewCount;
 
     @Override
     public CommandResult execute(SessionRequestContent content) throws CommandException {
         String songTitle = content.getRequestParameter(ParameterName.SONG);
+        String author = content.getRequestParameter(ParameterName.SINGER);
         String enableFilter = content.getRequestParameter(ParameterName.ENABLE_FILTER);
         boolean isFiltered = Boolean.parseBoolean(enableFilter);
         ReviewFilter filter;
         if (isFiltered) {
             filter = (ReviewFilter) content.getSessionAttribute(AttributeName.REVIEW_FILTER);
-            fillReviewFilter(filter, songTitle);
-            generateContent(filter, content);
-            return new CommandResult(PagePath.FORWARD_REVIEW_PAGE, false);
         } else {
             filter = new ReviewFilter();
-            fillReviewFilter(filter, songTitle);
-            generateContent(filter, content);
+        }
+        fillReviewFilter(filter, songTitle);
+        generateContent(filter, content);
+        if (reviewCount > 0) {
             return new CommandResult(PagePath.FORWARD_REVIEW_PAGE, false);
+        } else {
+            content.addSessionAttribute(AttributeName.REVIEW_CREATION_SONG, songTitle);
+            content.addSessionAttribute(AttributeName.REVIEW_CREATION_SINGER, author);
+            User user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
+            if (user.getLoginStatus()) {
+                return new CommandResult(PagePath.FORWARD_ADD_REVIEW_PAGE, false);
+            } else {
+                return new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
+            }
         }
     }
 
@@ -69,5 +80,6 @@ public class ReviewPageCommand implements Command {
         content.addSessionAttribute(AttributeName.REVIEW_FILTER, filter);
         //add link for pagination controls
         content.addSessionAttribute(AttributeName.REVIEW_CONTROLS_LINK, PagePath.PAGINATION_REVIEW);
+        reviewCount = pageContent.size();
     }
 }

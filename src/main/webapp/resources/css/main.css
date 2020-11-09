@@ -736,7 +736,40 @@
     width: 50%;
 }
 
-
+.create-review-block {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 20px auto;
+}
+.create-review-body {
+    margin: 50px auto;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+}
+.create-review-header {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14pt;
+    font-weight: bolder;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-left: auto ;
+    margin-right: auto ;
+}
+.create-review-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+#reviewText {
+    max-height: 400px;
+}
+.review-readonly-text{
+    margin-top: 15px;
+}
 
 
 

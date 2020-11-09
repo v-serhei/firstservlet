@@ -10,7 +10,9 @@ public class PagePath {
     public static final String REDIRECT_SETTINGS_PAGE = "/audiobox/do/profile/settings";
     public static final String REDIRECT_USER_ORDER_PAGE = "/audiobox/do/profile/user_orders";
     public static final String REDIRECT_ORDER_PAYMENT_RESULT_PAGE = "/audiobox/do/payment/operation_result";
-    public static final String REDIRECT_ORDER_CREATION_RESULT_PAGE = "/audiobox/do/create_order/operation_result";
+
+    public static final String REDIRECT_REVIEW_CREATION_RESULT_PAGE = "/audiobox/do/create_review/operation_result";
+
     public static final String REDIRECT_ORDER_REMOVE_RESULT_PAGE = "/audiobox/do/remove_order/operation_result";
 
     //public static final String REDIRECT_COMPILATION_PAGE = "/do/compilations";
@@ -29,6 +31,7 @@ public class PagePath {
     public static final String FORWARD_ADMIN_PAGE = "/pages/admin/adminpage.jsp";
     public static final String FORWARD_SETTINGS_PAGE = "/pages/user/profilesettings.jsp";
     public static final String FORWARD_USER_ORDERS_PAGE = "/pages/user/profileorders.jsp";
+    public static final String FORWARD_ADD_REVIEW_PAGE = "/pages/addreview.jsp";
     public static final String FORWARD_ERROR_PAGE = "/pages/error/errorPage.jsp";
 
     //pagination controls href attribute value

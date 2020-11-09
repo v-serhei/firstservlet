@@ -56,6 +56,7 @@
 
                 <form action="${pageContext.request.contextPath}/do/reviews" method="get">
                     <input type="hidden" name="songName" value="${song.songTitle}">
+                    <input type="hidden" name="singerName" value="${song.authorName}">
                     <input type="submit" class="btn btn-sm song-content-controls"
                            style="background-image: url('${pageContext.request.contextPath}/resources/img/review.png')"
                            alt="View reviews" value=""

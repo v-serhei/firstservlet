@@ -12,9 +12,7 @@ import by.verbitsky.servletdemo.model.service.ContentFilter;
 import by.verbitsky.servletdemo.model.service.ext.ReviewFilter;
 import by.verbitsky.servletdemo.util.SqlRegexGenerator;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +43,10 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
                     "group by song_title " +
                     "order by song_title " +
                     "limit ? offset ?";
+
+    private static final String INSERT_REVIEW =
+            "INSERT INTO song_review (song_id, user_id, review) VALUES (?, ?, ?);";
+
 
     @Override
     public List<AudioContent> findFilteredContent(long offset, int limit, ContentFilter filter) throws DaoException {
@@ -128,6 +130,24 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
 
     @Override
     public boolean create(AudioContent entity) throws DaoException {
-        return false;
+        if (connection == null) {
+            throw new DaoException("ReviewDaoImpl create: connection is null");
+        }
+        if (entity == null) {
+            throw new DaoException("ReviewDaoImpl create: received null review");
+        }
+        boolean result = false;
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_REVIEW)) {
+            statement.setLong(1, ((Review) entity).getSongId());
+            statement.setLong(2, ((Review) entity).getUserId());
+            statement.setString(3, ((Review) entity).getReviewText());
+            int res = statement.executeUpdate();
+            if (res > 0) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            throw new DaoException("OrderDao create order: error while creating order in db");
+        }
+        return result;
     }
 }

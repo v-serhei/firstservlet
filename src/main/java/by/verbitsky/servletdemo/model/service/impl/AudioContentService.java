@@ -1,23 +1,28 @@
 package by.verbitsky.servletdemo.model.service.impl;
 
 import by.verbitsky.servletdemo.entity.AudioContent;
+import by.verbitsky.servletdemo.entity.ContentType;
+import by.verbitsky.servletdemo.entity.User;
+import by.verbitsky.servletdemo.entity.ext.Review;
 import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.exception.PoolException;
 import by.verbitsky.servletdemo.exception.ServiceException;
 import by.verbitsky.servletdemo.model.dao.ContentDao;
 import by.verbitsky.servletdemo.model.dao.Transaction;
 import by.verbitsky.servletdemo.model.dao.impl.*;
-import by.verbitsky.servletdemo.model.service.ContentFilter;
-import by.verbitsky.servletdemo.model.service.ContentService;
-import by.verbitsky.servletdemo.entity.ContentType;
 import by.verbitsky.servletdemo.model.pool.impl.ConnectionPoolImpl;
 import by.verbitsky.servletdemo.model.pool.impl.ProxyConnection;
+import by.verbitsky.servletdemo.model.service.ContentFilter;
+import by.verbitsky.servletdemo.model.service.ContentService;
+import by.verbitsky.servletdemo.model.service.ext.SongFilter;
 
 import java.util.List;
 import java.util.Optional;
 
 public enum AudioContentService implements ContentService {
     INSTANCE;
+    private static final int DEFAULT_ITEMS_PER_PAGE = 1;
+    private static final int DEFAULT_PAGE_NUMBER = 1;
 
     @Override
     public long calculateItemsCount(ContentFilter filter) throws ServiceException {
@@ -75,14 +80,44 @@ public enum AudioContentService implements ContentService {
         if (contentType == ContentType.COMPILATION) {
             ContentDao dao = new CompilationDao();
             ProxyConnection connection = askConnectionFromPool();
-            try (Transaction transaction = new Transaction(connection)){
+            try (Transaction transaction = new Transaction(connection)) {
                 transaction.processSimpleQuery(dao);
-                return dao.findContentProperties ();
+                return dao.findContentProperties();
             } catch (DaoException e) {
                 throw new ServiceException("AudioContentService: findContentProperties: error while receiving properties from db");
             }
         }
         throw new ServiceException("AudioContentService: findContentProperties received unsupported content type");
+    }
+
+    @Override
+    public boolean createReview(User user, String songTitle, String singerName, String reviewText) throws ServiceException {
+        ProxyConnection connection = askConnectionFromPool();
+        SongFilter songFilter = new SongFilter();
+        songFilter.setSingerName(singerName);
+        songFilter.setSongTitle(songTitle);
+        songFilter.setItemPerPage(DEFAULT_ITEMS_PER_PAGE);
+        songFilter.setPageNumber(DEFAULT_PAGE_NUMBER);
+        boolean result;
+        try (Transaction transaction = new Transaction(connection)) {
+            ContentDao dao = new ReviewDaoImpl();
+            transaction.processTransaction(dao);
+            List<AudioContent> songs = findFilteredContent(songFilter);
+            if (songs.size() == 1) {
+                long songId = songs.get(0).getId();
+                Review review = new Review();
+                review.setReviewText(reviewText);
+                review.setSongId(songId);
+                review.setUserId(user.getUserId());
+                result = dao.create(review);
+            } else {
+                result = false;
+            }
+            transaction.commitTransaction();
+        } catch (DaoException e) {
+            throw new ServiceException("ContentServiceImpl: error while searching content by id", e);
+        }
+        return result;
     }
 
 
@@ -103,7 +138,6 @@ public enum AudioContentService implements ContentService {
         }
         return result;
     }
-
 
 
     private ContentDao defineDaoByContentType(ContentType type) throws ServiceException {
@@ -136,7 +170,7 @@ public enum AudioContentService implements ContentService {
         return dao;
     }
 
-    private ProxyConnection askConnectionFromPool () throws ServiceException {
+    private ProxyConnection askConnectionFromPool() throws ServiceException {
         ProxyConnection result;
         try {
             result = ConnectionPoolImpl.getInstance().getConnection();

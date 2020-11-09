@@ -28,6 +28,8 @@ public enum CommandType {
     EN(new LanguageCommand()),
     UPDATE_EMAIL(new UpdateEmailCommand()),
     UPDATE_PASSWORD(new UpdatePasswordCommand()),
+    ADD_REVIEW(new ReviewCreationPageCommand()),
+    CREATE_REVIEW(new CreateReviewCommand()),
 
 
     //user commands

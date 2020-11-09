@@ -10,20 +10,8 @@ public class AttributeName {
     public static final String SESSION_USER_LAST_QUERY = "lastUri";
     public static final String SESSION_CURRENT_ORDER = "currentOrder";
 
-    /**
-     * Request attributes
-     */
-    public static final String ADMIN_PAGE_ACCESS_DENIED = "access.violation.message";
-    public static final String LOGIN_FAILED = "loginFail";
-    public static final String REGISTRATION_WRONG_NAME = "regWrongName";
-    public static final String REGISTRATION_EXIST_NAME = "regExistName";
-    public static final String REGISTRATION_WRONG_PASSWORD = "regWrongPassword";
-    public static final String REGISTRATION_DIFFERENT_PASSWORDS = "regDifferentPasswords";
-    public static final String REGISTRATION_WRONG_EMAIL = "regWrongEmail";
-    public static final String REGISTRATION_EXIST_EMAIL = "regExistEmail";
 
     public static final String USER_UPDATE_FAILED = "updateUser";
-    public static final String USER_DELETE_ORDER = "deleteOrder";
     public static final String USER_PROFILE_SHOW_MESSAGE = "showMessage";
 
     //attributes for result page
@@ -35,6 +23,8 @@ public class AttributeName {
     /**
      * Content attributes
      */
+
+    //song content
     public static final String SONG_CONTENT = "songContentList";
     public static final String SONG_CONTROLS_LINK = "songLinkValue";
     public static final String SONG_FILTER = "songFilter";
@@ -47,7 +37,11 @@ public class AttributeName {
     public static final String COMPILATION_TOTAL_PAGE_COUNT = "compilationTotalPageCount";
     public static final String COMPILATION_SEARCH_COUNT_RESULT = "compilationContentCount";
     public static final String COMPILATION_TYPES_LIST = "compilationTypeList";
+
     //review content
+    public static final String REVIEW_CREATION_SONG = "song";
+    public static final String REVIEW_CREATION_SINGER = "singer";
+
     public static final String ADDITIONAL_CONTENT_SONGS = "reviewSongList";
     public static final String REVIEW_CONTENT = "reviewContentList";
     public static final String REVIEW_CONTROLS_LINK = "reviewLinkValue";
@@ -66,7 +60,17 @@ public class AttributeName {
     public static final String ORDER_TOTAL_PAID_COUNT = "totalPaidOrderCount";
     public static final String ORDER_TOTAL_PRICE = "totalOrderPrice";
 
-
+    /**
+     * Request attributes
+     */
+    public static final String ADMIN_PAGE_ACCESS_DENIED = "access.violation.message";
+    public static final String LOGIN_FAILED = "loginFail";
+    public static final String REGISTRATION_WRONG_NAME = "regWrongName";
+    public static final String REGISTRATION_EXIST_NAME = "regExistName";
+    public static final String REGISTRATION_WRONG_PASSWORD = "regWrongPassword";
+    public static final String REGISTRATION_DIFFERENT_PASSWORDS = "regDifferentPasswords";
+    public static final String REGISTRATION_WRONG_EMAIL = "regWrongEmail";
+    public static final String REGISTRATION_EXIST_EMAIL = "regExistEmail";
 
 
 

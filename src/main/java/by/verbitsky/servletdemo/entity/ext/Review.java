@@ -8,9 +8,18 @@ public class Review extends AudioContent {
     private String reviewText;
     private String songTitle;
     private String userName;
+    private long userId;
     private long songId;
 
     public Review() {
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public String getReviewText() {
