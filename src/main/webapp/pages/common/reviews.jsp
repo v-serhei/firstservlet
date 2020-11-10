@@ -9,8 +9,10 @@
 <c:import url="/WEB-INF/pages/importjsp/common/topmenu.jsp"/>
 <div id="main-body-container">
     <div id="body-container">
-       <c:import url="/WEB-INF/pages/importjsp/common/oredercontent.jsp"/>
+        <c:import url="/WEB-INF/pages/importjsp/common/reviewcontent.jsp"/>
+        <c:import url="/WEB-INF/pages/importjsp/common/rightmenureview.jsp"/>
     </div>
+
 </div>
 <c:import url="/WEB-INF/pages/importjsp/common/footer.jsp"/>
 </body>

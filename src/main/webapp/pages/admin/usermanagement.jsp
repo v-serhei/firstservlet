@@ -1,0 +1,47 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="language/jsp"/>
+<!DOCTYPE html>
+<html>
+<c:import url="/WEB-INF/pages/importjsp/common/header.jsp"/>
+<body>
+<c:import url="/WEB-INF/pages/importjsp/common/topmenu.jsp"/>
+
+<div id="main-body-container">
+    <div id="body-container">
+        <div id="content-div">
+            <div id="admin-page-main-container">
+                <div id="admin-page-blocks">
+                    <c:import url="/WEB-INF/pages/importjsp/admin/adminmenu.jsp"/>
+                    <c:import url="/WEB-INF/pages/importjsp/admin/usercontent.jsp"/>
+
+
+
+                    <div class="admin-page-content" id="admin-page-review-management">
+                        review settings
+                    </div>
+                    <div class="admin-page-content" id="admin-page-track-management">
+                        track settings
+                    </div>
+                    <div class="admin-page-content" id="admin-page-performer-management">
+                        performer settings
+                    </div>
+                    <div class="admin-page-content" id="admin-page-genre-management">
+                        genre settings
+                    </div>
+                    <div class="admin-page-content" id="admin-page-albums-management">
+                        albums settings
+                    </div>
+                    <div class="admin-page-content" id="admin-page-compilations-management">
+                        compilations settings
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<c:import url="/WEB-INF/pages/importjsp/common/footer.jsp"/>
+</body>
+</html>

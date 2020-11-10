@@ -5,9 +5,9 @@
 <fmt:setBundle basename="language/jsp"/>
 <!DOCTYPE html>
 <html>
-<c:import url="/WEB-INF/pages/importjsp/header.jsp"/>
+<c:import url="/WEB-INF/pages/importjsp/common/header.jsp"/>
 <body>
-<c:import url="/WEB-INF/pages/importjsp/topmenu.jsp"/>
+<c:import url="/WEB-INF/pages/importjsp/common/topmenu.jsp"/>
 <div id="reg-main-container">
     <div id="reg-controls-group">
         <form action="${pageContext.request.contextPath}/do/process_registration" method="post">
@@ -75,6 +75,6 @@
         </form>
     </div>
 </div>
-<c:import url="/WEB-INF/pages/importjsp/footer.jsp"/>
+<c:import url="/WEB-INF/pages/importjsp/common/footer.jsp"/>
 </body>
 </html>

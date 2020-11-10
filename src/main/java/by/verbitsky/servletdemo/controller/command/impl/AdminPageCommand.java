@@ -19,7 +19,7 @@ public class AdminPageCommand implements Command {
 
         //todo посмотреть что нужно подгрузить на страницу и сделать запрос в БД
         if (CommandPermissionValidator.isUserHasPermission(user, this)) {
-            result = new CommandResult(PagePath.FORWARD_ADMIN_PAGE, false);
+            result = new CommandResult(PagePath.FORWARD_ADMIN_USER_MANAGEMENT, false);
         } else {
             result = new CommandResult(PagePath.FORWARD_ERROR_PAGE, false);
         }
