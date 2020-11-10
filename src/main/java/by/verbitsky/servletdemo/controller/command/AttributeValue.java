@@ -18,22 +18,23 @@ public class AttributeValue {
     public static final String ORDER_REMOVE_SUCCESSFUL = "operation.message.successful.order.removing";
     public static final String ORDER_REMOVE_FAIL = "operation.message.order.removing.fail";
 
-
     public static final String BUTTON_CAPTION_REVIEW = "operation.btn.caption.review";
     public static final String REVIEW_CREATION = "operation.create.review";
     public static final String REVIEW_ADD_SUCCESSFUL = "operation.message.successful.review.add";
     public static final String REVIEW_ADD_FAIL = "operation.message.failed.review.add";
-
 
     public static final String REVIEW_DELETE = "operation.delete.review";
     public static final String REVIEW_DELETE_SUCCESSFUL = "operation.message.successful.review.delete";
     public static final String REVIEW_DELETE_FAIL = "operation.message.failed.review.delete";
     public static final String REVIEW_NOT_EXIST = "operation.message.review.not.exist";
 
-
     public static final String EMPTY_ORDER_LIST = "operation.message.empty.order.list";
     public static final String ORDER_NOT_EXIST = "operation.message.order.not.exist";
     public static final String ORDER_ALREADY_PAID = "operation.message.order.already.paid";
+
+    public static final String LOGIN = "operation.login";
+    public static final String LOGIN_BLOCKED = "operation.message.user.blocked";
+    public static final String LOGIN_FAIL = "operation.login.fail";
 
 
 

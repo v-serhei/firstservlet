@@ -31,6 +31,14 @@ public class LoginCommand implements Command {
             user = UserServiceImpl.INSTANCE.findUserByName(userName);
             passwordFromDb = UserServiceImpl.INSTANCE.findUserPassword(userName);
             if (user.isPresent() && passwordFromDb.isPresent()) {
+                if (user.get().getBlockedStatus()) {
+                    content.addSessionAttribute(AttributeName.OPERATION_TYPE, AttributeValue.LOGIN);
+                    content.addSessionAttribute(AttributeName.OPERATION_RESULT, AttributeValue.LOGIN_FAIL);
+                    content.addSessionAttribute(AttributeName.OPERATION_MESSAGE, AttributeValue.LOGIN_BLOCKED);
+                    content.addSessionAttribute(AttributeName.OPERATION_BUTTON_CAPTION, AttributeValue.BUTTON_CAPTION_BACK);
+                    content.addSessionAttribute(AttributeName.OPERATION_BUTTON_LINK, PagePath.REDIRECT_MAIN_PAGE);
+                    return new CommandResult(PagePath.FORWARD_RESULT_PAGE, false);
+                }
                 if (passwordFromDb.get().equals(UserServiceImpl.INSTANCE.getHashedPassword(password))) {
                     user.get().setLoginStatus(true);
                     user.get().initBasket();
