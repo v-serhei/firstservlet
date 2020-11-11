@@ -1,6 +1,9 @@
 package by.verbitsky.servletdemo.tag;
 
 import by.verbitsky.servletdemo.controller.command.AttributeName;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
@@ -10,6 +13,7 @@ import java.util.Locale;
 
 @SuppressWarnings("serial")
 public class PaginationTag extends TagSupport {
+    private static Logger logger = LogManager.getLogger();
     private String linkValue;
     private int currentPage;
     private int totalPageCount;
@@ -108,8 +112,8 @@ public class PaginationTag extends TagSupport {
                     pageContext.getOut().write("</div>\n");
                 }
             } catch (IOException e) {
-                //todo обработать
-                e.printStackTrace();
+                logger.log(Level.ERROR,"Pagination tag: error while processing tag body", e);
+                throw new JspException("Pagination tag: error while processing tag body", e);
             }
         }
         return EVAL_BODY_INCLUDE;
