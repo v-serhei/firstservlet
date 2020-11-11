@@ -17,7 +17,7 @@ import java.util.Optional;
 public class UserDaoImpl extends AbstractDao implements UserDao {
 
     private static final String SELECT_ALL_USERS =
-            "SELECT user_id, username, email, role_id, blocked_status, discount_value, reg_date FROM users";
+            "SELECT user_id, username, email, role_id, blocked_status, discount_value, reg_date FROM users order by username";
     private static final String SELECT_USER_BY_ID =
             "SELECT user_id, username, email, role_id, blocked_status, discount_value, reg_date FROM users WHERE user_id=?";
     private static final String SELECT_USER_BY_EMAIL =

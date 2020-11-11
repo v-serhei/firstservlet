@@ -23,7 +23,6 @@ public class AttributeName {
     /**
      * Content attributes
      */
-
     //song content
     public static final String SONG_CONTENT = "songContentList";
     public static final String SONG_CONTROLS_LINK = "songLinkValue";
@@ -59,7 +58,6 @@ public class AttributeName {
     public static final String ORDER_TOTAL_COUNT = "totalOrderCount";
     public static final String ORDER_TOTAL_PAID_COUNT = "totalPaidOrderCount";
     public static final String ORDER_TOTAL_PRICE = "totalOrderPrice";
-
     /**
      * Request attributes
      */
@@ -71,17 +69,20 @@ public class AttributeName {
     public static final String REGISTRATION_DIFFERENT_PASSWORDS = "regDifferentPasswords";
     public static final String REGISTRATION_WRONG_EMAIL = "regWrongEmail";
     public static final String REGISTRATION_EXIST_EMAIL = "regExistEmail";
-
-
-
     /**
      * Attribute names for error page
      */
     public static final String REQUESTED_URL = "requestedURL";
     public static final String COMMAND_ERROR_MESSAGE = "commandErrorMessage";
 
+    /* admin attributes*/
+    public static final String ADMIN_SELECTED_USER = "selectedUser";
+    public static final String ADMIN_USER_ENABLE = "userFlag";
+    public static final String ADMIN_USER_LIST = "userList";
+    public static final String ADMIN_ROLE_LIST = "roleList";
 
     public static final String ADMIN_OPERATION_RESULT_MSG = "resultMessage";
+    public static final String ADMIN_OPERATION_MESSAGE_FLAG = "enableMessage";
 
     private AttributeName() {
     }

@@ -13,8 +13,18 @@ public class PagePath {
     public static final String REDIRECT_ORDER_PAYMENT_RESULT_PAGE = "/audiobox/do/order/payment/operation_result";
     public static final String REDIRECT_REVIEW_CREATION_RESULT_PAGE = "/audiobox/do/review/create_review/operation_result";
     public static final String REDIRECT_ORDER_REMOVE_RESULT_PAGE = "/audiobox/do/profile/remove_order/operation_result";
+    public static final String REDIRECT_ADMIN_USER_MANAGEMENT_PAGE = "/audiobox/do/admin/user_management";
 
     //path to jsp (for forwarding)
+    public static final String FORWARD_ADMIN_USER_MANAGEMENT = "/pages/admin/usermanagement.jsp";
+    public static final String FORWARD_ADMIN_REVIEW_MANAGEMENT = "/pages/admin/reviewmanagement.jsp";
+    public static final String FORWARD_ADMIN_SONG_MANAGEMENT = "/pages/admin/songmanagement.jsp";
+    public static final String FORWARD_ADMIN_SINGER_MANAGEMENT = "/pages/admin/singermanagement.jsp";
+    public static final String FORWARD_ADMIN_GENRE_MANAGEMENT = "/pages/admin/genremanagement.jsp";
+    public static final String FORWARD_ADMIN_ALBUM_MANAGEMENT = "/pages/admin/albummanagement.jsp";
+    public static final String FORWARD_ADMIN_COMPILATION_MANAGEMENT = "/pages/admin/compilationmanagement.jsp";
+
+
     public static final String FORWARD_MAIN_PAGE = "/pages/common/mainpage.jsp";
     public static final String FORWARD_RESULT_PAGE = "/pages/user/result.jsp";
     public static final String FORWARD_REVIEW_PAGE = "/pages/common/reviews.jsp";
@@ -22,7 +32,6 @@ public class PagePath {
     public static final String FORWARD_LOGIN_PAGE = "/pages/common/login.jsp";
     public static final String FORWARD_ORDER_PAGE = "/pages/user/order.jsp";
     public static final String FORWARD_REGISTRATION_PAGE = "/pages/common/registration.jsp";
-    public static final String FORWARD_ADMIN_USER_MANAGEMENT = "/pages/admin/usermanagement.jsp";
     public static final String FORWARD_USER_SETTINGS_PAGE = "/pages/user/profilesettings.jsp";
     public static final String FORWARD_USER_ORDERS_PAGE = "/pages/user/profileorders.jsp";
     public static final String FORWARD_USER_REVIEWS_PAGE = "/pages/user/profilereviews.jsp";

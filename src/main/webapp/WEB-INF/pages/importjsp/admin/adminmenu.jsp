@@ -3,52 +3,50 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="language/jsp"/>
-<c:set var="user" value="${sessionScope.user}"/>
-
 <div id="admin-page-menu">
             <span id="admin-page-user-label">
-               <h5>Username</h5>
+               <h5>${sessionScope.user.userName}</h5>
             </span>
     <div id="nav-btns">
         <div id="admin-menu">
             <div class="form-group">
-                <span id="admin-menu-label">Administrator menu</span>
+                <span id="admin-menu-label"><fmt:message key="admin.menu.label"/></span>
                 <div id="list-example" class="list-group">
-                    <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
-                            id="admin-user-menu"
-                            onclick="hideContent(this.id,'admin-page-user-management')">Users management
-                    </button>
-                    <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
-                            id="admin-review-menu"
-                            onclick="hideContent(this.id,'admin-page-review-management')">reviews management
-                    </button>
+                    <a class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
+                       href="${pageContext.request.contextPath}/do/admin/user_management">
+                        <fmt:message key="admin.menu.user.management.btn"/>
+                    </a>
+                    <a class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
+                       href="${pageContext.request.contextPath}/do/admin/review_management">
+                        <fmt:message key="admin.menu.review.btn"/>
+                    </a>
                 </div>
             </div>
         </div>
         <div id="admin-content-menu">
             <div class="form-group">
-                <span id="admin-content-menu-label">Content menu</span>
+                <span id="admin-content-menu-label"><fmt:message key="admin.content.menu.label"/></span>
                 <div id="list-example2" class="list-group">
-                    <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
-                            id="content1"
-                            onclick="hideContent(this.id,'admin-page-track-management')">Tracks
-                    </button>
-                    <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
-                            id="content2"
-                            onclick="hideContent(this.id,'admin-page-performer-management')">Performers
-                    </button>
-                    <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
-                            id="content3"
-                            onclick="hideContent(this.id,'admin-page-genre-management')">Genres
-                    </button>
-                    <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
-                            id="content4"
-                            onclick="hideContent(this.id,'admin-page-albums-management')">Albums
-                    </button>
-                    <button class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
-                            id="content5"
-                            onclick="hideContent(this.id,'admin-page-compilations-management')">Compilations
-                    </button>
+                    <a class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
+                       href="${pageContext.request.contextPath}/do/admin/song_management">
+                        <fmt:message key="admin.content.menu.track.menu.btn"/>
+                    </a>
+                    <a class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
+                       href="${pageContext.request.contextPath}/do/admin/singer_management">
+                        <fmt:message key="admin.content.menu.artist.menu.btn"/>
+                    </a>
+                    <a class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
+                       href="${pageContext.request.contextPath}/do/admin/genre_management">
+                        <fmt:message key="admin.content.menu.genre.menu.btn"/>
+                    </a>
+                    <a class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
+                       href="${pageContext.request.contextPath}/do/admin/album_management">
+                        <fmt:message key="admin.content.menu.album.menu.btn"/>
+                    </a>
+                    <a class="btn btn-secondary btn-lg btn-block btn-sm bg-secondary btn-admin-menu"
+                       href="${pageContext.request.contextPath}/do/admin/compilation_management">
+                        <fmt:message key="admin.content.menu.compilation.menu.btn"/>
+                    </a>
                 </div>
             </div>
         </div>

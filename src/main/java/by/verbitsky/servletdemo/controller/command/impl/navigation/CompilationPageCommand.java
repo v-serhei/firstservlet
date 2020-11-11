@@ -26,13 +26,12 @@ public class CompilationPageCommand implements Command {
         CompilationFilter filter;
         if (isFiltered) {
             filter = (CompilationFilter) content.getSessionAttribute(AttributeName.COMPILATION_FILTER);
-            fillCompilationFilter(filter, compilationTitle, compilationType);
-            return updateFilteredContent(filter, content);
         } else {
             filter = new CompilationFilter();
-            fillCompilationFilter(filter, compilationTitle, compilationType);
-            return generateFilteredContent(filter, content);
+
         }
+        fillCompilationFilter(filter, compilationTitle, compilationType);
+        return generateFilteredContent(filter, content);
     }
 
     private void fillCompilationFilter(CompilationFilter filter, String compilationTitle, String compilationType) {
@@ -71,30 +70,6 @@ public class CompilationPageCommand implements Command {
         content.addSessionAttribute(AttributeName.COMPILATION_SEARCH_COUNT_RESULT, totalContentCount);
         //add filter value
         content.addSessionAttribute(AttributeName.COMPILATION_FILTER, filter);
-        return new CommandResult(PagePath.FORWARD_COMPILATION_PAGE, false);
-    }
-
-    private CommandResult updateFilteredContent(CompilationFilter filter, SessionRequestContent content) throws CommandException {
-        long totalContentCount;
-        List<AudioContent> pageContent;
-        try {
-            pageContent = service.findFilteredContent(filter);
-            totalContentCount = service.calculateItemsCount(filter);
-            for (AudioContent item : pageContent) {
-                SongFilter songFilter = new SongFilter();
-                songFilter.setCompilationId(item.getId());
-                ((Compilation)item).addAllSongs(service.findFilteredContent(songFilter));
-            }
-        } catch (ServiceException e) {
-            throw new CommandException("CompilationPageCommand: error while receiving compilation content from db", e);
-        }
-        int totalPageCount = (int) Math.ceil(totalContentCount * 1.0 / filter.getItemPerPage());
-        //total page count
-        content.addSessionAttribute(AttributeName.COMPILATION_TOTAL_PAGE_COUNT, totalPageCount);
-        //update content list
-        content.addSessionAttribute(AttributeName.COMPILATION_CONTENT, pageContent);
-        //add result count:
-        content.addSessionAttribute(AttributeName.COMPILATION_SEARCH_COUNT_RESULT, totalContentCount);
         return new CommandResult(PagePath.FORWARD_COMPILATION_PAGE, false);
     }
 }

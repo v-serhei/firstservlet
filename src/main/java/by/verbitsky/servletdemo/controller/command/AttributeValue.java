@@ -36,6 +36,9 @@ public class AttributeValue {
     public static final String LOGIN_BLOCKED = "operation.message.user.blocked";
     public static final String LOGIN_FAIL = "operation.login.fail";
 
+    public static final String ADMIN_USER_UPDATE_SUCCESSFUL = "admin.operation.successful.user.update";
+    public static final String ADMIN_USER_UPDATE_NOT_FOUND = "admin.operation.user.update.not.found";
+    public static final String ADMIN_USER_UPDATE_SQL_ERROR = "admin.operation.user.update.sql.error";
 
 
 

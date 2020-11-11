@@ -14,6 +14,10 @@ public class LoginCommand implements Command {
 
     @Override
     public CommandResult execute(SessionRequestContent content) throws CommandException {
+        User sessionUser = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
+        if (sessionUser.getLoginStatus()) {
+            return new CommandResult(PagePath.REDIRECT_MAIN_PAGE, true);
+        }
         CommandResult result;
         boolean loginFail = true;
         String userName = content.getRequestParameter(ParameterName.USER_NAME);

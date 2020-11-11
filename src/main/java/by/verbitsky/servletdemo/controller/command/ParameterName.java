@@ -2,6 +2,7 @@ package by.verbitsky.servletdemo.controller.command;
 
 public class ParameterName {
     public static final String LANGUAGE = "language";
+    public static final String PAGE_MARK = "currentPageUri";
 
     public static final String USER_NAME = "fieldName";
     public static final String USER_PASSWORD_FIRST = "fieldPassword";
@@ -22,8 +23,10 @@ public class ParameterName {
     public static final String REVIEW_ID = "reviewId";
     public static final String CONTENT_TYPE = "contentType";
 
-    public static final String PAGE_MARK = "currentPageUri";
-
+    public static final String SELECTED_USER = "selectedUser";
+    public static final String USER_ROLE = "userRole";
+    public static final String USER_DISCOUNT = "userDiscount";
+    public static final String USER_STATUS = "userStatus";
 
 
 

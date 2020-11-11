@@ -16,6 +16,7 @@ public class User {
     private LocalDate registrationDate;
     private String roleDescription;
 
+
     public User() {
     }
 

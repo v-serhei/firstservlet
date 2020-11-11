@@ -24,7 +24,6 @@ public enum AudioContentService implements ContentService {
     private static final int DEFAULT_ITEMS_PER_PAGE = 1;
     private static final int DEFAULT_PAGE_NUMBER = 1;
 
-
     @Override
     public long calculateItemsCount(ContentFilter filter) throws ServiceException {
         if (filter == null) {
@@ -93,6 +92,12 @@ public enum AudioContentService implements ContentService {
 
     @Override
     public boolean createReview(User user, String songTitle, String singerName, String reviewText) throws ServiceException {
+        if (user == null || songTitle == null || singerName == null || reviewText == null) {
+            throw new ServiceException("AudioContentService create review: received null parameters");
+        }
+        if (songTitle.isEmpty() || singerName.isEmpty()) {
+            throw new ServiceException("AudioContentService create review: singer name or song title is empty");
+        }
         ProxyConnection connection = askConnectionFromPool();
         SongFilter songFilter = new SongFilter();
         songFilter.setSingerName(singerName);
@@ -122,7 +127,7 @@ public enum AudioContentService implements ContentService {
     }
 
     public List<AudioContent> findUserReviews(User user) throws ServiceException {
-        if (user.getUserId() == 0 ) {
+        if (user.getUserId() == 0) {
             throw new ServiceException("AudioContentService find user Reviews: user id = 0");
         }
         ContentDao dao = new ReviewDaoImpl();
@@ -148,7 +153,7 @@ public enum AudioContentService implements ContentService {
             result = dao.delete(contentId);
             transaction.commitTransaction();
         } catch (DaoException e) {
-            throw new ServiceException("AudioContentService deleteContentById: error while deleting content by id",e);
+            throw new ServiceException("AudioContentService deleteContentById: error while deleting content by id", e);
         }
         return result;
     }

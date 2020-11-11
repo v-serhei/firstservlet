@@ -15,7 +15,7 @@
             <div id="admin-page-main-container">
                 <div id="admin-page-blocks">
                     <c:import url="/WEB-INF/pages/importjsp/admin/adminmenu.jsp"/>
-                    <c:import url="/WEB-INF/pages/importjsp/admin/usercontent.jsp"/>
+                    <c:import url="/WEB-INF/pages/importjsp/admin/songcontent.jsp"/>
                 </div>
             </div>
         </div>

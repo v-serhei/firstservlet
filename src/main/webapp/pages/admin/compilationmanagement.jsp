@@ -8,14 +8,13 @@
 <c:import url="/WEB-INF/pages/importjsp/common/header.jsp"/>
 <body>
 <c:import url="/WEB-INF/pages/importjsp/common/topmenu.jsp"/>
-
 <div id="main-body-container">
     <div id="body-container">
         <div id="content-div">
             <div id="admin-page-main-container">
                 <div id="admin-page-blocks">
                     <c:import url="/WEB-INF/pages/importjsp/admin/adminmenu.jsp"/>
-                    <c:import url="/WEB-INF/pages/importjsp/admin/usercontent.jsp"/>
+                    <c:import url="/WEB-INF/pages/importjsp/admin/compilationcontent.jsp"/>
                 </div>
             </div>
         </div>

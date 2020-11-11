@@ -84,6 +84,11 @@ public class SessionRequestContent {
         return requestAttributes.get(attributeName);
     }
 
+    public void removeSessionAttribute (String attributeName) {
+        sessionAttributes.remove(attributeName);
+        session.removeAttribute(attributeName);
+    }
+
     public HttpSession getSession() {
         return session;
     }

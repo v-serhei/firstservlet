@@ -1,17 +1,16 @@
 package by.verbitsky.servletdemo.controller.command;
 
-import by.verbitsky.servletdemo.controller.command.impl.AdminPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.admin.UpdateUserCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.*;
 import by.verbitsky.servletdemo.controller.command.impl.common.*;
 import by.verbitsky.servletdemo.controller.command.impl.navigation.*;
 import by.verbitsky.servletdemo.controller.command.impl.user.*;
 
 public enum CommandType {
-
-    //navigation
+    //common navigation
     MAIN(new MainPageCommand()),
     LOGIN(new LoginPageCommand()),
     REGISTRATION(new RegistrationPageCommand()),
-    ADMIN(new AdminPageCommand()),
     REVIEWS(new ReviewPageCommand()),
     COMPILATIONS(new CompilationPageCommand()),
     NEXT_PAGE(new NextPageCommand()),
@@ -33,7 +32,6 @@ public enum CommandType {
     CREATE_REVIEW(new CreateReviewCommand()),
     DELETE_REVIEW(new DeleteReviewCommand()),
 
-
     //user commands
     BASKET_ADD(new BasketAddCommand()),
     BASKET_REMOVE(new BasketRemoveCommand()),
@@ -42,12 +40,25 @@ public enum CommandType {
     CREATE_ORDER(new CreateOrderCommand()),
     OPEN_ORDER(new OpenOrderCommand()),
     REMOVE_ORDER(new RemoveOrderCommand()),
-    SETTINGS(new SettingsPageCommand());
+    SETTINGS(new SettingsPageCommand()),
 
-
+    //admin navigation
+    USER_MANAGEMENT(new UserManagementPageCommand()),
+    REVIEW_MANAGEMENT(new ReviewManagementPageCommand()),
+    SONG_MANAGEMENT(new SongManagementPageCommand()),
+    SINGER_MANAGEMENT(new SingerManagementPageCommand()),
+    GENRE_MANAGEMENT(new GenreManagementPageCommand()),
+    ALBUM_MANAGEMENT(new AlbumManagementPageCommand()),
+    COMPILATION_MANAGEMENT(new CompilationManagementPageCommand()),
 
     //admin commands
+    UPDATE_USER(new UpdateUserCommand()),
 
+
+
+
+
+    END_OFF_COMMANDS(new UserManagementPageCommand());
 
 
 

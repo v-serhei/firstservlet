@@ -23,7 +23,7 @@
                 <div class="btn-group btn-group-sm" role="group">
 
                     <%--delete this--%>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/do/admin">admin menu</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/do/user_management">admin menu</a>
 
                     <c:choose>
                         <c:when test="${sessionScope.user.loginStatus}">
@@ -37,7 +37,7 @@
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 <a class="dropdown-item" href="${pageContext.request.contextPath}/do/process_logout"><fmt:message key="user.menu.logout"/> </a>
                                 <a class="dropdown-item" href="${pageContext.request.contextPath}/do/profile/settings"><fmt:message key="user.menu.profile"/></a>
-                                <a class="dropdown-item bg-light" href="${pageContext.request.contextPath}/do/admin"><fmt:message key="user.menu.adminpage"/></a>
+                                <a class="dropdown-item bg-light" href="${pageContext.request.contextPath}/do/admin/user_management"><fmt:message key="user.menu.adminpage"/></a>
                             </div>
                         </c:when>
                         <c:otherwise>
