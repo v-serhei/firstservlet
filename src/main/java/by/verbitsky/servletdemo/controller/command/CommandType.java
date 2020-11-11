@@ -1,6 +1,7 @@
 package by.verbitsky.servletdemo.controller.command;
 
-import by.verbitsky.servletdemo.controller.command.impl.admin.UpdateUserCommand;
+import by.verbitsky.servletdemo.controller.command.impl.admin.AdminDeleteReviewCommand;
+import by.verbitsky.servletdemo.controller.command.impl.admin.AdminUpdateUserCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.*;
 import by.verbitsky.servletdemo.controller.command.impl.common.*;
 import by.verbitsky.servletdemo.controller.command.impl.navigation.*;
@@ -52,7 +53,8 @@ public enum CommandType {
     COMPILATION_MANAGEMENT(new CompilationManagementPageCommand()),
 
     //admin commands
-    UPDATE_USER(new UpdateUserCommand()),
+    UPDATE_USER(new AdminUpdateUserCommand()),
+    DELETE_USER_REVIEW(new AdminDeleteReviewCommand()),
 
 
 

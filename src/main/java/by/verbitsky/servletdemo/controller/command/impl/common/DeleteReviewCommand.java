@@ -9,7 +9,6 @@ import by.verbitsky.servletdemo.entity.ext.Review;
 import by.verbitsky.servletdemo.exception.CommandException;
 import by.verbitsky.servletdemo.exception.ServiceException;
 import by.verbitsky.servletdemo.model.service.impl.AudioContentService;
-import by.verbitsky.servletdemo.model.service.impl.UserServiceImpl;
 
 import java.util.Optional;
 
@@ -22,8 +21,7 @@ public class DeleteReviewCommand implements Command {
                 long deletedId = Long.parseLong(content.getRequestParameter(ParameterName.REVIEW_ID));
                 Optional<AudioContent> deletedReview = AudioContentService.INSTANCE.findContentById(ContentType.REVIEW, deletedId);
                 if (deletedReview.isPresent()) {
-                    if (((Review) deletedReview.get()).getUserId() == user.getUserId() |
-                            user.getRoleId() == UserServiceImpl.INSTANCE.getAdminRoleId()) {
+                    if (((Review) deletedReview.get()).getUserId() == user.getUserId()) {
                         boolean deleteResult = AudioContentService.INSTANCE.deleteContentById(ContentType.REVIEW, deletedId);
                         if (deleteResult) {
                             content.addSessionAttribute(AttributeName.OPERATION_RESULT, AttributeValue.OPERATION_COMPLETED);

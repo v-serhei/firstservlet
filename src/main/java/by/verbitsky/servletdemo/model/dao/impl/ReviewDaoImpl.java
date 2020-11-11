@@ -43,6 +43,13 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
                     "         left join singers si on s.singer_id = si.singer_id " +
                     "where sr.user_id = ?;";
 
+    private static final String SELECT_ALL_REVIEWS =
+            "SELECT sr.review_id, s.song_id, s.song_title, si.singer_name, users.username, sr.review, sr.user_id " +
+                    "from song_review as sr" +
+                    "         left join songs s on s.song_id = sr.song_id" +
+                    "         left join users on sr.user_id = users.user_id" +
+                    "         left join singers si on s.singer_id = si.singer_id order by song_id";
+
     private static final String SELECT_UNIQ_SONG_TITLES =
             "SELECT sr.review_id, s.song_id, s.song_title, si.singer_name, users.username, sr.review, sr.user_id " +
                     "from song_review as sr " +
@@ -131,7 +138,17 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
 
     @Override
     public List<AudioContent> findAll() throws DaoException {
-        return null;
+        if (connection == null) {
+            throw new DaoException("ReviewDaoImpl create: connection is null");
+        }
+        List<AudioContent> result;
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL_REVIEWS)) {
+            ResultSet resultSet = statement.executeQuery();
+            result = factory.createContentList(resultSet, ContentType.REVIEW);
+        } catch (SQLException e) {
+            throw new DaoException("ReviewDaoImpl findContentByUser: SQL error while searching user reviews", e);
+        }
+        return result;
     }
 
     @Override

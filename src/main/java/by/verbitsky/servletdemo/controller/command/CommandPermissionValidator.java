@@ -1,6 +1,7 @@
 package by.verbitsky.servletdemo.controller.command;
 
-import by.verbitsky.servletdemo.controller.command.impl.admin.UpdateUserCommand;
+import by.verbitsky.servletdemo.controller.command.impl.admin.AdminDeleteReviewCommand;
+import by.verbitsky.servletdemo.controller.command.impl.admin.AdminUpdateUserCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.*;
 import by.verbitsky.servletdemo.controller.command.impl.user.*;
 import by.verbitsky.servletdemo.entity.User;
@@ -25,7 +26,8 @@ public class CommandPermissionValidator {
         permissions.put(SingerManagementPageCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(SongManagementPageCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(AlbumManagementPageCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
-        permissions.put(UpdateUserCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
+        permissions.put(AdminUpdateUserCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
+        permissions.put(AdminDeleteReviewCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
 
         //User commands
         permissions.put(BasketRemoveCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));

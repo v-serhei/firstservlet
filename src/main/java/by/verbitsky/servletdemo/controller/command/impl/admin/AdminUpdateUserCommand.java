@@ -10,7 +10,7 @@ import by.verbitsky.servletdemo.model.service.impl.UserServiceImpl;
 
 import java.util.Optional;
 
-public class UpdateUserCommand implements Command {
+public class AdminUpdateUserCommand implements Command {
     @Override
     public CommandResult execute(SessionRequestContent content) throws CommandException {
         User user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);

@@ -798,6 +798,13 @@
     justify-content: center;
     overflow: auto;
     max-height: 700px
+
+}.admin-content-review-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: auto;
+    max-height: 500px
 }
 .user-reviews-text{
     display: flex;

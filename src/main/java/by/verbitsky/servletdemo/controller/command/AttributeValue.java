@@ -39,6 +39,9 @@ public class AttributeValue {
     public static final String ADMIN_USER_UPDATE_SUCCESSFUL = "admin.operation.successful.user.update";
     public static final String ADMIN_USER_UPDATE_NOT_FOUND = "admin.operation.user.update.not.found";
     public static final String ADMIN_USER_UPDATE_SQL_ERROR = "admin.operation.user.update.sql.error";
+    public static final String ADMIN_REVIEW_DELETE_SUCCESSFUL = "admin.operation.successful.delete.user.review";
+    public static final String ADMIN_REVIEW_DELETE_NOT_FOUND = "admin.operation.delete.review.failed.not.found";
+    public static final String ADMIN_REVIEW_DELETE_SQL_ERROR = "admin.operation.delete.review.failed.sql.error";
 
 
 
