@@ -1,7 +1,9 @@
-package by.verbitsky.servletdemo.entity.impl;
+package by.verbitsky.servletdemo.model.dao.impl;
 
 import by.verbitsky.servletdemo.entity.*;
 import by.verbitsky.servletdemo.entity.ext.Song;
+import by.verbitsky.servletdemo.model.dao.ContentFactory;
+import by.verbitsky.servletdemo.model.dao.OrderFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

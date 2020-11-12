@@ -1,11 +1,10 @@
 package by.verbitsky.servletdemo.model.dao.impl;
 
 import by.verbitsky.servletdemo.entity.AudioContent;
-import by.verbitsky.servletdemo.entity.ContentFactory;
+import by.verbitsky.servletdemo.model.dao.ContentFactory;
 import by.verbitsky.servletdemo.entity.ContentType;
 import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.entity.ext.Genre;
-import by.verbitsky.servletdemo.entity.impl.AudioContentFactory;
 import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.model.dao.AbstractDao;
 import by.verbitsky.servletdemo.model.dao.ContentDao;

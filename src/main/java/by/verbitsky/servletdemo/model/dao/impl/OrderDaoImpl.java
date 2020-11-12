@@ -1,9 +1,8 @@
 package by.verbitsky.servletdemo.model.dao.impl;
 
 import by.verbitsky.servletdemo.entity.Order;
-import by.verbitsky.servletdemo.entity.OrderFactory;
+import by.verbitsky.servletdemo.model.dao.OrderFactory;
 import by.verbitsky.servletdemo.entity.ext.Song;
-import by.verbitsky.servletdemo.entity.impl.OrderFactoryImpl;
 import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.model.dao.OrderDao;
 

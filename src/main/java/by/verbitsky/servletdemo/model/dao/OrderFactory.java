@@ -1,5 +1,6 @@
-package by.verbitsky.servletdemo.entity;
+package by.verbitsky.servletdemo.model.dao;
 
+import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.entity.ext.Song;
 
 import java.sql.ResultSet;

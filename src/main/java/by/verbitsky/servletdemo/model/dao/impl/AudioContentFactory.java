@@ -1,7 +1,7 @@
-package by.verbitsky.servletdemo.entity.impl;
+package by.verbitsky.servletdemo.model.dao.impl;
 
 import by.verbitsky.servletdemo.entity.AudioContent;
-import by.verbitsky.servletdemo.entity.ContentFactory;
+import by.verbitsky.servletdemo.model.dao.ContentFactory;
 import by.verbitsky.servletdemo.entity.ContentType;
 import by.verbitsky.servletdemo.entity.ext.*;
 

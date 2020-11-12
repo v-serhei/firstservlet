@@ -1,4 +1,6 @@
-package by.verbitsky.servletdemo.entity;
+package by.verbitsky.servletdemo.model.dao;
+
+import by.verbitsky.servletdemo.entity.ContentType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

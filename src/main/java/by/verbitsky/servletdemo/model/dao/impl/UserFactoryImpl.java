@@ -1,7 +1,7 @@
-package by.verbitsky.servletdemo.entity.impl;
+package by.verbitsky.servletdemo.model.dao.impl;
 
 import by.verbitsky.servletdemo.entity.User;
-import by.verbitsky.servletdemo.entity.UserFactory;
+import by.verbitsky.servletdemo.model.dao.UserFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
