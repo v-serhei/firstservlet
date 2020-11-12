@@ -18,6 +18,7 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
     private static final String COLUMN_SONG_UPLOAD_DATE = "upload_date";
     private static final String COLUMN_SONG_PRICE = "song_price";
 
+    private static final String COLUMN_ALBUM_ID = "album_id";
     private static final String COLUMN_ALBUM_CREATION_DATE = "album_date";
     private static final String COLUMN_ALBUM_TITLE = "album_title";
 
@@ -37,6 +38,7 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
     private static final String COLUMN_COMPILATION_TITLE = "compilation_name";
     private static final String COLUMN_COMPILATION_DATE = "compilation_date";
     private static final String COLUMN_COMPILATION_TYPE = "compilation_type";
+
 
 
     @Override
@@ -59,6 +61,9 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
                 case SINGER: {
                     return createSingerList(resultSet);
                 }
+                case ALBUM: {
+                    return createAlbumList(resultSet);
+                }
                 default: {
                     return result;
                 }
@@ -67,7 +72,7 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
         return result;
     }
 
-    @Override
+       @Override
     public Optional<AudioContent> createSingleContent(ResultSet resultSet, ContentType type) throws SQLException {
         if (resultSet != null && type != null) {
             switch (type) {
@@ -86,6 +91,9 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
                 case SONG: {
                     return createSong(resultSet);
                 }
+                case ALBUM: {
+                    return createAlbum(resultSet);
+                }
                 default: {
                     return Optional.empty();
                 }
@@ -93,6 +101,15 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
         } else {
             return Optional.empty();
         }
+    }
+
+    private List<AudioContent> createAlbumList(ResultSet resultSet) throws SQLException {
+        List<AudioContent> result = new ArrayList<>();
+        while (resultSet.next()) {
+            Optional<AudioContent> album = createAlbum(resultSet);
+            album.ifPresent(result::add);
+        }
+        return result;
     }
 
     private List<AudioContent> createSingerList(ResultSet resultSet) throws SQLException {
@@ -146,7 +163,7 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
             return Optional.empty();
         }
         Compilation result = new Compilation();
-        result.setId(resultSet.getLong(COLUMN_COMPILATION_ID));
+        result.setId(contentId);
         result.setCompilationTitle(resultSet.getString(COLUMN_COMPILATION_TITLE));
         result.setCompilationType(resultSet.getString(COLUMN_COMPILATION_TYPE));
         result.setCompilationCreationDate(resultSet.getDate(COLUMN_COMPILATION_DATE).toLocalDate());
@@ -159,7 +176,7 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
             return Optional.empty();
         }
         Song result = new Song();
-        result.setId(resultSet.getInt(COLUMN_SONG_ID));
+        result.setId(contentId);
         result.setSongTitle(resultSet.getString(COLUMN_SONG_TITLE));
         result.setAuthorName(resultSet.getString(COLUMN_SINGER_NAME));
         result.setAlbumTitle(resultSet.getString(COLUMN_ALBUM_TITLE));
@@ -176,7 +193,7 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
             return Optional.empty();
         }
         Singer result = new Singer();
-        result.setId(resultSet.getInt(COLUMN_SINGER_ID));
+        result.setId(contentId);
         result.setSingerName(resultSet.getString(COLUMN_SINGER_NAME));
         return Optional.of(result);
     }
@@ -187,7 +204,7 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
             return Optional.empty();
         }
         Review result = new Review();
-        result.setId(resultSet.getLong(COLUMN_REVIEW_ID));
+        result.setId(contentId);
         result.setSongId(resultSet.getLong(COLUMN_SONG_ID));
         result.setSongTitle(
                 resultSet.getString(COLUMN_SONG_TITLE),
@@ -205,8 +222,23 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
             return Optional.empty();
         }
         Genre result = new Genre();
-        result.setId(resultSet.getInt(COLUMN_GENRE_ID));
+        result.setId(contentId);
         result.setGenreName(resultSet.getString(COLUMN_GENRE_NAME));
+        return Optional.of(result);
+    }
+
+    private Optional<AudioContent> createAlbum(ResultSet resultSet) throws SQLException {
+        int contentId = resultSet.getInt(COLUMN_ALBUM_ID);
+        if (contentId <= 0){
+            return Optional.empty();
+        }
+        Album result = new Album();
+        result.setId(contentId);
+        result.setAlbumTitle(resultSet.getString(COLUMN_ALBUM_TITLE));
+        result.setSingerId(resultSet.getLong(COLUMN_SINGER_ID));
+        result.setSingerName(resultSet.getString(COLUMN_SINGER_NAME));
+        result.setAlbumDate(resultSet.getDate(COLUMN_ALBUM_CREATION_DATE).toLocalDate());
+        result.setMergedTitle();
         return Optional.of(result);
     }
 }

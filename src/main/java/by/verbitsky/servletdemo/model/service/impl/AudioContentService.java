@@ -3,7 +3,10 @@ package by.verbitsky.servletdemo.model.service.impl;
 import by.verbitsky.servletdemo.entity.AudioContent;
 import by.verbitsky.servletdemo.entity.ContentType;
 import by.verbitsky.servletdemo.entity.User;
+import by.verbitsky.servletdemo.entity.ext.Album;
+import by.verbitsky.servletdemo.entity.ext.Genre;
 import by.verbitsky.servletdemo.entity.ext.Review;
+import by.verbitsky.servletdemo.entity.ext.Singer;
 import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.exception.PoolException;
 import by.verbitsky.servletdemo.exception.ServiceException;
@@ -16,6 +19,7 @@ import by.verbitsky.servletdemo.model.service.ContentFilter;
 import by.verbitsky.servletdemo.model.service.ContentService;
 import by.verbitsky.servletdemo.model.service.ext.SongFilter;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +44,7 @@ public enum AudioContentService implements ContentService {
         }
         return result;
     }
+
 
     @Override
     public List<AudioContent> findAllContent(ContentType type) throws ServiceException {
@@ -78,7 +83,7 @@ public enum AudioContentService implements ContentService {
     @Override
     public List<String> findContentProperties(ContentType contentType) throws ServiceException {
         if (contentType == ContentType.COMPILATION) {
-            ContentDao dao = new CompilationDao();
+            ContentDao dao = new CompilationDaoImpl();
             ProxyConnection connection = askConnectionFromPool();
             try (Transaction transaction = new Transaction(connection)) {
                 transaction.processSimpleQuery(dao);
@@ -153,11 +158,119 @@ public enum AudioContentService implements ContentService {
             result = dao.delete(contentId);
             transaction.commitTransaction();
         } catch (DaoException e) {
-            throw new ServiceException("AudioContentService deleteContentById: error while deleting content by id", e);
+            throw new ServiceException("AudioContentService deleteContentById: error while deleting content", e);
         }
         return result;
     }
 
+    @Override
+    public Optional<AudioContent> findContentByTitle(ContentType type, String title) throws ServiceException {
+        if (title == null) {
+            throw new ServiceException("AudioContentService findContentByTitle: null parameter title");
+        }
+        ContentDao dao = defineDaoByContentType(type);
+        ProxyConnection connection = askConnectionFromPool();
+        try (Transaction transaction = new Transaction(connection)) {
+            transaction.processSimpleQuery(dao);
+            return dao.findContentByTitle(title);
+        } catch (DaoException e) {
+            throw new ServiceException("AudioContentService findContentByTitle: error while searching content", e);
+        }
+    }
+
+    @Override
+    public boolean updateContent(ContentType contentType, AudioContent content) throws ServiceException {
+        if (content == null) {
+            throw new ServiceException("AudioContentService update content: null parameter content");
+        }
+        ContentDao dao = defineDaoByContentType(contentType);
+        ProxyConnection connection = askConnectionFromPool();
+        try (Transaction transaction = new Transaction(connection)) {
+            transaction.processTransaction(dao);
+            boolean updateResult = dao.update(content);
+            transaction.commitTransaction();
+            return updateResult;
+        } catch (DaoException e) {
+            throw new ServiceException("AudioContentService update content: error while updating content", e);
+        }
+    }
+
+    @Override
+    public boolean createSong() throws ServiceException {
+        return false;
+    }
+
+    @Override
+    public boolean createSinger(String singerName) throws ServiceException {
+        if (singerName.isEmpty()) {
+            return false;
+        }
+        Singer singer = new Singer();
+        singer.setSingerName(singerName);
+        SingerDaoImpl singerDao = new SingerDaoImpl();
+        ProxyConnection connection = askConnectionFromPool();
+        try (Transaction transaction = new Transaction(connection)) {
+            transaction.processTransaction(singerDao);
+            Optional<AudioContent> singerDB = singerDao.findContentByTitle(singerName);
+            if (singerDB.isPresent()) {
+                return false;
+            }
+            boolean createResult = singerDao.create(singer);
+            transaction.commitTransaction();
+            return createResult;
+        } catch (DaoException e) {
+            throw new ServiceException("AudioContentService create singer: error while creating singer", e);
+        }
+    }
+
+    @Override
+    public boolean createAlbum(String albumTitle, long singerId, LocalDate albumDate) throws ServiceException {
+        if (albumTitle == null || singerId == 0 || albumDate == null) {
+            return false;
+        }
+        Album album = new Album();
+        album.setAlbumTitle(albumTitle);
+        album.setSingerId(singerId);
+        album.setAlbumDate(albumDate);
+        ProxyConnection connection = askConnectionFromPool();
+        try (Transaction transaction = new Transaction(connection)) {
+            AlbumDaoImpl dao = new AlbumDaoImpl();
+            transaction.processTransaction(dao);
+            boolean creationResult = dao.create(album);
+            transaction.commitTransaction();
+            return creationResult;
+        } catch (DaoException e) {
+            throw new ServiceException("AudioContentService create album: error while creating album", e);
+        }
+    }
+
+    @Override
+    public boolean createCompilation() throws ServiceException {
+        return false;
+    }
+
+    @Override
+    public boolean createGenre(String genreName) throws ServiceException {
+        if (genreName.isEmpty()) {
+            return false;
+        }
+        Genre genre = new Genre();
+        genre.setGenreName(genreName);
+        ProxyConnection connection = askConnectionFromPool();
+        try (Transaction transaction = new Transaction(connection)) {
+            GenreDaoImpl genreDao = new GenreDaoImpl();
+            transaction.processTransaction(genreDao);
+            Optional<AudioContent> singerDB = genreDao.findContentByTitle(genreName);
+            if (singerDB.isPresent()) {
+                return false;
+            }
+            boolean createResult = genreDao.create(genre);
+            transaction.commitTransaction();
+            return createResult;
+        } catch (DaoException e) {
+            throw new ServiceException("AudioContentService create genre: error while creating genre", e);
+        }
+    }
 
     @Override
     public List<AudioContent> findFilteredContent(ContentFilter filter) throws ServiceException {
@@ -198,7 +311,11 @@ public enum AudioContentService implements ContentService {
                 break;
             }
             case COMPILATION: {
-                dao = new CompilationDao();
+                dao = new CompilationDaoImpl();
+                break;
+            }
+            case ALBUM: {
+                dao = new AlbumDaoImpl();
                 break;
             }
             default: {

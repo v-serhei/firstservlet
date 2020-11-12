@@ -50,6 +50,11 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
                     "         left join users on sr.user_id = users.user_id" +
                     "         left join singers si on s.singer_id = si.singer_id order by song_id";
 
+    @Override
+    public Optional<AudioContent> findContentByTitle(String title) {
+        return Optional.empty();
+    }
+
     private static final String SELECT_UNIQ_SONG_TITLES =
             "SELECT sr.review_id, s.song_id, s.song_title, si.singer_name, users.username, sr.review, sr.user_id " +
                     "from song_review as sr " +

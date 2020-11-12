@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CompilationDao extends AbstractDao implements ContentDao {
+public class CompilationDaoImpl extends AbstractDao implements ContentDao {
     private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Compilation>();
     private static final String SELECT_COMPILATION_BY_FILTER =
             "Select comp_id, " +
@@ -89,6 +89,11 @@ public class CompilationDao extends AbstractDao implements ContentDao {
     @Override
     public List<AudioContent> findContentByUser(User user) throws DaoException {
         return null;
+    }
+
+    @Override
+    public Optional<AudioContent> findContentByTitle(String title) {
+        return Optional.empty();
     }
 
     @Override

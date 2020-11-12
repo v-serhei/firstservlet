@@ -43,6 +43,14 @@ public class AttributeValue {
     public static final String ADMIN_REVIEW_DELETE_NOT_FOUND = "admin.operation.delete.review.failed.not.found";
     public static final String ADMIN_REVIEW_DELETE_SQL_ERROR = "admin.operation.delete.review.failed.sql.error";
 
+    public static final String ADMIN_CONTENT_UPDATE_SUCCESSFUL = "admin.operation.successful.update.content";
+    public static final String ADMIN_CONTENT_UPDATE_NOT_FOUND = "admin.operation.update.content.failed.not.found";
+    public static final String ADMIN_CONTENT_UPDATE_WRONG_PARAMETERS = "admin.operation.update.content.failed.wrong.parameters";
+    public static final String ADMIN_CONTENT_UPDATE_SQL_ERROR = "admin.operation.update.content.failed.sql.error";
+    public static final String ADMIN_CONTENT_CREATE_SUCCESSFUL = "admin.operation.successful.create.content";
+    public static final String ADMIN_CONTENT_CREATE_WRONG_PARAMETERS = "admin.operation.create.content.wrong.parameters";
+    public static final String ADMIN_CONTENT_CREATE_SQL_ERROR = "admin.operation.create.content.sql.error";
+
 
 
     public static final int DEFAULT_PAGE_NUMBER = 1;

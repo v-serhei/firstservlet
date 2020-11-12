@@ -62,6 +62,14 @@ public class FieldDataValidator {
         return true;
     }
 
+    public static boolean validateRequestParameter(String parameter) {
+        if (parameter == null) {
+            return false;
+        }
+        // TODO: 11.11.2020 дописать проверку входящих параметров
+        return true;
+    }
+
     private static boolean validateEmailRegex(String email) {
         return EmailValidator.getInstance().isValid(email);
     }

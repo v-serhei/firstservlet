@@ -1,8 +1,11 @@
 package by.verbitsky.servletdemo.controller.command;
 
-import by.verbitsky.servletdemo.controller.command.impl.admin.AdminDeleteReviewCommand;
-import by.verbitsky.servletdemo.controller.command.impl.admin.AdminUpdateUserCommand;
+import by.verbitsky.servletdemo.controller.command.impl.admin.*;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.*;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.GenreManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.ReviewManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.SingerManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.UserManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.common.*;
 import by.verbitsky.servletdemo.controller.command.impl.navigation.*;
 import by.verbitsky.servletdemo.controller.command.impl.user.*;
@@ -55,6 +58,12 @@ public enum CommandType {
     //admin commands
     UPDATE_USER(new AdminUpdateUserCommand()),
     DELETE_USER_REVIEW(new AdminDeleteReviewCommand()),
+    UPDATE_SINGER (new AdminUpdateSingerCommand()),
+    CREATE_SINGER(new AdminCreateSingerCommand()),
+    UPDATE_GENRE (new AdminUpdateGenreCommand()),
+    CREATE_GENRE(new AdminCreateGenreCommand()),
+    UPDATE_ALBUM (new AdminUpdateAlbumCommand()),
+    CREATE_ALBUM(new AdminCreateAlbumCommand()),
 
 
 

@@ -11,11 +11,22 @@ public class ParameterName {
 
     public static final String SONG = "songName";
     public static final String SINGER = "singerName";
+    public static final String GENRE = "genreName";
+    public static final String ALBUM = "albumTitle";
+    public static final String UPDATED_SINGER = "singerUpdateName";
+    public static final String CREATED_SINGER = "singerCreateName";
+    public static final String UPDATED_GENRE = "genreUpdateName";
+    public static final String CREATED_GENRE = "genreCreateName";
+
+    public static final String UPDATED_ALBUM = "albumUpdateName";
+    public static final String CREATED_ALBUM = "albumCreateName";
+    public static final String CREATED_ALBUM_DATE = "albumCreateDate";
+    public static final String UPDATED_ALBUM_DATE = "albumUpdateDate";
+
+
     public static final String REVIEW_TEXT = "reviewText";
     public static final String COMPILATION = "compilationName";
     public static final String COMPILATION_TYPE_NAME = "compilationTypeName";
-    public static final String GENRE = "genreName";
-    public static final String ALBUM = "albumTitle";
     public static final String ENABLE_FILTER = "filtered";
     public static final String PAGE_NUMBER = "pageNumber";
     public static final String ORDERED_SONG_ID = "orderedSongId";

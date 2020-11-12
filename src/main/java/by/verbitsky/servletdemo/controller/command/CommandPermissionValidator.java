@@ -1,8 +1,13 @@
 package by.verbitsky.servletdemo.controller.command;
 
-import by.verbitsky.servletdemo.controller.command.impl.admin.AdminDeleteReviewCommand;
-import by.verbitsky.servletdemo.controller.command.impl.admin.AdminUpdateUserCommand;
-import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.*;
+import by.verbitsky.servletdemo.controller.command.impl.admin.*;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.AlbumManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.CompilationManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.GenreManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.SongManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.ReviewManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.SingerManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.UserManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.user.*;
 import by.verbitsky.servletdemo.entity.User;
 
@@ -28,6 +33,12 @@ public class CommandPermissionValidator {
         permissions.put(AlbumManagementPageCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(AdminUpdateUserCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(AdminDeleteReviewCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
+        permissions.put(AdminUpdateSingerCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
+        permissions.put(AdminCreateSingerCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
+        permissions.put(AdminCreateGenreCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
+        permissions.put(AdminUpdateGenreCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
+        permissions.put(AdminUpdateAlbumCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
+        permissions.put(AdminCreateAlbumCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
 
         //User commands
         permissions.put(BasketRemoveCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));

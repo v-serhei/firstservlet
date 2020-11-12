@@ -1,4 +1,4 @@
-package by.verbitsky.servletdemo.controller.command.impl.adminnavigation;
+package by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready;
 
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.controller.command.*;
@@ -12,7 +12,7 @@ import by.verbitsky.servletdemo.model.service.impl.AudioContentService;
 
 import java.util.List;
 
-public class AlbumManagementPageCommand extends AdminCommand implements Command {
+public class GenreManagementPageCommand extends AdminCommand implements Command {
     @Override
     public CommandResult execute(SessionRequestContent content) throws CommandException {
         User user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
@@ -24,13 +24,11 @@ public class AlbumManagementPageCommand extends AdminCommand implements Command 
         }
         clearOperationMessageAttributes(content);
         try {
-            List<AudioContent> albumList = AudioContentService.INSTANCE.findAllContent(ContentType.ALBUM);
-            List<AudioContent> singerList = AudioContentService.INSTANCE.findAllContent(ContentType.SINGER);
-            content.addRequestAttribute(AttributeName.ALBUM_LIST, albumList);
-            content.addRequestAttribute(AttributeName.SINGER_LIST, singerList);
+            List<AudioContent> genreList = AudioContentService.INSTANCE.findAllContent(ContentType.GENRE);
+            content.addRequestAttribute(AttributeName.GENRE_LIST, genreList);
         } catch (ServiceException e) {
-            throw new CommandException("AlbumManagementPageCommand: error while searching content", e);
+            throw new CommandException("GenreManagementPageCommand: error while searching content in db", e);
         }
-        return new CommandResult(PagePath.FORWARD_ADMIN_ALBUM_MANAGEMENT, false);
+        return new CommandResult(PagePath.FORWARD_ADMIN_GENRE_MANAGEMENT, false);
     }
 }

@@ -15,6 +15,9 @@ public class PagePath {
     public static final String REDIRECT_ORDER_REMOVE_RESULT_PAGE = "/audiobox/do/profile/remove_order/operation_result";
     public static final String REDIRECT_ADMIN_USER_MANAGEMENT_PAGE = "/audiobox/do/admin/user_management";
     public static final String REDIRECT_ADMIN_REVIEW_MANAGEMENT_PAGE = "/audiobox/do/admin/review_management";
+    public static final String REDIRECT_ADMIN_SINGER_MANAGEMENT_PAGE = "/audiobox/do/admin/singer_management";
+    public static final String REDIRECT_ADMIN_GENRE_MANAGEMENT_PAGE = "/audiobox/do/admin/genre_management";
+    public static final String REDIRECT_ADMIN_ALBUM_MANAGEMENT_PAGE = "/audiobox/do/admin/album_management";
 
     //path to jsp (for forwarding)
     public static final String FORWARD_ADMIN_USER_MANAGEMENT = "/pages/admin/usermanagement.jsp";

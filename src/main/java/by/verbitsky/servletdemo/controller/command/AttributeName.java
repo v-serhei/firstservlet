@@ -50,6 +50,7 @@ public class AttributeName {
     //additional song content
     public static final String SINGER_LIST = "singerList";
     public static final String GENRE_LIST = "genreList";
+    public static final String ALBUM_LIST = "albumList";
     //order request  attributes
     public static final String ORDER = "requestedOrder";
     public static final String SHOW_ORDER_CONTROLS = "enableOrderControls";

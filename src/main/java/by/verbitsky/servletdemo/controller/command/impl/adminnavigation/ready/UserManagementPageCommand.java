@@ -1,7 +1,8 @@
-package by.verbitsky.servletdemo.controller.command.impl.adminnavigation;
+package by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready;
 
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.controller.command.*;
+import by.verbitsky.servletdemo.controller.command.impl.AdminCommand;
 import by.verbitsky.servletdemo.entity.Order;
 import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.exception.CommandException;
@@ -13,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-public class UserManagementPageCommand implements Command {
+public class UserManagementPageCommand extends AdminCommand implements Command {
     @Override
     public CommandResult execute(SessionRequestContent content) throws CommandException {
         User user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
@@ -63,19 +64,5 @@ public class UserManagementPageCommand implements Command {
         content.addRequestAttribute(AttributeName.ORDER_TOTAL_PAID_COUNT, totalPaidCount);
         content.addRequestAttribute(AttributeName.ORDER_TOTAL_PRICE, totalPaidSum);
         content.addRequestAttribute(AttributeName.ADMIN_ROLE_LIST, roleList);
-    }
-
-    private void clearOperationMessageAttributes(SessionRequestContent content) {
-        Object attribute = content.getSessionAttribute(AttributeName.ADMIN_OPERATION_MESSAGE_FLAG);
-        if (attribute != null) {
-            boolean enableMessage = (boolean) attribute;
-            if (enableMessage) {
-                content.removeSessionAttribute(AttributeName.ADMIN_OPERATION_MESSAGE_FLAG);
-                String operationMessage = (String) content.getSessionAttribute(AttributeName.ADMIN_OPERATION_RESULT_MSG);
-                content.removeSessionAttribute(AttributeName.ADMIN_OPERATION_RESULT_MSG);
-                content.addRequestAttribute(AttributeName.ADMIN_OPERATION_MESSAGE_FLAG, true);
-                content.addRequestAttribute(AttributeName.ADMIN_OPERATION_RESULT_MSG, operationMessage);
-            }
-        }
     }
 }

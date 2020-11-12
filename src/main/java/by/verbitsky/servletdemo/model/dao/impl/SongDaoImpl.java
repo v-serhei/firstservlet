@@ -220,6 +220,11 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
         return null;
     }
 
+    @Override
+    public Optional<AudioContent> findContentByTitle(String title) {
+        return Optional.empty();
+    }
+
     private List<AudioContent> findSongByFilter(long offset, int limit, SongFilter songFilter) throws DaoException {
         String title = SqlRegexGenerator.generateRegexFromParameter(songFilter.getSongTitle());
         String genre = SqlRegexGenerator.generateRegexFromParameter(songFilter.getSongGenre());

@@ -814,6 +814,111 @@
     font-size: 12pt;
 }
 
+.singer-content-management,
+.genre-content-management{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    height: 600px;
+    margin: 0 auto;
+
+}
+.singer-create-block, .singer-update-block,
+.genre-create-block, .genre-update-block {
+    display: flex;
+    flex-direction: column;
+    width: 99%;
+    height: 99%;
+
+}
+.singer-select-block, .genre-select-block {
+    display: flex;
+    flex-direction: row;
+    margin: 10px auto;
+}
+.admin-item-selector {
+    margin-right: 15px;
+}
+.singer-update-inputs, .singer-create-inputs,
+.genre-update-inputs, .genre-create-inputs {
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    justify-content: center;
+    width: 50%;
+}
+.admin-action-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.album-content-management {
+    display: flex;
+    flex-direction: column;
+    width: 99%;
+    height: 700px;
+}
+.album-select-block{
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    margin: 0 auto;
+    padding-bottom: 10px;
+
+}
+.album-update-fields {
+    display: flex;
+    flex-direction: row;
+    width: 72%;
+    margin: 0 auto;
+    min-width: 900px;
+    height: 95px;
+}
+.album-update-labels {
+    display: flex;
+    flex-direction: column;
+    height: 120px;
+    width: 29%;
+}
+
+.album-update-inputs {
+    display: flex;
+    flex-direction: column;
+    height: 120px;
+    width: 67%;
+}
+.album-update-block {
+    display: flex;
+    flex-direction: column;
+    min-height: 330px;
+    max-height: 330px;
+    width: 99%;
+}
+.album-create-block{
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+    max-height: 280px;
+    width: 99%;
+}
+.album-date-block {
+    display: flex;
+    flex-direction: row;
+    width: 450px;
+    margin: 0 12%;
+}
+
+.album-label-block {
+    width: 60%;
+    margin: 0 10px;
+}
+.album-value-block {
+    width: 33%;
+    margin: 0 auto;
+}
+
+
 
 /*
    background: #f0e8cb;- светлый
