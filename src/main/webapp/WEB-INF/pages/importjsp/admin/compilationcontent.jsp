@@ -11,7 +11,7 @@
         </div>
         <div class="compilation-content-management">
             <div class="compilation-delete-block">
-                <form action="${pageContext.request.contextPath}/do/admin/compilation/delete_compilation">
+                <form action="${pageContext.request.contextPath}/do/admin/compilation/delete_compilation" method="delete">
                     <h5 style="text-align: center"><fmt:message key="admin.compilation.manage.remove.caption"/></h5>
                     <div class="line-separator">
                         <hr/>

@@ -121,7 +121,7 @@
                 <div class="line-separator">
                     <hr/>
                 </div>
-                <form action="${pageContext.request.contextPath}/do/admin/update_user" method="post">
+                <form action="${pageContext.request.contextPath}/do/admin/update_user" method="put">
                     <input type="hidden" name="fieldName" value="${selectedUser.userName}">
                     <div class="account-options">
                         <label for="user-role"><fmt:message key="admin.user.manage.change.role.caption"/></label>
@@ -171,7 +171,6 @@
                         <input type="submit" class="btn btn-light btn-sm"
                                name="action" value="<fmt:message key="admin.user.manage.update.btn"/>">
                     </div>
-
                 </form>
             </c:if>
             <c:if test="${requestScope.enableMessage}">

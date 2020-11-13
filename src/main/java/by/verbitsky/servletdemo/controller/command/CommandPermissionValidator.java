@@ -3,7 +3,7 @@ package by.verbitsky.servletdemo.controller.command;
 import by.verbitsky.servletdemo.controller.command.impl.admin.*;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.AdminCompilationPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.AlbumManagementPageCommand;
-import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.CompilationManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.CompilationManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.GenreManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.SongManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.ReviewManagementPageCommand;

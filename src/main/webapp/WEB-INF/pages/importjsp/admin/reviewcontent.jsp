@@ -43,7 +43,7 @@
                         <div class="line-separator">
                             <hr/>
                         </div>
-                        <form action="${pageContext.request.contextPath}/do/reviews/delete_user_review" method="post">
+                        <form action="${pageContext.request.contextPath}/do/reviews/delete_user_review" method="delete">
                             <div class="user-reviews-text">
                                 <input type="hidden" name="reviewId" value="${review.id}"/>
                                 <input class="btn btn-secondary btn-sm bg-danger" style="margin-right: 10px;"

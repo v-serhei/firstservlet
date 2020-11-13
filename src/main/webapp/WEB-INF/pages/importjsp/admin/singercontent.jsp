@@ -17,7 +17,7 @@
                 </div>
                 <label for="singer-list" style="margin: 0 auto"> <fmt:message
                         key="admin.singer.manage.select.caption"/> </label>
-                <form action="${pageContext.request.contextPath}/do/admin/singer_management/update_singer">
+                <form action="${pageContext.request.contextPath}/do/admin/singer_management/update_singer" method="put">
                     <div class="singer-select-block">
                         <select class="custom-select mr-sm-2 admin-item-selector"
                                 id="singer-list" name="singerName" size="1">
@@ -51,7 +51,7 @@
             <div class="singer-create-block">
                 <div class="singer-update-block">
                     <div class="singer-create-inputs">
-                        <form action="${pageContext.request.contextPath}/do/admin/singer_management/create_singer">
+                        <form action="${pageContext.request.contextPath}/do/admin/singer_management/create_singer" method="post">
                             <label for="singer-create-name" style="margin: 0 auto"><fmt:message
                                     key="admin.singer.manage.entered.name.caption"/></label>
                             <input class="form-control" id="singer-create-name" type="text"

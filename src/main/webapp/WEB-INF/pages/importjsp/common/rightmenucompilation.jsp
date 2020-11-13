@@ -51,7 +51,7 @@
                 <hr/>
             </div>
         </form>
-        <form>
+        <form method="get">
             <input type="hidden" name="filtered" value="false"/>
             <div class="cancel-filter">
                 <a class="btn btn-sm bg-light"

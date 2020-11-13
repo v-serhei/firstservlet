@@ -15,9 +15,8 @@
                 <div class="line-separator">
                     <hr/>
                 </div>
-                <label for="genre-list" style="margin: 0 auto"> <fmt:message
-                        key="admin.genre.manage.select.caption"/> </label>
-                <form action="${pageContext.request.contextPath}/do/admin/genre_management/update_genre">
+                <label for="genre-list" style="margin: 0 auto"> <fmt:message key="admin.genre.manage.select.caption"/> </label>
+                <form action="${pageContext.request.contextPath}/do/admin/genre_management/update_genre" method="put">
                     <div class="genre-select-block">
                         <select class="custom-select mr-sm-2 admin-item-selector"
                                 id="genre-list" name="genreName" size="1">
@@ -51,7 +50,7 @@
             <div class="genre-create-block">
                 <div class="genre-update-block">
                     <div class="genre-create-inputs">
-                        <form action="${pageContext.request.contextPath}/do/admin/genre_management/create_genre">
+                        <form action="${pageContext.request.contextPath}/do/admin/genre_management/create_genre" method="post">
                             <label for="genre-create-name" style="margin: 0 auto"><fmt:message
                                     key="admin.genre.manage.enter.name.caption"/></label>
                             <input class="form-control" id="genre-create-name" type="text"

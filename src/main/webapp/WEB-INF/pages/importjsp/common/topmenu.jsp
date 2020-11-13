@@ -19,7 +19,7 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/do/reviews"><fmt:message key="review.page.btn"/></a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
+            <form class="form-inline my-2 my-lg-0" method="get">
                 <div class="btn-group btn-group-sm" role="group">
 
                     <%--delete this--%>

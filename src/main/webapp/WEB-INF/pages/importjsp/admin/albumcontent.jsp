@@ -15,7 +15,7 @@
                 <div class="line-separator">
                     <hr/>
                 </div>
-                <form action="${pageContext.request.contextPath}/do/admin/album_management/update_album">
+                <form action="${pageContext.request.contextPath}/do/admin/album_management/update_album" method="put">
                     <div class="album-select-block">
                         <label for="album-list" style="margin: 0 auto"> <fmt:message key="admin.album.manage.select.caption"/></label>
 
@@ -68,7 +68,7 @@
                 <div class="line-separator">
                     <hr/>
                 </div>
-                <form action="${pageContext.request.contextPath}/do/admin/album_management/create_album">
+                <form action="${pageContext.request.contextPath}/do/admin/album_management/create_album" method="post">
                     <div class="album-update-fields">
                         <div class="album-update-labels">
                             <label for="album-create-name"> <fmt:message key="admin.album.manage.enter.name.caption"/></label>
