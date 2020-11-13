@@ -18,6 +18,8 @@ public class PagePath {
     public static final String REDIRECT_ADMIN_SINGER_MANAGEMENT_PAGE = "/audiobox/do/admin/singer_management";
     public static final String REDIRECT_ADMIN_GENRE_MANAGEMENT_PAGE = "/audiobox/do/admin/genre_management";
     public static final String REDIRECT_ADMIN_ALBUM_MANAGEMENT_PAGE = "/audiobox/do/admin/album_management";
+    public static final String REDIRECT_ADMIN_COMPILATION_MANAGEMENT_PAGE = "/audiobox/do/admin/compilation_management";
+    public static final String REDIRECT_ADMIN_COMPILATION_PAGE = "/audiobox/do/admin/compilation";
 
     //path to jsp (for forwarding)
     public static final String FORWARD_ADMIN_USER_MANAGEMENT = "/pages/admin/usermanagement.jsp";
@@ -27,6 +29,7 @@ public class PagePath {
     public static final String FORWARD_ADMIN_GENRE_MANAGEMENT = "/pages/admin/genremanagement.jsp";
     public static final String FORWARD_ADMIN_ALBUM_MANAGEMENT = "/pages/admin/albummanagement.jsp";
     public static final String FORWARD_ADMIN_COMPILATION_MANAGEMENT = "/pages/admin/compilationmanagement.jsp";
+    public static final String FORWARD_ADMIN_COMPILATION_CREATION = "/pages/admin/compilationpage.jsp";
 
 
     public static final String FORWARD_MAIN_PAGE = "/pages/common/mainpage.jsp";

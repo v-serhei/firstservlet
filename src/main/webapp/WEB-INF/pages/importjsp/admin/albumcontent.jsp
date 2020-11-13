@@ -10,7 +10,6 @@
             <hr/>
         </div>
         <div class="album-content-management">
-
             <div class="album-update-block">
                 <h5 style="text-align: center"><fmt:message key="admin.album.manage.update.block.header"/></h5>
                 <div class="line-separator">
@@ -30,7 +29,6 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="album-update-fields">
                         <div class="album-update-labels">
                             <label for="album-update-name-field"><fmt:message key="admin.album.manage.enter.name.caption"/> </label>
@@ -62,11 +60,9 @@
                     </div>
                 </form>
             </div>
-
             <div class="line-separator">
                 <hr/>
             </div>
-
             <div class="album-create-block">
                 <h5 style="text-align: center"><fmt:message key="admin.album.manage.create.block.header"/></h5>
                 <div class="line-separator">
@@ -97,20 +93,17 @@
                             <input class="form-control" id="create-date-field" type="date" name="albumCreateDate" style="width: 150px">
                         </div>
                     </div>
-
                     <div class="admin-action-controls">
                         <input class="btn btn-sm btn-secondary bg-success" type="submit"
                                name="create" value="<fmt:message key="admin.manage.create.btn"/>">
                     </div>
                 </form>
             </div>
-
             <c:if test="${requestScope.enableMessage}">
                 <div class="admin-operation-message-block">
                     <span class="admin-message"><fmt:message key="${requestScope.resultMessage}"/></span>
                 </div>
             </c:if>
-
         </div>
     </div>
 </div>

@@ -59,16 +59,6 @@ public class OrderFactoryImpl implements OrderFactory<Order> {
     }
 
     @Override
-    public List<Order> createOrders(ResultSet resultSet) throws SQLException {
-        List<Order> result = new ArrayList<>();
-        while (resultSet.next()) {
-            Optional<Order> currentOrder = createOrder(resultSet);
-            currentOrder.ifPresent(result::add);
-        }
-        return result;
-    }
-
-    @Override
     public Order createOrder(User user, Set<Song> songs) {
         Order result = new Order();
         //user id

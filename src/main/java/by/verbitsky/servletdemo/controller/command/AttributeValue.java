@@ -17,6 +17,7 @@ public class AttributeValue {
     public static final String OPEN_ORDER = "operation.open.order";
     public static final String ORDER_REMOVE_SUCCESSFUL = "operation.message.successful.order.removing";
     public static final String ORDER_REMOVE_FAIL = "operation.message.order.removing.fail";
+    public static final String COMPILATION_EMPTY_LIST = "operation.message.empty.compilation.list";
 
     public static final String BUTTON_CAPTION_REVIEW = "operation.btn.caption.review";
     public static final String REVIEW_CREATION = "operation.create.review";
@@ -46,6 +47,10 @@ public class AttributeValue {
     public static final String ADMIN_CONTENT_UPDATE_SUCCESSFUL = "admin.operation.successful.update.content";
     public static final String ADMIN_CONTENT_UPDATE_NOT_FOUND = "admin.operation.update.content.failed.not.found";
     public static final String ADMIN_CONTENT_UPDATE_WRONG_PARAMETERS = "admin.operation.update.content.failed.wrong.parameters";
+    public static final String ADMIN_CONTENT_DELETE_SUCCESSFUL = "admin.operation.successful.delete.content";
+    public static final String ADMIN_CONTENT_DELETE_NOT_FOUND = "admin.operation.delete.content.failed.not.found";
+    public static final String ADMIN_CONTENT_DELETE_WRONG_PARAMETERS = "admin.operation.delete.content.failed.wrong.parameters";
+    public static final String ADMIN_CONTENT_DELETE_SQL_ERROR = "admin.operation.delete.content.failed.sql.error";
     public static final String ADMIN_CONTENT_UPDATE_SQL_ERROR = "admin.operation.update.content.failed.sql.error";
     public static final String ADMIN_CONTENT_CREATE_SUCCESSFUL = "admin.operation.successful.create.content";
     public static final String ADMIN_CONTENT_CREATE_WRONG_PARAMETERS = "admin.operation.create.content.wrong.parameters";

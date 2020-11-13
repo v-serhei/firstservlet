@@ -47,7 +47,7 @@ public class CompilationPageCommand implements Command {
         try {
             totalContentCount = service.calculateItemsCount(filter);
             pageContent = service.findFilteredContent(filter);
-            compilationTypes = service.findContentProperties(ContentType.COMPILATION);
+            compilationTypes = service.findContentDescription(ContentType.COMPILATION);
             for (AudioContent item : pageContent) {
                 SongFilter songFilter = new SongFilter();
                 songFilter.setCompilationId(item.getId());

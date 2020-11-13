@@ -15,13 +15,13 @@ public class OrderDaoImpl implements OrderDao {
     private Connection connection;
 
     private static final String INSERT_ORDER =
-            "INSERT INTO orders (user_id, order_summ, order_date, order_status) VALUES (?, ?, ?, ?);";
+            "Insert Into orders (user_id, order_summ, order_date, order_status) values (?, ?, ?, ?);";
 
     private static final String INSERT_ORDER_DESCRIPTION =
-            "INSERT INTO orders_description (order_id, song_id) VALUES ( ?, ?);";
+            "Insert Into orders_description (order_id, song_id) values ( ?, ?);";
 
     private static final String REMOVE_SONG_FROM_ORDER =
-            "DELETE FROM orders_description where order_id = ? AND  song_id = ?";
+            "Delete from orders_description where order_id = ? and song_id = ?";
 
     private static final String SELECT_ORDER_BY_ID =
             "Select orders.order_id," +
@@ -46,11 +46,11 @@ public class OrderDaoImpl implements OrderDao {
             "where orders.order_id = ?;";
 
     private static final String UPDATE_ORDER =
-            "UPDATE orders set orders.order_summ = ?, orders.order_status = ?, order_date = ? " +
+            "Update orders Set orders.order_summ = ?, orders.order_status = ?, order_date = ? " +
             "where orders.order_id = ?;";
 
     private static final String DELETE_ORDER =
-           "DELETE FROM orders WHERE orders.order_id = ?;";
+           "Delete from orders where orders.order_id = ?;";
 
     private static final String FIND_USER_ORDERS_BY_USER_ID =
             "Select orders.order_id," +
@@ -58,21 +58,10 @@ public class OrderDaoImpl implements OrderDao {
                     "       orders.order_summ," +
                     "       orders.order_date," +
                     "       orders.order_status," +
-                    "       so.song_id as song_id," +
-                    "       song_title," +
-                    "       upload_date," +
-                    "       song_price," +
-                    "       singer_name," +
-                    "       album_title," +
-                    "       album.creation_date as album_date," +
-                    "       genre_name " +
+                    "       so.song_id as song_id " +
                     "from orders " +
-                    "       left join orders_description as description on orders.order_id = description.order_id" +
-                    "       left join songs as so on so.song_id = description.song_id" +
-                    "       left join singers as si on so.singer_id = si.singer_id" +
-                    "       left join albums as album on so.album_id = album.album_id" +
-                    "       left join genres as ge on so.genre_id = ge.genre_id " +
-                    "where orders.user_id = ?;";
+                    "       left join songs as so on so.song_id " +
+                    "where orders.user_id = ? group by orders.order_id;";
 
     private static final OrderFactory<Order> factory = new OrderFactoryImpl();
 

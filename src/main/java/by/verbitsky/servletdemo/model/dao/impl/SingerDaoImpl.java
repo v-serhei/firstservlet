@@ -17,17 +17,17 @@ import java.util.List;
 import java.util.Optional;
 
 public class SingerDaoImpl extends AbstractDao implements ContentDao {
-    private static final String SELECT_ALL_SINGERS = "Select singer_id, singer_name FROM singers ORDER BY singer_name";
+    private static final String SELECT_ALL_SINGERS = "Select singer_id, singer_name from singers order by singer_name";
 
     private static final String SELECT_SINGER_BY_NAME = "Select singer_id, singer_name " +
-            "FROM singers " +
-            "WHERE singer_name = ?";
+            "from singers " +
+            "where singer_name = ?";
 
     private static final String UPDATE_SINGER =
-            "UPDATE singers SET singer_name = ? WHERE singers.singer_id = ?";
+            "Update singers Set singer_name = ? where singers.singer_id = ?";
 
     private static final String INSERT_SINGER =
-            "INSERT INTO singers (singer_name) VALUES (?);";
+            "Insert Into singers (singer_name) values (?);";
 
     private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Singer>();
 
@@ -125,5 +125,10 @@ public class SingerDaoImpl extends AbstractDao implements ContentDao {
     @Override
     public List<String> findContentProperties() {
         return null;
+    }
+
+    @Override
+    public boolean createContentDescription(AudioContent entity) throws DaoException {
+        return false;
     }
 }

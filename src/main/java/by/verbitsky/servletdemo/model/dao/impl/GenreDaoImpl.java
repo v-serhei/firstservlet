@@ -18,17 +18,17 @@ import java.util.Optional;
 
 public class GenreDaoImpl extends AbstractDao implements ContentDao {
 
-    private static final String SELECT_ALL_GENRE = "SELECT genre_id, genre_name FROM genres ORDER BY genre_name";
+    private static final String SELECT_ALL_GENRE = "Select genre_id, genre_name from genres order by genre_name";
 
     private static final String SELECT_GENRE_BY_TITLE = "Select genre_id, genre_name " +
-            "FROM genres " +
-            "WHERE genre_name = ?";
+            "from genres " +
+            "where genre_name = ?";
 
     private static final String UPDATE_GENRE =
-            "UPDATE genres SET genre_name = ? WHERE genres.genre_id = ?";
+            "Update genres Set genre_name = ? where genres.genre_id = ?";
 
     private static final String INSERT_GENRE =
-            "INSERT INTO genres (genre_name) VALUES (?);";
+            "Insert Into genres (genre_name) values (?);";
 
     private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Genre>();
 
@@ -97,6 +97,11 @@ public class GenreDaoImpl extends AbstractDao implements ContentDao {
         } catch (SQLException e) {
             throw new DaoException("GenreDaoImpl create: error while creating content", e);
         }
+    }
+
+    @Override
+    public boolean createContentDescription(AudioContent entity) throws DaoException {
+        return false;
     }
 
     @Override

@@ -46,6 +46,7 @@ public class LoginCommand implements Command {
                 if (passwordFromDb.get().equals(UserServiceImpl.INSTANCE.getHashedPassword(password))) {
                     user.get().setLoginStatus(true);
                     user.get().initBasket();
+                    user.get().setAdminRoleFlag(user.get().getRoleId() == UserServiceImpl.INSTANCE.getAdminRoleId());
                     content.addSessionAttribute(AttributeName.SESSION_USER, user.get());
                     result = new CommandResult(PagePath.REDIRECT_MAIN_PAGE, true);
                     loginFail = false;

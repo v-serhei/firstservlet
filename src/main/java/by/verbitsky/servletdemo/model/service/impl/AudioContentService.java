@@ -3,10 +3,7 @@ package by.verbitsky.servletdemo.model.service.impl;
 import by.verbitsky.servletdemo.entity.AudioContent;
 import by.verbitsky.servletdemo.entity.ContentType;
 import by.verbitsky.servletdemo.entity.User;
-import by.verbitsky.servletdemo.entity.ext.Album;
-import by.verbitsky.servletdemo.entity.ext.Genre;
-import by.verbitsky.servletdemo.entity.ext.Review;
-import by.verbitsky.servletdemo.entity.ext.Singer;
+import by.verbitsky.servletdemo.entity.ext.*;
 import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.exception.PoolException;
 import by.verbitsky.servletdemo.exception.ServiceException;
@@ -20,6 +17,7 @@ import by.verbitsky.servletdemo.model.service.ContentService;
 import by.verbitsky.servletdemo.model.service.ext.SongFilter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,7 +79,7 @@ public enum AudioContentService implements ContentService {
     }
 
     @Override
-    public List<String> findContentProperties(ContentType contentType) throws ServiceException {
+    public List<String> findContentDescription(ContentType contentType) throws ServiceException {
         if (contentType == ContentType.COMPILATION) {
             ContentDao dao = new CompilationDaoImpl();
             ProxyConnection connection = askConnectionFromPool();
@@ -131,6 +129,7 @@ public enum AudioContentService implements ContentService {
         return result;
     }
 
+    @Override
     public List<AudioContent> findUserReviews(User user) throws ServiceException {
         if (user.getUserId() == 0) {
             throw new ServiceException("AudioContentService find user Reviews: user id = 0");
@@ -245,8 +244,32 @@ public enum AudioContentService implements ContentService {
     }
 
     @Override
-    public boolean createCompilation() throws ServiceException {
-        return false;
+    public boolean createCompilation(String compilationTitle, String compilationType, LocalDate compilationDate, User user) throws ServiceException {
+        if (compilationTitle == null || compilationDate == null
+                || compilationType == null || user == null || user.getBasket().isEmpty()) {
+            return false;
+        }
+        Compilation compilation = new Compilation();
+        compilation.setCompilationTitle(compilationTitle);
+        compilation.setCompilationType(compilationType);
+        compilation.setCompilationCreationDate(compilationDate);
+        compilation.addAllSongs(new ArrayList<>(user.getBasket().getSongs()));
+        ProxyConnection connection = askConnectionFromPool();
+
+        try (Transaction transaction = new Transaction(connection)) {
+            CompilationDaoImpl dao = new CompilationDaoImpl();
+            transaction.processTransaction(dao);
+            boolean  operationResult = (dao.create(compilation) &&  dao.createContentDescription(compilation));
+            if (operationResult) {
+                transaction.commitTransaction();
+                user.getBasket().clear();
+            }else {
+                transaction.rollbackTransaction();
+            }
+            return operationResult;
+        } catch (DaoException e) {
+            throw new ServiceException("AudioContentService create compilation: error while creating compilation", e);
+        }
     }
 
     @Override

@@ -18,4 +18,6 @@ public interface ContentDao extends BaseDao<AudioContent> {
     List<AudioContent> findContentByUser(User user) throws DaoException;
 
     Optional <AudioContent> findContentByTitle (String title) throws DaoException;
+
+    boolean createContentDescription (AudioContent entity) throws DaoException;
 }

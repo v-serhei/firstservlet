@@ -18,9 +18,11 @@ public interface ContentService {
 
     Optional<AudioContent> findContentById(ContentType type, long id) throws ServiceException;
 
-    List<String> findContentProperties(ContentType compilation) throws ServiceException;
+    List<String> findContentDescription(ContentType compilation) throws ServiceException;
 
     boolean createReview(User user, String songTitle, String singerName, String reviewText) throws ServiceException;
+
+    List<AudioContent> findUserReviews(User user) throws ServiceException;
 
     boolean deleteContentById(ContentType type, long contentId) throws ServiceException;
 
@@ -34,7 +36,7 @@ public interface ContentService {
 
     boolean createGenre(String genreName) throws ServiceException;
 
-    boolean createCompilation() throws ServiceException;
+    boolean createCompilation(String compilationTitle, String compilationType, LocalDate compilationDate, User user) throws ServiceException;
 
     boolean createSong() throws ServiceException;
 }

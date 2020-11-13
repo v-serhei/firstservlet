@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "MainServlet", urlPatterns = "/do/*")
+@WebServlet(name = "FrontController", urlPatterns = "/do/*")
 @SuppressWarnings("serial")
-public class MainServlet extends HttpServlet {
+public class FrontController extends HttpServlet {
     private final Logger logger = LogManager.getLogger();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -20,22 +20,22 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
     private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Review>();
 
     private static final String SELECT_ALL_REVIEWS_BY_SONG_TITLE =
-            "SELECT sr.review_id, s.song_id, s.song_title, si.singer_name, u.username, sr.review, sr.user_id " +
+            "Select sr.review_id, s.song_id, s.song_title, si.singer_name, u.username, sr.review, sr.user_id " +
                     "from song_review as sr " +
                     "left join songs s on s.song_id = sr.song_id " +
                     "left join users u on sr.user_id = u.user_id " +
                     "left join singers si on s.singer_id = si.singer_id " +
-                    "where s.song_id IN (SELECT song_id FROM songs where song_title REGEXP ?)";
+                    "where s.song_id IN (Select song_id from songs where song_title regexp ?)";
 
     private static final String SELECT_SONG_COUNT =
-            "SELECT COUNT(*) " +
-                    "from (Select COUNT(DISTINCT song_id) " +
+            "Select COUNT(*) " +
+                    "from (Select COUNT(distinct song_id) " +
                     "      from song_review as sr " +
-                    "      where song_id IN (SELECT song_id FROM songs where song_title REGEXP ?) " +
+                    "      where song_id IN (Select song_id from songs where song_title regexp ?) " +
                     "      group by song_id) as rcount";
 
     private static final String SELECT_USER_REVIEWS =
-            "SELECT sr.review_id, s.song_id, s.song_title, si.singer_name, users.username, sr.review, sr.user_id " +
+            "Select sr.review_id, s.song_id, s.song_title, si.singer_name, users.username, sr.review, sr.user_id " +
                     "from song_review as sr" +
                     "         left join songs s on s.song_id = sr.song_id" +
                     "         left join users on sr.user_id = users.user_id" +
@@ -43,36 +43,31 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
                     "where sr.user_id = ?;";
 
     private static final String SELECT_ALL_REVIEWS =
-            "SELECT sr.review_id, s.song_id, s.song_title, si.singer_name, users.username, sr.review, sr.user_id " +
+            "Select sr.review_id, s.song_id, s.song_title, si.singer_name, users.username, sr.review, sr.user_id " +
                     "from song_review as sr" +
                     "         left join songs s on s.song_id = sr.song_id" +
                     "         left join users on sr.user_id = users.user_id" +
                     "         left join singers si on s.singer_id = si.singer_id order by song_id";
 
-    @Override
-    public Optional<AudioContent> findContentByTitle(String title) {
-        return Optional.empty();
-    }
-
     private static final String SELECT_UNIQ_SONG_TITLES =
-            "SELECT sr.review_id, s.song_id, s.song_title, si.singer_name, users.username, sr.review, sr.user_id " +
+            "Select sr.review_id, s.song_id, s.song_title, si.singer_name, users.username, sr.review, sr.user_id " +
                     "from song_review as sr " +
                     "         left join songs s on s.song_id = sr.song_id " +
                     "         left join users on sr.user_id = users.user_id " +
                     "         left join singers si on s.singer_id = si.singer_id " +
-                    "where s.song_id IN (SELECT song_id  FROM songs where song_title REGEXP ?) " +
+                    "where s.song_id IN (Select song_id  from songs where song_title regexp ?) " +
                     "group by song_title " +
                     "order by song_title " +
                     "limit ? offset ?";
 
     private static final String INSERT_REVIEW =
-            "INSERT INTO song_review (song_id, user_id, review) VALUES (?, ?, ?);";
+            "Insert Into song_review (song_id, user_id, review) values (?, ?, ?);";
 
     private static final String DELETE_REVIEW_BY_ID =
-            "DELETE FROM song_review WHERE song_review.review_id = ?";
+            "Delete from song_review where song_review.review_id = ?";
 
     private static final String SELECT_REVIEW_BY_ID =
-            "SELECT sr.review_id, s.song_id, s.song_title, si.singer_name, users.username, sr.review, sr.user_id " +
+            "Select sr.review_id, s.song_id, s.song_title, si.singer_name, users.username, sr.review, sr.user_id " +
                     "from song_review as sr" +
                     "         left join songs s on s.song_id = sr.song_id" +
                     "         left join users on sr.user_id = users.user_id" +
@@ -162,9 +157,6 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
 
     @Override
     public Optional<AudioContent> findEntityById(Long id) throws DaoException {
-        if (id == 0) {
-            throw new DaoException("ReviewDaoImpl findEntityById: received id = 0");
-        }
         if (connection == null) {
             throw new DaoException("ReviewDaoImpl findEntityById: received null connection");
         }
@@ -185,19 +177,15 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
 
     @Override
     public boolean delete(Long id) throws DaoException {
-        if (id == 0) {
-            throw new DaoException("ReviewDaoImpl findEntityById: received id = 0");
-        }
         if (connection == null) {
-            throw new DaoException("ReviewDaoImpl findEntityById: received null connection");
+            throw new DaoException("ReviewDaoImpl delete: received null connection");
         }
-        boolean result;
         try (PreparedStatement statement = connection.prepareStatement(DELETE_REVIEW_BY_ID)) {
             statement.setLong(1, id);
             int count = statement.executeUpdate();
             return count > 0;
         } catch (SQLException e) {
-            throw new DaoException("ReviewDaoImpl findEntityById: SQL error while searching review by id", e);
+            throw new DaoException("ReviewDaoImpl delete: SQL error while delete review by id", e);
         }
     }
 
@@ -238,5 +226,15 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
             throw new DaoException("ReviewDaoImpl findContentByUser: SQL error while searching user reviews", e);
         }
         return result;
+    }
+
+    @Override
+    public boolean createContentDescription(AudioContent entity) throws DaoException {
+        return false;
+    }
+
+    @Override
+    public Optional<AudioContent> findContentByTitle(String title) {
+        return Optional.empty();
     }
 }

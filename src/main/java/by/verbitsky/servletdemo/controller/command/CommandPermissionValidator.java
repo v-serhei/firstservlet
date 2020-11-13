@@ -1,13 +1,16 @@
 package by.verbitsky.servletdemo.controller.command;
 
 import by.verbitsky.servletdemo.controller.command.impl.admin.*;
-import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.AlbumManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.AdminCompilationPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.AlbumManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.CompilationManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.GenreManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.SongManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.ReviewManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.SingerManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.UserManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.common.BasketAddCommand;
+import by.verbitsky.servletdemo.controller.command.impl.common.BasketRemoveCommand;
 import by.verbitsky.servletdemo.controller.command.impl.user.*;
 import by.verbitsky.servletdemo.entity.User;
 
@@ -39,6 +42,9 @@ public class CommandPermissionValidator {
         permissions.put(AdminUpdateGenreCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(AdminUpdateAlbumCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(AdminCreateAlbumCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
+        permissions.put(AdminCompilationPageCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
+        permissions.put(AdminCreateCompilationCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
+        permissions.put(AdminDeleteCompilationCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
 
         //User commands
         permissions.put(BasketRemoveCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));

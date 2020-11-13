@@ -54,6 +54,7 @@ public class AttributeName {
     //order request  attributes
     public static final String ORDER = "requestedOrder";
     public static final String SHOW_ORDER_CONTROLS = "enableOrderControls";
+    public static final String SHOW_COMPILATION_CONTROLS = "enableCompilationControls";
 
     public static final String ORDER_LIST = "orderList";
     public static final String ORDER_TOTAL_COUNT = "totalOrderCount";

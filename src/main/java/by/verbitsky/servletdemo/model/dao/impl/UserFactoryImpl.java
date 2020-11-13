@@ -2,6 +2,7 @@ package by.verbitsky.servletdemo.model.dao.impl;
 
 import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.model.dao.UserFactory;
+import by.verbitsky.servletdemo.model.service.impl.UserServiceImpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,6 +31,7 @@ public class UserFactoryImpl implements UserFactory<User> {
         user.setEmail(resultSet.getString(COLUMN_EMAIL));
         user.setDiscount(resultSet.getInt(COLUMN_DISCOUNT));
         user.setRoleId(resultSet.getInt(COLUMN_ROLE));
+        user.setAdminRoleFlag(userId == UserServiceImpl.INSTANCE.getAdminRoleId());
         user.setBlockedStatus(resultSet.getInt(COLUMN_BLOCKED));
         user.setRegistrationDate(resultSet.getDate(COLUMN_DATE).toLocalDate());
         return Optional.of(user);

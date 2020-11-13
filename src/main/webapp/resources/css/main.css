@@ -375,7 +375,6 @@
     width: 30%;
     font-size: 11pt;
     font-family: "Comic Sans MS", serif;
-    /*flex-grow: 5;*/
 }
 
 .item-description-singer {
@@ -384,7 +383,6 @@
     width: 22%;
     font-size: 11pt;
     font-family: "Comic Sans MS", serif;
-    /*flex-grow: 2;*/
 }
 
 .album-title-description {
@@ -641,7 +639,7 @@
 }
 
 /*order page*/
-.order-content-block {
+.order-content-block, .compilation-content-block {
     width: 80%;
     display: flex;
     flex-direction: column;
@@ -653,23 +651,30 @@
     margin: 20px auto;
 }
 
-.order-description-block{
+.order-description-block {
     display: flex;
     flex-direction: column;
     height: 85%;
     width: 100%;
 }
-.order-result {
+
+.compilation-description-block{
+    display: flex;
+    flex-direction: column;
+    height: 73%;
+    width: 100%;
+}
+.order-result, .compilation-result {
     display: flex;
     flex-direction: column;
     margin-top: auto;
 }
-.order-controls {
+.order-controls,  .compilation-controls {
     display: flex;
     flex-direction: row;
     margin: 20px auto;
 }
-.order-count-result {
+.order-count-result, .compilation-count-result {
     text-align: center;
     font-style: italic;
     font-size: 11pt;
@@ -679,7 +684,7 @@
     font-style: italic;
     font-weight: bolder;
 }
-.order-items {
+.order-items, .compilation-items {
     overflow: auto;
     margin: 30px auto;
     width: 100%;
@@ -800,12 +805,12 @@
     max-height: 700px
 
 }.admin-content-review-items {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: auto;
-    max-height: 500px
-}
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     overflow: auto;
+     max-height: 500px
+ }
 .user-reviews-text{
     display: flex;
     flex-direction: row;
@@ -918,7 +923,34 @@
     margin: 0 auto;
 }
 
+.compilation-params-block {
+    display: flex;
+    flex-direction: column;
+    height: 130px;
+    width: 60%;
+    margin: 10px auto 10px auto;
+    text-align: center;
+    justify-content: center;
+}
+.compilation-create-header{
+    height: 50px;
+    width: 60%;
+    margin: 30px auto 10px auto;
+    text-align: center;
+}
 
+.compilation-select-block {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin: 50px auto;
+    text-align: center;
+}
+.compilation-controls {
+    width: 20%;
+    margin: 0 auto;
+    justify-content: center;
+}
 
 /*
    background: #f0e8cb;- светлый

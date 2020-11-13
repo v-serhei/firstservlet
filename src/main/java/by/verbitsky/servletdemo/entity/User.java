@@ -15,9 +15,19 @@ public class User {
     private Basket basket;
     private LocalDate registrationDate;
     private String roleDescription;
+    private boolean isAdminRole;
+
 
 
     public User() {
+    }
+
+    public boolean isAdminRole() {
+        return isAdminRole;
+    }
+
+    public void setAdminRoleFlag (boolean flag) {
+        isAdminRole = flag;
     }
 
     public LocalDate getRegistrationDate() {

@@ -26,10 +26,11 @@ public class ParameterName {
 
     public static final String REVIEW_TEXT = "reviewText";
     public static final String COMPILATION = "compilationName";
+    public static final String COMPILATION_ID = "compilationId";
     public static final String COMPILATION_TYPE_NAME = "compilationTypeName";
     public static final String ENABLE_FILTER = "filtered";
     public static final String PAGE_NUMBER = "pageNumber";
-    public static final String ORDERED_SONG_ID = "orderedSongId";
+    public static final String SONG_ID = "orderedSongId";
     public static final String ORDER_ID = "orderId";
     public static final String REVIEW_ID = "reviewId";
     public static final String CONTENT_TYPE = "contentType";

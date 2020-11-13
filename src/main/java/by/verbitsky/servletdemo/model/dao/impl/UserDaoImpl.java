@@ -16,27 +16,27 @@ import java.util.Optional;
 public class UserDaoImpl extends AbstractDao implements UserDao {
 
     private static final String SELECT_ALL_USERS =
-            "SELECT user_id, username, email, role_id, blocked_status, discount_value, reg_date FROM users order by username";
+            "Select user_id, username, email, role_id, blocked_status, discount_value, reg_date from users order by username";
     private static final String SELECT_USER_BY_ID =
-            "SELECT user_id, username, email, role_id, blocked_status, discount_value, reg_date FROM users WHERE user_id=?";
+            "Select user_id, username, email, role_id, blocked_status, discount_value, reg_date from users where user_id=?";
     private static final String SELECT_USER_BY_EMAIL =
-            "SELECT user_id, username, email, role_id, blocked_status, discount_value, reg_date FROM users WHERE email=?";
+            "Select user_id, username, email, role_id, blocked_status, discount_value, reg_date FROM users where email=?";
     private static final String SELECT_USER_BY_NAME =
-            "SELECT user_id, username, password, email, role_id, blocked_status, discount_value, reg_date FROM users WHERE username=?";
+            "Select user_id, username, password, email, role_id, blocked_status, discount_value, reg_date from users where username=?";
     private static final String DELETE_USER_BY_ID =
-            "DELETE FROM users WHERE user_id=?";
+            "Delete from users where user_id=?";
     private static final String INSERT_USER =
-            "INSERT INTO users (`username`, `email`) VALUES (?, ?)";
+            "Insert Into users (`username`, `email`) values (?, ?)";
     private static final String UPDATE_USER_PASSWORD =
-            "UPDATE users SET password = ? WHERE username = ?";
+            "Update users Set password = ? where username = ?";
 
     private static final String UPDATE_USER =
-            "UPDATE users " +
-            "SET email          = ?," +
+            "Update users " +
+            "Set email          = ?," +
             "    role_id        = ?," +
             "    blocked_status = ?," +
             "    discount_value = ? " +
-            "WHERE users.username = ?;";
+            "where users.username = ?;";
 
     private static final String COLUMN_PASSWORD = "password";
 

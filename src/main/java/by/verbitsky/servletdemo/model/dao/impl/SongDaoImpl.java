@@ -37,7 +37,7 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                     "         left join singers as si on so.singer_id = si.singer_id " +
                     "         left join albums as album on so.album_id = album.album_id " +
                     "         left join genres as ge on so.genre_id = ge.genre_id " +
-                    "ORDER BY so.upload_date";
+                    "order by so.upload_date";
 
     private static final String SELECT_SONGS_BY_FILTER =
             "Select song_id," +
@@ -52,9 +52,9 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                     "         left join singers as si on so.singer_id = si.singer_id " +
                     "         left join albums as album on so.album_id = album.album_id " +
                     "         left join genres as ge on so.genre_id = ge.genre_id " +
-                    "WHERE  song_title REGEXP ? and genre_name REGEXP ? and " +
-                    "       singer_name REGEXP ? and album_title REGEXP ? " +
-                    "ORDER BY upload_date " +
+                    "where  song_title regexp ? and genre_name regexp ? and " +
+                    "       singer_name regexp ? and album_title regexp ? " +
+                    "order by upload_date " +
                     "limit ? offset ?";
 
     private static final String SELECT_SONG_COUNT =
@@ -62,8 +62,8 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                     "         left join singers as si on so.singer_id = si.singer_id " +
                     "         left join albums as al on so.album_id = al.album_id " +
                     "         left join genres as ge on so.genre_id = ge.genre_id " +
-                    "WHERE  song_title REGEXP ? and genre_name REGEXP ? and " +
-                    "       singer_name REGEXP ? and album_title REGEXP ? ";
+                    "where  song_title regexp ? and genre_name regexp ? and " +
+                    "       singer_name regexp ? and album_title regexp ? ";
 
     private static final String SELECT_SONG_BY_ID =
             "Select song_id," +
@@ -78,7 +78,7 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                     "         left join singers as si on so.singer_id = si.singer_id " +
                     "         left join albums as album on so.album_id = album.album_id " +
                     "         left join genres as ge on so.genre_id = ge.genre_id " +
-                    "WHERE song_id=?";
+                    "where song_id=?";
 
     private static final String SELECT_SONGS_BY_COMPILATION_ID =
             "Select song.song_id, " +
@@ -243,5 +243,10 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
             throw new DaoException(e);
         }
         return result;
+    }
+
+    @Override
+    public boolean createContentDescription(AudioContent entity) throws DaoException {
+        return false;
     }
 }

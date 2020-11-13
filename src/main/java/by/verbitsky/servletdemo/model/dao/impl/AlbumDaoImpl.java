@@ -20,26 +20,26 @@ import java.util.Optional;
 public class AlbumDaoImpl extends AbstractDao implements ContentDao {
 
     private static final String SELECT_ALL_ALBUMS =
-            "SELECT album_id, album_title, albums.singer_id, singer.singer_name, creation_date as album_date " +
+            "Select album_id, album_title, albums.singer_id, singer.singer_name, creation_date as album_date " +
             "from albums " +
                 "left join singers singer on singer.singer_id = albums.singer_id " +
             "order by singer_id";
 
     private static final String SELECT_ALBUM_BY_TITLE =
-            "SELECT album_id, album_title, albums.singer_id, singer.singer_name, creation_date as album_date " +
+            "Select album_id, album_title, albums.singer_id, singer.singer_name, creation_date as album_date " +
             "from albums " +
                 "left join singers singer on singer.singer_id = albums.singer_id " +
-            "WHERE album_title = ?";
+            "where album_title = ?";
 
     private static final String UPDATE_ALBUM =
-            "UPDATE albums " +
-            "SET album_title = ?," +
+            "Update albums " +
+            "Set album_title = ?," +
             "    creation_date = ?," +
             "    singer_id     = ? " +
-            "WHERE albums.album_id = ?;";
+            "where albums.album_id = ?;";
 
     private static final String INSERT_ALBUM =
-            "INSERT INTO albums (album_title, creation_date, singer_id) VALUES (?, ?, ?);";
+            "Insert Into albums (album_title, creation_date, singer_id) values (?, ?, ?);";
 
     private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Album>();
 
@@ -142,5 +142,10 @@ public class AlbumDaoImpl extends AbstractDao implements ContentDao {
     @Override
     public List<AudioContent> findContentByUser(User user) throws DaoException {
         return null;
+    }
+
+    @Override
+    public boolean createContentDescription(AudioContent entity) throws DaoException {
+        return false;
     }
 }

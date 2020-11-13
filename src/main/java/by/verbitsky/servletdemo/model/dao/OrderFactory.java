@@ -16,7 +16,5 @@ public interface OrderFactory <Order> {
 
     Optional<Order> createOrder (ResultSet resultSet) throws SQLException;
 
-    List<Order> createOrders (ResultSet resultSet) throws SQLException;
-
     Order createOrder (User user, Set<Song> songs);
 }

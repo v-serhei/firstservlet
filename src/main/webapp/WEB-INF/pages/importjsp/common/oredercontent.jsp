@@ -4,8 +4,6 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="language/jsp"/>
 <%@ taglib prefix="ab" uri="customTagLib" %>
-
-<%--12 штук на страницу--%>
 <div class="order-content-block">
     <c:set var="currentOrder" value="${requestScope.requestedOrder}"/>
     <span class="order-header"><fmt:message key="order.number.caption"/> &nbsp; ${currentOrder.orderId} </span>
@@ -48,7 +46,6 @@
                 </div>
             </c:forEach>
         </div>
-
         <div class="order-result">
             <span class="order-count-result"> <fmt:message key="order.total.count.caption"/>&nbsp;${currentOrder.orderList.size()}</span>
             <span class="order-cash-result"> <fmt:message key="order.total.cash"/>&nbsp;${currentOrder.orderPrice}</span>

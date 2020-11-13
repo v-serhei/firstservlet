@@ -23,6 +23,7 @@ public class CreateOrderCommand implements Command {
             return new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
         }
         if (!CommandPermissionValidator.isUserHasPermission(user, this)) {
+            user.getBasket().clear();
             return new CommandResult(PagePath.FORWARD_ERROR_PAGE, false);
         }
         CommandResult result;
@@ -40,7 +41,7 @@ public class CreateOrderCommand implements Command {
         } else {
             content.addSessionAttribute(AttributeName.OPERATION_TYPE, AttributeValue.REMOVE_SONG_FROM_ORDER);
             content.addSessionAttribute(AttributeName.OPERATION_RESULT, AttributeValue.OPERATION_FAILED);
-            content.addSessionAttribute(AttributeName.OPERATION_MESSAGE, AttributeValue.ORDER_NOT_EXIST);
+            content.addSessionAttribute(AttributeName.OPERATION_MESSAGE, AttributeValue.EMPTY_ORDER_LIST);
             content.addSessionAttribute(AttributeName.OPERATION_BUTTON_CAPTION, AttributeValue.BUTTON_CAPTION_BACK);
             content.addSessionAttribute(AttributeName.OPERATION_BUTTON_LINK, PagePath.REDIRECT_MAIN_PAGE);
             return new CommandResult(PagePath.FORWARD_RESULT_PAGE, false);
