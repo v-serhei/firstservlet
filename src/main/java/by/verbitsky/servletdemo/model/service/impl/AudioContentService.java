@@ -195,8 +195,50 @@ public enum AudioContentService implements ContentService {
     }
 
     @Override
-    public boolean createSong() throws ServiceException {
-        return false;
+    public boolean createSong(Song song)  throws ServiceException {
+        Optional<AudioContent> oSong= findContentByTitle(ContentType.SONG, song.getSongTitle());
+        Optional<AudioContent> singerById = findContentById(ContentType.SINGER, song.getSingerId());
+        Optional<AudioContent> albumById = findContentById(ContentType.ALBUM, song.getAlbumId());
+        Optional<AudioContent> genreById = findContentById(ContentType.GENRE, song.getGenreId());
+
+        if (singerById.isPresent() && albumById.isPresent() && genreById.isPresent()) {
+            if (oSong.isPresent()) {
+                if (((Song)oSong.get()).getSingerId() == singerById.get().getId()){
+                    //Current artist already have such song name
+                    return false;
+                }
+            }
+            SongDaoImpl dao = new SongDaoImpl();
+            ProxyConnection connection = askConnectionFromPool();
+            try (Transaction transaction = new Transaction(connection)) {
+                transaction.processSimpleQuery(dao);
+                return  dao.create(song);
+            } catch (DaoException e) {
+                throw new ServiceException("AudioContentService update content: error while updating song", e);
+            }
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateSong(Song song) throws ServiceException {
+        Optional<AudioContent> songById = findContentById(ContentType.SONG, song.getId());
+        Optional<AudioContent> singerById = findContentById(ContentType.SINGER, song.getSingerId());
+        Optional<AudioContent> albumById = findContentById(ContentType.ALBUM, song.getAlbumId());
+        Optional<AudioContent> genreById = findContentById(ContentType.GENRE, song.getGenreId());
+        if (songById.isPresent() && singerById.isPresent() && albumById.isPresent() && genreById.isPresent()) {
+            SongDaoImpl dao = new SongDaoImpl();
+            ProxyConnection connection = askConnectionFromPool();
+            try (Transaction transaction = new Transaction(connection)) {
+                transaction.processSimpleQuery(dao);
+                return  dao.update(song);
+            } catch (DaoException e) {
+                throw new ServiceException("AudioContentService update content: error while updating song", e);
+            }
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -259,11 +301,11 @@ public enum AudioContentService implements ContentService {
         try (Transaction transaction = new Transaction(connection)) {
             CompilationDaoImpl dao = new CompilationDaoImpl();
             transaction.processTransaction(dao);
-            boolean  operationResult = (dao.create(compilation) &&  dao.createContentDescription(compilation));
+            boolean operationResult = (dao.create(compilation) && dao.createContentDescription(compilation));
             if (operationResult) {
                 transaction.commitTransaction();
                 user.getBasket().clear();
-            }else {
+            } else {
                 transaction.rollbackTransaction();
             }
             return operationResult;

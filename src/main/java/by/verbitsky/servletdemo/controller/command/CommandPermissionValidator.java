@@ -5,7 +5,7 @@ import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.Ad
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.AlbumManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.CompilationManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.GenreManagementPageCommand;
-import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.SongManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.SongManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.ReviewManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.SingerManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.UserManagementPageCommand;
@@ -45,6 +45,8 @@ public class CommandPermissionValidator {
         permissions.put(AdminCompilationPageCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(AdminCreateCompilationCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(AdminDeleteCompilationCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
+        permissions.put(AdminCreateSongCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
+        permissions.put(AdminUpdateSongCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
 
         //User commands
         permissions.put(BasketRemoveCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));

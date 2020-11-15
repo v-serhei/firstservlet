@@ -3,6 +3,7 @@ package by.verbitsky.servletdemo.model.service;
 import by.verbitsky.servletdemo.entity.AudioContent;
 import by.verbitsky.servletdemo.entity.ContentType;
 import by.verbitsky.servletdemo.entity.User;
+import by.verbitsky.servletdemo.entity.ext.Song;
 import by.verbitsky.servletdemo.exception.ServiceException;
 
 import java.time.LocalDate;
@@ -38,5 +39,7 @@ public interface ContentService {
 
     boolean createCompilation(String compilationTitle, String compilationType, LocalDate compilationDate, User user) throws ServiceException;
 
-    boolean createSong() throws ServiceException;
+    boolean createSong(Song song) throws ServiceException;
+
+    boolean updateSong (Song song) throws ServiceException;
 }

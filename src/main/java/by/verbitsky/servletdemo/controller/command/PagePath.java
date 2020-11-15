@@ -20,6 +20,7 @@ public class PagePath {
     public static final String REDIRECT_ADMIN_ALBUM_MANAGEMENT_PAGE = "/audiobox/do/admin/album_management";
     public static final String REDIRECT_ADMIN_COMPILATION_MANAGEMENT_PAGE = "/audiobox/do/admin/compilation_management";
     public static final String REDIRECT_ADMIN_COMPILATION_PAGE = "/audiobox/do/admin/compilation";
+    public static final String REDIRECT_ADMIN_SONG_MANAGEMENT_PAGE = "/audiobox/do/admin/song_management";
 
     //path to jsp (for forwarding)
     public static final String FORWARD_ADMIN_USER_MANAGEMENT = "/pages/admin/usermanagement.jsp";
@@ -49,6 +50,12 @@ public class PagePath {
     public static final String PAGINATION_MAIN = "/do/main/next_page?filtered=true&contentType=song";
     public static final String PAGINATION_COMPILATION = "/do/compilations/next_page?filtered=true&contentType=compilation";
     public static final String PAGINATION_REVIEW = "/do/reviews/next_page?filtered=true&contentType=review";
+
+    //servlet forwarding
+    public static final String FORWARD_SERVLET_UPLOAD_ERROR = "/do/admin/upload_error";
+    public static final String FORWARD_SERVLET_CREATE_SONG = "/do/admin/create_song";
+
+
 
     private PagePath() {
     }

@@ -19,7 +19,8 @@ import java.util.Optional;
 public class SingerDaoImpl extends AbstractDao implements ContentDao {
     private static final String SELECT_ALL_SINGERS = "Select singer_id, singer_name from singers order by singer_name";
 
-    private static final String SELECT_SINGER_BY_NAME = "Select singer_id, singer_name " +
+    private static final String SELECT_SINGER_BY_NAME =
+            "Select singer_id, singer_name " +
             "from singers " +
             "where singer_name = ?";
 
@@ -29,6 +30,10 @@ public class SingerDaoImpl extends AbstractDao implements ContentDao {
     private static final String INSERT_SINGER =
             "Insert Into singers (singer_name) values (?);";
 
+    private static final String SELECT_SINGER_BY_ID =
+            "Select singer_id, singer_name " +
+                    "from singers " +
+                    "where singer_id = ?";
     private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Singer>();
 
 
@@ -74,12 +79,15 @@ public class SingerDaoImpl extends AbstractDao implements ContentDao {
             throw new DaoException("SingerDao update: received null connection");
         }
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_SINGER)) {
-            statement.setString(1, ((Singer)entity).getSingerName());
+            Singer singer = (Singer) entity;
+            statement.setString(1, singer.getSingerName());
             statement.setLong(2, entity.getId());
             int count = statement.executeUpdate();
             return count > 0;
         } catch (SQLException e) {
             throw new DaoException("SingerDaoImpl update: error while updating content", e);
+        }catch (ClassCastException ex) {
+            throw new DaoException("SingerDaoImpl update: error while casting entity to Singer.class", ex);
         }
     }
 
@@ -89,17 +97,36 @@ public class SingerDaoImpl extends AbstractDao implements ContentDao {
             throw new DaoException("SingerDao update: received null connection");
         }
         try (PreparedStatement statement = connection.prepareStatement(INSERT_SINGER)) {
-            statement.setString(1, ((Singer)entity).getSingerName());
+            Singer singer = (Singer) entity;
+            statement.setString(1, singer.getSingerName());
             int count = statement.executeUpdate();
             return count > 0;
         } catch (SQLException e) {
             throw new DaoException("SingerDaoImpl update: error while creating content", e);
+        }catch (ClassCastException ex) {
+            throw new DaoException("SingerDaoImpl update: error while casting entity to Singer.class", ex);
         }
     }
 
     @Override
     public Optional<AudioContent> findEntityById(Long id) throws DaoException {
-        return Optional.empty();
+        if (connection == null) {
+            throw new DaoException("SingerDaoImpl content by id: received null connection");
+        }
+        if (id == null) {
+            return Optional.empty();
+        }
+        Optional<AudioContent> result = Optional.empty();
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_SINGER_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                result = factory.createSingleContent(resultSet, ContentType.SINGER);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("SingerDaoImpl content by id: error while searching content", e);
+        }
+        return result;
     }
 
     @Override

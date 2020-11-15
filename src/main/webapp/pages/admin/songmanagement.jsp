@@ -21,6 +21,7 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/upload.btn.js"></script>
 <c:import url="/WEB-INF/pages/importjsp/common/footer.jsp"/>
 </body>
 </html>

@@ -15,7 +15,7 @@ public class BasketRemoveCommand implements Command {
         }
         CommandResult result;
         if (user.getLoginStatus()) {
-            Long songId = Long.parseLong(content.getRequestParameter(ParameterName.SONG_ID));
+            Long songId = Long.parseLong(content.getRequestParameter(ParameterName.ORDERED_SONG_ID));
             user.getBasket().removeSong(songId);
             result = new CommandResult(lastPage, true);
         } else {

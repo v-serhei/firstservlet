@@ -48,6 +48,7 @@ public class AttributeName {
     public static final String REVIEW_TOTAL_PAGE_COUNT = "reviewTotalPageCount";
     public static final String REVIEW_SEARCH_COUNT_RESULT = "reviewContentCount";
     //additional song content
+    public static final String SONG_LIST = "songList";
     public static final String SINGER_LIST = "singerList";
     public static final String GENRE_LIST = "genreList";
     public static final String ALBUM_LIST = "albumList";
@@ -82,6 +83,9 @@ public class AttributeName {
     public static final String ADMIN_USER_ENABLE = "userFlag";
     public static final String ADMIN_USER_LIST = "userList";
     public static final String ADMIN_ROLE_LIST = "roleList";
+
+    public static final String UPLOAD_FILE_PATH = "uploadFile";
+
 
     public static final String ADMIN_OPERATION_RESULT_MSG = "resultMessage";
     public static final String ADMIN_OPERATION_MESSAGE_FLAG = "enableMessage";

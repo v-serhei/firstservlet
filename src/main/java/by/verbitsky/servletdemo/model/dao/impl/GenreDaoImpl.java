@@ -20,7 +20,8 @@ public class GenreDaoImpl extends AbstractDao implements ContentDao {
 
     private static final String SELECT_ALL_GENRE = "Select genre_id, genre_name from genres order by genre_name";
 
-    private static final String SELECT_GENRE_BY_TITLE = "Select genre_id, genre_name " +
+    private static final String SELECT_GENRE_BY_TITLE =
+            "Select genre_id, genre_name " +
             "from genres " +
             "where genre_name = ?";
 
@@ -29,6 +30,12 @@ public class GenreDaoImpl extends AbstractDao implements ContentDao {
 
     private static final String INSERT_GENRE =
             "Insert Into genres (genre_name) values (?);";
+
+    private static final String SELECT_GENRE_BY_ID =
+            "Select genre_id, genre_name " +
+            "from genres " +
+            "where genre_id = ?";
+
 
     private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Genre>();
 
@@ -76,12 +83,15 @@ public class GenreDaoImpl extends AbstractDao implements ContentDao {
             throw new DaoException("GenreDaoImpl update: received null connection");
         }
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_GENRE)) {
-            statement.setString(1, ((Genre)entity).getGenreName());
+            Genre genre = (Genre) entity;
+            statement.setString(1, genre.getGenreName());
             statement.setLong(2, entity.getId());
             int count = statement.executeUpdate();
             return count > 0;
         } catch (SQLException e) {
             throw new DaoException("GenreDaoImpl update: error while updating content", e);
+        }catch (ClassCastException ex) {
+            throw new DaoException("GenreDaoImpl update: error while casting entity to Genre.class", ex);
         }
     }
 
@@ -91,22 +101,41 @@ public class GenreDaoImpl extends AbstractDao implements ContentDao {
             throw new DaoException("GenreDaoImpl create: received null connection");
         }
         try (PreparedStatement statement = connection.prepareStatement(INSERT_GENRE)) {
-            statement.setString(1, ((Genre)entity).getGenreName());
+            Genre genre = (Genre) entity;
+            statement.setString(1, genre.getGenreName());
             int count = statement.executeUpdate();
             return count > 0;
         } catch (SQLException e) {
             throw new DaoException("GenreDaoImpl create: error while creating content", e);
+        } catch (ClassCastException ex) {
+            throw new DaoException("GenreDaoImpl update: error while casting entity to Genre.class", ex);
         }
+    }
+
+    @Override
+    public Optional<AudioContent> findEntityById(Long id) throws DaoException {
+        if (connection == null) {
+            throw new DaoException("GenreDaoImpl content by id: received null connection");
+        }
+        if (id == null) {
+            return Optional.empty();
+        }
+        Optional<AudioContent> result = Optional.empty();
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_GENRE_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                result = factory.createSingleContent(resultSet, ContentType.GENRE);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("GenreDaoImpl content by id: error while searching content", e);
+        }
+        return result;
     }
 
     @Override
     public boolean createContentDescription(AudioContent entity) throws DaoException {
         return false;
-    }
-
-    @Override
-    public Optional<AudioContent> findEntityById(Long id) throws DaoException {
-        return Optional.empty();
     }
 
     @Override

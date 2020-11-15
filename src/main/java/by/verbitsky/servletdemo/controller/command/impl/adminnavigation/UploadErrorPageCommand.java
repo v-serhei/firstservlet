@@ -1,13 +1,15 @@
 package by.verbitsky.servletdemo.controller.command.impl.adminnavigation;
 
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
-import by.verbitsky.servletdemo.controller.command.*;
-import by.verbitsky.servletdemo.entity.User;
+import by.verbitsky.servletdemo.controller.command.Command;
+import by.verbitsky.servletdemo.controller.command.CommandResult;
+import by.verbitsky.servletdemo.controller.command.PagePath;
 import by.verbitsky.servletdemo.exception.CommandException;
 
-public class SongManagementPageCommand implements Command {
+public class UploadErrorPageCommand implements Command {
     @Override
     public CommandResult execute(SessionRequestContent content) throws CommandException {
+        /*
         User user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
         if (!user.getLoginStatus()) {
             return new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
@@ -24,6 +26,8 @@ public class SongManagementPageCommand implements Command {
             result = new CommandResult(PagePath.FORWARD_ERROR_PAGE, false);
         }
 
-        return result;
+        return result;*/
+
+        return new CommandResult(PagePath.FORWARD_ERROR_PAGE, false);
     }
 }

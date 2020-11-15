@@ -52,7 +52,10 @@ public enum CommandType {
     ALBUM_MANAGEMENT(new AlbumManagementPageCommand()),
     COMPILATION_MANAGEMENT(new CompilationManagementPageCommand()),
 
-    //admin commands
+
+    UPLOAD_ERROR(new UploadErrorPageCommand()),
+
+    //admin commands,
     UPDATE_USER(new AdminUpdateUserCommand()),
     DELETE_USER_REVIEW(new AdminDeleteReviewCommand()),
     UPDATE_SINGER (new AdminUpdateSingerCommand()),
@@ -64,6 +67,10 @@ public enum CommandType {
     CREATE_COMPILATION(new AdminCreateCompilationCommand()),
     COMPILATION(new AdminCompilationPageCommand()),
     DELETE_COMPILATION(new AdminDeleteCompilationCommand()),
+
+
+    CREATE_SONG(new AdminCreateSongCommand()),
+    UPDATE_SONG(new AdminUpdateSongCommand()),
 
 
 

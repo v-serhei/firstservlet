@@ -24,7 +24,8 @@
 
                     <%--delete this--%>
                     <a class="dropdown-item" href="${pageContext.request.contextPath}/do/user_management">admin menu</a>
-
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/do/song_management">upload test</a>
+                        <%--delete this--%>
                     <c:choose>
                         <c:when test="${sessionScope.user.loginStatus}">
                             <!-- if logged in -->

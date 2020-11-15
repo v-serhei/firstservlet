@@ -17,6 +17,7 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
     private static final String COLUMN_SONG_TITLE = "song_title";
     private static final String COLUMN_SONG_UPLOAD_DATE = "upload_date";
     private static final String COLUMN_SONG_PRICE = "song_price";
+    private static final String COLUMN_SONG_FILE_PATH = "file_path";
 
     private static final String COLUMN_ALBUM_ID = "album_id";
     private static final String COLUMN_ALBUM_CREATION_DATE = "album_date";
@@ -184,6 +185,8 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
         result.setGenre(resultSet.getString(COLUMN_GENRE_NAME));
         result.setUploadDate(resultSet.getDate(COLUMN_SONG_UPLOAD_DATE).toLocalDate());
         result.setPrice(resultSet.getBigDecimal(COLUMN_SONG_PRICE));
+        result.setFilePath(resultSet.getString(COLUMN_SONG_FILE_PATH));
+        result.setSongMergedTitle();
         return Optional.of(result);
     }
 

@@ -41,6 +41,12 @@ public class AlbumDaoImpl extends AbstractDao implements ContentDao {
     private static final String INSERT_ALBUM =
             "Insert Into albums (album_title, creation_date, singer_id) values (?, ?, ?);";
 
+    private static final String SELECT_ALBUM_BY_ID =
+            "Select album_id, album_title, albums.singer_id, singer.singer_name, creation_date as album_date " +
+                    "from albums " +
+                    "left join singers singer on singer.singer_id = albums.singer_id " +
+                    "where album_id = ?";
+
     private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Album>();
 
 
@@ -87,14 +93,17 @@ public class AlbumDaoImpl extends AbstractDao implements ContentDao {
             throw new DaoException("albumDaoImpl update: received null connection");
         }
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_ALBUM)) {
-            statement.setString(1, ((Album)entity).getAlbumTitle());
-            statement.setDate(2, Date.valueOf(((Album)entity).getAlbumDate()));
-            statement.setLong(3, ((Album)entity).getSingerId());
-            statement.setLong(4, (entity.getId()));
+            Album album = (Album) entity;
+            statement.setString(1, album.getAlbumTitle());
+            statement.setDate(2, Date.valueOf(album.getAlbumDate()));
+            statement.setLong(3, album.getSingerId());
+            statement.setLong(4, entity.getId());
             int count = statement.executeUpdate();
             return count > 0;
         } catch (SQLException e) {
             throw new DaoException("albumDaoImpl update: error while updating content", e);
+        }catch (ClassCastException ex) {
+            throw new DaoException("albumDaoImpl update: error while casting entity to Album.class", ex);
         }
     }
 
@@ -104,19 +113,38 @@ public class AlbumDaoImpl extends AbstractDao implements ContentDao {
             throw new DaoException("albumDaoImpl create: received null connection");
         }
         try (PreparedStatement statement = connection.prepareStatement(INSERT_ALBUM)) {
-            statement.setString(1, ((Album)entity).getAlbumTitle());
-            statement.setDate(2, Date.valueOf(((Album)entity).getAlbumDate()));
-            statement.setLong(3, ((Album)entity).getSingerId());
+            Album album = (Album) entity;
+            statement.setString(1, album.getAlbumTitle());
+            statement.setDate(2, Date.valueOf(album.getAlbumDate()));
+            statement.setLong(3, album.getSingerId());
             int count = statement.executeUpdate();
             return count > 0;
         } catch (SQLException e) {
             throw new DaoException("albumDaoImpl create: error while creating content", e);
+        }catch (ClassCastException ex) {
+            throw new DaoException("albumDaoImpl update: error while casting entity to Album.class", ex);
         }
     }
 
     @Override
     public Optional<AudioContent> findEntityById(Long id) throws DaoException {
-        return Optional.empty();
+        if (connection == null) {
+            throw new DaoException("albumDaoImpl content by id: received null connection");
+        }
+        if (id == null) {
+            return Optional.empty();
+        }
+        Optional<AudioContent> result = Optional.empty();
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_ALBUM_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                result = factory.createSingleContent(resultSet, ContentType.ALBUM);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("albumDaoImpl content by id: error while searching content", e);
+        }
+        return result;
     }
 
     @Override

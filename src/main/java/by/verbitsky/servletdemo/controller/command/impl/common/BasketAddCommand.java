@@ -23,7 +23,7 @@ public class BasketAddCommand implements Command {
         }
         CommandResult result;
         if (user.getLoginStatus()) {
-            long songId = Long.parseLong(content.getRequestParameter(ParameterName.SONG_ID));
+            long songId = Long.parseLong(content.getRequestParameter(ParameterName.ORDERED_SONG_ID));
             try {
                 Optional<AudioContent> song = AudioContentService.INSTANCE.findContentById(ContentType.SONG, songId);
                 song.ifPresent(audioContent -> user.getBasket().addSong((Song) audioContent));

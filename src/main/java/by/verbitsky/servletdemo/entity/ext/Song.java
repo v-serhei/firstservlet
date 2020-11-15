@@ -6,13 +6,67 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Song extends AudioContent {
+    private static final String OPENED_BRACER = "(";
+    private static final String CLOSED_BRACER = ")";
+    private static final String TITLE_DELIMITER = " ";
+
     private String songTitle;
+    private String songMergedTitle;
     private String authorName;
     private String albumTitle;
     private String genre;
+    private String filePath;
     private LocalDate albumCreationDate;
     private LocalDate uploadDate;
     private BigDecimal price;
+    private long singerId;
+    private long albumId;
+    private long genreId;
+
+
+    public String getSongMergedTitle() {
+        return songMergedTitle;
+    }
+
+    public void setSongMergedTitle() {
+        this.songMergedTitle = songTitle
+                .concat(TITLE_DELIMITER)
+                .concat(OPENED_BRACER)
+                .concat(authorName)
+                .concat(CLOSED_BRACER);
+    }
+
+    public long getSingerId() {
+        return singerId;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String fileName) {
+        this.filePath = fileName;
+    }
+
+    public void setSingerId(long singerId) {
+        this.singerId = singerId;
+    }
+
+    public long getAlbumId() {
+        return albumId;
+    }
+
+    public void setAlbumId(long albumId) {
+        this.albumId = albumId;
+    }
+
+    public long getGenreId() {
+        return genreId;
+    }
+
+    public void setGenreId(long genreId) {
+        this.genreId = genreId;
+    }
 
     public Song() {
         price = BigDecimal.ZERO;

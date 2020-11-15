@@ -12,6 +12,7 @@ import by.verbitsky.servletdemo.model.service.ContentFilter;
 import by.verbitsky.servletdemo.model.service.ext.SongFilter;
 import by.verbitsky.servletdemo.util.SqlRegexGenerator;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +33,8 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                     " singer_name," +
                     " album_title," +
                     " album.creation_date as album_date," +
-                    " genre_name " +
+                    " genre_name, " +
+                    " file_path " +
                     "from songs as so " +
                     "         left join singers as si on so.singer_id = si.singer_id " +
                     "         left join albums as album on so.album_id = album.album_id " +
@@ -47,7 +49,8 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                     " singer_name," +
                     " album_title," +
                     " album.creation_date as album_date," +
-                    " genre_name " +
+                    " genre_name, " +
+                    " file_path " +
                     "from songs as so " +
                     "         left join singers as si on so.singer_id = si.singer_id " +
                     "         left join albums as album on so.album_id = album.album_id " +
@@ -73,7 +76,8 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                     "       singer_name," +
                     "       album_title," +
                     "       album.creation_date as album_date," +
-                    "       genre_name " +
+                    "       genre_name, " +
+                    "       file_path " +
                     "from songs as so " +
                     "         left join singers as si on so.singer_id = si.singer_id " +
                     "         left join albums as album on so.album_id = album.album_id " +
@@ -88,7 +92,8 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                     "       singer.singer_name," +
                     "       album.album_title," +
                     "       album.creation_date as album_date," +
-                    "       ge.genre_name " +
+                    "       ge.genre_name, " +
+                    "       song.file_path " +
                     "from compilations as compilation " +
                     "         left join compilation_description compilation_desc" +
                     "                   on compilation.comp_id = compilation_desc.compilation_id" +
@@ -98,18 +103,36 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                     "         left join genres ge on ge.genre_id = song.genre_id " +
                     "where comp_id = ?;";
 
-    private static final String SELECT_SONGS_BY_ORDER_ID =
-            "";
+    private static final String UPDATE_SONG =
+            "Update songs " +
+                    "Set song_title = ?," +
+                    "    singer_id  = ?," +
+                    "    album_id   = ?," +
+                    "    genre_id   = ?," +
+                    "    song_price = ? " +
+                    "where songs.song_id = ?;";
+
+    private static final String INSERT_SONG =
+            "Insert Into songs (" +
+                    "   song_title, " +
+                    "   singer_id, " +
+                    "   album_id, " +
+                    "   genre_id, " +
+                    "   file_path, " +
+                    "   upload_date, " +
+                    "   song_price) " +
+                    "values (?, ?, ?, ?, ?, ?, ?);";
+
 
     private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Song>();
 
     @Override
     public long calculateRowCount(ContentFilter filter) throws DaoException {
         if (filter == null) {
-            throw new DaoException("SongDao CalculateRowCount: received null filter");
+            throw new DaoException("SongDaoImpl CalculateRowCount: received null filter");
         }
         if (connection == null) {
-            throw new DaoException("SongDao CalculateRowCount: received null connection");
+            throw new DaoException("SongDaoImpl CalculateRowCount: received null connection");
         }
         SongFilter songFilter = (SongFilter) filter;
         String title = SqlRegexGenerator.generateRegexFromParameter(songFilter.getSongTitle());
@@ -127,7 +150,7 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                 result = resultSet.getLong(1);
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("SongDaoImpl CalculateRowCount: error while calculating rows");
         }
         return result;
     }
@@ -135,14 +158,14 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
     @Override
     public List<AudioContent> findAll() throws DaoException {
         if (connection == null) {
-            throw new DaoException("SongDao findAll: received null connection");
+            throw new DaoException("SongDaoImpl findAll: received null connection");
         }
         List<AudioContent> result;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL_SONGS)) {
             ResultSet resultSet = statement.executeQuery();
             result = factory.createContentList(resultSet, ContentType.SONG);
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("SongDaoImpl findAll: error while searching all song", e);
         }
         return result;
     }
@@ -150,10 +173,10 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
     @Override
     public Optional<AudioContent> findEntityById(Long id) throws DaoException {
         if (id == null) {
-            throw new DaoException("SongDao FindEntityById: received null id");
+            throw new DaoException("SongDaoImpl FindEntityById: received null id");
         }
         if (connection == null) {
-            throw new DaoException("SongDao findEntityById: received null connection");
+            throw new DaoException("SongDaoImpl findEntityById: received null connection");
         }
         Optional<AudioContent> result = Optional.empty();
         try (PreparedStatement statement = connection.prepareStatement(SELECT_SONG_BY_ID)) {
@@ -163,19 +186,60 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                 result = factory.createSingleContent(resultSet, ContentType.SONG);
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("SongDaoImpl findEntityById: error while searching", e);
         }
         return result;
     }
 
     @Override
-    public boolean update(AudioContent entity) {
-        return false;
+    public boolean update(AudioContent entity) throws DaoException {
+        if (connection == null) {
+            throw new DaoException("SongDaoImpl update: received null connection");
+        }
+        if (entity == null) {
+            throw new DaoException("SongDaoImpl update: received null entity");
+        }
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_SONG)) {
+            Song song = (Song) entity;
+            statement.setString(1, song.getSongTitle());
+            statement.setLong(2, song.getSingerId());
+            statement.setLong(3, song.getAlbumId());
+            statement.setLong(4, song.getGenreId());
+            statement.setBigDecimal(5, song.getPrice());
+            statement.setLong(6, song.getId());
+            int count = statement.executeUpdate();
+            return count > 0;
+        } catch (SQLException e) {
+            throw new DaoException("SongDaoImpl update: error while updating song", e);
+        } catch (ClassCastException ex) {
+            throw new DaoException("SongDaoImpl update: error while casting entity to Song.class", ex);
+        }
     }
 
     @Override
     public boolean create(AudioContent entity) throws DaoException {
-        return false;
+        if (connection == null) {
+            throw new DaoException("SongDaoImpl create: received null connection");
+        }
+        if (entity == null) {
+            throw new DaoException("SongDaoImpl create: received null entity");
+        }
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_SONG)) {
+            Song song = (Song) entity;
+            statement.setString(1, song.getSongTitle());
+            statement.setLong(2, song.getSingerId());
+            statement.setLong(3, song.getAlbumId());
+            statement.setLong(4, song.getGenreId());
+            statement.setString(5, song.getFilePath());
+            statement.setDate(6, Date.valueOf(song.getUploadDate()));
+            statement.setBigDecimal(7, song.getPrice());
+            int count = statement.executeUpdate();
+            return count > 0;
+        } catch (SQLException e) {
+            throw new DaoException("SongDaoImpl create: error while creating song", e);
+        } catch (ClassCastException ex) {
+            throw new DaoException("SongDaoImpl create: error while casting entity to Song.class", ex);
+        }
     }
 
     @Override
@@ -186,30 +250,27 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
     @Override
     public List<AudioContent> findFilteredContent(long offset, int limit, ContentFilter filter) throws DaoException {
         if (filter == null) {
-            throw new DaoException("SongDao findFilteredContent: received null filter");
+            throw new DaoException("SongDaoImpl findFilteredContent: received null filter");
         }
         if (connection == null) {
-            throw new DaoException("SongDao findFilteredContent: received null connection");
+            throw new DaoException("SongDaoImpl findFilteredContent: received null connection");
         }
         SongFilter songFilter = (SongFilter) filter;
         if (songFilter.getCompilationId() > 0) {
-            return findSongByItemId(songFilter.getCompilationId(), SELECT_SONGS_BY_COMPILATION_ID);
-        }
-        if (songFilter.getOrderId() > 0) {
-            return findSongByItemId(songFilter.getOrderId(), SELECT_SONGS_BY_ORDER_ID);
+            return findSongByItemId(songFilter.getCompilationId());
         }
         return findSongByFilter(offset, limit, songFilter);
 
     }
 
-    private List<AudioContent> findSongByItemId(long itemId, String query) throws DaoException {
-        List <AudioContent> result;
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+    private List<AudioContent> findSongByItemId(long itemId) throws DaoException {
+        List<AudioContent> result;
+        try (PreparedStatement statement = connection.prepareStatement(SongDaoImpl.SELECT_SONGS_BY_COMPILATION_ID)) {
             statement.setLong(1, itemId);
             ResultSet resultSet = statement.executeQuery();
             result = factory.createContentList(resultSet, ContentType.SONG);
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("SongDaoImpl: error while searching song", e);
         }
         return result;
     }
@@ -240,7 +301,7 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
             ResultSet resultSet = statement.executeQuery();
             result = factory.createContentList(resultSet, ContentType.SONG);
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("SongDaoImpl find filtered content: error while searching song", e);
         }
         return result;
     }
