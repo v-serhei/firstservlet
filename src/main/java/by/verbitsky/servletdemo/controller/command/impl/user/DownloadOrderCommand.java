@@ -3,17 +3,12 @@ package by.verbitsky.servletdemo.controller.command.impl.user;
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.controller.command.*;
 import by.verbitsky.servletdemo.entity.Order;
-import by.verbitsky.servletdemo.model.dao.OrderFactory;
 import by.verbitsky.servletdemo.entity.User;
-import by.verbitsky.servletdemo.entity.ext.Song;
-import by.verbitsky.servletdemo.model.dao.impl.OrderFactoryImpl;
 import by.verbitsky.servletdemo.exception.CommandException;
-import by.verbitsky.servletdemo.exception.ServiceException;
-import by.verbitsky.servletdemo.model.service.impl.OrderServiceImpl;
+import by.verbitsky.servletdemo.model.dao.OrderFactory;
+import by.verbitsky.servletdemo.model.dao.impl.OrderFactoryImpl;
 
-import java.util.Set;
-
-public class CreateOrderCommand implements Command {
+public class DownloadOrderCommand implements Command {
     private OrderFactory<Order> factory = new OrderFactoryImpl();
 
     @Override
@@ -26,12 +21,13 @@ public class CreateOrderCommand implements Command {
             user.getBasket().clear();
             return new CommandResult(PagePath.FORWARD_ERROR_PAGE, false);
         }
-        CommandResult result;
-        Set<Song> songs = user.getBasket().getSongs();
+
+       /*  CommandResult result;
+       Set<Song> songs = user.getBasket().getSongs();
         if (songs.size() > 0) {
             Order order = factory.createOrder(user, songs);
             try {
-                OrderServiceImpl.INSTANCE.addOrder(order, user);
+                OrderServiceImpl.INSTANCE.addOrder(order);
                 user.getBasket().clear();
             } catch (ServiceException e) {
                 throw new CommandException("CreateOrderCommand: Error while creating order", e);
@@ -45,7 +41,7 @@ public class CreateOrderCommand implements Command {
             content.addSessionAttribute(AttributeName.OPERATION_BUTTON_CAPTION, AttributeValue.BUTTON_CAPTION_BACK);
             content.addSessionAttribute(AttributeName.OPERATION_BUTTON_LINK, PagePath.REDIRECT_MAIN_PAGE);
             return new CommandResult(PagePath.FORWARD_RESULT_PAGE, false);
-        }
-        return result;
+        }*/
+        return null;
     }
 }

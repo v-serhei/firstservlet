@@ -29,8 +29,7 @@ public class OrderRemoveSongCommand implements Command {
             songId = Long.parseLong(content.getRequestParameter(ParameterName.ORDERED_SONG_ID));
             Optional<Order> order = OrderServiceImpl.INSTANCE.findOrderById(orderId);
             if (order.isPresent()) {
-                OrderServiceImpl.INSTANCE.removeSongFromOrder(orderId, songId);
-                order.get().removeSongById(songId);
+                OrderServiceImpl.INSTANCE.removeSongFromOrder(order.get(), songId, user);
                 if (order.get().getOrderList().size() > 0) {
                     content.addSessionAttribute(AttributeName.SESSION_CURRENT_ORDER, order.get());
                     result = new OrderPageCommand().execute(content);

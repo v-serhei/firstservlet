@@ -160,8 +160,8 @@
                     <div class="account-options">
                         <label for="user-status"> <fmt:message key="admin.user.manage.change.status"/></label>
                         <select class="custom-select mr-sm-2" id="user-status" name="userStatus" size="1">
+                            <option selected value="active">Active</option>
                             <option value="blocked">Blocked</option>
-                            <option value="active">Active</option>
                         </select>
                     </div>
                     <div class="line-separator">

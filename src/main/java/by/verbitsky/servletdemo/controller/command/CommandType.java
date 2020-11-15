@@ -38,6 +38,7 @@ public enum CommandType {
     BASKET_REMOVE(new BasketRemoveCommand()),
     SONG_REMOVE(new OrderRemoveSongCommand()),
     PAY_ORDER(new PayOrderCommand()),
+    DOWNLOAD_ORDER(new DownloadOrderCommand()),
     CREATE_ORDER(new CreateOrderCommand()),
     OPEN_ORDER(new OpenOrderCommand()),
     REMOVE_ORDER(new RemoveOrderCommand()),
@@ -67,8 +68,6 @@ public enum CommandType {
     CREATE_COMPILATION(new AdminCreateCompilationCommand()),
     COMPILATION(new AdminCompilationPageCommand()),
     DELETE_COMPILATION(new AdminDeleteCompilationCommand()),
-
-
     CREATE_SONG(new AdminCreateSongCommand()),
     UPDATE_SONG(new AdminUpdateSongCommand()),
 

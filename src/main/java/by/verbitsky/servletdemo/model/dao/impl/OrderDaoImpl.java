@@ -36,7 +36,8 @@ public class OrderDaoImpl implements OrderDao {
                     "       singer_name," +
                     "       album_title," +
                     "       album.creation_date as album_date," +
-                    "       genre_name " +
+                    "       genre_name, " +
+                    "       so.file_path " +
             "from orders " +
                     "       left join orders_description as description on orders.order_id = description.order_id" +
                     "       left join songs as so on so.song_id = description.song_id" +
@@ -67,16 +68,17 @@ public class OrderDaoImpl implements OrderDao {
 
 
     @Override
-    public void removeOrderDescription(long orderId, long songId) throws DaoException {
+    public boolean removeOrderDescription(long orderId, long songId) throws DaoException {
         if (connection == null) {
             throw new DaoException("OrderDaoImpl createOrder: connection is null");
         }
         try (PreparedStatement statement = connection.prepareStatement(REMOVE_SONG_FROM_ORDER)) {
             statement.setLong(1, orderId);
             statement.setLong(2, songId);
-            statement.executeUpdate();
+            int count = statement.executeUpdate();
+            return count > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("OrderDaoImpl remove order description: connection is null", e);
         }
     }
 

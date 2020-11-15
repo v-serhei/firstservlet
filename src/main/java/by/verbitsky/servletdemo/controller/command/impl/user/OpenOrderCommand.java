@@ -18,10 +18,10 @@ public class OpenOrderCommand implements Command {
             return new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
         }
         try {
-            long removedOrderId = Long.parseLong(content.getRequestParameter(ParameterName.ORDER_ID));
-            Optional<Order> removedOrder = OrderServiceImpl.INSTANCE.findOrderById(removedOrderId);
-            if (removedOrder.isPresent()) {
-                content.addSessionAttribute(AttributeName.SESSION_CURRENT_ORDER, removedOrder.get());
+            long currentOrderId = Long.parseLong(content.getRequestParameter(ParameterName.ORDER_ID));
+            Optional<Order> currentOrder = OrderServiceImpl.INSTANCE.findOrderById(currentOrderId);
+            if (currentOrder.isPresent()) {
+                content.addSessionAttribute(AttributeName.SESSION_CURRENT_ORDER, currentOrder.get());
                 return new CommandResult(PagePath.REDIRECT_ORDER_PAGE, true);
             }else {
                 content.addSessionAttribute(AttributeName.OPERATION_TYPE, AttributeValue.OPEN_ORDER);

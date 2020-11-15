@@ -19,26 +19,28 @@ import by.verbitsky.servletdemo.model.service.OrderService;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public enum OrderServiceImpl implements OrderService {
     INSTANCE;
 
     @Override
-    public boolean addOrder(Order order) throws ServiceException {
+    public boolean addOrder(Order order, User user) throws ServiceException {
         if (order == null) {
             throw new ServiceException("OrderServiceImpl add order: received null order");
         }
-        boolean result;
+        boolean createResult;
         ProxyConnection connection = askConnectionFromPool();
         try (Transaction transaction = new Transaction(connection)) {
             OrderDao dao = new OrderDaoImpl();
             transaction.processTransaction(dao);
-            result = (dao.create(order) && dao.createOrderDescription(order));
+            order.setOrderPrice(calculateOrderPrice(order, user.getDiscount()));
+            createResult = (dao.create(order) && dao.createOrderDescription(order));
             transaction.commitTransaction();
         } catch (DaoException e) {
             throw new ServiceException("OrderServiceImpl add new order: error while inserting new order to db");
         }
-        return result;
+        return createResult;
     }
 
     @Override
@@ -68,29 +70,40 @@ public enum OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean removeSongFromOrder(long orderId, long songId) throws ServiceException {
+    public boolean removeSongFromOrder(Order order, long songId, User user) throws ServiceException {
         ProxyConnection connection = askConnectionFromPool();
-        boolean result = false;
         try (Transaction transaction = new Transaction(connection)) {
             OrderDao orderDao = new OrderDaoImpl();
             ContentDao songDao = new SongDaoImpl();
             transaction.processTransaction(orderDao, songDao);
             Optional<AudioContent> song = songDao.findEntityById(songId);
-            Optional<Order> order = orderDao.findEntityById(orderId);
-            if (order.isPresent()) {
-                BigDecimal songPrice = BigDecimal.ZERO;
-                if (song.isPresent()) {
-                    songPrice = ((Song) song.get()).getPrice();
-                }
-                order.get().setOrderPrice(order.get().getOrderPrice().subtract(songPrice));
-                orderDao.removeOrderDescription(orderId, songId);
-                result = orderDao.update(order.get());
+            BigDecimal songPrice;
+            if (song.isPresent()) {
+                songPrice = ((Song) song.get()).getPrice();
+            }else {
+                return false;
             }
-            transaction.commitTransaction();
+            boolean updateDescription = orderDao.removeOrderDescription(order.getOrderId(), songId);
+            if (updateDescription) {
+                //decrease order price
+                order.removeSongById(songId);
+                order.setOrderPrice(calculateOrderPrice(order, user.getDiscount()));
+            }
+            boolean updateOrder = orderDao.update(order);
+            if (updateOrder) {
+                transaction.commitTransaction();
+                return true;
+            }else {
+                transaction.rollbackTransaction();
+                //roll back order price
+                order.addSong((Song)song.get());
+                order.setOrderPrice(calculateOrderPrice(order, user.getDiscount()));
+                return false;
+            }
         } catch (DaoException e) {
             throw new ServiceException("OrderServiceImpl: error while removing song from order");
         }
-        return result;
+
     }
 
 
@@ -119,12 +132,13 @@ public enum OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean updateOrder(Order order) throws ServiceException {
+    public boolean updateOrder(Order order, User user) throws ServiceException {
         ProxyConnection connection = askConnectionFromPool();
         boolean result;
         try (Transaction transaction = new Transaction(connection)) {
             OrderDao orderDao = new OrderDaoImpl();
             transaction.processSimpleQuery(orderDao);
+            order.setOrderPrice(calculateOrderPrice(order, user.getDiscount()));
             result = orderDao.update(order);
         } catch (DaoException e) {
             throw new ServiceException("OrderServiceImpl: error while removing song from order");
@@ -144,5 +158,14 @@ public enum OrderServiceImpl implements OrderService {
             throw new ServiceException("OrderServiceImpl: error while receiving connection from pool");
         }
         return result;
+    }
+
+    private BigDecimal calculateOrderPrice(Order order, int discountValue) {
+        Set<Song> orderList = order.getOrderList();
+        BigDecimal result = BigDecimal.ZERO;
+        for (Song song : orderList) {
+            result = result.add(song.getPrice());
+        }
+        return result.subtract(result.multiply(BigDecimal.valueOf(discountValue * 1.0 / 100)));
     }
 }

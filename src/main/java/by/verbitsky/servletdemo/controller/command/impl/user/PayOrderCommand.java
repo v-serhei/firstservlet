@@ -30,7 +30,7 @@ public class PayOrderCommand implements Command {
             if (paidOrder.isPresent()) {
                 if (paidOrder.get().getOrderStatusId() != (orderService.getPaidOrderStatusId())) {
                     paidOrder.get().setOrderStatus(orderService.getPaidOrderStatusId());
-                    boolean isUpdated = orderService.updateOrder(paidOrder.get());
+                    boolean isUpdated = orderService.updateOrder(paidOrder.get(), user);
                     if (isUpdated) {
                         content.addSessionAttribute(AttributeName.OPERATION_TYPE, AttributeValue.PAY_ORDER);
                         content.addSessionAttribute(AttributeName.OPERATION_RESULT, AttributeValue.OPERATION_COMPLETED);

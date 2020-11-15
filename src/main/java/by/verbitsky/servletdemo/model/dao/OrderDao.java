@@ -10,5 +10,5 @@ public interface OrderDao extends BaseDao<Order> {
 
     boolean createOrderDescription(Order order) throws DaoException;
 
-    void removeOrderDescription(long orderId, long songId) throws DaoException;
+    boolean removeOrderDescription(long orderId, long songId) throws DaoException;
 }
