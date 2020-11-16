@@ -8,15 +8,18 @@
 <div id="main-body-container">
     <div id="body-container">
         <div class="error-page-content">
-            <h2 class="text-center">Server Error!</h2>
+            <h2 class="text-center">Upload Error!</h2>
             <div class="error-stack-trace">
                 <br/>
-                <h4 class="text-center"> Received error while processing user request: </h4>
-                <h5 class="text-center"> ${pageContext.errorData.requestURI}</h5>
+                <h4 class="text-center"> Received error while processing upload file </h4>
                 <br/>
-                <h4 class="text-center"> Error code: </h4>
-                <h5 class="text-center"> ${pageContext.errorData.statusCode}</h5>
-                ${pageContext.errorData.throwable.message}
+                <h5 class="text-center">
+                    Server couldn't process uploading file. Possible reasons:
+                </h5>
+                <br/>
+                <h5 class="text-center">
+                    Received big file (max file size: 15Mb) or bad request parameters.
+                </h5>
             </div>
         </div>
     </div>

@@ -13,6 +13,11 @@ public class AttributeValue {
     public static final String BUTTON_CAPTION_BACK = "operation.btn.caption.back";
     public static final String REMOVE_SONG_FROM_ORDER = "operation.remove.song.from.order";
 
+
+    public static final String DOWNLOAD_ORDER = "operation.download.order";
+    public static final String DOWNLOAD_ORDER_ERROR = "operation.message.order.download.failed";
+
+
     public static final String REMOVE_ORDER = "operation.remove.order";
     public static final String OPEN_ORDER = "operation.open.order";
     public static final String ORDER_REMOVE_SUCCESSFUL = "operation.message.successful.order.removing";

@@ -31,8 +31,6 @@ public class PagePath {
     public static final String FORWARD_ADMIN_ALBUM_MANAGEMENT = "/pages/admin/albummanagement.jsp";
     public static final String FORWARD_ADMIN_COMPILATION_MANAGEMENT = "/pages/admin/compilationmanagement.jsp";
     public static final String FORWARD_ADMIN_COMPILATION_CREATION = "/pages/admin/compilationpage.jsp";
-
-
     public static final String FORWARD_MAIN_PAGE = "/pages/common/mainpage.jsp";
     public static final String FORWARD_RESULT_PAGE = "/pages/user/result.jsp";
     public static final String FORWARD_REVIEW_PAGE = "/pages/common/reviews.jsp";
@@ -52,10 +50,10 @@ public class PagePath {
     public static final String PAGINATION_REVIEW = "/do/reviews/next_page?filtered=true&contentType=review";
 
     //servlet forwarding
-    public static final String FORWARD_SERVLET_UPLOAD_ERROR = "/do/admin/upload_error";
+    public static final String FORWARD_SERVLET_DOWNLOAD = "/process/download";
+    public static final String FORWARD_SERVLET_DOWNLOAD_ERROR = "/do/admin/upload_error";
     public static final String FORWARD_SERVLET_CREATE_SONG = "/do/admin/create_song";
-
-
+    public static final String FORWARD_SERVLET_UPLOAD_ERROR = "/pages/error/uploaderrorpage.jsp";
 
     private PagePath() {
     }

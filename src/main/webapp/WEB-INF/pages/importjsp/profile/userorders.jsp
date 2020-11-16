@@ -28,7 +28,11 @@
                 <fmt:message key="profile.orders.price.caption"/> ${order.orderPrice}&nbsp;BYN
                 <c:if test="${order.isOrderPaid()}">
                     <fmt:message key="profile.orders.paid.status.caption"/> </span>
-                <a href="#" class="btn btn-secondary btn-sm"> <fmt:message key="profile.orders.download.link.caption"/></a>
+                <form action="${pageContext.request.contextPath}/do/profile/download_order" method="post">
+                    <input type="hidden" name="orderId" value="${order.orderId}"/>
+                    <input type="submit" class="btn btn-secondary btn-sm" name="action"
+                           value="<fmt:message key="profile.orders.download.link.caption"/>">
+                </form>
                 </c:if>
                 <c:if test="${!order.isOrderPaid()}">
                     <fmt:message key="profile.orders.not.pdaid.status.caption"/> </span>

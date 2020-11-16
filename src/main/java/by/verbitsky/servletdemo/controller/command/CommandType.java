@@ -2,7 +2,6 @@ package by.verbitsky.servletdemo.controller.command;
 
 import by.verbitsky.servletdemo.controller.command.impl.admin.*;
 import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.*;
-import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.*;
 import by.verbitsky.servletdemo.controller.command.impl.common.*;
 import by.verbitsky.servletdemo.controller.command.impl.navigation.*;
 import by.verbitsky.servletdemo.controller.command.impl.user.*;
@@ -53,9 +52,6 @@ public enum CommandType {
     ALBUM_MANAGEMENT(new AlbumManagementPageCommand()),
     COMPILATION_MANAGEMENT(new CompilationManagementPageCommand()),
 
-
-    UPLOAD_ERROR(new UploadErrorPageCommand()),
-
     //admin commands,
     UPDATE_USER(new AdminUpdateUserCommand()),
     DELETE_USER_REVIEW(new AdminDeleteReviewCommand()),
@@ -69,15 +65,7 @@ public enum CommandType {
     COMPILATION(new AdminCompilationPageCommand()),
     DELETE_COMPILATION(new AdminDeleteCompilationCommand()),
     CREATE_SONG(new AdminCreateSongCommand()),
-    UPDATE_SONG(new AdminUpdateSongCommand()),
-
-
-
-
-
-    END_OFF_COMMANDS(new UserManagementPageCommand());
-
-
+    UPDATE_SONG(new AdminUpdateSongCommand());
 
     CommandType(Command command) {
         this.command = command;

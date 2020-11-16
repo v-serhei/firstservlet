@@ -1,14 +1,14 @@
 package by.verbitsky.servletdemo.controller.command;
 
 import by.verbitsky.servletdemo.controller.command.impl.admin.*;
-import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.AdminCompilationPageCommand;
-import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.AlbumManagementPageCommand;
-import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.CompilationManagementPageCommand;
-import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.GenreManagementPageCommand;
-import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.SongManagementPageCommand;
-import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.ReviewManagementPageCommand;
-import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.SingerManagementPageCommand;
-import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready.UserManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.AdminCompilationPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.AlbumManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.CompilationManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.GenreManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.SongManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ReviewManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.SingerManagementPageCommand;
+import by.verbitsky.servletdemo.controller.command.impl.adminnavigation.UserManagementPageCommand;
 import by.verbitsky.servletdemo.controller.command.impl.common.BasketAddCommand;
 import by.verbitsky.servletdemo.controller.command.impl.common.BasketRemoveCommand;
 import by.verbitsky.servletdemo.controller.command.impl.user.*;
@@ -54,6 +54,7 @@ public class CommandPermissionValidator {
         permissions.put(CreateOrderCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(OrderRemoveSongCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(PayOrderCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));
+        permissions.put(DownloadOrderCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));
         //common commands
     }
 

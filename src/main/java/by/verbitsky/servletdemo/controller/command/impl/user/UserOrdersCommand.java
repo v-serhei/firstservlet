@@ -20,7 +20,7 @@ public class UserOrdersCommand implements Command {
         User user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
         if (!user.getLoginStatus()) {
             return new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
-        }else {
+        } else {
             List<Order> orderList;
             try {
                 orderList = OrderServiceImpl.INSTANCE.findUserOrders(user.getUserId());
@@ -29,7 +29,7 @@ public class UserOrdersCommand implements Command {
             }
             long totalCount = orderList.size();
             long totalPaidCount = orderList.stream().filter(Order::isOrderPaid).count();
-            BigDecimal totalPaidSum= BigDecimal.ZERO;
+            BigDecimal totalPaidSum = BigDecimal.ZERO;
             for (Order order : orderList) {
                 if (order.isOrderPaid()) {
                     totalPaidSum = totalPaidSum.add(order.getOrderPrice());

@@ -2,15 +2,14 @@ package by.verbitsky.servletdemo.controller.command.impl.user;
 
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.controller.command.*;
-import by.verbitsky.servletdemo.entity.Order;
 import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.exception.CommandException;
-import by.verbitsky.servletdemo.model.dao.OrderFactory;
-import by.verbitsky.servletdemo.model.dao.impl.OrderFactoryImpl;
+import by.verbitsky.servletdemo.exception.ServiceException;
+import by.verbitsky.servletdemo.model.service.impl.OrderServiceImpl;
+
+import java.util.Optional;
 
 public class DownloadOrderCommand implements Command {
-    private OrderFactory<Order> factory = new OrderFactoryImpl();
-
     @Override
     public CommandResult execute(SessionRequestContent content) throws CommandException {
         User user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
@@ -21,27 +20,24 @@ public class DownloadOrderCommand implements Command {
             user.getBasket().clear();
             return new CommandResult(PagePath.FORWARD_ERROR_PAGE, false);
         }
-
-       /*  CommandResult result;
-       Set<Song> songs = user.getBasket().getSongs();
-        if (songs.size() > 0) {
-            Order order = factory.createOrder(user, songs);
-            try {
-                OrderServiceImpl.INSTANCE.addOrder(order);
-                user.getBasket().clear();
-            } catch (ServiceException e) {
-                throw new CommandException("CreateOrderCommand: Error while creating order", e);
+        try {
+            long currentOrderId = Long.parseLong(content.getRequestParameter(ParameterName.ORDER_ID));
+            Optional<String> downLoadFilePath = OrderServiceImpl.INSTANCE.prepareOrderDownloadLink(currentOrderId);
+            if (downLoadFilePath.isPresent()) {
+                content.addRequestAttribute(AttributeName.DOWNLOAD_FILE_PATH, downLoadFilePath.get());
+                return new CommandResult(PagePath.FORWARD_SERVLET_DOWNLOAD, false);
+            }else {
+                content.addSessionAttribute(AttributeName.OPERATION_TYPE, AttributeValue.DOWNLOAD_ORDER);
+                content.addSessionAttribute(AttributeName.OPERATION_RESULT, AttributeValue.OPERATION_FAILED);
+                content.addSessionAttribute(AttributeName.OPERATION_MESSAGE, AttributeValue.DOWNLOAD_ORDER_ERROR);
+                content.addSessionAttribute(AttributeName.OPERATION_BUTTON_CAPTION, AttributeValue.BUTTON_CAPTION_PROFILE);
+                content.addSessionAttribute(AttributeName.OPERATION_BUTTON_LINK, PagePath.REDIRECT_USER_ORDER_PAGE);
+                return new CommandResult(PagePath.FORWARD_RESULT_PAGE, false);
             }
-            content.addSessionAttribute(AttributeName.SESSION_CURRENT_ORDER, order);
-            result = new CommandResult(PagePath.REDIRECT_ORDER_PAGE, true);
-        } else {
-            content.addSessionAttribute(AttributeName.OPERATION_TYPE, AttributeValue.REMOVE_SONG_FROM_ORDER);
-            content.addSessionAttribute(AttributeName.OPERATION_RESULT, AttributeValue.OPERATION_FAILED);
-            content.addSessionAttribute(AttributeName.OPERATION_MESSAGE, AttributeValue.EMPTY_ORDER_LIST);
-            content.addSessionAttribute(AttributeName.OPERATION_BUTTON_CAPTION, AttributeValue.BUTTON_CAPTION_BACK);
-            content.addSessionAttribute(AttributeName.OPERATION_BUTTON_LINK, PagePath.REDIRECT_MAIN_PAGE);
-            return new CommandResult(PagePath.FORWARD_RESULT_PAGE, false);
-        }*/
-        return null;
+        } catch (NumberFormatException ex) {
+            throw new CommandException("DownloadOrderCommand: wrong parameter orderId", ex);
+        } catch (ServiceException e) {
+            throw new CommandException("DownloadOrderCommand: error while removing order from db", e);
+        }
     }
 }

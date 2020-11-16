@@ -19,4 +19,6 @@ public interface OrderService {
     boolean deleteOrder(User user, long orderId) throws ServiceException;
 
     boolean updateOrder (Order order, User user) throws ServiceException;
+
+    Optional<String> prepareOrderDownloadLink(long currentOrderId) throws ServiceException;
 }

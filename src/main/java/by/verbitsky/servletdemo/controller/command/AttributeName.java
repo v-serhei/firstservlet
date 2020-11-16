@@ -85,6 +85,7 @@ public class AttributeName {
     public static final String ADMIN_ROLE_LIST = "roleList";
 
     public static final String UPLOAD_FILE_PATH = "uploadFile";
+    public static final String DOWNLOAD_FILE_PATH = "downloadFile";
 
 
     public static final String ADMIN_OPERATION_RESULT_MSG = "resultMessage";

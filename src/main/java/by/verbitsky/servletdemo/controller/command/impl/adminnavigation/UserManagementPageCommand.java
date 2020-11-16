@@ -1,4 +1,4 @@
-package by.verbitsky.servletdemo.controller.command.impl.adminnavigation.ready;
+package by.verbitsky.servletdemo.controller.command.impl.adminnavigation;
 
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.controller.command.*;
