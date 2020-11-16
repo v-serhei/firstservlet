@@ -131,7 +131,8 @@ public enum UserServiceImpl implements UserService {
         try (Transaction transaction = new Transaction(connection)) {
             UserDaoImpl userDao = new UserDaoImpl();
             transaction.processTransaction(userDao);
-            result = (userDao.create(user) && userDao.updateUserPassword(user, password));
+            String hashedPassword = getHashedPassword(password);
+            result = (userDao.create(user) && userDao.updateUserPassword(user, hashedPassword));
             transaction.commitTransaction();
         } catch (DaoException e) {
             throw new ServiceException("UserServiceImpl addRegisteredUser: received Dao exception", e);

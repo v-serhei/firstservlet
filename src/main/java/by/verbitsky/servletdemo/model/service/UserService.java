@@ -9,11 +9,11 @@ import java.util.Optional;
 public interface UserService {
     boolean addRegisteredUser(User user, String password) throws ServiceException;
 
-    Optional<String> findUserPassword(String userName) throws ServiceException;
-
-    Optional<User> findUserByName(String userName) throws  ServiceException;
-
     boolean findUserByEmail(String email) throws ServiceException;
 
     List<User> findAllUsers () throws ServiceException;
+
+    Optional<User> findUserByName(String userName) throws  ServiceException;
+
+    Optional<String> findUserPassword(String userName) throws ServiceException;
 }

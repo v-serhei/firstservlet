@@ -12,8 +12,6 @@ import java.util.Optional;
 import java.util.Set;
 
 public class OrderDaoImpl implements OrderDao {
-    private Connection connection;
-
     private static final String INSERT_ORDER =
             "Insert Into orders (user_id, order_summ, order_date, order_status) values (?, ?, ?, ?);";
 
@@ -65,7 +63,7 @@ public class OrderDaoImpl implements OrderDao {
                     "where orders.user_id = ? group by orders.order_id;";
 
     private static final OrderFactory<Order> factory = new OrderFactoryImpl();
-
+    private Connection connection;
 
     @Override
     public boolean removeOrderDescription(long orderId, long songId) throws DaoException {
@@ -150,11 +148,6 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findAll() throws DaoException {
-        return null;
-    }
-
-    @Override
     public Optional<Order> findEntityById(Long orderId) throws DaoException {
         if (connection == null) {
             throw new DaoException("OrderDaoImpl createOrder: connection is null");
@@ -214,5 +207,10 @@ public class OrderDaoImpl implements OrderDao {
         } else {
             throw new DaoException("SetConnection: received null connection");
         }
+    }
+
+    @Override
+    public List<Order> findAll() {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 }

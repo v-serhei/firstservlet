@@ -110,7 +110,7 @@ public class ConnectionPoolImpl implements ConnectionPool<ProxyConnection> {
      * @value SHUTDOWN_LOCK
      * Method uses shutdown lock instead work lock
      * to give pool users possibility to release taken connections back to pool
-     * Method take will be waiting while active connections will be returned back to pool
+     * Method "take" will be waiting while active connections will be returned back to pool
      */
     public void shutdownPool() throws PoolException {
         if (!isInitialized) {

@@ -1,13 +1,13 @@
 package by.verbitsky.servletdemo.model.dao.impl;
 
 import by.verbitsky.servletdemo.entity.AudioContent;
-import by.verbitsky.servletdemo.model.dao.ContentFactory;
 import by.verbitsky.servletdemo.entity.ContentType;
 import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.entity.ext.Album;
 import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.model.dao.AbstractDao;
 import by.verbitsky.servletdemo.model.dao.ContentDao;
+import by.verbitsky.servletdemo.model.dao.ContentFactory;
 import by.verbitsky.servletdemo.model.service.ContentFilter;
 
 import java.sql.Date;
@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class AlbumDaoImpl extends AbstractDao implements ContentDao {
-
     private static final String SELECT_ALL_ALBUMS =
             "Select album_id, album_title, albums.singer_id, singer.singer_name, creation_date as album_date " +
             "from albums " +
@@ -48,7 +47,6 @@ public class AlbumDaoImpl extends AbstractDao implements ContentDao {
                     "where album_id = ?";
 
     private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Album>();
-
 
     @Override
     public List<AudioContent> findAll() throws DaoException {
@@ -148,32 +146,32 @@ public class AlbumDaoImpl extends AbstractDao implements ContentDao {
     }
 
     @Override
-    public boolean delete(Long id) throws DaoException {
-        return false;
+    public boolean delete(Long id) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
-    public long calculateRowCount(ContentFilter filter) throws DaoException {
-        return 0;
+    public long calculateRowCount(ContentFilter filter) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
-    public List<AudioContent> findFilteredContent(long offset, int limit, ContentFilter filter) throws DaoException {
-        return null;
+    public List<AudioContent> findFilteredContent(long offset, int limit, ContentFilter filter) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
     public List<String> findContentProperties() {
-        return null;
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
-    public List<AudioContent> findContentByUser(User user) throws DaoException {
-        return null;
+    public List<AudioContent> findContentByUser(User user) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
-    public boolean createContentDescription(AudioContent entity) throws DaoException {
-        return false;
+    public boolean createContentDescription(AudioContent entity) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 }

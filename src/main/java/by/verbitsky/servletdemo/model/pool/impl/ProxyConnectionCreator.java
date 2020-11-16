@@ -33,8 +33,8 @@ enum ProxyConnectionCreator {
             try {
                 realConnection = DriverManager.getConnection(urlPath, properties);
             } catch (SQLException ex) {
-                logger.log(Level.WARN, "Can't create connection", ex);
-                throw new PoolException("Can't create connection", ex);
+                logger.log(Level.WARN, "ProxyConnectionCreator: Can't create connection", ex);
+                throw new PoolException("ProxyConnectionCreator: Can't create connection", ex);
             }
         } else {
             logger.log(Level.FATAL, "ProxyConnectionCreator is not initialized");
@@ -59,10 +59,11 @@ enum ProxyConnectionCreator {
                 Driver currentSQLDriver = DriverManager.getDriver(properties.getProperty(PROPERTY_DB_DRIVER));
                 DriverManager.deregisterDriver(currentSQLDriver);
             } catch (SQLException e) {
+                logger.log(Level.ERROR, "ProxyConnectionCreator: error deregister DB driver", e);
                 throw new PoolException("ProxyConnectionCreator: error deregister DB driver", e);
             }
         } else {
-            throw new PoolException("ProxyConnectionCreator is not initialized");
+            throw new PoolException("ProxyConnectionCreator deregisterDBDriver: Creator is not initialized");
         }
     }
 }

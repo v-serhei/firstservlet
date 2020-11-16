@@ -2,7 +2,7 @@ package by.verbitsky.servletdemo.controller.command.impl.adminnavigation;
 
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
 import by.verbitsky.servletdemo.controller.command.*;
-import by.verbitsky.servletdemo.controller.command.impl.AdminCommand;
+import by.verbitsky.servletdemo.controller.command.AdminCommand;
 import by.verbitsky.servletdemo.entity.Order;
 import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.exception.CommandException;

@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class ReviewDaoImpl extends AbstractDao implements ContentDao {
-    private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Review>();
-
     private static final String SELECT_ALL_REVIEWS_BY_SONG_TITLE =
             "Select sr.review_id, s.song_id, s.song_title, si.singer_name, u.username, sr.review, sr.user_id " +
                     "from song_review as sr " +
@@ -74,6 +72,7 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
                     "         left join singers si on s.singer_id = si.singer_id " +
                     "where sr.review_id = ?;";
 
+    private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Review>();
 
     @Override
     public List<AudioContent> findFilteredContent(long offset, int limit, ContentFilter filter) throws DaoException {
@@ -105,11 +104,6 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
             throw new DaoException(e);
         }
         return result;
-    }
-
-    @Override
-    public List<String> findContentProperties() {
-        return null;
     }
 
     @Override
@@ -148,11 +142,6 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
             throw new DaoException("ReviewDaoImpl findContentByUser: SQL error while searching user reviews", e);
         }
         return result;
-    }
-
-    @Override
-    public boolean update(AudioContent entity) {
-        return false;
     }
 
     @Override
@@ -229,12 +218,22 @@ public class ReviewDaoImpl extends AbstractDao implements ContentDao {
     }
 
     @Override
-    public boolean createContentDescription(AudioContent entity) throws DaoException {
-        return false;
+    public boolean createContentDescription(AudioContent entity) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
     public Optional<AudioContent> findContentByTitle(String title) {
-        return Optional.empty();
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
+    }
+
+    @Override
+    public List<String> findContentProperties() {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
+    }
+
+    @Override
+    public boolean update(AudioContent entity) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 }

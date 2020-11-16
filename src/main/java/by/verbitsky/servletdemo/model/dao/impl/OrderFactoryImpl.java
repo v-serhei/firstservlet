@@ -15,11 +15,11 @@ import java.util.Set;
 
 public class OrderFactoryImpl implements OrderFactory<Order> {
     private static final int DEFAULT_ORDER_STATUS_VALUE = 0;
-    private static final String COLUMN_ORDER_ID = "order_id";
-    private static final String COLUMN_USER_ID = "user_id";
-    private static final String COLUMN_ORDER_PRICE = "order_summ";
     private static final String COLUMN_ORDER_DATE = "order_date";
+    private static final String COLUMN_ORDER_ID = "order_id";
+    private static final String COLUMN_ORDER_PRICE = "order_summ";
     private static final String COLUMN_ORDER_STATUS = "order_status";
+    private static final String COLUMN_USER_ID = "user_id";
 
     private static final ContentFactory<AudioContent> contentFactory = new AudioContentFactory<>();
 
@@ -61,17 +61,12 @@ public class OrderFactoryImpl implements OrderFactory<Order> {
     @Override
     public Order createOrder(User user, Set<Song> songs) {
         Order result = new Order();
-        //user id
         result.setUserId(user.getUserId());
-        //add all songs for order description
         result.addAllSongs(songs);
-        //order sum price
         for (Song song : songs) {
             result.setOrderPrice(result.getOrderPrice().add(song.getPrice()));
         }
-        //order date
         result.setOrderDate(LocalDate.now());
-        //order status
         result.setOrderStatus(DEFAULT_ORDER_STATUS_VALUE);
         return result;
     }

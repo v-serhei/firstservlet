@@ -20,16 +20,14 @@ import java.util.List;
 import java.util.Optional;
 
 public class CompilationDaoImpl extends AbstractDao implements ContentDao {
-    private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Compilation>();
-
     private static final String SELECT_COMPILATION_BY_FILTER =
             "Select comp_id, " +
                     "       compilation_name, " +
                     "       creation_date as compilation_date, " +
-                    "       cp.compilation_type " +
+                    "       ct.compilation_type " +
                     "from compilations " +
-                    "       left join compilations_types cp on cp.type_id = compilations.type_id " +
-                    "where compilation_name regexp ? and cp.compilation_type regexp ? " +
+                    "       left join compilations_types ct on ct.type_id = compilations.type_id " +
+                    "where compilation_name regexp ? and ct.compilation_type regexp ? " +
                     "order by comp_id " +
                     "limit ? offset ?";
 
@@ -54,7 +52,7 @@ public class CompilationDaoImpl extends AbstractDao implements ContentDao {
     private static final String SELECT_COMPILATION_COUNT =
             "Select count(*) from compilations " +
                     "      left join compilations_types as ct on compilations.type_id = ct.type_id " +
-                    "where compilation_name regexp ? and ct.type_id regexp ?";
+                    "where compilation_name regexp ? and ct.compilation_type regexp ?";
 
     private static final String SELECT_COMPILATION_TYPES =
             "Select compilation_type from compilations_types;";
@@ -72,6 +70,7 @@ public class CompilationDaoImpl extends AbstractDao implements ContentDao {
 
     private static final String COLUMN_COMPILATION_TYPE = "compilation_type";
 
+    private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Compilation>();
 
     @Override
     public List<AudioContent> findFilteredContent(long offset, int limit, ContentFilter filter) throws DaoException {
@@ -126,7 +125,6 @@ public class CompilationDaoImpl extends AbstractDao implements ContentDao {
         CompilationFilter compilationFilter = (CompilationFilter) filter;
         String title = SqlRegexGenerator.generateRegexFromParameter(compilationFilter.getCompilationTitle());
         String genre = SqlRegexGenerator.generateRegexFromParameter(compilationFilter.getCompilationType());
-
         long result = 0;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_COMPILATION_COUNT)) {
             statement.setString(1, title);
@@ -240,16 +238,16 @@ public class CompilationDaoImpl extends AbstractDao implements ContentDao {
 
     @Override
     public boolean update(AudioContent entity) {
-        return false;
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
-    public List<AudioContent> findContentByUser(User user) throws DaoException {
-        return null;
+    public List<AudioContent> findContentByUser(User user) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
     public Optional<AudioContent> findContentByTitle(String title) {
-        return Optional.empty();
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 }

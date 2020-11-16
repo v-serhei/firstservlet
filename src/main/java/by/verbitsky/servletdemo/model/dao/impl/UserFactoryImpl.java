@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserFactoryImpl implements UserFactory<User> {
-    private static final String COLUMN_ID = "user_id";
-    private static final String COLUMN_USERNAME = "username";
-    private static final String COLUMN_EMAIL = "email";
-    private static final String COLUMN_ROLE = "role_id";
     private static final String COLUMN_BLOCKED = "blocked_status";
-    private static final String COLUMN_DISCOUNT = "discount_value";
     private static final String COLUMN_DATE = "reg_date";
+    private static final String COLUMN_DISCOUNT = "discount_value";
+    private static final String COLUMN_EMAIL = "email";
+    private static final String COLUMN_ID = "user_id";
+    private static final String COLUMN_ROLE = "role_id";
+    private static final String COLUMN_USERNAME = "username";
 
     @Override
     public Optional<User> createUser(ResultSet resultSet) throws SQLException {

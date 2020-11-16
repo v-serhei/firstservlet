@@ -16,7 +16,7 @@ public class Transaction implements AutoCloseable {
         }
     }
 
-    public void processSimpleQuery(BaseDao dao) throws DaoException {
+    public void processSimpleQuery(BaseDao<?> dao) throws DaoException {
         if (connection != null) {
             try {
                 connection.setAutoCommit(true);
@@ -29,14 +29,14 @@ public class Transaction implements AutoCloseable {
         }
     }
 
-    public void processTransaction(BaseDao... daos) throws DaoException {
+    public void processTransaction(BaseDao<?>... daos) throws DaoException {
         if (connection != null) {
             try {
                 connection.setAutoCommit(false);
             } catch (SQLException e) {
                 throw new DaoException("Transaction: received SQLException while processing transaction", e);
             }
-            for (BaseDao dao : daos) {
+            for (BaseDao<?> dao : daos) {
                 dao.setConnection(connection);
             }
         } else {

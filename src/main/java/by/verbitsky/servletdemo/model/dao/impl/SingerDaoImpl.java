@@ -34,8 +34,8 @@ public class SingerDaoImpl extends AbstractDao implements ContentDao {
             "Select singer_id, singer_name " +
                     "from singers " +
                     "where singer_id = ?";
-    private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Singer>();
 
+    private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Singer>();
 
     @Override
     public Optional<AudioContent> findContentByTitle(String title) throws DaoException {
@@ -130,32 +130,32 @@ public class SingerDaoImpl extends AbstractDao implements ContentDao {
     }
 
     @Override
-    public boolean delete(Long id) throws DaoException {
-        return false;
+    public boolean delete(Long id) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
-    public List<AudioContent> findFilteredContent(long offset, int limit, ContentFilter filter) throws DaoException {
-        return null;
+    public List<AudioContent> findFilteredContent(long offset, int limit, ContentFilter filter) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
-    public long calculateRowCount(ContentFilter filter) throws DaoException {
-        return 0;
+    public long calculateRowCount(ContentFilter filter) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
-    public List<AudioContent> findContentByUser(User user) throws DaoException {
-        return null;
+    public List<AudioContent> findContentByUser(User user) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
     public List<String> findContentProperties() {
-        return null;
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
-    public boolean createContentDescription(AudioContent entity) throws DaoException {
-        return false;
+    public boolean createContentDescription(AudioContent entity) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 }

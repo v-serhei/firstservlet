@@ -1,6 +1,6 @@
 package by.verbitsky.servletdemo.util;
 
-import by.verbitsky.servletdemo.exception.AudioBoxException;
+import by.verbitsky.servletdemo.exception.FileUtilException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +25,7 @@ public class FileUtil {
     private FileUtil() {
     }
 
-    public static Optional<String> buildPathToSongFile(String fileName, String singerName, String albumTitle) throws AudioBoxException {
+    public static Optional<String> buildPathToSongFile(String fileName, String singerName, String albumTitle) throws FileUtilException {
         if (albumTitle == null || albumTitle.isEmpty() || singerName == null || singerName.isEmpty()) {
             return Optional.empty();
         }
@@ -56,7 +56,7 @@ public class FileUtil {
             } else {
                 return Optional.empty();
             }
-        } catch (AudioBoxException | IOException e) {
+        } catch (FileUtilException | IOException e) {
             logger.log(Level.ERROR, e.getMessage());
             return Optional.empty();
         }
@@ -83,7 +83,7 @@ public class FileUtil {
         return sb.toString();
     }
 
-    private static Optional<String> createOrderDirectory(long orderId) throws AudioBoxException {
+    private static Optional<String> createOrderDirectory(long orderId) throws FileUtilException {
         propertyManager.initManager();
         Optional<String> orderDirPath = propertyManager.getStringProperty(ORDER_DIR);
         if (!orderDirPath.isPresent()) {

@@ -13,34 +13,26 @@ import java.util.Optional;
 
 public class AudioContentFactory<T extends AudioContent> implements ContentFactory<AudioContent> {
 
-    private static final String COLUMN_SONG_ID = "song_id";
-    private static final String COLUMN_SONG_TITLE = "song_title";
-    private static final String COLUMN_SONG_UPLOAD_DATE = "upload_date";
-    private static final String COLUMN_SONG_PRICE = "song_price";
-    private static final String COLUMN_SONG_FILE_PATH = "file_path";
-
-    private static final String COLUMN_ALBUM_ID = "album_id";
     private static final String COLUMN_ALBUM_CREATION_DATE = "album_date";
     private static final String COLUMN_ALBUM_TITLE = "album_title";
-
-    private static final String COLUMN_SINGER_ID = "singer_id";
-    private static final String COLUMN_SINGER_NAME = "singer_name";
-
-    private static final String COLUMN_GENRE_ID = "genre_id";
-    private static final String COLUMN_GENRE_NAME = "genre_name";
-
-    private static final String COLUMN_USER_ID = "user_id";
-    private static final String COLUMN_REVIEW_ID = "review_id";
-    private static final String COLUMN_REVIEW_TEXT = "review";
-
-    private static final String COLUMN_USER_NAME = "username";
-
+    private static final String COLUMN_ALBUM_ID = "album_id";
+    private static final String COLUMN_COMPILATION_DATE = "compilation_date";
     private static final String COLUMN_COMPILATION_ID = "comp_id";
     private static final String COLUMN_COMPILATION_TITLE = "compilation_name";
-    private static final String COLUMN_COMPILATION_DATE = "compilation_date";
     private static final String COLUMN_COMPILATION_TYPE = "compilation_type";
-
-
+    private static final String COLUMN_GENRE_ID = "genre_id";
+    private static final String COLUMN_GENRE_NAME = "genre_name";
+    private static final String COLUMN_REVIEW_ID = "review_id";
+    private static final String COLUMN_REVIEW_TEXT = "review";
+    private static final String COLUMN_SINGER_ID = "singer_id";
+    private static final String COLUMN_SINGER_NAME = "singer_name";
+    private static final String COLUMN_SONG_FILE_PATH = "file_path";
+    private static final String COLUMN_SONG_ID = "song_id";
+    private static final String COLUMN_SONG_PRICE = "song_price";
+    private static final String COLUMN_SONG_TITLE = "song_title";
+    private static final String COLUMN_SONG_UPLOAD_DATE = "upload_date";
+    private static final String COLUMN_USER_ID = "user_id";
+    private static final String COLUMN_USER_NAME = "username";
 
     @Override
     public List<AudioContent> createContentList(ResultSet resultSet, ContentType type) throws SQLException {
@@ -217,7 +209,6 @@ public class AudioContentFactory<T extends AudioContent> implements ContentFacto
         result.setUserId(resultSet.getLong(COLUMN_USER_ID));
         return Optional.of(result);
     }
-
 
     private Optional<AudioContent> createGenre(ResultSet resultSet) throws SQLException {
         int contentId = resultSet.getInt(COLUMN_GENRE_ID);

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.locale}"/>
@@ -21,11 +21,6 @@
             </ul>
             <form class="form-inline my-2 my-lg-0" method="get">
                 <div class="btn-group btn-group-sm" role="group">
-
-                    <%--delete this--%>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/do/user_management">admin menu</a>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/do/song_management">upload test</a>
-                        <%--delete this--%>
                     <c:choose>
                         <c:when test="${sessionScope.user.loginStatus}">
                             <!-- if logged in -->
@@ -36,9 +31,14 @@
                                     ${sessionScope.user.userName}!
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/do/process_logout"><fmt:message key="user.menu.logout"/> </a>
                                 <a class="dropdown-item" href="${pageContext.request.contextPath}/do/profile/settings"><fmt:message key="user.menu.profile"/></a>
-                                <a class="dropdown-item bg-light" href="${pageContext.request.contextPath}/do/admin/user_management"><fmt:message key="user.menu.adminpage"/></a>
+                                <c:if test="${sessionScope.user.adminRole}">
+                                    <a class="dropdown-item bg-light" href="${pageContext.request.contextPath}/do/admin/user_management"><fmt:message key="user.menu.adminpage"/></a>
+                                </c:if>
+                                <div class="line-separator">
+                                    <hr/>
+                                </div>
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/do/process_logout"><fmt:message key="user.menu.logout"/> </a>
                             </div>
                         </c:when>
                         <c:otherwise>

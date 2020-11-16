@@ -20,11 +20,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class SongDaoImpl extends AbstractDao implements ContentDao {
-    @Override
-    public List<String> findContentProperties() {
-        return null;
-    }
-
     private static final String SELECT_ALL_SONGS =
             "Select song_id," +
                     " song_title," +
@@ -122,7 +117,6 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
                     "   upload_date, " +
                     "   song_price) " +
                     "values (?, ?, ?, ?, ?, ?, ?);";
-
 
     private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Song>();
 
@@ -243,11 +237,6 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
     }
 
     @Override
-    public boolean delete(Long id) throws DaoException {
-        return false;
-    }
-
-    @Override
     public List<AudioContent> findFilteredContent(long offset, int limit, ContentFilter filter) throws DaoException {
         if (filter == null) {
             throw new DaoException("SongDaoImpl findFilteredContent: received null filter");
@@ -260,7 +249,6 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
             return findSongByItemId(songFilter.getCompilationId());
         }
         return findSongByFilter(offset, limit, songFilter);
-
     }
 
     private List<AudioContent> findSongByItemId(long itemId) throws DaoException {
@@ -273,16 +261,6 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
             throw new DaoException("SongDaoImpl: error while searching song", e);
         }
         return result;
-    }
-
-    @Override
-    public List<AudioContent> findContentByUser(User user) throws DaoException {
-        return null;
-    }
-
-    @Override
-    public Optional<AudioContent> findContentByTitle(String title) {
-        return Optional.empty();
     }
 
     private List<AudioContent> findSongByFilter(long offset, int limit, SongFilter songFilter) throws DaoException {
@@ -307,7 +285,27 @@ public class SongDaoImpl extends AbstractDao implements ContentDao {
     }
 
     @Override
-    public boolean createContentDescription(AudioContent entity) throws DaoException {
-        return false;
+    public boolean createContentDescription(AudioContent entity)  {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
+    }
+
+    @Override
+    public List<String> findContentProperties() {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
+    }
+
+    @Override
+    public List<AudioContent> findContentByUser(User user) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
+    }
+
+    @Override
+    public Optional<AudioContent> findContentByTitle(String title) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 }

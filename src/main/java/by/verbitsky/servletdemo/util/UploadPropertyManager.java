@@ -1,6 +1,6 @@
 package by.verbitsky.servletdemo.util;
 
-import by.verbitsky.servletdemo.exception.AudioBoxException;
+import by.verbitsky.servletdemo.exception.FileUtilException;
 import com.sun.javafx.fxml.PropertyNotFoundException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -18,17 +18,17 @@ enum UploadPropertyManager {
     private Properties properties = new Properties();
     private boolean isInit = false;
 
-    public void initManager() throws AudioBoxException {
+    public void initManager() throws FileUtilException {
         if (!isInit) {
             logger.log(Level.INFO, "init Upload Property Manager");
             properties = new Properties();
             try (InputStream propertyFileInputStream = getClass().getClassLoader().getResourceAsStream(PROPERTY_FILE)) {
                 if (propertyFileInputStream == null) {
-                    throw new AudioBoxException("Error to load properties - property file not found");
+                    throw new FileUtilException("Error to load properties - property file not found");
                 }
                 properties.load(propertyFileInputStream);
             } catch (IOException e) {
-                throw new AudioBoxException("Error to load properties", e);
+                throw new FileUtilException("Error to load properties", e);
             }
             isInit = true;
         }

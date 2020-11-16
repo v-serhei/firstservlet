@@ -1,7 +1,6 @@
-package by.verbitsky.servletdemo.controller.command.impl;
+package by.verbitsky.servletdemo.controller.command;
 
 import by.verbitsky.servletdemo.controller.SessionRequestContent;
-import by.verbitsky.servletdemo.controller.command.AttributeName;
 
 public abstract class AdminCommand {
 

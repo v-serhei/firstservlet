@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class GenreDaoImpl extends AbstractDao implements ContentDao {
-
     private static final String SELECT_ALL_GENRE = "Select genre_id, genre_name from genres order by genre_name";
 
     private static final String SELECT_GENRE_BY_TITLE =
@@ -36,9 +35,7 @@ public class GenreDaoImpl extends AbstractDao implements ContentDao {
             "from genres " +
             "where genre_id = ?";
 
-
     private static final ContentFactory<AudioContent> factory = new AudioContentFactory<Genre>();
-
 
     @Override
     public List<AudioContent> findAll() throws DaoException {
@@ -53,7 +50,6 @@ public class GenreDaoImpl extends AbstractDao implements ContentDao {
             throw new DaoException("GenreDaoImpl findAll: error while searching content", e);
         }
         return result;
-
     }
 
     @Override
@@ -134,32 +130,32 @@ public class GenreDaoImpl extends AbstractDao implements ContentDao {
     }
 
     @Override
-    public boolean createContentDescription(AudioContent entity) throws DaoException {
-        return false;
+    public boolean createContentDescription(AudioContent entity) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
-    public boolean delete(Long id) throws DaoException {
-        return false;
+    public boolean delete(Long id) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
-    public long calculateRowCount(ContentFilter filter) throws DaoException {
-        return 0;
+    public long calculateRowCount(ContentFilter filter) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
-    public List<AudioContent> findFilteredContent(long offset, int limit, ContentFilter filter) throws DaoException {
-        return null;
+    public List<AudioContent> findFilteredContent(long offset, int limit, ContentFilter filter) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
     public List<String> findContentProperties() {
-        return null;
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 
     @Override
-    public List<AudioContent> findContentByUser(User user) throws DaoException {
-        return null;
+    public List<AudioContent> findContentByUser(User user) {
+        throw new UnsupportedOperationException ("Method not supported by current implementation");
     }
 }

@@ -26,11 +26,11 @@ enum PoolPropertyManager {
         properties = new Properties();
         try (InputStream propertyFileInputStream = getClass().getClassLoader().getResourceAsStream(PROPERTY_FILE)) {
             if (propertyFileInputStream == null) {
-                throw new PoolException("Error to load properties - property file not found");
+                throw new PoolException("PoolPropertyManager init manager: Error to load properties - property file not found");
             }
             properties.load(propertyFileInputStream);
         } catch (IOException e) {
-            throw new PoolException("Error to load connection properties", e);
+            throw new PoolException("PoolPropertyManager init manager: Error to load connection properties", e);
         }
     }
 
@@ -56,22 +56,6 @@ enum PoolPropertyManager {
             sb.append("Requested property <");
             sb.append(propertyName);
             sb.append("> is not an Integer value");
-            logger.log(Level.WARN, sb.toString());
-            property = Optional.empty();
-        }
-        return property;
-    }
-
-    public Optional<String> getStringProperty(String propertyName) {
-        Optional<String> property;
-        String extracted = properties.getProperty(propertyName);
-        try {
-            property = Optional.of(extracted);
-        } catch (PropertyNotFoundException e) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("Requested property <");
-            sb.append(propertyName);
-            sb.append("> not found");
             logger.log(Level.WARN, sb.toString());
             property = Optional.empty();
         }

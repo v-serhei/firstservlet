@@ -12,7 +12,7 @@ public class RegisterCommand implements Command {
     @Override
     public CommandResult execute(SessionRequestContent content) throws CommandException {
         CommandResult result;
-        boolean isUserInputsIncorrect = false;
+        boolean isUserInputsIncorrect;
         String userName = content.getRequestParameter(ParameterName.USER_NAME);
         String firstPassword = content.getRequestParameter(ParameterName.USER_PASSWORD_FIRST);
         String secondPassword = content.getRequestParameter(ParameterName.USER_PASSWORD_SECOND);
@@ -26,8 +26,14 @@ public class RegisterCommand implements Command {
                 registeredUser.setUserName(userName);
                 registeredUser.setEmail(userEmail);
                 try {
-                    UserServiceImpl.INSTANCE.addRegisteredUser(registeredUser, UserServiceImpl.INSTANCE.getHashedPassword(firstPassword));
-                    result = new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
+                    boolean addResult = UserServiceImpl.INSTANCE.addRegisteredUser(registeredUser, firstPassword);
+                    if (addResult) {
+                        result = new CommandResult(PagePath.REDIRECT_LOGIN_PAGE, true);
+                    } else {
+                        content.addSessionAttribute(AttributeName.COMMAND_ERROR_MESSAGE, AttributeValue.DEFAULT_COMMAND_ERROR_MESSAGE);
+                        content.addSessionAttribute(AttributeName.REQUESTED_URL, content.getRequest().getRequestURI());
+                        throw new CommandException("RegisterCommand: error while adding user to data base");
+                    }
                 } catch (ServiceException e) {
                     content.addSessionAttribute(AttributeName.COMMAND_ERROR_MESSAGE, AttributeValue.DEFAULT_COMMAND_ERROR_MESSAGE);
                     content.addSessionAttribute(AttributeName.REQUESTED_URL, content.getRequest().getRequestURI());
@@ -35,10 +41,8 @@ public class RegisterCommand implements Command {
                 }
             }
         } catch (ServiceException e) {
-           throw new CommandException("RegisterCommand: Error while validating user inputs", e);
+            throw new CommandException("RegisterCommand: Error while validating user inputs", e);
         }
         return result;
     }
-
-
 }

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.locale}"/>
@@ -42,7 +42,7 @@
                    name="fieldPassword" placeholder="<fmt:message key="reg.placeholder.password"/>">
         </div>
         <div class="form-group">
-            <label for="fieldUserPassword"><fmt:message key="reg.label.password2"/></label>
+            <label for="fieldUserPassword2"><fmt:message key="reg.label.password2"/></label>
             <input type="password" class="form-control" id="fieldUserPassword2"
                    name="fieldPassword2">
         </div>

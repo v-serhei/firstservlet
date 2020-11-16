@@ -3,7 +3,7 @@ package by.verbitsky.servletdemo.controller;
 import by.verbitsky.servletdemo.controller.command.*;
 import by.verbitsky.servletdemo.controller.command.impl.admin.AdminCreateSongCommand;
 import by.verbitsky.servletdemo.entity.User;
-import by.verbitsky.servletdemo.exception.AudioBoxException;
+import by.verbitsky.servletdemo.exception.FileUtilException;
 import by.verbitsky.servletdemo.util.FileUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -51,7 +51,7 @@ public class UploadServlet extends HttpServlet {
                     fullPath = uploadPath.get();
                     uploadResult = true;
                 }
-            } catch (AudioBoxException e) {
+            } catch (FileUtilException e) {
                 logger.log(Level.ERROR, "UploadServlet: error while uploading user file", e);
             }
         }

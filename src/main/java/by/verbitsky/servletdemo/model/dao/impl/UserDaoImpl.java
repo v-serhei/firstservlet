@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
-
     private static final String SELECT_ALL_USERS =
             "Select user_id, username, email, role_id, blocked_status, discount_value, reg_date from users order by username";
     private static final String SELECT_USER_BY_ID =

@@ -1,11 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="language/jsp"/>
 <%@ taglib prefix="ab" uri="customTagLib" %>
 
-<%--12 штук на страницу--%>
 <div id="content-div">
     <c:forEach var="compilation" items="${sessionScope.compilationContentList}">
         <span class="compilation-caption-header h4">

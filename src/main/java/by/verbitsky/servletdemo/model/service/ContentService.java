@@ -11,23 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ContentService {
-    long calculateItemsCount(ContentFilter filter) throws ServiceException;
-
-    List<AudioContent> findFilteredContent(ContentFilter filter) throws ServiceException;
-
-    List<AudioContent> findAllContent(ContentType type) throws ServiceException;
-
-    Optional<AudioContent> findContentById(ContentType type, long id) throws ServiceException;
-
-    List<String> findContentDescription(ContentType compilation) throws ServiceException;
-
     boolean createReview(User user, String songTitle, String singerName, String reviewText) throws ServiceException;
 
-    List<AudioContent> findUserReviews(User user) throws ServiceException;
-
     boolean deleteContentById(ContentType type, long contentId) throws ServiceException;
-
-    Optional<AudioContent> findContentByTitle(ContentType contentType, String title) throws ServiceException;
 
     boolean updateContent(ContentType contentType, AudioContent content) throws ServiceException;
 
@@ -42,4 +28,18 @@ public interface ContentService {
     boolean createSong(Song song) throws ServiceException;
 
     boolean updateSong (Song song) throws ServiceException;
+
+    List<AudioContent> findAllContent(ContentType type) throws ServiceException;
+
+    List<AudioContent> findFilteredContent(ContentFilter filter) throws ServiceException;
+
+    List<String> findContentDescription(ContentType compilation) throws ServiceException;
+
+    List<AudioContent> findUserReviews(User user) throws ServiceException;
+
+    Optional<AudioContent> findContentById(ContentType type, long id) throws ServiceException;
+
+    Optional<AudioContent> findContentByTitle(ContentType contentType, String title) throws ServiceException;
+
+    long calculateItemsCount(ContentFilter filter) throws ServiceException;
 }
