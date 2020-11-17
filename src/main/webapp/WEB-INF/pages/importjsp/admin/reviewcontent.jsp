@@ -6,13 +6,12 @@
 <div class="admin-page-content" id="admin-page-review-management">
     <div class="admin-page-inputs">
         <div class="profile-inputs">
-
             <span class="admin-content-header"><fmt:message key="admin.review.manage.header"/></span>
             <div class="line-separator">
                 <hr/>
             </div>
             <div id="select-user-block">
-                <form action="${pageContext.request.contextPath}/do/admin/review_management" method="post">
+                <form class="form-group" action="${pageContext.request.contextPath}/do/admin/review_management" method="post">
                     <label for="user-list" id="user-list-label">
                         <fmt:message key="admin.user.manage.userlist.caption"/></label>
                     <select class="custom-select mr-sm-2" id="user-list" name="selectedUser" size="1">

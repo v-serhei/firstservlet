@@ -20,7 +20,9 @@ public class CompilationFilter extends ContentFilter {
     }
 
     public void setCompilationTitle(String compilationTitle) {
-        this.compilationTitle = compilationTitle;
+        if (compilationTitle != null) {
+            this.compilationTitle = compilationTitle;
+        }
     }
 
     public String getCompilationType() {
@@ -28,6 +30,8 @@ public class CompilationFilter extends ContentFilter {
     }
 
     public void setCompilationType(String compilationType) {
-        this.compilationType = compilationType;
+        if (compilationType != null){
+            this.compilationType = compilationType;
+        }
     }
 }

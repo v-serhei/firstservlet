@@ -24,7 +24,9 @@ public class ReviewFilter extends ContentFilter {
     }
 
     public void setSongTitle(String songTitle) {
-        this.songTitle = songTitle;
+        if (songTitle !=null) {
+            this.songTitle = songTitle;
+        }
     }
 
     public long getUserId() {

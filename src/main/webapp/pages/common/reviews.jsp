@@ -12,7 +12,6 @@
         <c:import url="/WEB-INF/pages/importjsp/common/reviewcontent.jsp"/>
         <c:import url="/WEB-INF/pages/importjsp/common/rightmenureview.jsp"/>
     </div>
-
 </div>
 <c:import url="/WEB-INF/pages/importjsp/common/footer.jsp"/>
 </body>

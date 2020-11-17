@@ -4,7 +4,6 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="language/jsp"/>
 <%@ taglib prefix="ab" uri="customTagLib" %>
-
 <%--12 штук на страницу--%>
 <div id="content-div">
     <c:forEach var="song" items="${sessionScope.songContentList}">
@@ -24,68 +23,66 @@
                     <span class="item-description-upload"><fmt:message key="song.description.upload.header"/></span>
                     <span class="item-description-upload-date">${song.uploadDate}</span>
                 </div>
-
                 <span class="item-description-price">${song.price}</span>
                 <span class="item-description-price-currency">BYN</span>
-
             </div>
             <div class="item-controls">
                 <c:if test="${!sessionScope.user.adminRole}">
                     <c:if test="${sessionScope.user.basket.contains(song.id)}">
                         <form action="${pageContext.request.contextPath}/do/basket_remove" method="get">
-                            <input type="hidden" name="currentPageUri" value="${sessionScope.lastUri}">
-                            <input type="hidden" name="orderedSongId" value="${song.id}">
+                            <input type="hidden" name="currentPageUri" value="${sessionScope.lastUri}"/>
+                            <input type="hidden" name="orderedSongId" value="${song.id}"/>
                             <input type="submit" class="btn btn-sm song-content-controls"
                                    style="background-image: url('${pageContext.request.contextPath}/resources/img/remove.png')"
                                    alt="Add to order" value=""
                                    data-toggle="tooltip" data-placement="top"
-                                   title="<fmt:message key="song.controls.hint.remove"/>">
+                                   title="<fmt:message key="song.controls.hint.remove"/>"/>
                         </form>
                     </c:if>
                     <c:if test="${!sessionScope.user.basket.contains(song.id)}">
                         <form action="${pageContext.request.contextPath}/do/basket_add" method="get">
-                            <input type="hidden" name="currentPageUri" value="${sessionScope.lastUri}">
-                            <input type="hidden" name="orderedSongId" value="${song.id}">
+                            <input type="hidden" name="currentPageUri" value="${sessionScope.lastUri}"/>
+                            <input type="hidden" name="orderedSongId" value="${song.id}"/>
                             <input type="submit" class="btn btn-sm song-content-controls"
                                    style="background-image: url('${pageContext.request.contextPath}/resources/img/add.png')"
                                    alt="Add to order" value=""
                                    data-toggle="tooltip" data-placement="top"
-                                   title="<fmt:message key="song.controls.hint.add"/>">
+                                   title="<fmt:message key="song.controls.hint.add"/>"/>
                         </form>
                     </c:if>
                 </c:if>
                 <c:if test="${sessionScope.user.adminRole}">
                     <c:if test="${sessionScope.user.basket.contains(song.id)}">
                         <form action="${pageContext.request.contextPath}/do/basket_remove" method="get">
-                            <input type="hidden" name="currentPageUri" value="${sessionScope.lastUri}">
-                            <input type="hidden" name="orderedSongId" value="${song.id}">
+                            <input type="hidden" name="currentPageUri" value="${sessionScope.lastUri}"/>
+                            <input type="hidden" name="orderedSongId" value="${song.id}"/>
                             <input type="submit" class="btn btn-sm song-content-controls"
                                    style="background-image: url('${pageContext.request.contextPath}/resources/img/remove.png')"
                                    alt="Add to order" value=""
                                    data-toggle="tooltip" data-placement="top"
-                                   title="<fmt:message key="song.controls.hint.compilation.remove"/>">
+                                   title="<fmt:message key="song.controls.hint.compilation.remove"/>"/>
                         </form>
                     </c:if>
                     <c:if test="${!sessionScope.user.basket.contains(song.id)}">
                         <form action="${pageContext.request.contextPath}/do/basket_add" method="get">
-                            <input type="hidden" name="currentPageUri" value="${sessionScope.lastUri}">
-                            <input type="hidden" name="orderedSongId" value="${song.id}">
+                            <input type="hidden" name="currentPageUri" value="${sessionScope.lastUri}"/>
+                            <input type="hidden" name="orderedSongId" value="${song.id}"/>
                             <input type="submit" class="btn btn-sm song-content-controls"
                                    style="background-image: url('${pageContext.request.contextPath}/resources/img/compilation.png')"
                                    alt="Add to order" value=""
                                    data-toggle="tooltip" data-placement="top"
-                                   title="<fmt:message key="song.controls.hint.compilation.add"/>">
+                                   title="<fmt:message key="song.controls.hint.compilation.add"/>"/>
                         </form>
                     </c:if>
                 </c:if>
                 <form action="${pageContext.request.contextPath}/do/reviews" method="get">
-                    <input type="hidden" name="songName" value="${song.songTitle}">
-                    <input type="hidden" name="singerName" value="${song.authorName}">
+                    <input type="hidden" name="songName" value="${song.songTitle}"/>
+                    <input type="hidden" name="singerName" value="${song.authorName}"/>
                     <input type="submit" class="btn btn-sm song-content-controls"
                            style="background-image: url('${pageContext.request.contextPath}/resources/img/review.png')"
                            alt="View reviews" value=""
                            data-toggle="tooltip" data-placement="top"
-                           title="<fmt:message key="song.controls.hint.get.review"/>">
+                           title="<fmt:message key="song.controls.hint.get.review"/>"/>
                 </form>
                 <c:if test="${!sessionScope.user.adminRole}">
                     <form action="${pageContext.request.contextPath}/do/create_order" method="get">
@@ -93,7 +90,7 @@
                                style="background-image: url('${pageContext.request.contextPath}/resources/img/order.png')"
                                alt="Create order" value=""
                                data-toggle="tooltip" data-placement="top"
-                               title="<fmt:message key="song.controls.hint.go.order"/>">
+                               title="<fmt:message key="song.controls.hint.go.order"/>"/>
                     </form>
                 </c:if>
                 <c:if test="${sessionScope.user.adminRole}">
@@ -102,7 +99,7 @@
                                style="background-image: url('${pageContext.request.contextPath}/resources/img/order.png')"
                                alt="Create order" value=""
                                data-toggle="tooltip" data-placement="top"
-                               title="<fmt:message key="song.controls.hint.create.compilation"/>">
+                               title="<fmt:message key="song.controls.hint.create.compilation"/>"/>
                     </form>
                 </c:if>
             </div>

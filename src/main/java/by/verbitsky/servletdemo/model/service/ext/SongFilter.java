@@ -34,15 +34,21 @@ public class SongFilter extends ContentFilter {
     }
 
     public void setSongTitle(String songTitle) {
-        this.songTitle = songTitle;
+        if (songTitle != null) {
+            this.songTitle = songTitle;
+        }
     }
 
     public void setSongGenre(String songGenre) {
-        this.songGenre = songGenre;
+        if (songGenre !=null) {
+            this.songGenre = songGenre;
+        }
     }
 
     public void setSingerName(String singerName) {
-        this.singerName = singerName;
+        if (singerName != null){
+            this.singerName = singerName;
+        }
     }
 
     public String getAlbumTitle() {
@@ -50,7 +56,9 @@ public class SongFilter extends ContentFilter {
     }
 
     public void setAlbumTitle(String albumTitle) {
-        this.albumTitle = albumTitle;
+        if (albumTitle != null){
+            this.albumTitle = albumTitle;
+        }
     }
 
     public long getCompilationId() {

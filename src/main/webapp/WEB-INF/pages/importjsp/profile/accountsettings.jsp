@@ -6,7 +6,6 @@
 <c:set var="user" value="${sessionScope.user}"/>
 <div id="profile-settings-inputs">
     <div class="user-settings-header">
-
         <span class="user-details-table-caption"><fmt:message key="profile.settings.user.details.caption"/></span>
         <table class="user-details-table">
             <tr>
@@ -36,25 +35,38 @@
         </table>
     </div>
     <form action="${pageContext.request.contextPath}/do/profile/update_password" method="post">
-        <div class="form-group">
+        <div class="form-group" id="password-inputs">
             <label for="fieldUserPassword"><fmt:message key="profile.change.new.password"/></label>
             <input type="password" class="form-control" id="fieldUserPassword"
-                   name="fieldPassword" placeholder="<fmt:message key="reg.placeholder.password"/>">
+                   name="fieldPassword"
+                   pattern="^[a-zA-Z\d_#%,-:;=@`&\s\$\|\+\*\.\?]{6,40}$"
+                   minlength="6"
+                   maxlength="40"
+                   required
+                   placeholder="<fmt:message key="reg.placeholder.password"/>"/>
         </div>
         <div class="form-group">
             <label for="fieldUserPassword2"><fmt:message key="reg.label.password2"/></label>
             <input type="password" class="form-control" id="fieldUserPassword2"
-                   name="fieldPassword2">
+                   name="fieldPassword2"
+                   pattern="^[a-zA-Z\d_#%,-:;=@`&\s\$\|\+\*\.\?]{6,40}$"
+                   minlength="6"
+                   maxlength="40"
+                   required/>
         </div>
         <div class="profile-settings-submit">
-            <input type="submit" class="btn btn-light" name="action" value="<fmt:message key="confirm.btn.caption"/>">
+            <input type="submit" class="btn btn-light" name="action" value="<fmt:message key="confirm.btn.caption"/>"/>
         </div>
     </form>
     <form action="${pageContext.request.contextPath}/do/profile/update_email" method="post">
-        <div class="form-group">
+        <div class="form-group" id="email-input">
             <label for="fieldUserMail"><fmt:message key="reg.label.email"/></label>
             <input type="text" class="form-control" id="fieldUserMail"
-                   name="fieldEmail" value="${user.email}">
+                   name="fieldEmail"
+                   value="${user.email}"
+                   pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$"
+                   maxlength="60"
+                   required/>
         </div>
         <div class="profile-settings-submit">
             <input type="submit" class="btn btn-light" name="action" value="<fmt:message key="confirm.btn.caption"/>">

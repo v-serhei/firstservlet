@@ -16,7 +16,6 @@
         </span>
         </div>
     </div>
-
     <div class="user-order-list">
         <c:forEach var="order" items="${requestScope.orderList}">
             <div class="line-separator">
@@ -41,10 +40,8 @@
                         <input type="submit" class="btn btn-secondary btn-sm"
                                name="action" value="<fmt:message key="profile.orders.details.link.caption"/>"/>
                     </form>
-
                 </c:if>
             </div>
         </c:forEach>
     </div>
-
 </div>

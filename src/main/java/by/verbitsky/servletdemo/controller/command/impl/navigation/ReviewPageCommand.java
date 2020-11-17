@@ -9,6 +9,7 @@ import by.verbitsky.servletdemo.exception.CommandException;
 import by.verbitsky.servletdemo.exception.ServiceException;
 import by.verbitsky.servletdemo.model.service.ContentService;
 import by.verbitsky.servletdemo.model.service.ext.ReviewFilter;
+import by.verbitsky.servletdemo.model.service.ext.SongFilter;
 import by.verbitsky.servletdemo.model.service.impl.AudioContentService;
 
 import java.util.HashSet;
@@ -22,7 +23,7 @@ public class ReviewPageCommand implements Command {
     @Override
     public CommandResult execute(SessionRequestContent content) throws CommandException {
         String songTitle = content.getRequestParameter(ParameterName.SONG);
-        String author = content.getRequestParameter(ParameterName.SINGER);
+        String singer = content.getRequestParameter(ParameterName.SINGER);
         String enableFilter = content.getRequestParameter(ParameterName.ENABLE_FILTER);
         boolean isFiltered = Boolean.parseBoolean(enableFilter);
         ReviewFilter filter;
@@ -36,8 +37,20 @@ public class ReviewPageCommand implements Command {
         if (reviewCount > 0) {
             return new CommandResult(PagePath.FORWARD_REVIEW_PAGE, false);
         } else {
-            content.addSessionAttribute(AttributeName.REVIEW_CREATION_SONG, songTitle);
-            content.addSessionAttribute(AttributeName.REVIEW_CREATION_SINGER, author);
+            try {
+                SongFilter songFilter = new SongFilter();
+                songFilter.setSongTitle(songTitle);
+                songFilter.setSingerName(singer);
+                List<AudioContent> filteredContent = AudioContentService.INSTANCE.findFilteredContent(songFilter);
+                if (filteredContent.size() > 0) {
+                    content.addSessionAttribute(AttributeName.REVIEW_CREATION_SONG, songTitle);
+                    content.addSessionAttribute(AttributeName.REVIEW_CREATION_SINGER, singer);
+                } else {
+                    return new CommandResult(PagePath.FORWARD_REVIEW_PAGE, false);
+                }
+            } catch (ServiceException e) {
+                throw new CommandException("ReviewPageCommand: error while searching content", e);
+            }
             User user = (User) content.getSessionAttribute(AttributeName.SESSION_USER);
             if (user.getLoginStatus()) {
                 return new CommandResult(PagePath.FORWARD_ADD_REVIEW_PAGE, false);

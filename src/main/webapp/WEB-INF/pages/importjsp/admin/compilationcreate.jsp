@@ -34,15 +34,15 @@
                             <span class="item-description-price-currency">BYN</span>
                         </div>
                         <div class="item-controls">
-                            <form action="${pageContext.request.contextPath}/do/admin/compilation/basket_remove"
+                            <form class="form-group" action="${pageContext.request.contextPath}/do/admin/compilation/basket_remove"
                                   method="get">
-                                <input type="hidden" name="currentPageUri" value="${sessionScope.lastUri}">
-                                <input type="hidden" name="orderedSongId" value="${song.id}">
+                                <input type="hidden" name="currentPageUri" value="${sessionScope.lastUri}"/>
+                                <input type="hidden" name="orderedSongId" value="${song.id}"/>
                                 <input type="submit" class="btn btn-sm song-content-controls bg-warning"
                                        style="background-image: url('${pageContext.request.contextPath}/resources/img/remove.png')"
                                        alt="Remove" value=""
                                        data-toggle="tooltip" data-placement="top"
-                                       title="<fmt:message key="operation.compilation.remove.song.controls.hint"/>">
+                                       title="<fmt:message key="operation.compilation.remove.song.controls.hint"/>"/>
                             </form>
                         </div>
                     </div>
@@ -55,11 +55,17 @@
     </div>
     <c:if test="${requestScope.enableCompilationControls}">
         <div class="compilation-params-block">
-            <form action="${pageContext.request.contextPath}/do/admin/compilation/create_compilation" method="post">
+            <form class="form-group" action="${pageContext.request.contextPath}/do/admin/compilation/create_compilation" method="post">
                 <label for="compilation-title"> <fmt:message key="compilation.create.title.field.caption"/> </label>
-                <input class="form-control" id="compilation-title" type="text" name="compilationName"/>
+                <input class="form-control" id="compilation-title"
+                       type="text"
+                       name="compilationName"
+                       pattern="[а-яА-Яa-zA-Z\d'\\!\\.\\-\\,\\+\s]{1,80}"
+                       required
+                       minlength="1"
+                       maxlength="80"/>
                 <label for="compilation-type"><fmt:message key="compilation.create.type.field.caption"/></label>
-                <select class="custom-select mr-sm-2" name="compilationTypeName" id="compilation-type">
+                <select class="custom-select mr-sm-2" name="compilationTypeName" id="compilation-type" required>
                     <option selected value=""></option>
                     <c:forEach var="type" items="${requestScope.compilationTypeList}">
                         <option value="${type}">${type}</option>

@@ -4,7 +4,6 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="language/jsp"/>
 <c:set var="user" value="${sessionScope.user}"/>
-
 <div class="user-review-list">
     <div class="review-list-header">
         <span class="review-totals">
@@ -26,6 +25,5 @@
                 </div>
             </form>
         </c:forEach>
-
     </div>
 </div>

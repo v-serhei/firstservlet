@@ -6,7 +6,6 @@
 <div class="admin-page-content" id="admin-page-user-management">
     <div class="admin-page-inputs" id="admin-page-account-settings">
         <div id="users-account-settings-content">
-
             <span class="admin-content-header"><fmt:message key="admin.user.manage.header"/></span>
             <div class="line-separator">
                 <hr/>
@@ -19,7 +18,6 @@
                         <option value="" selected></option>
                         <c:if test="${requestScope.userFlag}">
                             <c:set var="selectedUser" value="${requestScope.selectedUser}"/>
-
                             <c:forEach var="user" items="${requestScope.userList}">
                                 <c:if test="${user.userName eq selectedUser.userName}">
                                     <option selected value="${user.userName}">${user.userName}</option>
@@ -28,15 +26,12 @@
                                     <option value="${user.userName}">${user.userName}</option>
                                 </c:if>
                             </c:forEach>
-
                         </c:if>
-
                         <c:if test="${!requestScope.userFlag}">
                             <c:forEach var="user" items="${requestScope.userList}">
                                 <option value="${user.userName}">${user.userName}</option>
                             </c:forEach>
                         </c:if>
-
                     </select>
                     <input type="submit" class="btn btn-secondary" name="findUser"
                            value="<fmt:message key="admin.user.manage.select.btn"/>"/>
@@ -45,7 +40,6 @@
             <div class="line-separator">
                 <hr/>
             </div>
-
             <c:if test="${requestScope.userFlag}">
                 <div class="account-options" id="user-description-block">
                     <span id="user-details-table-caption"><fmt:message
@@ -121,11 +115,11 @@
                 <div class="line-separator">
                     <hr/>
                 </div>
-                <form action="${pageContext.request.contextPath}/do/admin/update_user" method="put">
-                    <input type="hidden" name="fieldName" value="${selectedUser.userName}">
-                    <div class="account-options">
+                <form class="form-group" action="${pageContext.request.contextPath}/do/admin/update_user" method="put">
+                    <input type="hidden" name="fieldName" value="${selectedUser.userName}"/>
+                    <div class="account-options form-group">
                         <label for="user-role"><fmt:message key="admin.user.manage.change.role.caption"/></label>
-                        <select class="custom-select mr-sm-2" id="user-role" name="userRole" size="1">
+                        <select class="custom-select mr-sm-2" id="user-role" name="userRole" size="1" required>
                             <c:forEach var="role" items="${requestScope.roleList}">
                                 <c:if test="${selectedUser.roleDescription eq role}">
                                     <option selected value="${role}">${role}</option>
@@ -139,10 +133,9 @@
                     <div class="line-separator">
                         <hr/>
                     </div>
-                    <div class="account-options">
+                    <div class="account-options form-group">
                         <label for="user-discount"> <fmt:message key="admin.user.manage.change.discount.caption"/> </label>
-                        <select class="custom-select mr-sm-2" id="user-discount" name="userDiscount"
-                                size="1">
+                        <select class="custom-select mr-sm-2" id="user-discount" name="userDiscount" size="1" required>
                             <option value="0">0</option>
                             <option value="3">3</option>
                             <option value="5">5</option>
@@ -169,7 +162,7 @@
                     </div>
                     <div class="account-options" id="admin-save-user-settings">
                         <input type="submit" class="btn btn-light btn-sm"
-                               name="action" value="<fmt:message key="admin.user.manage.update.btn"/>">
+                               name="action" value="<fmt:message key="admin.user.manage.update.btn"/>"/>
                     </div>
                 </form>
             </c:if>

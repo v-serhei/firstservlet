@@ -28,7 +28,7 @@
                                     <form action="${pageContext.request.contextPath}/do/review/add_review" method="post">
                                         <input type="hidden" name="songName" value="${song}"/>
                                         <input type="submit" class="btn btn-outline-secondary border-0"
-                                               name="action" value="<fmt:message key="review.add.btn"/>">
+                                               name="action" value="<fmt:message key="review.add.btn"/>"/>
                                     </form>
                             </div>
                         </div>

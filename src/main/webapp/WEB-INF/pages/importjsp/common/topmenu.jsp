@@ -33,6 +33,9 @@
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 <a class="dropdown-item" href="${pageContext.request.contextPath}/do/profile/settings"><fmt:message key="user.menu.profile"/></a>
                                 <c:if test="${sessionScope.user.adminRole}">
+                                    <div class="line-separator">
+                                        <hr/>
+                                    </div>
                                     <a class="dropdown-item bg-light" href="${pageContext.request.contextPath}/do/admin/user_management"><fmt:message key="user.menu.adminpage"/></a>
                                 </c:if>
                                 <div class="line-separator">

@@ -8,14 +8,18 @@
                 <fmt:message key="song.search.header"/>
             </span>
     <div class="song-searching-controls">
-        <form action="${pageContext.request.contextPath}/do/main/search" method="get">
+        <form class="form-group" action="${pageContext.request.contextPath}/do/main/search" method="get">
             <c:set var="filter" value="${sessionScope.songFilter}"/>
             <input type="hidden" name="contentType" value="${filter.contentType}"/>
             <input type="hidden" name="filtered" value="true"/>
             <label for="song-name-input" class="search-label search-block-item">
                 <fmt:message key="song.search.input.label"/>
             </label>
-            <input class="search-text-input" id="song-name-input" type="text" name="songName" value="${filter.songTitle}"/>
+            <input class="form-control search-text-input" id="song-name-input"
+                   type="text"
+                   name="songName"
+                   value="${filter.songTitle}"
+                   pattern="[а-яА-Яa-zA-Z\d'\\!\\.\\-\\,\\+\s]{0,80}"/>
             <div class="search-confirm-input">
                 <input type="submit" class="btn btn-sm bg-light search-confirm-btn"
                        name="search" value="<fmt:message key="search.confirm.btn"/>"/>
@@ -57,7 +61,11 @@
             <label for="song-name-input" class="search-label search-block-item">
                 <fmt:message key="album.search.input.label"/>
             </label>
-            <input class="search-text-input" id="song-name-input" type="text" name="albumTitle" value="${filter.albumTitle}"/>
+            <input class="search-text-input form-control" id="song-name-input"
+                   type="text"
+                   name="albumTitle"
+                   value="${filter.albumTitle}"
+                   pattern="[а-яА-Яa-zA-Z\d'\\!\\.\\-\\,\\+\s]{0,80}"/>
             <div class="search-confirm-input">
                 <input type="submit" class="btn btn-sm bg-light search-confirm-btn"
                        name="search" value="<fmt:message key="search.confirm.btn"/>"/>
@@ -74,6 +82,5 @@
                         key="filter.reset.btn"/> </a>
             </div>
         </form>
-
     </div>
 </div>

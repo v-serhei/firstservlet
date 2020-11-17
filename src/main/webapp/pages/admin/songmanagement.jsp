@@ -8,7 +8,6 @@
 <c:import url="/WEB-INF/pages/importjsp/common/header.jsp"/>
 <body>
 <c:import url="/WEB-INF/pages/importjsp/common/topmenu.jsp"/>
-
 <div id="main-body-container">
     <div id="body-container">
         <div id="content-div">

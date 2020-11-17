@@ -11,15 +11,15 @@
         </div>
         <div class="compilation-content-management">
             <div class="compilation-delete-block">
-                <form action="${pageContext.request.contextPath}/do/admin/compilation/delete_compilation" method="delete">
+                <form class="form-group" action="${pageContext.request.contextPath}/do/admin/compilation/delete_compilation" method="delete">
                     <h5 style="text-align: center"><fmt:message key="admin.compilation.manage.remove.caption"/></h5>
                     <div class="line-separator">
                         <hr/>
                     </div>
-                    <div class="compilation-select-block align-content-center">
+                    <div class="compilation-select-block align-content-center form-group">
                         <label for="compilation-list"> <fmt:message key="admin.compilation.manage.select.caption"/></label>
                         <select class="custom-select mr-sm-2 admin-item-selector"
-                                id="compilation-list" name="compilationId" size="1">
+                                id="compilation-list" name="compilationId" size="1" required>
                             <option selected value=""></option>
                             <c:forEach var="compilation" items="${requestScope.compilationContentList}">
                                 <option value="${compilation.id}">${compilation.compilationTitle}</option>
