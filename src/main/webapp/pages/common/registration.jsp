@@ -15,12 +15,12 @@
                 <h4 id="reg-label"><fmt:message key="reg.mainlabel"/></h4>
                 <c:if test="${requestScope.regWrongName}">
                     <div id="reg-error-div">
-                        <span class="reg-error-span"><fmt:message key="reg.error.message.wrong.name"/></span>
+                        <span class="reg-error-span bg-warning"><fmt:message key="reg.error.message.wrong.name"/></span>
                     </div>
                 </c:if>
                 <c:if test="${requestScope.regExistName}">
                     <div id="reg-error-div">
-                        <span class="reg-error-span"><fmt:message key="reg.error.message.exist.user"/></span>
+                        <span class="reg-error-span bg-warning"><fmt:message key="reg.error.message.exist.user"/></span>
                     </div>
                 </c:if>
                 <div class="form-group">
@@ -36,12 +36,12 @@
 
                 <c:if test="${requestScope.regWrongPassword}">
                     <div id="reg-error-div">
-                        <span class="reg-error-span"><fmt:message key="reg.error.message.wrong.password"/></span>
+                        <span class="reg-error-span bg-warning"><fmt:message key="reg.error.message.wrong.password"/></span>
                     </div>
                 </c:if>
                 <c:if test="${requestScope.regDifferentPasswords}">
                     <div id="reg-error-div">
-                        <span class="reg-error-span"><fmt:message key="reg.error.message.different.passwords"/></span>
+                        <span class="reg-error-span bg-warning"><fmt:message key="reg.error.message.different.passwords"/></span>
                     </div>
                 </c:if>
                 <div class="form-group">
@@ -66,12 +66,12 @@
 
                 <c:if test="${requestScope.regWrongEmail}">
                     <div id="reg-error-div">
-                        <span class="reg-error-span"><fmt:message key="reg.error.message.email.regex"/></span>
+                        <span class="reg-error-span bg-warning"><fmt:message key="reg.error.message.email.regex"/></span>
                     </div>
                 </c:if>
                 <c:if test="${requestScope.regExistEmail}">
                     <div id="reg-error-div">
-                        <span class="reg-error-span"><fmt:message key="reg.error.message.exist.email"/></span>
+                        <span class="reg-error-span bg-warning"><fmt:message key="reg.error.message.exist.email"/></span>
                     </div>
                 </c:if>
                 <div class="form-group">

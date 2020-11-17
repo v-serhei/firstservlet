@@ -20,6 +20,8 @@ public class AttributeName {
     public static final String OPERATION_MESSAGE = "operationMessage";
     public static final String OPERATION_BUTTON_CAPTION = "btnCaptionValue";
     public static final String OPERATION_BUTTON_LINK = "btnLinkValue";
+    public static final String PARAMETER_VALIDATION_ERROR_MESSAGE = "parameter.validation.error";
+    public static final String ADMIN_PAGE_ACCESS_DENIED = "access.violation.message";
     /**
      * Content attributes
      */
@@ -64,7 +66,7 @@ public class AttributeName {
     /**
      * Request attributes
      */
-    public static final String ADMIN_PAGE_ACCESS_DENIED = "access.violation.message";
+
     public static final String LOGIN_FAILED = "loginFail";
     public static final String REGISTRATION_WRONG_NAME = "regWrongName";
     public static final String REGISTRATION_EXIST_NAME = "regExistName";

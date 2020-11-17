@@ -21,7 +21,6 @@ public class SessionFilter implements Filter {
         HttpSession session = request.getSession(true);
         processNewSession(session);
         session.setAttribute(AttributeName.SESSION_USER_LAST_QUERY, constructQuery(request));
-
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
@@ -36,6 +35,7 @@ public class SessionFilter implements Filter {
             }
         }
     }
+
     private String constructQuery(HttpServletRequest request) {
         String uri = request.getRequestURI();
         String query = request.getQueryString();

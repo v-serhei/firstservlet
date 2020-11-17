@@ -42,7 +42,10 @@ public class FileUtil {
         sb.append(albumTitle.toLowerCase());
         sb.append(File.separator);
         File uploadDir = new File(sb.toString());
-        uploadDir.mkdirs();
+        if (!uploadDir.mkdirs()) {
+            logger.log(Level.ERROR, "buildPathToSongFile: Unable to create content directory, check content path property");
+            throw new FileUtilException("FileUtil buildPathToSongFile: creation failed");
+        }
         sb.append(fileName);
         return Optional.of(sb.toString());
     }
@@ -62,7 +65,26 @@ public class FileUtil {
         }
     }
 
-    private static String prepareZipFile(String zippedDirectoryPath, long orderId, List <String> fileList) throws IOException {
+    private static Optional<String> createOrderDirectory(long orderId) throws FileUtilException {
+        propertyManager.initManager();
+        Optional<String> orderDirPath = propertyManager.getStringProperty(ORDER_DIR);
+        if (!orderDirPath.isPresent()) {
+            return Optional.empty();
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(orderDirPath.get());
+        sb.append(File.separator);
+        sb.append(ORDER_PREFIX);
+        sb.append(orderId);
+        File uploadDir = new File(sb.toString());
+        if (!uploadDir.mkdirs()) {
+            logger.log(Level.ERROR, "Unable to create order directory, check order path property");
+            throw new FileUtilException("FileUtil create Order directory: creation failed");
+        }
+        return Optional.of(sb.toString());
+    }
+
+    private static String prepareZipFile(String zippedDirectoryPath, long orderId, List<String> fileList) throws IOException {
         StringBuilder sb = new StringBuilder(zippedDirectoryPath);
         sb.append(File.separator);
         sb.append(ORDER_PREFIX);
@@ -82,21 +104,4 @@ public class FileUtil {
         fileOutputStream.close();
         return sb.toString();
     }
-
-    private static Optional<String> createOrderDirectory(long orderId) throws FileUtilException {
-        propertyManager.initManager();
-        Optional<String> orderDirPath = propertyManager.getStringProperty(ORDER_DIR);
-        if (!orderDirPath.isPresent()) {
-            return Optional.empty();
-        }
-        StringBuilder sb = new StringBuilder();
-        sb.append(orderDirPath.get());
-        sb.append(File.separator);
-        sb.append(ORDER_PREFIX);
-        sb.append(orderId);
-        File uploadDir = new File(sb.toString());
-        uploadDir.mkdirs();
-        return Optional.of(sb.toString());
-    }
-
 }

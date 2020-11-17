@@ -23,10 +23,8 @@ public class StaticContentFilter implements Filter {
             request.getSession().setAttribute(AttributeName.COMMAND_ERROR_MESSAGE, AttributeName.ADMIN_PAGE_ACCESS_DENIED);
             request.getSession().setAttribute(AttributeName.REQUESTED_URL, request.getRequestURI());
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
         }
         chain.doFilter(req, resp);
-    }
-
-    public void init(FilterConfig config) throws ServletException {
     }
 }

@@ -40,7 +40,7 @@
             </div>
             <c:if test="${requestScope.loginFail}">
                 <div id="login-error-div">
-                    <span class="login-error-span"><fmt:message key="login.error.message"/></span>
+                    <span class="login-error-span bg-warning"><fmt:message key="login.error.message"/></span>
                 </div>
             </c:if>
             <div id="login-submit">

@@ -31,22 +31,25 @@
         <filter-name>StaticContentFilter</filter-name>
         <url-pattern>*.jsp</url-pattern>
     </filter-mapping>
-<!--    <filter>
+
+   <filter>
         <filter-name>AttrCleaner</filter-name>
-        <filter-class>by.verbitsky.servletdemo.controller.filter.SessionAttributeCleanFilter</filter-class>
+        <filter-class>by.verbitsky.servletdemo.controller.filter.RequestParameterFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AttrCleaner</filter-name>
         <url-pattern>/*</url-pattern>
 
-    </filter-mapping>-->
-
-
+    </filter-mapping>
 
     <!--Error page mapping-->
     <error-page>
-        <error-code>401</error-code>
+        <error-code>400</error-code>
         <location>/pages/error/errorpage400.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>401</error-code>
+        <location>/pages/error/errorpage401.jsp</location>
     </error-page>
     <error-page>
         <error-code>403</error-code>
@@ -54,7 +57,7 @@
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/pages/error/errorpage400.jsp</location>
+        <location>/pages/error/errorpage401.jsp</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>

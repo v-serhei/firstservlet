@@ -12,14 +12,14 @@ public class RegisterCommand implements Command {
     @Override
     public CommandResult execute(SessionRequestContent content) throws CommandException {
         CommandResult result;
-        boolean isUserInputsIncorrect;
+        boolean isUserInputsCorrect;
         String userName = content.getRequestParameter(ParameterName.USER_NAME);
         String firstPassword = content.getRequestParameter(ParameterName.USER_PASSWORD_FIRST);
         String secondPassword = content.getRequestParameter(ParameterName.USER_PASSWORD_SECOND);
         String userEmail = content.getRequestParameter(ParameterName.USER_EMAIL);
         try {
-            isUserInputsIncorrect = UserServiceImpl.INSTANCE.validateUserInputs(userName, firstPassword, secondPassword, userEmail, content);
-            if (isUserInputsIncorrect) {
+            isUserInputsCorrect = UserServiceImpl.INSTANCE.validateRegistrationInputs(userName, firstPassword, secondPassword, userEmail, content);
+            if (!isUserInputsCorrect) {
                 result = new CommandResult(PagePath.FORWARD_REGISTRATION_PAGE, false);
             } else {
                 User registeredUser = new User();
