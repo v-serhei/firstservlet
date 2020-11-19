@@ -17,6 +17,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+
+/**
+ * Download servlet. Provides file downloading for application users
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ */
 @WebServlet(name = "DownloadServlet", urlPatterns = "/process/download")
 
 @SuppressWarnings("serial")

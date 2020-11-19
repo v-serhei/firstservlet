@@ -1,6 +1,17 @@
 package by.verbitsky.servletdemo.exception;
 
-public class DaoException extends Exception{
+/**
+ * Class Dao exception
+ * DaoException object could be thrown by Dao while processing SQL query
+ * <p>
+ *
+ * @see by.verbitsky.servletdemo.model.dao.BaseDao
+ * @see by.verbitsky.servletdemo.model.dao.ContentDao
+ * @see by.verbitsky.servletdemo.model.dao.OrderDao
+ * @see by.verbitsky.servletdemo.model.dao.UserDao
+ */
+@SuppressWarnings("serial")
+public class DaoException extends Exception {
     public DaoException() {
         super();
     }

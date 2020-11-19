@@ -4,21 +4,65 @@ import by.verbitsky.servletdemo.model.service.impl.UserServiceImpl;
 
 import java.time.LocalDate;
 
+/**
+ * Class User. Describes application user.
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ * @see Basket
+ */
 public class User {
+    /**
+     * user id in data base
+     */
     private long userId;
+    /**
+     * contains user name, that's used as login
+     */
     private String userName;
+    /**
+     * contains user email
+     */
     private String email;
+    /**
+     * contains user's current personal discount
+     */
     private int discount;
+    /**
+     * contains user role id
+     */
     private int roleId;
+    /**
+     * contains user status id
+     * if field value == 0 - status is "Active"
+     * if field value > 0 - status is "Blocked"
+     */
     private int blockedStatus;
+    /**
+     * flag for determination current user authorization status
+     */
     private boolean loginStatus;
+    /**
+     * user temporary order storage
+     */
     private Basket basket;
+    /**
+     * contains date of user registration
+     */
     private LocalDate registrationDate;
+    /**
+     * user role text description
+     */
     private String roleDescription;
+    /**
+     * value used as flag to providing additional application functions
+     */
     private boolean isAdminRole;
 
-
-
+    /**
+     * Base Constructor
+     */
     public User() {
     }
 
@@ -26,7 +70,7 @@ public class User {
         return isAdminRole;
     }
 
-    public void setAdminRoleFlag (boolean flag) {
+    public void setAdminRoleFlag(boolean flag) {
         isAdminRole = flag;
     }
 

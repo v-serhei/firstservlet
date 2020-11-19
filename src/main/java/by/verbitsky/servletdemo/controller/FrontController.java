@@ -15,6 +15,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Front controller servlet. Provides processing users requests
+ * It defines user commands and provides routing to result page
+ * <p>
+ * If command couldn't be defined - controller redirects user to error page with 404 error code
+ * <p>
+ * If controller receives an exception while command executing - it redirects user to error page with 500 error code
+ *
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ * @see Command
+ * @see CommandResult
+ * @see CommandType
+ * @see HttpServlet
+ */
+
 @WebServlet(name = "FrontController", urlPatterns = "/do/*")
 @SuppressWarnings("serial")
 public class FrontController extends HttpServlet {
@@ -64,6 +82,12 @@ public class FrontController extends HttpServlet {
         sb.append(e.getCause().getLocalizedMessage());
         return sb.toString();
     }
+
+    /**
+     * Initiate Connections pool, which provides connections for data base
+     *
+     * @see ConnectionPoolImpl
+     */
 
     @Override
     public void init() throws ServletException {

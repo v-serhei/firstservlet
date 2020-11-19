@@ -11,6 +11,15 @@ import java.io.InputStream;
 import java.util.Optional;
 import java.util.Properties;
 
+
+/**
+ * The enum Upload property manager provides loading settings for FileUtil
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ * @see FileUtil
+ */
 enum UploadPropertyManager {
     INSTANCE;
     private static final String PROPERTY_FILE = "contentfiles/filerepository.properties";

@@ -10,6 +10,17 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Locale;
 
+
+/**
+ * Session filter. Checks current user session.
+ * If session doesn't exist (first user request) - it will be created and User object will be added to Session attributes.
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ * @see HttpSession
+ */
+
 @WebFilter
 public class SessionFilter implements Filter {
     private static final int DEFAULT_SESSION_LIVE_TIME = 3600;

@@ -11,6 +11,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Enumeration;
 
+
+/**
+ * Request parameter filter. Checks user inputs for forbidden characters
+ * If incoming parameter doesn't pass validation - request will not be processed and user will be redirected
+ * to error page
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ * @see FieldDataValidator
+ * @see HttpServletRequest
+ * @see <a href=https://en.wikipedia.org/wiki/Character_encoding> Character encoding </a>
+ */
+
 @WebFilter
 public class RequestParameterFilter implements Filter {
     public void destroy() {

@@ -5,6 +5,16 @@ import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 import java.util.HashMap;
 
+/**
+ * Session request content. Object of SessionRequestContent type contains all attributes and request parameters
+ * that are needed to process user command and redirect user to result page
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ * @see HttpServletRequest
+ * @see javax.servlet.http.HttpServletResponse
+ */
 public class SessionRequestContent {
     private final HashMap<String, Object> requestAttributes;
     private final HashMap<String, String> requestParameters;
@@ -12,6 +22,11 @@ public class SessionRequestContent {
     private final HttpSession session;
     private final HttpServletRequest request;
 
+    /**
+     * Constructor. Instantiates a new Session request content.
+     *
+     * @param request - required to get Session object, session and request attributes and request parameters
+     */
     public SessionRequestContent(HttpServletRequest request) {
         requestAttributes = new HashMap<>();
         requestParameters = new HashMap<>();
@@ -64,10 +79,16 @@ public class SessionRequestContent {
         }
     }
 
+    /**
+     * Writes all request attributes from requestAttributes to request object
+     */
     public void pushAttributesToRequest() {
         requestAttributes.forEach(request::setAttribute);
     }
 
+    /**
+     * Writes all session attributes from sessionAttributes to session object
+     */
     public void pushAttributesToSession() {
         sessionAttributes.forEach(session::setAttribute);
     }
@@ -84,7 +105,7 @@ public class SessionRequestContent {
         return requestAttributes.get(attributeName);
     }
 
-    public void removeSessionAttribute (String attributeName) {
+    public void removeSessionAttribute(String attributeName) {
         sessionAttributes.remove(attributeName);
         session.removeAttribute(attributeName);
     }

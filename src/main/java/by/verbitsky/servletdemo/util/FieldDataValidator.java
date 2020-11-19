@@ -2,6 +2,13 @@ package by.verbitsky.servletdemo.util;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
+/**
+ * Class FieldDataValidator is utility class for user inputs validation
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ */
 public class FieldDataValidator {
     private static final String REGEX_USERNAME = "[a-zA-Z\\d]{1,40}";
     private static final String REGEX_PARAMETER = "[а-яА-Яa-zA-Z\\d/'!.,+\\-\\s]{0,80}";

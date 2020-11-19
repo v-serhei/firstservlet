@@ -1,5 +1,13 @@
 package by.verbitsky.servletdemo.controller.command;
 
+/**
+ * This class contains constants of Request parameters names
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ */
+
 public class ParameterName {
     public static final String LANGUAGE = "language";
     public static final String PAGE_MARK = "currentPageUri";

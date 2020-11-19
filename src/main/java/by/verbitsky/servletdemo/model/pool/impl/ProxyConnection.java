@@ -10,6 +10,13 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+/**
+ * ProxyConnection class wraps {@link Connection} to provide connections to {@link ConnectionPoolImpl}
+ * Override method close to return connection back to pool but not close
+ * <p>
+ * @author Verbitsky Sergey
+ * @version 1.0
+ */
 public class ProxyConnection implements Connection {
     private static final Logger logger = LogManager.getLogger();
     private final Connection connection;

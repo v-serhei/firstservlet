@@ -7,6 +7,15 @@ import by.verbitsky.servletdemo.exception.ServiceException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The interface Order service defines common service methods for working with user orders
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ * @see Order
+ * @see User
+ */
 public interface OrderService {
     boolean addOrder (Order order, User user) throws ServiceException;
 

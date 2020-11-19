@@ -12,15 +12,58 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * The implementation of {@link ConnectionPool} interface. It released as Singleton.
+ * Method getInstance returns an instance of ConnectionPoolImpl. It uses locks to
+ * use a pool in a multithreaded environment.
+ * <p>
+ * While pool initializing {@link ProxyConnectionCreator} provides {@link ProxyConnection} connections for current pool.
+ * Creator uses {@link PoolPropertyManager} to define connection properties.
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ * @see PoolPropertyManager
+ * @see ProxyConnection
+ * @see ProxyConnectionCreator
+ * @see ReentrantLock
+ */
 public class ConnectionPoolImpl implements ConnectionPool<ProxyConnection> {
+    /**
+     * contains link to single instance
+     */
     private static ConnectionPoolImpl instance;
+    /**
+     * constant to get property pool size from pool property manager
+     */
     private static final String PROPERTY_POOL_SIZE = "poolSize";
+    /**
+     * indicate init status
+     */
     private boolean isInitialized;
+    /**
+     * lock to provide correct methods executing in a multithreaded environment
+     */
     private static Lock WORK_LOCK = new ReentrantLock();
+    /**
+     * lock to provide correct shutdown executing
+     */
     private static Lock SHUTDOWN_LOCK = new ReentrantLock();
+    /**
+     * contains default pool size value
+     */
     private static final int DEFAULT_POOL_SIZE = 32;
+    /**
+     * contains max number of pool connections
+     */
     private int maxPoolSize;
+    /**
+     * queue contains free connections that can be provided by calling method getConnections
+     */
     private BlockingQueue<ProxyConnection> freeConnections;
+    /**
+     * queue contains active connections that used by services
+     */
     private BlockingQueue<ProxyConnection> activeConnections;
 
     private static Logger logger = LogManager.getLogger();
@@ -28,6 +71,11 @@ public class ConnectionPoolImpl implements ConnectionPool<ProxyConnection> {
     private ConnectionPoolImpl() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance of pool or create it, if instance is null
+     */
     public static ConnectionPoolImpl getInstance() {
         ConnectionPoolImpl localPool = ConnectionPoolImpl.instance;
         if (instance == null) {
@@ -45,6 +93,15 @@ public class ConnectionPoolImpl implements ConnectionPool<ProxyConnection> {
         return localPool;
     }
 
+    /**
+     * Init pool: set pool size property, request ProxyConnection creator to create connections
+     * and put all connections to free connections queue
+     * Set init flag value as true.
+     * <p>
+     * If init method catches an exception - it throws Runtime exceptions, cause pool couldn't provide connections
+     * to data base.
+     * */
+    @Override
     public void initConnectionPool() {
         logger.log(Level.INFO, "init connection pool");
         try {
@@ -59,11 +116,12 @@ public class ConnectionPoolImpl implements ConnectionPool<ProxyConnection> {
             fillFreeConnectionsQueue();
             isInitialized = true;
         } catch (PoolException e) {
-           logger.log(Level.FATAL, "Error while connection pool initializing", e);
-           throw new RuntimeException("Error while connection pool initializing", e);
+            logger.log(Level.FATAL, "Error while connection pool initializing", e);
+            throw new RuntimeException("Error while connection pool initializing", e);
         }
     }
 
+    @Override
     public ProxyConnection getConnection() throws PoolException {
         if (!isInitialized) {
             logger.log(Level.ERROR, "Error while getting free connection from pool, cause - Pool is not initialized");
@@ -80,8 +138,9 @@ public class ConnectionPoolImpl implements ConnectionPool<ProxyConnection> {
     }
 
     /**
-     * Check if connection is ProxyConnection was taken from current pool
+     * Check if connection is ProxyConnection and it was taken from current pool
      */
+    @Override
     public void releaseConnection(ProxyConnection connection) throws PoolException {
         if (!isInitialized) {
             logger.log(Level.ERROR, "Error while releasing connection to pool, cause - Pool is not initialized");
@@ -112,28 +171,27 @@ public class ConnectionPoolImpl implements ConnectionPool<ProxyConnection> {
      * to give pool users possibility to release taken connections back to pool
      * Method "take" will be waiting while active connections will be returned back to pool
      */
+    @Override
     public void shutdownPool() throws PoolException {
-        if (!isInitialized) {
-            logger.log(Level.ERROR, "Error while shutdown pool, cause - Pool is not initialized");
-            throw new RuntimeException("Error while shutdown pool, cause - Pool is not initialized");
-        }
-        ProxyConnection connection;
-        try {
-            SHUTDOWN_LOCK.lock();
-            for (int i = 0; i < maxPoolSize; i++) {
-                connection = activeConnections.take();
-                if (connection.getAutoCommit()) {
-                    connection.rollback();
+        if (isInitialized) {
+            ProxyConnection connection;
+            try {
+                SHUTDOWN_LOCK.lock();
+                for (int i = 0; i < maxPoolSize; i++) {
+                    connection = activeConnections.take();
+                    if (connection.getAutoCommit()) {
+                        connection.rollback();
+                    }
+                    connection.closeRealConnection();
                 }
-                connection.closeRealConnection();
+            } catch (SQLException | InterruptedException e) {
+                throw new PoolException("Error while closing pool connections", e);
+            } finally {
+                SHUTDOWN_LOCK.unlock();
             }
-        } catch (SQLException | InterruptedException e) {
-            throw new PoolException("Error while closing pool connections", e);
-        } finally {
-            SHUTDOWN_LOCK.unlock();
+            ProxyConnectionCreator.INSTANCE.deregisterDBDriver();
+            isInitialized = false;
         }
-        ProxyConnectionCreator.INSTANCE.deregisterDBDriver();
-        isInitialized = false;
     }
 
     private void fillFreeConnectionsQueue() throws PoolException {

@@ -7,6 +7,15 @@ import by.verbitsky.servletdemo.exception.ServiceException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The interface User service defines common service methods for working with application users
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ * @see User
+ */
+
 public interface UserService {
     boolean addRegisteredUser(User user, String password) throws ServiceException;
 

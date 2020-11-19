@@ -11,16 +11,38 @@ import java.io.InputStream;
 import java.util.Optional;
 import java.util.Properties;
 
+/**
+ * Pool property manager provides loading application data base properties from
+ * property file.
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ * @see ProxyConnection
+ * @see ProxyConnectionCreator
+ * @see ConnectionPoolImpl
+ */
 enum PoolPropertyManager {
     INSTANCE;
-    private static final String PROPERTY_FILE = "db/dbconnection.properties";
     private final Logger logger = LogManager.getLogger();
+    /**
+     * path to properties file
+     */
+    private static final String PROPERTY_FILE = "db/dbconnection.properties";
+    /**
+     * local properties storage
+     */
     private Properties properties;
 
     {
         properties = new Properties();
     }
 
+    /**
+     * Init manager. Loads all properties from prop. file to own storage
+     *
+     * @throws PoolException the pool exception
+     */
     public void initManager() throws PoolException {
         logger.log(Level.INFO, "init pool property manager");
         properties = new Properties();

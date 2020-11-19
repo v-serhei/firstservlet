@@ -14,6 +14,13 @@ import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+/**
+ * Utility class for working with application files
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ */
 public class FileUtil {
     private static final String CONTENT_DIR = "content.directory";
     private static final String ORDER_DIR = "order.directory";
@@ -25,7 +32,17 @@ public class FileUtil {
     private FileUtil() {
     }
 
-    public static Optional<String> buildPathToSongFile(String fileName, String singerName, String albumTitle) throws FileUtilException {
+    /**
+     * Generates path to file based on author (singer) name and album title. All songs files located in specific
+     * directories: "content dir"/"singer name"/"album title"/"songFile.ext"
+     *
+     * @param fileName   the file name
+     * @param singerName the singer name
+     * @param albumTitle the album title
+     * @return absolute path to file
+     * @throws FileUtilException the file util exception
+     */
+    public static Optional<String> generatePathToSongFile(String fileName, String singerName, String albumTitle) throws FileUtilException {
         if (albumTitle == null || albumTitle.isEmpty() || singerName == null || singerName.isEmpty()) {
             return Optional.empty();
         }
@@ -50,6 +67,13 @@ public class FileUtil {
         return Optional.of(sb.toString());
     }
 
+    /**
+     * Generate zip file for order
+     *
+     * @param orderFileList - contains file paths that should be included into zip
+     * @param orderId      - order id defines a unique name for the order file and directory
+     * @return absolute path to zip file
+     */
     public static Optional<String> generateZipFileForOrder(List<String> orderFileList, long orderId) {
         try {
             Optional<String> orderDirectory = createOrderDirectory(orderId);

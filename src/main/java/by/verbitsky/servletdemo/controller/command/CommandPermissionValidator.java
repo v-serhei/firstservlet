@@ -21,6 +21,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * The type Command permission validator. Checks user permissions to execute a command
+ * Map values contain int set of user roles id.
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ * @see Command
+ * @see User
+ */
 public class CommandPermissionValidator {
     private static final Map<Class<? extends Command>, Set<Integer>> permissions;
 
@@ -47,7 +57,6 @@ public class CommandPermissionValidator {
         permissions.put(AdminDeleteCompilationCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(AdminCreateSongCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(AdminUpdateSongCommand.class, Stream.of(99).collect(Collectors.toCollection(HashSet::new)));
-
         //User commands
         permissions.put(BasketRemoveCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(BasketAddCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));
@@ -55,12 +64,22 @@ public class CommandPermissionValidator {
         permissions.put(OrderRemoveSongCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(PayOrderCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));
         permissions.put(DownloadOrderCommand.class, Stream.of(1).collect(Collectors.toCollection(HashSet::new)));
-        //common commands
     }
 
     private CommandPermissionValidator() {
     }
 
+    /**
+     * IsUserHasPermission: method validates current user permissions to execute command
+     * If user or command parameter is null- returns false
+     * If user has status "blocked" - returns false
+     * Permission map uses Command.class as key and set of int as values.
+     * Method checks if map contains user role id and returns true or false
+     *
+     * @param user    - User.class object
+     * @param command - current executed user command
+     * @return the boolean
+     */
     public static boolean isUserHasPermission(User user, Command command) {
         if (user != null && user.getLoginStatus() && command != null) {
             if (user.getBlockedStatus()) {

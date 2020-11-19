@@ -8,6 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Static content filter. Prevents direct access to jsp.
+ * Sends to error page with 403 error code
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ */
+
 @WebFilter
 public class StaticContentFilter implements Filter {
 

@@ -6,12 +6,43 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
+
+/**
+ * Class User. Describes user order
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ * @see AudioContent
+ * @see Song
+ */
+
 public class Order {
+    /**
+     * contains list of selected songs
+     */
     private Set<Song> orderList;
+    /**
+     * current order id
+     */
     private long orderId;
+    /**
+     * order owner id
+     */
     private long userId;
+    /**
+     * contains order price value
+     */
     private BigDecimal orderPrice;
+    /**
+     * contains order creation date
+     */
     private LocalDate orderDate;
+    /**
+     * field provides order status:
+     * 0 - created
+     * 1 - paid
+     */
     private int orderStatus;
 
     public Order() {
@@ -68,7 +99,7 @@ public class Order {
     }
 
     public void removeSongById(long songId) {
-        orderList.removeIf(song -> song.getId()==songId);
+        orderList.removeIf(song -> song.getId() == songId);
         recalculateOrderPrice();
     }
 
@@ -80,7 +111,7 @@ public class Order {
         return Collections.unmodifiableSet(orderList);
     }
 
-    private void recalculateOrderPrice (){
+    private void recalculateOrderPrice() {
         BigDecimal total = BigDecimal.ZERO;
         for (Song song : orderList) {
             total = total.add(song.getPrice());

@@ -16,6 +16,15 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * Upload servlet. Provides file uploading for admin users
+ * Used to upload files which needed to create content (administration user menu)
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ */
+
 @WebServlet(name = "UploadServlet", urlPatterns = "/process/upload")
 @MultipartConfig()
 @SuppressWarnings("serial")
@@ -45,7 +54,7 @@ public class UploadServlet extends HttpServlet {
             Part part = request.getPart(ParameterName.PART_FILE_NAME);
             try {
                 String fileName = part.getSubmittedFileName();
-                Optional<String> uploadPath = FileUtil.buildPathToSongFile(fileName, singerName, albumTitle);
+                Optional<String> uploadPath = FileUtil.generatePathToSongFile(fileName, singerName, albumTitle);
                 if (uploadPath.isPresent()) {
                     part.write(uploadPath.get());
                     fullPath = uploadPath.get();

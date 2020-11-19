@@ -1,7 +1,15 @@
 package by.verbitsky.servletdemo.controller.command;
 
-public class PagePath {
+/**
+ * This class contains constants relative jsp paths and paths for redirect to commands
+ * Uses by {@link CommandResult} as resultPage field value
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ */
 
+public class PagePath {
     //redirect path
     public static final String REDIRECT_MAIN_PAGE = "/audiobox/do/main";
     public static final String REDIRECT_REVIEW_PAGE = "/audiobox/do/reviews";
@@ -21,7 +29,6 @@ public class PagePath {
     public static final String REDIRECT_ADMIN_COMPILATION_MANAGEMENT_PAGE = "/audiobox/do/admin/compilation_management";
     public static final String REDIRECT_ADMIN_COMPILATION_PAGE = "/audiobox/do/admin/compilation";
     public static final String REDIRECT_ADMIN_SONG_MANAGEMENT_PAGE = "/audiobox/do/admin/song_management";
-
     //path to jsp (for forwarding)
     public static final String FORWARD_ADMIN_USER_MANAGEMENT = "/pages/admin/usermanagement.jsp";
     public static final String FORWARD_ADMIN_REVIEW_MANAGEMENT = "/pages/admin/reviewmanagement.jsp";
@@ -43,12 +50,10 @@ public class PagePath {
     public static final String FORWARD_USER_REVIEWS_PAGE = "/pages/user/profilereviews.jsp";
     public static final String FORWARD_ADD_REVIEW_PAGE = "/pages/common/addreview.jsp";
     public static final String FORWARD_ERROR_PAGE = "/pages/error/errorPage.jsp";
-
     //pagination controls href attribute value
     public static final String PAGINATION_MAIN = "/do/main/next_page?filtered=true&contentType=song";
     public static final String PAGINATION_COMPILATION = "/do/compilations/next_page?filtered=true&contentType=compilation";
     public static final String PAGINATION_REVIEW = "/do/reviews/next_page?filtered=true&contentType=review";
-
     //servlet forwarding
     public static final String FORWARD_SERVLET_DOWNLOAD = "/process/download";
     public static final String FORWARD_SERVLET_DOWNLOAD_ERROR = "/do/admin/upload_error";

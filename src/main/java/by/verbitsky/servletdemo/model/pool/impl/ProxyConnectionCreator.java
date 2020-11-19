@@ -11,6 +11,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+
+/**
+ * The enum Proxy connection creator. Provides proxy connection creating
+ * Uses {@link PoolPropertyManager} to get properties of data base connection
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ * @see PoolPropertyManager
+ * @see ProxyConnection
+ */
 enum ProxyConnectionCreator {
     INSTANCE;
     private final Logger logger = LogManager.getLogger();
@@ -19,6 +30,12 @@ enum ProxyConnectionCreator {
     private boolean isInitialized;
     private Properties properties;
 
+    /**
+     * Init creator. requests for properties to create connection to data base.
+     * Register Sql driver
+     *
+     * @throws PoolException the pool exception
+     */
     public void initCreator() throws PoolException {
         logger.log(Level.INFO, "init proxy connection creator");
         properties = PoolPropertyManager.INSTANCE.getAllProperties();
@@ -26,9 +43,16 @@ enum ProxyConnectionCreator {
         isInitialized = true;
     }
 
+    /**
+     * Receives proxy connection from DriverManager
+     *
+     * @return the proxy connection
+     * @throws PoolException if connection get failed
+     * @throws RuntimeException if creator wasn't initialized
+     */
     public ProxyConnection createConnection() throws PoolException {
         Connection realConnection;
-        if (isInitialized){
+        if (isInitialized) {
             String urlPath = properties.getProperty(PROPERTY_DB_URL);
             try {
                 realConnection = DriverManager.getConnection(urlPath, properties);
@@ -43,6 +67,9 @@ enum ProxyConnectionCreator {
         return new ProxyConnection(realConnection);
     }
 
+    /**
+     * Load data base driver Class
+     */
     private void registerDBDriver() throws PoolException {
         String driver = properties.getProperty(PROPERTY_DB_DRIVER);
         try {
@@ -53,6 +80,11 @@ enum ProxyConnectionCreator {
         }
     }
 
+    /**
+     * Deregister db driver.
+     *
+     * @throws PoolException the pool exception
+     */
     public void deregisterDBDriver() throws PoolException {
         if (isInitialized) {
             try {

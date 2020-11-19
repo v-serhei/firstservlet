@@ -10,6 +10,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The interface Content service defines common service methods for working with content
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ * @see AudioContent
+ */
 public interface ContentService {
     boolean createReview(User user, String songTitle, String singerName, String reviewText) throws ServiceException;
 
@@ -27,7 +35,7 @@ public interface ContentService {
 
     boolean createSong(Song song) throws ServiceException;
 
-    boolean updateSong (Song song) throws ServiceException;
+    boolean updateSong(Song song) throws ServiceException;
 
     List<AudioContent> findAllContent(ContentType type) throws ServiceException;
 

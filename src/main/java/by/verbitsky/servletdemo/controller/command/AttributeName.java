@@ -1,19 +1,21 @@
 package by.verbitsky.servletdemo.controller.command;
 
+/**
+ * This class contains constants of Session and Request Attributes names
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ */
+
 public class AttributeName {
 
-    /**
-     * Session attributes
-     */
     public static final String SESSION_USER = "user";
     public static final String SESSION_LOCALE = "locale";
     public static final String SESSION_USER_LAST_QUERY = "lastUri";
     public static final String SESSION_CURRENT_ORDER = "currentOrder";
-
-
     public static final String USER_UPDATE_FAILED = "updateUser";
     public static final String USER_PROFILE_SHOW_MESSAGE = "showMessage";
-
     //attributes for result page
     public static final String OPERATION_TYPE = "operationType";
     public static final String OPERATION_RESULT = "operationResult";
@@ -22,9 +24,6 @@ public class AttributeName {
     public static final String OPERATION_BUTTON_LINK = "btnLinkValue";
     public static final String PARAMETER_VALIDATION_ERROR_MESSAGE = "parameter.validation.error";
     public static final String ADMIN_PAGE_ACCESS_DENIED = "access.violation.message";
-    /**
-     * Content attributes
-     */
     //song content
     public static final String SONG_CONTENT = "songContentList";
     public static final String SONG_CONTROLS_LINK = "songLinkValue";
@@ -38,11 +37,9 @@ public class AttributeName {
     public static final String COMPILATION_TOTAL_PAGE_COUNT = "compilationTotalPageCount";
     public static final String COMPILATION_SEARCH_COUNT_RESULT = "compilationContentCount";
     public static final String COMPILATION_TYPES_LIST = "compilationTypeList";
-
     //review content
     public static final String REVIEW_CREATION_SONG = "song";
     public static final String REVIEW_CREATION_SINGER = "singer";
-
     public static final String ADDITIONAL_CONTENT_SONGS = "reviewSongList";
     public static final String REVIEW_CONTENT = "reviewContentList";
     public static final String REVIEW_CONTROLS_LINK = "reviewLinkValue";
@@ -58,15 +55,10 @@ public class AttributeName {
     public static final String ORDER = "requestedOrder";
     public static final String SHOW_ORDER_CONTROLS = "enableOrderControls";
     public static final String SHOW_COMPILATION_CONTROLS = "enableCompilationControls";
-
     public static final String ORDER_LIST = "orderList";
     public static final String ORDER_TOTAL_COUNT = "totalOrderCount";
     public static final String ORDER_TOTAL_PAID_COUNT = "totalPaidOrderCount";
     public static final String ORDER_TOTAL_PRICE = "totalOrderPrice";
-    /**
-     * Request attributes
-     */
-
     public static final String LOGIN_FAILED = "loginFail";
     public static final String REGISTRATION_WRONG_NAME = "regWrongName";
     public static final String REGISTRATION_EXIST_NAME = "regExistName";
@@ -74,22 +66,15 @@ public class AttributeName {
     public static final String REGISTRATION_DIFFERENT_PASSWORDS = "regDifferentPasswords";
     public static final String REGISTRATION_WRONG_EMAIL = "regWrongEmail";
     public static final String REGISTRATION_EXIST_EMAIL = "regExistEmail";
-    /**
-     * Attribute names for error page
-     */
     public static final String REQUESTED_URL = "requestedURL";
     public static final String COMMAND_ERROR_MESSAGE = "commandErrorMessage";
-
-    /* admin attributes*/
+    // admin commands attributes
     public static final String ADMIN_SELECTED_USER = "selectedUser";
     public static final String ADMIN_USER_ENABLE = "userFlag";
     public static final String ADMIN_USER_LIST = "userList";
     public static final String ADMIN_ROLE_LIST = "roleList";
-
     public static final String UPLOAD_FILE_PATH = "uploadFile";
     public static final String DOWNLOAD_FILE_PATH = "downloadFile";
-
-
     public static final String ADMIN_OPERATION_RESULT_MSG = "resultMessage";
     public static final String ADMIN_OPERATION_MESSAGE_FLAG = "enableMessage";
 

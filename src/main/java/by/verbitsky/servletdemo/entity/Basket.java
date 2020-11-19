@@ -7,6 +7,16 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+
+/**
+ * Class Basket. Describes user basket
+ * Used as temporary order storage
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ * @see User
+ */
 public class Basket {
     private Set<Song> songs;
 
@@ -24,7 +34,7 @@ public class Basket {
 
     public boolean removeSong(Long songId) {
         Optional<Song> searchedSong = songs.stream()
-                .filter(song ->song.getId() ==songId)
+                .filter(song -> song.getId() == songId)
                 .findAny();
         return searchedSong.filter(song -> songs.remove(song)).isPresent();
     }

@@ -11,6 +11,14 @@ import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 import java.util.Locale;
 
+/**
+ * Pagination tag class describes custom jsp tag. It draws page numerations for content
+ * and page controls: next page, previous page, last page, first page and specific page number
+ * <p>
+ *
+ * @author Verbitsky Sergey
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
 public class PaginationTag extends TagSupport {
     private static Logger logger = LogManager.getLogger();
