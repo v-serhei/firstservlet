@@ -25,7 +25,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     private static final String DELETE_USER_BY_ID =
             "Delete from users where user_id=?";
     private static final String INSERT_USER =
-            "Insert Into users (`username`, `email`) values (?, ?)";
+            "Insert Into users (username, email) values (?, ?)";
     private static final String UPDATE_USER_PASSWORD =
             "Update users Set password = ? where username = ?";
 

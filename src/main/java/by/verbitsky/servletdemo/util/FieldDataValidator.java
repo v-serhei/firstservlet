@@ -11,15 +11,15 @@ import org.apache.commons.validator.routines.EmailValidator;
  */
 public class FieldDataValidator {
     private static final String REGEX_USERNAME = "[a-zA-Z\\d]{1,40}";
-    private static final String REGEX_PARAMETER = "[а-яА-Яa-zA-Z\\d/'!.,+\\-\\s]{0,80}";
-    private static final String REGEX_TEXTAREA = "[а-яА-Яa-zA-Z\\d/'!.,+\\-\\s]{0,200}";
-    private static final String REGEX_PASSWORD = "[a-zA-Z\\d_`,#%:;=@&$|+*.?\\-\\s]{6,40}";
+    private static final String REGEX_PARAMETER = "[а-яА-Яa-zA-Z\\d_/’@'!.,+\\-\\s]{0,80}";
+    private static final String REGEX_TEXTAREA = "[а-яА-Яa-zA-Z\\d_/@’'!.,+\\-\\s]{0,200}";
+    private static final String REGEX_PASSWORD = "[a-zA-Z\\d_`/,#%:;=’@&$|+*.?\\-\\s]{6,40}";
 
     private FieldDataValidator() {
     }
 
     public static boolean isValidUserName(String name) {
-        if (name != null || !name.isEmpty()) {
+        if (name == null || name.isEmpty()) {
             return false;
         }
         return name.matches(REGEX_USERNAME);

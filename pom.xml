@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.verbitsky</groupId>
-    <artifactId>firstservlet</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>audiobox</artifactId>
+    <version>1.0-</version>
     <name>audiobox</name>
     <packaging>war</packaging>
 
