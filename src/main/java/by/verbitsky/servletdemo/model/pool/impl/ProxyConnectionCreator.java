@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.Properties;
 
 
@@ -88,8 +89,11 @@ enum ProxyConnectionCreator {
     public void deregisterDBDriver() throws PoolException {
         if (isInitialized) {
             try {
-                Driver currentSQLDriver = DriverManager.getDriver(properties.getProperty(PROPERTY_DB_DRIVER));
-                DriverManager.deregisterDriver(currentSQLDriver);
+                Enumeration<Driver> drivers = DriverManager.getDrivers();
+                while (drivers.hasMoreElements()) {
+                    Driver driver = drivers.nextElement();
+                    DriverManager.deregisterDriver(driver);
+                }
             } catch (SQLException e) {
                 logger.log(Level.ERROR, "ProxyConnectionCreator: error deregister DB driver", e);
                 throw new PoolException("ProxyConnectionCreator: error deregister DB driver", e);

@@ -9,11 +9,11 @@ import by.verbitsky.servletdemo.exception.PoolException;
 import by.verbitsky.servletdemo.exception.ServiceException;
 import by.verbitsky.servletdemo.model.dao.ContentDao;
 import by.verbitsky.servletdemo.model.dao.Transaction;
-import by.verbitsky.servletdemo.model.dao.impl.*;
 import by.verbitsky.servletdemo.model.pool.impl.ConnectionPoolImpl;
 import by.verbitsky.servletdemo.model.pool.impl.ProxyConnection;
 import by.verbitsky.servletdemo.model.service.ContentFilter;
 import by.verbitsky.servletdemo.model.service.ContentService;
+import by.verbitsky.servletdemo.model.service.DaoFactory;
 import by.verbitsky.servletdemo.model.service.ext.SongFilter;
 
 import java.time.LocalDate;
@@ -25,6 +25,7 @@ public enum AudioContentService implements ContentService {
     INSTANCE;
     private static final int DEFAULT_ITEMS_PER_PAGE = 1;
     private static final int DEFAULT_PAGE_NUMBER = 1;
+    private DaoFactory daoFactory = new DaoFactoryImpl();
 
     @Override
     public long calculateItemsCount(ContentFilter filter) throws ServiceException {
@@ -33,8 +34,8 @@ public enum AudioContentService implements ContentService {
         }
         ProxyConnection connection = askConnectionFromPool();
         long result;
+        ContentDao dao = daoFactory.getContentDao(filter.getContentType());
         try (Transaction transaction = new Transaction(connection)) {
-            ContentDao dao = defineDaoByContentType(filter.getContentType());
             transaction.processSimpleQuery(dao);
             result = dao.calculateRowCount(filter);
         } catch (DaoException e) {
@@ -51,7 +52,7 @@ public enum AudioContentService implements ContentService {
         }
         List<AudioContent> result;
         ProxyConnection connection = askConnectionFromPool();
-        ContentDao dao = defineDaoByContentType(type);
+        ContentDao dao = daoFactory.getContentDao(type);
         try (Transaction transaction = new Transaction(connection)) {
             transaction.processSimpleQuery(dao);
             result = dao.findAll();
@@ -68,8 +69,8 @@ public enum AudioContentService implements ContentService {
         }
         ProxyConnection connection = askConnectionFromPool();
         Optional<AudioContent> result;
+        ContentDao dao = daoFactory.getContentDao(type);
         try (Transaction transaction = new Transaction(connection)) {
-            ContentDao dao = defineDaoByContentType(type);
             transaction.processSimpleQuery(dao);
             result = dao.findEntityById(id);
         } catch (DaoException e) {
@@ -81,7 +82,7 @@ public enum AudioContentService implements ContentService {
     @Override
     public List<String> findContentDescription(ContentType contentType) throws ServiceException {
         if (contentType == ContentType.COMPILATION) {
-            ContentDao dao = new CompilationDaoImpl();
+            ContentDao dao = daoFactory.getContentDao(contentType);
             ProxyConnection connection = askConnectionFromPool();
             try (Transaction transaction = new Transaction(connection)) {
                 transaction.processSimpleQuery(dao);
@@ -108,8 +109,8 @@ public enum AudioContentService implements ContentService {
         songFilter.setItemPerPage(DEFAULT_ITEMS_PER_PAGE);
         songFilter.setPageNumber(DEFAULT_PAGE_NUMBER);
         boolean result;
+        ContentDao dao = daoFactory.getContentDao(ContentType.REVIEW);
         try (Transaction transaction = new Transaction(connection)) {
-            ContentDao dao = new ReviewDaoImpl();
             transaction.processTransaction(dao);
             List<AudioContent> songs = findFilteredContent(songFilter);
             if (songs.size() == 1) {
@@ -134,7 +135,7 @@ public enum AudioContentService implements ContentService {
         if (user.getUserId() == 0) {
             throw new ServiceException("AudioContentService find user Reviews: user id = 0");
         }
-        ContentDao dao = new ReviewDaoImpl();
+        ContentDao dao = daoFactory.getContentDao(ContentType.REVIEW);
         ProxyConnection connection = askConnectionFromPool();
         try (Transaction transaction = new Transaction(connection)) {
             transaction.processSimpleQuery(dao);
@@ -149,7 +150,7 @@ public enum AudioContentService implements ContentService {
         if (type == null || contentId == 0) {
             throw new ServiceException("AudioContentService findContentById: null parameter Content type or content id = 0");
         }
-        ContentDao dao = defineDaoByContentType(type);
+        ContentDao dao = daoFactory.getContentDao(type);
         ProxyConnection connection = askConnectionFromPool();
         boolean result;
         try (Transaction transaction = new Transaction(connection)) {
@@ -167,7 +168,7 @@ public enum AudioContentService implements ContentService {
         if (title == null) {
             throw new ServiceException("AudioContentService findContentByTitle: null parameter title");
         }
-        ContentDao dao = defineDaoByContentType(type);
+        ContentDao dao = daoFactory.getContentDao(type);
         ProxyConnection connection = askConnectionFromPool();
         try (Transaction transaction = new Transaction(connection)) {
             transaction.processSimpleQuery(dao);
@@ -182,7 +183,7 @@ public enum AudioContentService implements ContentService {
         if (content == null) {
             throw new ServiceException("AudioContentService update content: null parameter content");
         }
-        ContentDao dao = defineDaoByContentType(contentType);
+        ContentDao dao = daoFactory.getContentDao(contentType);
         ProxyConnection connection = askConnectionFromPool();
         try (Transaction transaction = new Transaction(connection)) {
             transaction.processTransaction(dao);
@@ -195,24 +196,20 @@ public enum AudioContentService implements ContentService {
     }
 
     @Override
-    public boolean createSong(Song song)  throws ServiceException {
-        Optional<AudioContent> oSong= findContentByTitle(ContentType.SONG, song.getSongTitle());
+    public boolean createSong(Song song) throws ServiceException {
         Optional<AudioContent> singerById = findContentById(ContentType.SINGER, song.getSingerId());
         Optional<AudioContent> albumById = findContentById(ContentType.ALBUM, song.getAlbumId());
         Optional<AudioContent> genreById = findContentById(ContentType.GENRE, song.getGenreId());
-
         if (singerById.isPresent() && albumById.isPresent() && genreById.isPresent()) {
-            if (oSong.isPresent()) {
-                if (((Song)oSong.get()).getSingerId() == singerById.get().getId()){
-                    //Current artist already have such song name
-                    return false;
-                }
+            List<AudioContent> oSong = findSongByFilter(song, (Singer)singerById.get(), (Album)albumById.get());
+            if (oSong.size() > 0) {
+                return false;
             }
-            SongDaoImpl dao = new SongDaoImpl();
+            ContentDao dao = daoFactory.getContentDao(ContentType.SONG);
             ProxyConnection connection = askConnectionFromPool();
             try (Transaction transaction = new Transaction(connection)) {
                 transaction.processSimpleQuery(dao);
-                return  dao.create(song);
+                return dao.create(song);
             } catch (DaoException e) {
                 throw new ServiceException("AudioContentService update content: error while updating song", e);
             }
@@ -228,11 +225,15 @@ public enum AudioContentService implements ContentService {
         Optional<AudioContent> albumById = findContentById(ContentType.ALBUM, song.getAlbumId());
         Optional<AudioContent> genreById = findContentById(ContentType.GENRE, song.getGenreId());
         if (songById.isPresent() && singerById.isPresent() && albumById.isPresent() && genreById.isPresent()) {
-            SongDaoImpl dao = new SongDaoImpl();
+            List<AudioContent> oSong = findSongByFilter(song, (Singer)singerById.get(), (Album)albumById.get());
+            if (oSong.size() > 0) {
+                return false;
+            }
+            ContentDao dao = daoFactory.getContentDao(ContentType.SONG);
             ProxyConnection connection = askConnectionFromPool();
             try (Transaction transaction = new Transaction(connection)) {
                 transaction.processSimpleQuery(dao);
-                return  dao.update(song);
+                return dao.update(song);
             } catch (DaoException e) {
                 throw new ServiceException("AudioContentService update content: error while updating song", e);
             }
@@ -248,7 +249,7 @@ public enum AudioContentService implements ContentService {
         }
         Singer singer = new Singer();
         singer.setSingerName(singerName);
-        SingerDaoImpl singerDao = new SingerDaoImpl();
+        ContentDao singerDao = daoFactory.getContentDao(ContentType.SINGER);
         ProxyConnection connection = askConnectionFromPool();
         try (Transaction transaction = new Transaction(connection)) {
             transaction.processTransaction(singerDao);
@@ -274,8 +275,8 @@ public enum AudioContentService implements ContentService {
         album.setSingerId(singerId);
         album.setAlbumDate(albumDate);
         ProxyConnection connection = askConnectionFromPool();
+        ContentDao dao = daoFactory.getContentDao(ContentType.ALBUM);
         try (Transaction transaction = new Transaction(connection)) {
-            AlbumDaoImpl dao = new AlbumDaoImpl();
             transaction.processTransaction(dao);
             boolean creationResult = dao.create(album);
             transaction.commitTransaction();
@@ -297,9 +298,8 @@ public enum AudioContentService implements ContentService {
         compilation.setCompilationCreationDate(compilationDate);
         compilation.addAllSongs(new ArrayList<>(user.getBasket().getSongs()));
         ProxyConnection connection = askConnectionFromPool();
-
+        ContentDao dao = daoFactory.getContentDao(ContentType.COMPILATION);
         try (Transaction transaction = new Transaction(connection)) {
-            CompilationDaoImpl dao = new CompilationDaoImpl();
             transaction.processTransaction(dao);
             boolean operationResult = (dao.create(compilation) && dao.createContentDescription(compilation));
             if (operationResult) {
@@ -322,8 +322,8 @@ public enum AudioContentService implements ContentService {
         Genre genre = new Genre();
         genre.setGenreName(genreName);
         ProxyConnection connection = askConnectionFromPool();
+        ContentDao genreDao = daoFactory.getContentDao(ContentType.GENRE);
         try (Transaction transaction = new Transaction(connection)) {
-            GenreDaoImpl genreDao = new GenreDaoImpl();
             transaction.processTransaction(genreDao);
             Optional<AudioContent> singerDB = genreDao.findContentByTitle(genreName);
             if (singerDB.isPresent()) {
@@ -343,7 +343,7 @@ public enum AudioContentService implements ContentService {
             throw new ServiceException("AudioContentService: received null filter");
         }
         List<AudioContent> result;
-        ContentDao dao = defineDaoByContentType(filter.getContentType());
+        ContentDao dao = daoFactory.getContentDao(filter.getContentType());
         ProxyConnection connection = askConnectionFromPool();
         try (Transaction transaction = new Transaction(connection)) {
             long offset = filter.getPageNumber() * filter.getItemPerPage() - filter.getItemPerPage();
@@ -355,42 +355,6 @@ public enum AudioContentService implements ContentService {
         return result;
     }
 
-
-    private ContentDao defineDaoByContentType(ContentType type) throws ServiceException {
-        ContentDao dao;
-        switch (type) {
-            case SONG: {
-                dao = new SongDaoImpl();
-                break;
-            }
-            case SINGER: {
-                dao = new SingerDaoImpl();
-                break;
-            }
-            case GENRE: {
-                dao = new GenreDaoImpl();
-                break;
-            }
-            case REVIEW: {
-                dao = new ReviewDaoImpl();
-                break;
-            }
-            case COMPILATION: {
-                dao = new CompilationDaoImpl();
-                break;
-            }
-            case ALBUM: {
-                dao = new AlbumDaoImpl();
-                break;
-            }
-            default: {
-                throw new ServiceException("ContentServiceImpl findFilteredContent: unsupported content tye " + type);
-            }
-        }
-        return dao;
-    }
-
-
     private ProxyConnection askConnectionFromPool() throws ServiceException {
         ProxyConnection result;
         try {
@@ -399,5 +363,15 @@ public enum AudioContentService implements ContentService {
             throw new ServiceException("ContentServiceImpl: error while receiving connection from pool");
         }
         return result;
+    }
+
+    private List<AudioContent> findSongByFilter(Song song, Singer singer, Album album) throws ServiceException {
+        SongFilter filter = new SongFilter();
+        filter.setSongTitle(song.getSongTitle());
+        filter.setSingerName(singer.getSingerName());
+        filter.setAlbumTitle(album.getAlbumTitle());
+        filter.setItemPerPage(1);
+        filter.setPageNumber(1);
+        return findFilteredContent(filter);
     }
 }

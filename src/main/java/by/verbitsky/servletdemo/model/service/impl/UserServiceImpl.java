@@ -7,9 +7,10 @@ import by.verbitsky.servletdemo.exception.DaoException;
 import by.verbitsky.servletdemo.exception.PoolException;
 import by.verbitsky.servletdemo.exception.ServiceException;
 import by.verbitsky.servletdemo.model.dao.Transaction;
-import by.verbitsky.servletdemo.model.dao.impl.UserDaoImpl;
+import by.verbitsky.servletdemo.model.dao.UserDao;
 import by.verbitsky.servletdemo.model.pool.impl.ConnectionPoolImpl;
 import by.verbitsky.servletdemo.model.pool.impl.ProxyConnection;
+import by.verbitsky.servletdemo.model.service.DaoFactory;
 import by.verbitsky.servletdemo.model.service.UserService;
 import by.verbitsky.servletdemo.util.FieldDataValidator;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -25,6 +26,7 @@ public enum UserServiceImpl implements UserService {
     private static final String STATUS_ACTIVE = "active";
     private static final int STATUS_ACTIVE_ID = 0;
     private static final int STATUS_BLOCKED_ID = 1;
+    private DaoFactory daoFactory = new DaoFactoryImpl();
 
     @Override
     public int getAdminRoleId() {
@@ -62,8 +64,8 @@ public enum UserServiceImpl implements UserService {
     @Override
     public List<User> findAllUsers() throws ServiceException {
         ProxyConnection connection = askConnectionFromPool();
+        UserDao userDao = daoFactory.getUserDao();
         try (Transaction transaction = new Transaction(connection)) {
-            UserDaoImpl userDao = new UserDaoImpl();
             transaction.processSimpleQuery(userDao);
             return userDao.findAll();
         } catch (DaoException e) {
@@ -78,8 +80,8 @@ public enum UserServiceImpl implements UserService {
         }
         ProxyConnection connection = askConnectionFromPool();
         Optional<User> result;
+        UserDao userDao = daoFactory.getUserDao();
         try (Transaction transaction = new Transaction(connection)) {
-            UserDaoImpl userDao = new UserDaoImpl();
             transaction.processSimpleQuery(userDao);
             result = userDao.findUserByName(userName.toLowerCase());
         } catch (DaoException e) {
@@ -127,8 +129,8 @@ public enum UserServiceImpl implements UserService {
         }
         ProxyConnection connection = askConnectionFromPool();
         boolean result;
+        UserDao userDao = daoFactory.getUserDao();
         try (Transaction transaction = new Transaction(connection)) {
-            UserDaoImpl userDao = new UserDaoImpl();
             transaction.processTransaction(userDao);
             String hashedPassword = getHashedPassword(password);
             result = (userDao.create(user) && userDao.updateUserPassword(user, hashedPassword));
@@ -145,10 +147,10 @@ public enum UserServiceImpl implements UserService {
             throw new ServiceException("UserServiceImpl update user email: received null user");
         }
         ProxyConnection connection = askConnectionFromPool();
+        UserDao userDao = daoFactory.getUserDao();
         try (Transaction transaction = new Transaction(connection)) {
-            UserDaoImpl dao = new UserDaoImpl();
-            transaction.processTransaction(dao);
-            boolean updateResult = dao.update(user);
+            transaction.processTransaction(userDao);
+            boolean updateResult = userDao.update(user);
             transaction.commitTransaction();
             return updateResult;
         } catch (DaoException e) {
@@ -172,8 +174,8 @@ public enum UserServiceImpl implements UserService {
             return false;
         }
         String password = getHashedPassword(passwordOne);
+        UserDao userDao = daoFactory.getUserDao();
         try (Transaction transaction = new Transaction(connection)) {
-            UserDaoImpl userDao = new UserDaoImpl();
             transaction.processTransaction(userDao);
             boolean result = (userDao.updateUserPassword(user, password));
             transaction.commitTransaction();
@@ -198,7 +200,7 @@ public enum UserServiceImpl implements UserService {
             return false;
         } else {
             try (Transaction transaction = new Transaction(connection)) {
-                UserDaoImpl userDao = new UserDaoImpl();
+                UserDao userDao = daoFactory.getUserDao();
                 transaction.processTransaction(userDao);
                 String oldEmail = user.getEmail();
                 user.setEmail(email);
@@ -281,8 +283,8 @@ public enum UserServiceImpl implements UserService {
         }
         ProxyConnection connection = askConnectionFromPool();
         Optional<User> result;
+        UserDao userDao = daoFactory.getUserDao();
         try (Transaction transaction = new Transaction(connection)) {
-            UserDaoImpl userDao = new UserDaoImpl();
             transaction.processSimpleQuery(userDao);
             result = userDao.findUserByEmail(email.toLowerCase());
         } catch (DaoException e) {
@@ -297,8 +299,8 @@ public enum UserServiceImpl implements UserService {
         }
         ProxyConnection connection = askConnectionFromPool();
         Optional<String> result;
+        UserDao userDao = daoFactory.getUserDao();
         try (Transaction transaction = new Transaction(connection)) {
-            UserDaoImpl userDao = new UserDaoImpl();
             transaction.processSimpleQuery(userDao);
             result = userDao.findUserPassword(userName);
         } catch (DaoException e) {

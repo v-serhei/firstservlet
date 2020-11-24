@@ -59,9 +59,11 @@ public class FileUtil {
         sb.append(albumTitle.toLowerCase());
         sb.append(File.separator);
         File uploadDir = new File(sb.toString());
-        if (!uploadDir.mkdirs()) {
-            logger.log(Level.ERROR, "buildPathToSongFile: Unable to create content directory, check content path property");
-            throw new FileUtilException("FileUtil buildPathToSongFile: creation failed");
+        if (!uploadDir.exists()) {
+            if (!uploadDir.mkdirs()) {
+                logger.log(Level.ERROR, "buildPathToSongFile: Unable to create content directory, check content path property");
+                throw new FileUtilException("FileUtil buildPathToSongFile: creation failed");
+            }
         }
         sb.append(fileName);
         return Optional.of(sb.toString());
@@ -101,9 +103,11 @@ public class FileUtil {
         sb.append(ORDER_PREFIX);
         sb.append(orderId);
         File uploadDir = new File(sb.toString());
-        if (!uploadDir.mkdirs()) {
-            logger.log(Level.ERROR, "Unable to create order directory, check order path property");
-            throw new FileUtilException("FileUtil create Order directory: creation failed");
+        if (!uploadDir.exists()) {
+            if (!uploadDir.mkdirs()) {
+                logger.log(Level.ERROR, "Unable to create order directory, check order path property");
+                throw new FileUtilException("FileUtil create Order directory: creation failed");
+            }
         }
         return Optional.of(sb.toString());
     }

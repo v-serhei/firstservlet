@@ -1,6 +1,7 @@
 package by.verbitsky.servletdemo.model.service.impl;
 
 import by.verbitsky.servletdemo.entity.AudioContent;
+import by.verbitsky.servletdemo.entity.ContentType;
 import by.verbitsky.servletdemo.entity.Order;
 import by.verbitsky.servletdemo.entity.User;
 import by.verbitsky.servletdemo.entity.ext.Song;
@@ -10,10 +11,9 @@ import by.verbitsky.servletdemo.exception.ServiceException;
 import by.verbitsky.servletdemo.model.dao.ContentDao;
 import by.verbitsky.servletdemo.model.dao.OrderDao;
 import by.verbitsky.servletdemo.model.dao.Transaction;
-import by.verbitsky.servletdemo.model.dao.impl.OrderDaoImpl;
-import by.verbitsky.servletdemo.model.dao.impl.SongDaoImpl;
 import by.verbitsky.servletdemo.model.pool.impl.ConnectionPoolImpl;
 import by.verbitsky.servletdemo.model.pool.impl.ProxyConnection;
+import by.verbitsky.servletdemo.model.service.DaoFactory;
 import by.verbitsky.servletdemo.model.service.OrderService;
 import by.verbitsky.servletdemo.util.FileUtil;
 
@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 public enum OrderServiceImpl implements OrderService {
     INSTANCE;
+    private DaoFactory daoFactory = new DaoFactoryImpl();
 
     @Override
     public boolean addOrder(Order order, User user) throws ServiceException {
@@ -33,8 +34,8 @@ public enum OrderServiceImpl implements OrderService {
         }
         boolean createResult;
         ProxyConnection connection = askConnectionFromPool();
+        OrderDao dao = daoFactory.getOrderDao();
         try (Transaction transaction = new Transaction(connection)) {
-            OrderDao dao = new OrderDaoImpl();
             transaction.processTransaction(dao);
             order.setOrderPrice(calculateOrderPrice(order, user.getDiscount()));
             createResult = (dao.create(order) && dao.createOrderDescription(order));
@@ -49,8 +50,8 @@ public enum OrderServiceImpl implements OrderService {
     public Optional<Order> findOrderById(long orderId) throws ServiceException {
         ProxyConnection connection = askConnectionFromPool();
         Optional<Order> result;
+        OrderDao dao = daoFactory.getOrderDao();
         try (Transaction transaction = new Transaction(connection)) {
-            OrderDao dao = new OrderDaoImpl();
             transaction.processSimpleQuery(dao);
             result = dao.findEntityById(orderId);
         } catch (DaoException e) {
@@ -62,8 +63,8 @@ public enum OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findUserOrders(long userId) throws ServiceException {
         ProxyConnection connection = askConnectionFromPool();
+        OrderDao dao = daoFactory.getOrderDao();
         try (Transaction transaction = new Transaction(connection)) {
-            OrderDao dao = new OrderDaoImpl();
             transaction.processSimpleQuery(dao);
             return dao.findOrdersByUserId(userId);
         } catch (DaoException e) {
@@ -77,9 +78,9 @@ public enum OrderServiceImpl implements OrderService {
             throw new ServiceException("OrderServiceImpl removeSongFromOrder: received null parameters");
         }
         ProxyConnection connection = askConnectionFromPool();
+        OrderDao orderDao = daoFactory.getOrderDao();
+        ContentDao songDao = daoFactory.getContentDao(ContentType.SONG);
         try (Transaction transaction = new Transaction(connection)) {
-            OrderDao orderDao = new OrderDaoImpl();
-            ContentDao songDao = new SongDaoImpl();
             transaction.processTransaction(orderDao, songDao);
             Optional<AudioContent> song = songDao.findEntityById(songId);
             if (!song.isPresent()) {
@@ -116,8 +117,8 @@ public enum OrderServiceImpl implements OrderService {
         }
         ProxyConnection connection = askConnectionFromPool();
         boolean result;
+        OrderDao dao = daoFactory.getOrderDao();
         try (Transaction transaction = new Transaction(connection)) {
-            OrderDao dao = new OrderDaoImpl();
             transaction.processTransaction(dao);
             Optional<Order> removedOrder = dao.findEntityById(orderId);
             if (removedOrder.isPresent()) {
@@ -143,11 +144,11 @@ public enum OrderServiceImpl implements OrderService {
         }
         ProxyConnection connection = askConnectionFromPool();
         boolean result;
+        OrderDao dao = daoFactory.getOrderDao();
         try (Transaction transaction = new Transaction(connection)) {
-            OrderDao orderDao = new OrderDaoImpl();
-            transaction.processSimpleQuery(orderDao);
+            transaction.processSimpleQuery(dao);
             order.setOrderPrice(calculateOrderPrice(order, user.getDiscount()));
-            result = orderDao.update(order);
+            result = dao.update(order);
         } catch (DaoException e) {
             throw new ServiceException("OrderServiceImpl: error while removing song from order");
         }
@@ -157,10 +158,10 @@ public enum OrderServiceImpl implements OrderService {
     @Override
     public Optional<String> prepareOrderDownloadLink(long currentOrderId) throws ServiceException{
         ProxyConnection connection = askConnectionFromPool();
+        OrderDao dao = daoFactory.getOrderDao();
         try (Transaction transaction = new Transaction(connection)) {
-            OrderDao orderDao = new OrderDaoImpl();
-            transaction.processSimpleQuery(orderDao);
-            Optional<Order> currentOrder = orderDao.findEntityById(currentOrderId);
+            transaction.processSimpleQuery(dao);
+            Optional<Order> currentOrder = dao.findEntityById(currentOrderId);
             if (currentOrder.isPresent()) {
                 Set<Song> orderList = currentOrder.get().getOrderList();
                 List<String> pathList = orderList.stream().map(Song::getFilePath).collect(Collectors.toList());
