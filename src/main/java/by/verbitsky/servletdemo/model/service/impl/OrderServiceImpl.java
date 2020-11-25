@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 public enum OrderServiceImpl implements OrderService {
     INSTANCE;
-    private DaoFactory daoFactory = new DaoFactoryImpl();
+    private static DaoFactory daoFactory = new DaoFactoryImpl();
 
     @Override
     public boolean addOrder(Order order, User user) throws ServiceException {
@@ -96,17 +96,16 @@ public enum OrderServiceImpl implements OrderService {
             if (updateOrder) {
                 transaction.commitTransaction();
                 return true;
-            }else {
+            } else {
                 transaction.rollbackTransaction();
                 //roll back order price
-                order.addSong((Song)song.get());
+                order.addSong((Song) song.get());
                 order.setOrderPrice(calculateOrderPrice(order, user.getDiscount()));
                 return false;
             }
         } catch (DaoException e) {
             throw new ServiceException("OrderServiceImpl: error while removing song from order");
         }
-
     }
 
 
@@ -139,7 +138,7 @@ public enum OrderServiceImpl implements OrderService {
 
     @Override
     public boolean updateOrder(Order order, User user) throws ServiceException {
-        if (user == null) {
+        if (user == null || order == null) {
             throw new ServiceException("OrderServiceImpl updateOrder: received null parameters");
         }
         ProxyConnection connection = askConnectionFromPool();
@@ -156,7 +155,7 @@ public enum OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<String> prepareOrderDownloadLink(long currentOrderId) throws ServiceException{
+    public Optional<String> prepareOrderDownloadLink(long currentOrderId) throws ServiceException {
         ProxyConnection connection = askConnectionFromPool();
         OrderDao dao = daoFactory.getOrderDao();
         try (Transaction transaction = new Transaction(connection)) {
