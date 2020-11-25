@@ -100,7 +100,7 @@ public class ConnectionPoolImpl implements ConnectionPool<ProxyConnection> {
      * <p>
      * If init method catches an exception - it throws Runtime exceptions, cause pool couldn't provide connections
      * to data base.
-     * */
+     */
     @Override
     public void initConnectionPool() {
         logger.log(Level.INFO, "init connection pool");
@@ -173,24 +173,27 @@ public class ConnectionPoolImpl implements ConnectionPool<ProxyConnection> {
      */
     @Override
     public void shutdownPool() throws PoolException {
+        logger.log(Level.INFO, "Connection Pool shutdown process");
         if (isInitialized) {
             ProxyConnection connection;
             try {
                 SHUTDOWN_LOCK.lock();
                 for (int i = 0; i < maxPoolSize; i++) {
-                    connection = activeConnections.take();
-                    if (connection.getAutoCommit()) {
+                    connection = freeConnections.take();
+                    if (!connection.getAutoCommit()) {
                         connection.rollback();
                     }
                     connection.closeRealConnection();
                 }
             } catch (SQLException | InterruptedException e) {
+                logger.log(Level.ERROR, "Connection Pool shutdown fail", e);
                 throw new PoolException("Error while closing pool connections", e);
             } finally {
                 SHUTDOWN_LOCK.unlock();
             }
             ProxyConnectionCreator.INSTANCE.deregisterDBDriver();
             isInitialized = false;
+            logger.log(Level.INFO, "Connection Pool shutdown competed");
         }
     }
 

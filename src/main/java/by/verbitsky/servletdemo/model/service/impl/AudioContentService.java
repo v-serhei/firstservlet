@@ -25,7 +25,7 @@ public enum AudioContentService implements ContentService {
     INSTANCE;
     private static final int DEFAULT_ITEMS_PER_PAGE = 1;
     private static final int DEFAULT_PAGE_NUMBER = 1;
-    private DaoFactory daoFactory = new DaoFactoryImpl();
+    private static DaoFactory daoFactory = new DaoFactoryImpl();
 
     @Override
     public long calculateItemsCount(ContentFilter filter) throws ServiceException {
@@ -132,8 +132,8 @@ public enum AudioContentService implements ContentService {
 
     @Override
     public List<AudioContent> findUserReviews(User user) throws ServiceException {
-        if (user.getUserId() == 0) {
-            throw new ServiceException("AudioContentService find user Reviews: user id = 0");
+        if (user == null) {
+            throw new ServiceException("AudioContentService find user Reviews: received null user");
         }
         ContentDao dao = daoFactory.getContentDao(ContentType.REVIEW);
         ProxyConnection connection = askConnectionFromPool();
@@ -147,8 +147,8 @@ public enum AudioContentService implements ContentService {
 
     @Override
     public boolean deleteContentById(ContentType type, long contentId) throws ServiceException {
-        if (type == null || contentId == 0) {
-            throw new ServiceException("AudioContentService findContentById: null parameter Content type or content id = 0");
+        if (type == null) {
+            throw new ServiceException("AudioContentService findContentById: null parameter Content type");
         }
         ContentDao dao = daoFactory.getContentDao(type);
         ProxyConnection connection = askConnectionFromPool();
@@ -165,7 +165,7 @@ public enum AudioContentService implements ContentService {
 
     @Override
     public Optional<AudioContent> findContentByTitle(ContentType type, String title) throws ServiceException {
-        if (title == null) {
+        if (type==null || title == null) {
             throw new ServiceException("AudioContentService findContentByTitle: null parameter title");
         }
         ContentDao dao = daoFactory.getContentDao(type);
@@ -180,7 +180,7 @@ public enum AudioContentService implements ContentService {
 
     @Override
     public boolean updateContent(ContentType contentType, AudioContent content) throws ServiceException {
-        if (content == null) {
+        if (contentType == null || content == null) {
             throw new ServiceException("AudioContentService update content: null parameter content");
         }
         ContentDao dao = daoFactory.getContentDao(contentType);
@@ -197,6 +197,9 @@ public enum AudioContentService implements ContentService {
 
     @Override
     public boolean createSong(Song song) throws ServiceException {
+        if (song == null) {
+            throw new ServiceException("Audio content service createSong: received null song");
+        }
         Optional<AudioContent> singerById = findContentById(ContentType.SINGER, song.getSingerId());
         Optional<AudioContent> albumById = findContentById(ContentType.ALBUM, song.getAlbumId());
         Optional<AudioContent> genreById = findContentById(ContentType.GENRE, song.getGenreId());
@@ -220,6 +223,9 @@ public enum AudioContentService implements ContentService {
 
     @Override
     public boolean updateSong(Song song) throws ServiceException {
+        if (song == null) {
+            throw new ServiceException("Audio content service updateSong: received null song");
+        }
         Optional<AudioContent> songById = findContentById(ContentType.SONG, song.getId());
         Optional<AudioContent> singerById = findContentById(ContentType.SINGER, song.getSingerId());
         Optional<AudioContent> albumById = findContentById(ContentType.ALBUM, song.getAlbumId());
@@ -244,8 +250,8 @@ public enum AudioContentService implements ContentService {
 
     @Override
     public boolean createSinger(String singerName) throws ServiceException {
-        if (singerName.isEmpty()) {
-            return false;
+        if (singerName == null || singerName.isEmpty()) {
+            throw new ServiceException("Audio content service createSinger: received null singer name");
         }
         Singer singer = new Singer();
         singer.setSingerName(singerName);
@@ -267,8 +273,8 @@ public enum AudioContentService implements ContentService {
 
     @Override
     public boolean createAlbum(String albumTitle, long singerId, LocalDate albumDate) throws ServiceException {
-        if (albumTitle == null || singerId == 0 || albumDate == null) {
-            return false;
+        if (albumTitle == null || albumDate == null) {
+            throw new ServiceException("Audio content service createAlbum: received null parameters");
         }
         Album album = new Album();
         album.setAlbumTitle(albumTitle);
@@ -290,7 +296,7 @@ public enum AudioContentService implements ContentService {
     public boolean createCompilation(String compilationTitle, String compilationType, LocalDate compilationDate, User user) throws ServiceException {
         if (compilationTitle == null || compilationDate == null
                 || compilationType == null || user == null || user.getBasket().isEmpty()) {
-            return false;
+            throw new ServiceException("Audio content service createCompilation: received null parameters");
         }
         Compilation compilation = new Compilation();
         compilation.setCompilationTitle(compilationTitle);
@@ -316,8 +322,8 @@ public enum AudioContentService implements ContentService {
 
     @Override
     public boolean createGenre(String genreName) throws ServiceException {
-        if (genreName.isEmpty()) {
-            return false;
+        if (genreName == null || genreName.isEmpty()) {
+            throw new ServiceException("Audio content service createGenre: received null parameters");
         }
         Genre genre = new Genre();
         genre.setGenreName(genreName);
@@ -325,8 +331,8 @@ public enum AudioContentService implements ContentService {
         ContentDao genreDao = daoFactory.getContentDao(ContentType.GENRE);
         try (Transaction transaction = new Transaction(connection)) {
             transaction.processTransaction(genreDao);
-            Optional<AudioContent> singerDB = genreDao.findContentByTitle(genreName);
-            if (singerDB.isPresent()) {
+            Optional<AudioContent> genreDb = genreDao.findContentByTitle(genreName);
+            if (genreDb.isPresent()) {
                 return false;
             }
             boolean createResult = genreDao.create(genre);
