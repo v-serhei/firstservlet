@@ -7,7 +7,7 @@ EPAM training: Learning web servlets
   <code>Mysql</code>
 </p>
 
-# AudioBox (musick track service)
+# AudioBox (music track service)
 The app is designed to present users music tracks and music compilations. In addition to base functional, there are some extra-features such as:
 <ul>
 <li>User password hashing</li>
