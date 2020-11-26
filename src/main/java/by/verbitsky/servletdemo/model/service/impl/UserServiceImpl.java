@@ -26,7 +26,7 @@ public enum UserServiceImpl implements UserService {
     private static final String STATUS_ACTIVE = "active";
     private static final int STATUS_ACTIVE_ID = 0;
     private static final int STATUS_BLOCKED_ID = 1;
-    private DaoFactory daoFactory = new DaoFactoryImpl();
+    private static DaoFactory daoFactory = new DaoFactoryImpl();
 
     @Override
     public int getAdminRoleId() {
