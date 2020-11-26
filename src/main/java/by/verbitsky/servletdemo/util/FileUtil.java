@@ -77,6 +77,9 @@ public class FileUtil {
      * @return absolute path to zip file
      */
     public static Optional<String> generateZipFileForOrder(List<String> orderFileList, long orderId) {
+        if (orderFileList == null) {
+            return Optional.empty();
+        }
         try {
             Optional<String> orderDirectory = createOrderDirectory(orderId);
             if (orderDirectory.isPresent()) {
